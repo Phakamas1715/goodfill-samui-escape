@@ -113,6 +113,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Karla:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Kanit:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap",
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Goodfill Care",
+          url: "https://goodfillcare-samui.com",
+          logo: "https://goodfillcare-samui.com/icon-512.png",
+          description: "Luxury wellness journeys at Koh Samui — personalized programs covering detox, sleep recovery, mindfulness, and long-term habit care.",
+          areaServed: { "@type": "Place", name: "Koh Samui, Thailand" },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Goodfill Care",
+          url: "https://goodfillcare-samui.com",
+          inLanguage: ["th-TH", "en-US"],
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
