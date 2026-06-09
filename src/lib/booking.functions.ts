@@ -157,20 +157,22 @@ export const confirmBooking = createServerFn({ method: "POST" })
         }
       : null;
 
-    const results: Record<string, unknown> = { bookingId };
+    type PushResult = { ok: boolean; status?: number; error?: string };
+    let customer: PushResult;
+    let partner: PushResult;
 
     if (customerToken) {
-      results.customer = await linePush(customerToken, customerTo, [customerMsg]);
+      customer = await linePush(customerToken, customerTo, [customerMsg]);
     } else {
-      results.customer = { ok: false, error: "LINE_CHANNEL_ACCESS_TOKEN missing" };
+      customer = { ok: false, error: "LINE_CHANNEL_ACCESS_TOKEN missing" };
     }
 
     if (partnerToken) {
       const partnerMessages = mealMsg ? [partnerMsg, mealMsg] : [partnerMsg];
-      results.partner = await linePush(partnerToken, partnerTo, partnerMessages);
+      partner = await linePush(partnerToken, partnerTo, partnerMessages);
     } else {
-      results.partner = { ok: false, error: "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing" };
+      partner = { ok: false, error: "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing" };
     }
 
-    return results;
+    return { bookingId, customer, partner };
   });
