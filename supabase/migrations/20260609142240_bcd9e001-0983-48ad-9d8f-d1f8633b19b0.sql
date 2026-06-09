@@ -1,0 +1,1 @@
+ALTER TABLE public.telegram_identities ADD COLUMN IF NOT EXISTS language_preference TEXT;

@@ -204,6 +204,7 @@ export type Database = {
           first_name: string | null
           id: string
           language_code: string | null
+          language_preference: string | null
           last_name: string | null
           start_param: string | null
           tg_user_id: number | null
@@ -217,6 +218,7 @@ export type Database = {
           first_name?: string | null
           id?: string
           language_code?: string | null
+          language_preference?: string | null
           last_name?: string | null
           start_param?: string | null
           tg_user_id?: number | null
@@ -230,6 +232,7 @@ export type Database = {
           first_name?: string | null
           id?: string
           language_code?: string | null
+          language_preference?: string | null
           last_name?: string | null
           start_param?: string | null
           tg_user_id?: number | null
