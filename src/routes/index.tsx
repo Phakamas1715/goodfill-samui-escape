@@ -328,20 +328,21 @@ function Landing() {
               </div>
             </div>
           </motion.div>
-
-          {/* MOBILE HOST — ขยับไปทางขวาและล่างมากขึ้น */}
-          <motion.img
-            initial={{ opacity: 0, x: 50, scale: 0.9 }}
-            animate={{ opacity: 0.7, x: 0, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.9 }}
-            src={welcomeHost}
-            alt=""
-            className="lg:hidden fixed -right-[30%] sm:-right-[20%] bottom-4 md:bottom-0 h-[65vh] max-h-[600px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)] z-0 opacity-70"
-          />
-          {/* ขยายขอบเขต vignette เพื่อให้ข้อความอยู่ห่างจากผู้ช่วย */}
-          <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-emerald-deep/50 via-emerald-deep/20 to-transparent z-[1]" />
         </div>
       </main>
+
+      {/* MOBILE HOST — อยู่หน้าสุด ไม่ถูกบัง (z-index สูงสุด) */}
+      <motion.img
+        initial={{ opacity: 0, x: 60, scale: 0.85 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        transition={{ delay: 0.3, duration: 0.9 }}
+        src={welcomeHost}
+        alt="Goodfill Care wellness host"
+        className="lg:hidden fixed -right-[15%] bottom-0 h-[75vh] max-h-[650px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] z-50 opacity-95"
+      />
+
+      {/* Soft vignette — อยู่ใต้ host แต่เหนือพื้นหลัง */}
+      <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-2/5 bg-gradient-to-l from-emerald-deep/50 via-emerald-deep/20 to-transparent z-[45]" />
 
       {/* MODAL POPUPS — same as before */}
       <AnimatePresence>
