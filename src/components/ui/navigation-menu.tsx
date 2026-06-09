@@ -42,10 +42,12 @@ const VARIANT_STYLES = {
 } as const;
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-10 w-max items-center justify-center rounded-xl px-5 py-2 text-sm font-medium cursor-pointer transition-all duration-200",
-  "focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2",
-  "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
-  "[&_svg]:size-4 [&_svg]:shrink-0",
+  cn(
+    "group inline-flex h-10 w-max items-center justify-center rounded-xl px-5 py-2 text-sm font-medium cursor-pointer transition-all duration-200",
+    "focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2",
+    "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
+    "[&_svg]:size-4 [&_svg]:shrink-0",
+  ),
 );
 
 // ============================================================================
