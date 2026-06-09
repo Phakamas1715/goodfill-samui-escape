@@ -259,8 +259,8 @@ export const confirmBooking = createServerFn({ method: "POST" })
           customer_line_user_id: customerTo,
           partner_line_user_id: partnerTo,
           status: "pending",
-          customer_push: customer as unknown as Record<string, unknown>,
-          partner_push: partner as unknown as Record<string, unknown>,
+          customer_push: JSON.parse(JSON.stringify(customer)),
+          partner_push: JSON.parse(JSON.stringify(partner)),
         })
         .select("id")
         .single();
