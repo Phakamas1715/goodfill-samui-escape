@@ -13,8 +13,13 @@ import { Route as ReportRouteImport } from './routes/report'
 import { Route as QuestRouteImport } from './routes/quest'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PersonaRouteImport } from './routes/persona'
+import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as JourneyRouteImport } from './routes/journey'
+import { Route as ExpertRouteImport } from './routes/expert'
+import { Route as ConsentRouteImport } from './routes/consent'
+import { Route as ChannelRouteImport } from './routes/channel'
 import { Route as CareRouteImport } from './routes/care'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsIdRouteImport } from './routes/programs.$id'
 
@@ -38,14 +43,39 @@ const PersonaRoute = PersonaRouteImport.update({
   path: '/persona',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PartnerRoute = PartnerRouteImport.update({
+  id: '/partner',
+  path: '/partner',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JourneyRoute = JourneyRouteImport.update({
   id: '/journey',
   path: '/journey',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExpertRoute = ExpertRouteImport.update({
+  id: '/expert',
+  path: '/expert',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsentRoute = ConsentRouteImport.update({
+  id: '/consent',
+  path: '/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChannelRoute = ChannelRouteImport.update({
+  id: '/channel',
+  path: '/channel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CareRoute = CareRouteImport.update({
   id: '/care',
   path: '/care',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -61,8 +91,13 @@ const ProgramsIdRoute = ProgramsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/care': typeof CareRoute
+  '/channel': typeof ChannelRoute
+  '/consent': typeof ConsentRoute
+  '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
+  '/partner': typeof PartnerRoute
   '/persona': typeof PersonaRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/quest': typeof QuestRoute
@@ -71,8 +106,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/care': typeof CareRoute
+  '/channel': typeof ChannelRoute
+  '/consent': typeof ConsentRoute
+  '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
+  '/partner': typeof PartnerRoute
   '/persona': typeof PersonaRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/quest': typeof QuestRoute
@@ -82,8 +122,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/care': typeof CareRoute
+  '/channel': typeof ChannelRoute
+  '/consent': typeof ConsentRoute
+  '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
+  '/partner': typeof PartnerRoute
   '/persona': typeof PersonaRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/quest': typeof QuestRoute
@@ -94,8 +139,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/care'
+    | '/channel'
+    | '/consent'
+    | '/expert'
     | '/journey'
+    | '/partner'
     | '/persona'
     | '/programs'
     | '/quest'
@@ -104,8 +154,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/care'
+    | '/channel'
+    | '/consent'
+    | '/expert'
     | '/journey'
+    | '/partner'
     | '/persona'
     | '/programs'
     | '/quest'
@@ -114,8 +169,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/care'
+    | '/channel'
+    | '/consent'
+    | '/expert'
     | '/journey'
+    | '/partner'
     | '/persona'
     | '/programs'
     | '/quest'
@@ -125,8 +185,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   CareRoute: typeof CareRoute
+  ChannelRoute: typeof ChannelRoute
+  ConsentRoute: typeof ConsentRoute
+  ExpertRoute: typeof ExpertRoute
   JourneyRoute: typeof JourneyRoute
+  PartnerRoute: typeof PartnerRoute
   PersonaRoute: typeof PersonaRoute
   ProgramsRoute: typeof ProgramsRouteWithChildren
   QuestRoute: typeof QuestRoute
@@ -163,6 +228,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PersonaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/partner': {
+      id: '/partner'
+      path: '/partner'
+      fullPath: '/partner'
+      preLoaderRoute: typeof PartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journey': {
       id: '/journey'
       path: '/journey'
@@ -170,11 +242,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JourneyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/expert': {
+      id: '/expert'
+      path: '/expert'
+      fullPath: '/expert'
+      preLoaderRoute: typeof ExpertRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/consent': {
+      id: '/consent'
+      path: '/consent'
+      fullPath: '/consent'
+      preLoaderRoute: typeof ConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/channel': {
+      id: '/channel'
+      path: '/channel'
+      fullPath: '/channel'
+      preLoaderRoute: typeof ChannelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/care': {
       id: '/care'
       path: '/care'
       fullPath: '/care'
       preLoaderRoute: typeof CareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -208,8 +308,13 @@ const ProgramsRouteWithChildren = ProgramsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   CareRoute: CareRoute,
+  ChannelRoute: ChannelRoute,
+  ConsentRoute: ConsentRoute,
+  ExpertRoute: ExpertRoute,
   JourneyRoute: JourneyRoute,
+  PartnerRoute: PartnerRoute,
   PersonaRoute: PersonaRoute,
   ProgramsRoute: ProgramsRouteWithChildren,
   QuestRoute: QuestRoute,
