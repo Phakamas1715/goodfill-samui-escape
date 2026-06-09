@@ -33,24 +33,26 @@ export function Nav() {
 
   return (
     <>
-    <header className="fixed top-0 inset-x-0 z-50">
-      <div className="mx-auto max-w-6xl px-5 md:px-8 mt-4">
-        <div className="glass rounded-full flex items-center justify-between px-2 md:px-3 py-2">
-          <Link to="/" className="flex items-center gap-2.5 group pl-1">
-            <span className="size-10 md:size-11 rounded-full bg-white grid place-items-center shadow-md ring-1 ring-mint/40 group-hover:scale-105 transition">
-              <img src={logo} alt="Goodfill Care" className="h-7 md:h-8 w-auto object-contain" />
-            </span>
+    <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-navy/10 shadow-[0_2px_18px_-10px_rgba(12,35,64,0.25)]">
+      <div className="mx-auto max-w-6xl px-5 md:px-8">
+        <div className="relative flex items-center justify-between py-3 md:py-3.5">
+          {/* Centered logo */}
+          <Link
+            to="/"
+            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2.5 group"
+          >
+            <img src={logo} alt="Goodfill Care" className="h-9 md:h-11 w-auto object-contain" />
             <span className="hidden sm:flex flex-col leading-none">
-              <span className="font-display text-lg md:text-xl text-navy">Goodfill <span className="text-emerald">Care</span></span>
-              <span className="text-[9px] tracking-[0.28em] uppercase text-emerald-deep/60 mt-0.5">Koh Samui</span>
+              <span className="font-display text-xl md:text-2xl text-navy">Goodfill <span className="text-emerald">Care</span></span>
+              <span className="text-[10px] tracking-[0.28em] uppercase text-emerald-deep/60 mt-0.5">Koh Samui</span>
             </span>
           </Link>
-          <nav className="hidden md:flex items-center gap-7 whitespace-nowrap">
+          <nav className="hidden md:flex items-center gap-6 whitespace-nowrap">
             {linkDefs.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
-                className="text-sm text-muted-foreground hover:text-emerald transition-colors whitespace-nowrap"
+                className="text-[15px] text-navy/70 hover:text-emerald transition-colors whitespace-nowrap"
                 activeProps={{ className: "text-emerald font-medium" }}
                 activeOptions={{ exact: l.to === "/" }}
               >
@@ -58,60 +60,60 @@ export function Nav() {
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-2">
             <LangToggle />
             <Link
               to="/quest"
-              className="hidden md:inline-flex btn-emerald rounded-full px-5 py-2 text-sm whitespace-nowrap"
+              className="hidden md:inline-flex btn-emerald rounded-full px-5 py-2 text-[15px] whitespace-nowrap"
             >
               {t("nav.cta")}
             </Link>
             <button
-              className="md:hidden text-emerald-deep grid place-items-center size-9 rounded-full bg-white/80 border border-mint/40"
+              className="md:hidden text-emerald-deep grid place-items-center size-10 rounded-full bg-pale-mint border border-mint/40"
               onClick={() => setOpen((o) => !o)}
               aria-label="Menu"
             >
-              {open ? <X size={18} /> : <Menu size={18} />}
+              {open ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
         {open && (
-          <div className="glass md:hidden mt-2 rounded-3xl p-3 flex flex-col gap-1">
+          <div className="md:hidden border-t border-navy/10 bg-white pb-3 pt-2 flex flex-col gap-1">
             {linkDefs.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
                 onClick={() => setOpen(false)}
-                className="px-4 py-3 rounded-2xl text-sm hover:bg-pale-mint flex items-center justify-between"
+                className="px-4 py-3 rounded-2xl text-base hover:bg-pale-mint flex items-center justify-between"
                 activeProps={{ className: "text-emerald bg-pale-mint" }}
                 activeOptions={{ exact: l.to === "/" }}
               >
                 <span>{t(l.key as never)}</span>
-                <l.icon size={16} className="text-emerald/60" />
+                <l.icon size={18} className="text-emerald/60" />
               </Link>
             ))}
             <div className="grid grid-cols-3 gap-2 mt-2">
-              <Link to="/partner" onClick={() => setOpen(false)} className="card-cream text-center text-xs py-2 rounded-xl">Partner</Link>
-              <Link to="/expert" onClick={() => setOpen(false)} className="card-cream text-center text-xs py-2 rounded-xl">Expert</Link>
-              <Link to="/admin" onClick={() => setOpen(false)} className="card-cream text-center text-xs py-2 rounded-xl">Admin</Link>
+              <Link to="/partner" onClick={() => setOpen(false)} className="card-cream text-center text-sm py-2 rounded-xl">Partner</Link>
+              <Link to="/expert" onClick={() => setOpen(false)} className="card-cream text-center text-sm py-2 rounded-xl">Expert</Link>
+              <Link to="/admin" onClick={() => setOpen(false)} className="card-cream text-center text-sm py-2 rounded-xl">Admin</Link>
             </div>
           </div>
         )}
       </div>
     </header>
     {/* Mobile bottom navigation */}
-    <nav className="md:hidden fixed bottom-3 inset-x-3 z-50">
-      <div className="glass rounded-full px-2 py-1.5 flex items-center justify-between">
+    <nav className="md:hidden fixed bottom-0 inset-x-0 z-50">
+      <div className="bg-white border-t border-navy/10 px-2 pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] flex items-center justify-between shadow-[0_-4px_20px_-10px_rgba(12,35,64,0.25)]">
         {linkDefs.map((l) => (
           <Link
             key={l.to}
             to={l.to}
             activeOptions={{ exact: l.to === "/" }}
-            activeProps={{ className: "bg-emerald text-ivory" }}
-            className="flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-full text-emerald-deep/70 text-[10px]"
+            activeProps={{ className: "text-emerald" }}
+            className="flex-1 flex flex-col items-center gap-1 py-1.5 rounded-xl text-navy/65 text-[11px]"
           >
-            <l.icon size={18} />
-            <span>{t(l.key as never)}</span>
+            <l.icon size={22} />
+            <span className="font-medium">{t(l.key as never)}</span>
           </Link>
         ))}
       </div>
