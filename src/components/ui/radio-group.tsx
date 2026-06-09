@@ -90,7 +90,8 @@ const RadioGroupItem = React.forwardRef<React.ElementRef<typeof RadioGroupPrimit
   ({ className, variant = "default", size = "default", label, description, id, ...props }, ref) => {
     const sizeStyle = SIZE_STYLES[size];
     const variantStyle = VARIANT_STYLES[variant];
-    const radioId = id || React.useId();
+    const generatedId = React.useId();
+    const radioId = id || generatedId;
 
     const radioElement = (
       <RadioGroupPrimitive.Item
