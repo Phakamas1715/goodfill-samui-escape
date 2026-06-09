@@ -35,6 +35,75 @@ export type Database = {
         }
         Relationships: []
       }
+      bookings: {
+        Row: {
+          booking_code: string
+          booking_date: string
+          created_at: string
+          customer_line_user_id: string | null
+          customer_push: Json
+          expert_name: string | null
+          id: string
+          meal_plan: Json
+          meals_url: string | null
+          partner_line_user_id: string | null
+          partner_notes: string | null
+          partner_push: Json
+          partner_response: Json
+          program_duration: string
+          program_id: string
+          program_name: string
+          program_price: number
+          program_venue: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          booking_code: string
+          booking_date: string
+          created_at?: string
+          customer_line_user_id?: string | null
+          customer_push?: Json
+          expert_name?: string | null
+          id?: string
+          meal_plan?: Json
+          meals_url?: string | null
+          partner_line_user_id?: string | null
+          partner_notes?: string | null
+          partner_push?: Json
+          partner_response?: Json
+          program_duration: string
+          program_id: string
+          program_name: string
+          program_price?: number
+          program_venue: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          booking_code?: string
+          booking_date?: string
+          created_at?: string
+          customer_line_user_id?: string | null
+          customer_push?: Json
+          expert_name?: string | null
+          id?: string
+          meal_plan?: Json
+          meals_url?: string | null
+          partner_line_user_id?: string | null
+          partner_notes?: string | null
+          partner_push?: Json
+          partner_response?: Json
+          program_duration?: string
+          program_id?: string
+          program_name?: string
+          program_price?: number
+          program_venue?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       programs: {
         Row: {
           config: Json
