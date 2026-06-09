@@ -11,7 +11,13 @@ export const Route = createFileRoute("/care")({
   head: () => ({
     meta: [
       { title: "Long-term Care — Goodfill Care" },
-      { name: "description", content: "แผน 90 วันต่อจากทริปของคุณ habit tracker และ Calm Credits" },
+      { name: "description", content: "แผน 90 วันต่อจากทริปของคุณที่เกาะสมุย พร้อม habit tracker รายวัน, Calm Credits, และสิทธิ์ Alumni สำหรับการจองครั้งต่อไป" },
+      { property: "og:title", content: "Long-term Care — แผนดูแลตัวเอง 90 วันหลังเกาะสมุย" },
+      { property: "og:description", content: "Habit tracker, Calm Credits และโปรแกรม Alumni สำหรับคงผลลัพธ์ Wellness ของคุณหลังจบทริปที่เกาะสมุย" },
+      { property: "og:url", content: "https://goodfillcare-samui.com/care" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://goodfillcare-samui.com/care" },
     ],
   }),
   component: CarePage,
