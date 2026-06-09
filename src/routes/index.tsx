@@ -141,7 +141,7 @@ function Landing() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 min-w-0 max-w-[58%] sm:max-w-[62%] md:max-w-[60%] lg:max-w-none"
+            className="relative z-10 min-w-0 max-w-[64%] sm:max-w-[62%] md:max-w-[60%] lg:max-w-none"
           >
             <div className="flex items-center gap-3">
               <img
@@ -196,7 +196,7 @@ function Landing() {
             <div className="mt-7 md:mt-8 flex flex-col gap-4 max-w-[22rem]">
               <Link
                 to="/quest"
-                className="btn-gold group relative overflow-hidden rounded-2xl px-7 py-4 inline-flex items-center justify-center gap-2.5 text-base md:text-[17px] font-bold tracking-wide shadow-[0_18px_50px_-14px_rgba(201,168,76,0.7)] ring-1 ring-gold/40 hover:scale-[1.02] transition mt-[5px]"
+                className="btn-gold group relative overflow-hidden rounded-2xl px-5 py-3.5 inline-flex items-center justify-center gap-2 text-sm md:text-[17px] font-bold tracking-wide whitespace-nowrap shadow-[0_18px_50px_-14px_rgba(201,168,76,0.7)] ring-1 ring-gold/40 hover:scale-[1.02] transition mt-[5px]"
               >
                 <Sparkles size={18} className="opacity-80" />
                 <span>{t("hero.ctaStart")}</span>
@@ -217,7 +217,7 @@ function Landing() {
               </div>
             </div>
 
-            <div className="mt-6 md:mt-8 flex md:hidden items-center gap-5 md:gap-7 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
+            <div className="mt-6 hidden md:flex items-center gap-5 md:gap-7 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
               {[
                 { v: "8", k: "hero.stat.min" as TKey },
                 { v: "6", k: "hero.stat.personas" as TKey },
@@ -311,7 +311,7 @@ function Landing() {
             transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden absolute right-0 bottom-0 h-[64vh] max-h-[560px] w-auto max-w-[48%] object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
+            className="lg:hidden fixed right-0 bottom-16 md:bottom-4 h-[78vh] max-h-[720px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)] z-0"
           />
         </div>
       </main>
