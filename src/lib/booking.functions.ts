@@ -13,6 +13,8 @@ const BookingInput = z.object({
   expertName: z.string().min(1).max(200).optional(),
   customerUserId: z.string().min(1).max(64).optional(),
   partnerUserId: z.string().min(1).max(64).optional(),
+  dietaryPlan: z.enum(["Signature", "Plant-based", "High-Protein", "Detox Light"]).optional(),
+  dietaryNotes: z.string().max(1000).optional(),
 });
 
 async function linePush(token: string, to: string, messages: unknown[]) {
