@@ -8,17 +8,18 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface DrawerProps extends React.ComponentProps<typeof DrawerPrimitive.Root> {
+type DrawerProps = React.ComponentProps<typeof DrawerPrimitive.Root> & {
   shouldScaleBackground?: boolean;
   variant?: "default" | "gold" | "emerald";
   size?: "sm" | "default" | "lg" | "full";
-}
+};
 
-interface DrawerContentProps extends React.ComponentProps<typeof DrawerPrimitive.Content> {
+type DrawerContentProps = React.ComponentProps<typeof DrawerPrimitive.Content> & {
   variant?: "default" | "gold" | "emerald";
+  size?: "sm" | "default" | "lg" | "full";
   showClose?: boolean;
   onClose?: () => void;
-}
+};
 
 // ============================================================================
 // Constants
@@ -84,7 +85,7 @@ DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Content>, DrawerContentProps>(
   ({ className, children, variant = "default", size = "default", showClose = true, onClose, ...props }, ref) => {
     const variantStyle = VARIANT_STYLES[variant];
-    const sizeStyle = SIZE_STYLES[size];
+    const sizeStyle = SIZE_STYLES[size as keyof typeof SIZE_STYLES];
 
     return (
       <DrawerPortal>
