@@ -244,6 +244,6 @@ export function getRatioPadding(ratio: number): string {
 // Default Export
 // ============================================================================
 
-export { AspectRatio, AspectImage, AspectVideo, AspectMap, AspectCard, COMMON_RATIOS, getRatio, getRatioPadding };
+export { AspectRatio, COMMON_RATIOS };
 
 export default AspectRatio;
