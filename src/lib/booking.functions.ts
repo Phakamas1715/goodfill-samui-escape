@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { tgSendMessage, tgEscape } from "@/lib/telegram.server";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const BookingInput = z.object({
   programId: z.string().min(1).max(100),
@@ -12,11 +13,8 @@ const BookingInput = z.object({
   mealPlan: z.array(z.string().min(1).max(200)).max(20).optional().default([]),
   mealsUrl: z.string().url().max(500).optional(),
   expertName: z.string().min(1).max(200).optional(),
-  customerUserId: z.string().min(1).max(64).optional(),
-  partnerUserId: z.string().min(1).max(64).optional(),
   dietaryPlan: z.enum(["Signature", "Plant-based", "High-Protein", "Detox Light"]).optional(),
   dietaryNotes: z.string().max(1000).optional(),
-  customerTelegramChatId: z.union([z.string(), z.number()]).optional(),
 });
 
 async function linePush(token: string, to: string, messages: unknown[]) {
@@ -164,12 +162,28 @@ function row(label: string, value: string) {
 }
 
 export const confirmBooking = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => BookingInput.parse(input))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     const customerToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
     const partnerToken = process.env.PARTNER_LINE_CHANNEL_ACCESS_TOKEN;
-    const customerTo = data.customerUserId ?? process.env.LINE_CUSTOMER_USER_ID ?? "U81bc0e40c6f508c836b155037e729416";
-    const partnerTo = data.partnerUserId ?? process.env.LINE_PARTNER_USER_ID ?? "U9547059d3a571df2bd3b0980e9132297";
+    // Resolve recipient IDs server-side from the authenticated user — never trust client input.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: lineRow } = await supabaseAdmin
+      .from("line_identities")
+      .select("line_user_id")
+      .eq("user_id", context.userId)
+      .eq("channel", "customer")
+      .maybeSingle();
+    const customerTo = (lineRow?.line_user_id as string | undefined) ?? process.env.LINE_CUSTOMER_USER_ID ?? "";
+    const partnerTo = process.env.LINE_PARTNER_USER_ID ?? "";
+    const { data: tgRow } = await supabaseAdmin
+      .from("telegram_identities")
+      .select("chat_id")
+      .eq("user_id", context.userId)
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
 
     const bookingId = `GF-${Date.now().toString(36).toUpperCase()}`;
     const mealsUrl = data.mealsUrl;
@@ -243,34 +257,23 @@ export const confirmBooking = createServerFn({ method: "POST" })
     let customer: PushResult;
     let partner: PushResult;
 
-    if (customerToken) {
+    if (customerToken && customerTo) {
       customer = await linePush(customerToken, customerTo, [customerMsg]);
     } else {
-      customer = { ok: false, error: "LINE_CHANNEL_ACCESS_TOKEN missing" };
+      customer = { ok: false, error: customerToken ? "no customer LINE id linked" : "LINE_CHANNEL_ACCESS_TOKEN missing" };
     }
 
-    if (partnerToken) {
+    if (partnerToken && partnerTo) {
       const partnerMessages = mealMsg ? [partnerMsg, mealMsg] : [partnerMsg];
       partner = await linePush(partnerToken, partnerTo, partnerMessages);
     } else {
-      partner = { ok: false, error: "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing" };
+      partner = { ok: false, error: partnerToken ? "LINE_PARTNER_USER_ID missing" : "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing" };
     }
 
     // Telegram: push receipt to customer if linked.
     let telegram: PushResult = { ok: false, error: "no chat id" };
     try {
-      let tgChatId: number | string | undefined = data.customerTelegramChatId;
-      // Fallback: look up most recent /start chat for this customer
-      if (!tgChatId) {
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const { data: row } = await supabaseAdmin
-          .from("telegram_identities")
-          .select("chat_id")
-          .order("updated_at", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-        if (row?.chat_id) tgChatId = row.chat_id as number;
-      }
+      const tgChatId: number | string | undefined = (tgRow?.chat_id as number | undefined) ?? undefined;
       if (tgChatId && process.env.TELEGRAM_API_KEY && process.env.LOVABLE_API_KEY) {
         const dateLabel = new Date(data.bookingDate).toLocaleDateString("th-TH", {
           year: "numeric",

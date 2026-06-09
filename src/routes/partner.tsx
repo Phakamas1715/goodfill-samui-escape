@@ -1,8 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { DashShell, DashCard } from "@/components/DashShell";
 import { QrCode, Calendar, Utensils, Activity, MessageSquare, BarChart3, ChevronRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/partner")({
+  ssr: false,
+  beforeLoad: async () => {
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) throw redirect({ to: "/auth" });
+  },
   head: () => ({
     meta: [
       { title: "Partner LIFF — Goodfill Care" },
