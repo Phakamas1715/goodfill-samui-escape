@@ -271,26 +271,23 @@ export const requireSupabaseAuth = createMiddleware({ type: "function" }).server
  * Extends requireSupabaseAuth to also require admin role.
  * Use this for admin-only server functions.
  */
-export const requireAdminAuth = createMiddleware({ type: "function" }).server(async ({ next, context }) => {
-  // First, run the base auth middleware
-  const authContext = await requireSupabaseAuth.server({ next: async () => ({ context: {} }) });
+export const requireAdminAuth = createMiddleware({ type: "function" })
+  .middleware([requireSupabaseAuth])
+  .server(async ({ next, context }) => {
+    const { supabase, userId } = context as AuthContext;
 
-  // Then check admin role
-  const { supabase, userId } = authContext.context as AuthContext;
+    const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId).maybeSingle();
 
-  const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId).maybeSingle();
+    if (error) {
+      throw new Error(`Unauthorized: Unable to verify admin status - ${error.message}`);
+    }
 
-  if (error) {
-    throw new Error(`Unauthorized: Unable to verify admin status - ${error.message}`);
-  }
+    if (data?.role !== "admin") {
+      throw new Error("Forbidden: Admin role required");
+    }
 
-  const hasAdminRole = data?.role === "admin";
-  if (!hasAdminRole) {
-    throw new Error("Forbidden: Admin role required");
-  }
-
-  return next({ context: authContext.context });
-});
+    return next();
+  });
 
 // ============================================================================
 // Helper: Get user from context
