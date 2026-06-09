@@ -6,6 +6,7 @@ import { Nav } from "@/components/Nav";
 import { images, personas } from "@/lib/data";
 import welcomeHost from "@/assets/welcome-host.png";
 import logo from "@/assets/goodfill-logo.png";
+import { useI18n, type TKey } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,16 +31,17 @@ const slides = [
 ];
 
 const phases = [
-  { num: "01", title: "Pre-arrival Wellness Quest", desc: "ตอบ 8 ข้อ ค้นพบ Wellness Persona ของคุณ พร้อมรับ 300 Calm Credits", icon: Sparkles },
-  { num: "02", title: "Personalized Program", desc: "AI จับคู่แพ็คเกจที่เหมาะกับร่างกาย ไลฟ์สไตล์ และเป้าหมายของคุณ", icon: Compass },
-  { num: "03", title: "Partner Service Experience", desc: "เครือข่ายรีสอร์ท สปา และผู้เชี่ยวชาญที่ผ่านการคัดสรรบนเกาะสมุย", icon: Leaf },
-  { num: "04", title: "Final Wellness Report", desc: "สรุปผล Before/After พร้อมแผน 90 วันต่อจากนี้", icon: HeartPulse },
-  { num: "05", title: "Long-term Goodfill Care", desc: "ติดตาม habit · สะสม Calm Credits · กลับมาทุกฤดูที่คุณต้องการ", icon: MoonStar },
+  { num: "01", titleKey: "phase.01.title" as TKey, descKey: "phase.01.desc" as TKey, icon: Sparkles },
+  { num: "02", titleKey: "phase.02.title" as TKey, descKey: "phase.02.desc" as TKey, icon: Compass },
+  { num: "03", titleKey: "phase.03.title" as TKey, descKey: "phase.03.desc" as TKey, icon: Leaf },
+  { num: "04", titleKey: "phase.04.title" as TKey, descKey: "phase.04.desc" as TKey, icon: HeartPulse },
+  { num: "05", titleKey: "phase.05.title" as TKey, descKey: "phase.05.desc" as TKey, icon: MoonStar },
 ];
 
 function Landing() {
   const [slide, setSlide] = useState(0);
   const [modal, setModal] = useState<null | "journey" | "personas" | "samui">(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 4500);
@@ -92,50 +94,54 @@ function Landing() {
             className="relative z-10"
           >
             <div className="flex items-center gap-3">
-              <div className="size-16 md:size-20 rounded-3xl bg-ivory/95 backdrop-blur grid place-items-center shadow-2xl">
-                <img src={logo} alt="Goodfill Care" className="h-10 md:h-12 w-auto" />
+              <div className="relative size-16 md:size-20 rounded-3xl bg-white grid place-items-center shadow-2xl ring-1 ring-white/60">
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white to-mint/30" />
+                <img src={logo} alt="Goodfill Care" className="relative h-10 md:h-12 w-auto object-contain" />
               </div>
               <div>
-                <div className="font-display text-2xl md:text-3xl leading-none">Goodfill <span className="text-gold">Care</span></div>
-                <div className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-gold-soft/90 mt-1">Koh Samui · Wellness Journey</div>
+                <div className="font-display text-2xl md:text-3xl leading-none text-white drop-shadow-md">
+                  Goodfill <span className="text-gold">Care</span>
+                </div>
+                <div className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-gold-soft/95 mt-1">
+                  {t("hero.kicker")}
+                </div>
               </div>
             </div>
 
-            <h1 className="font-display text-[2.6rem] sm:text-5xl md:text-6xl lg:text-7xl leading-[1.02] mt-6 md:mt-8">
-              สัมผัสบรรยากาศ<br />
-              <em className="not-italic text-gold">เกาะสมุย</em> ที่ออกแบบ<br />
-              เพื่อคุณคนเดียว
+            <h1 className="font-display text-[2.6rem] sm:text-5xl md:text-6xl lg:text-7xl leading-[1.02] mt-6 md:mt-8 text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.4)]">
+              {t("hero.title1")}<br />
+              <em className="not-italic text-gold">{t("hero.title2")}</em>{" "}
+              <span className="block">{t("hero.title3")}</span>
             </h1>
-            <p className="mt-4 md:mt-6 max-w-md text-sm md:text-base text-ivory/80 leading-relaxed">
-              แบบประเมิน 8 ข้อ · 6 Wellness Personas · จับคู่โปรแกรมพักผ่อนระดับลักชัวรี่
-              กับพาร์ทเนอร์รีสอร์ทและสปาบนเกาะสมุย
+            <p className="mt-4 md:mt-6 max-w-md text-sm md:text-base text-ivory/85 leading-relaxed">
+              {t("hero.desc")}
             </p>
 
             <div className="mt-6 md:mt-8 flex flex-wrap gap-2.5">
               <Link to="/quest" className="btn-gold rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm shadow-xl">
-                เริ่มแบบประเมิน · 8 นาที <ArrowRight size={16} />
+                {t("hero.ctaStart")} <ArrowRight size={16} />
               </Link>
-              <button onClick={() => setModal("journey")} className="rounded-full px-5 py-3 text-sm bg-ivory/10 backdrop-blur border border-ivory/25 hover:bg-ivory/20 transition">
-                การเดินทาง 5 ขั้น
+              <button onClick={() => setModal("journey")} className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white">
+                {t("hero.btnJourney")}
               </button>
-              <button onClick={() => setModal("personas")} className="rounded-full px-5 py-3 text-sm bg-ivory/10 backdrop-blur border border-ivory/25 hover:bg-ivory/20 transition">
-                6 Personas
+              <button onClick={() => setModal("personas")} className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white">
+                {t("hero.btnPersonas")}
               </button>
-              <button onClick={() => setModal("samui")} className="rounded-full px-5 py-3 text-sm bg-ivory/10 backdrop-blur border border-ivory/25 hover:bg-ivory/20 transition">
-                บรรยากาศสมุย
+              <button onClick={() => setModal("samui")} className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white">
+                {t("hero.btnSamui")}
               </button>
             </div>
 
             <div className="mt-6 md:mt-10 flex gap-5 md:gap-8 text-ivory">
               {[
-                { v: "8", l: "Min Quest" },
-                { v: "+300", l: "Calm Credits" },
-                { v: "6", l: "Personas" },
-                { v: "12+", l: "Partners" },
+                { v: "8", k: "hero.stat.min" as TKey },
+                { v: "+300", k: "hero.stat.credits" as TKey },
+                { v: "6", k: "hero.stat.personas" as TKey },
+                { v: "12+", k: "hero.stat.partners" as TKey },
               ].map((s) => (
-                <div key={s.l}>
+                <div key={s.k}>
                   <div className="font-display text-xl md:text-2xl text-gold">{s.v}</div>
-                  <div className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-ivory/60 mt-0.5">{s.l}</div>
+                  <div className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-ivory/70 mt-0.5">{t(s.k)}</div>
                 </div>
               ))}
             </div>
@@ -158,10 +164,10 @@ function Landing() {
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-16 left-2 glass rounded-3xl px-5 py-3 text-navy text-sm max-w-[240px] shadow-xl"
+              className="absolute top-16 left-2 bg-white rounded-3xl px-5 py-3 text-navy text-sm max-w-[240px] shadow-xl ring-1 ring-mint/40"
             >
-              <div className="text-[10px] tracking-widest uppercase text-emerald">สวัสดีค่ะ</div>
-              <div className="mt-1">พร้อมพาคุณค้นพบโปรแกรมที่ใช่<br />บนเกาะสมุยแล้วค่ะ ✨</div>
+              <div className="text-[10px] tracking-widest uppercase text-emerald">{t("hero.greeting1")}</div>
+              <div className="mt-1">{t("hero.greeting2")}</div>
             </motion.div>
           </motion.div>
 
@@ -205,8 +211,8 @@ function Landing() {
 
               {modal === "journey" && (
                 <>
-                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">Goodfill Journey</div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">การเดินทาง 5 ขั้นตอน</h2>
+                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">{t("modal.journey.kicker")}</div>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.journey.title")}</h2>
                   <div className="mt-6 grid sm:grid-cols-2 gap-3">
                     {phases.map((p) => (
                       <div key={p.num} className="card-soft p-5 rounded-2xl">
@@ -216,8 +222,8 @@ function Landing() {
                           </div>
                           <span className="font-display text-2xl text-mint">{p.num}</span>
                         </div>
-                        <div className="font-display text-lg mt-3">{p.title}</div>
-                        <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{p.desc}</p>
+                        <div className="font-display text-lg mt-3">{t(p.titleKey)}</div>
+                        <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{t(p.descKey)}</p>
                       </div>
                     ))}
                   </div>
@@ -226,9 +232,9 @@ function Landing() {
 
               {modal === "personas" && (
                 <>
-                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">Wellness Personas</div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">คุณอยู่ในกลุ่มไหน?</h2>
-                  <p className="text-sm text-muted-foreground mt-2">แบบประเมินจะค้นพบบุคลิกด้าน wellness และจับคู่โปรแกรมที่ใช่</p>
+                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">{t("modal.personas.kicker")}</div>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.personas.title")}</h2>
+                  <p className="text-sm text-muted-foreground mt-2">{t("modal.personas.sub")}</p>
                   <div className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {Object.values(personas).map((p) => (
                       <div key={p.id} className="card-soft p-4 rounded-2xl">
@@ -240,28 +246,28 @@ function Landing() {
                     ))}
                   </div>
                   <Link to="/quest" onClick={() => setModal(null)} className="btn-emerald rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm mt-6">
-                    เริ่มค้นหา Persona <ArrowRight size={16} />
+                    {t("modal.personas.cta")} <ArrowRight size={16} />
                   </Link>
                 </>
               )}
 
               {modal === "samui" && (
                 <>
-                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">Koh Samui</div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">บรรยากาศที่ทำให้ทุกอย่างช้าลง</h2>
+                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">{t("modal.samui.kicker")}</div>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.samui.title")}</h2>
                   <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-3">
                     {[
-                      { src: images.yoga, label: "Sunrise Yoga" },
-                      { src: images.spa, label: "Signature Spa" },
-                      { src: images.villa, label: "Private Villa" },
-                      { src: images.food, label: "Wellness Cuisine" },
-                      { src: images.meditation, label: "Meditation" },
-                      { src: images.heroSamui, label: "Samui Sunrise" },
+                      { src: images.yoga, k: "samui.yoga" as TKey },
+                      { src: images.spa, k: "samui.spa" as TKey },
+                      { src: images.villa, k: "samui.villa" as TKey },
+                      { src: images.food, k: "samui.food" as TKey },
+                      { src: images.meditation, k: "samui.med" as TKey },
+                      { src: images.heroSamui, k: "samui.sunrise" as TKey },
                     ].map((it) => (
-                      <div key={it.label} className="relative rounded-2xl overflow-hidden aspect-[4/5]">
-                        <img src={it.src} alt={it.label} className="size-full object-cover" />
+                      <div key={it.k} className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+                        <img src={it.src} alt={t(it.k)} className="size-full object-cover" />
                         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 to-transparent p-3">
-                          <div className="text-ivory text-xs tracking-wider">{it.label}</div>
+                          <div className="text-ivory text-xs tracking-wider">{t(it.k)}</div>
                         </div>
                       </div>
                     ))}
