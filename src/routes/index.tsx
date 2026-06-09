@@ -129,17 +129,18 @@ function Landing() {
             className="relative z-10 min-w-0 max-w-[230px] sm:max-w-[380px] lg:max-w-none"
           >
             <div className="flex items-center gap-3">
-              <div className="relative size-16 md:size-20 rounded-3xl bg-white grid place-items-center shadow-2xl ring-1 ring-white/60">
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white to-mint/30" />
-                <img src={logo} alt="Goodfill Care" className="relative h-10 md:h-12 w-auto object-contain" />
-              </div>
-              <div>
-                <div className="font-display text-2xl md:text-3xl leading-none text-white drop-shadow-md">
-                  Goodfill <span className="text-gold">Care</span>
-                </div>
-                <div className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-gold-soft/95 mt-1">
+              <img
+                src={logo}
+                alt="Goodfill Care"
+                className="h-12 md:h-14 w-auto object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)]"
+              />
+              <div className="flex flex-col leading-none">
+                <span className="font-display text-2xl md:text-3xl text-white drop-shadow-md">
+                  Goodfill <span className="text-gold italic">Care</span>
+                </span>
+                <span className="text-[10px] md:text-[11px] tracking-[0.32em] uppercase text-gold-soft/95 mt-1.5">
                   {t("hero.kicker")}
-                </div>
+                </span>
               </div>
             </div>
 
@@ -176,28 +177,27 @@ function Landing() {
               ))}
             </div>
 
-            {/* Action cluster — grouped in a single glass card for calm, premium feel */}
-            <div className="mt-7 md:mt-8 max-w-md">
-              <div className="rounded-[1.75rem] bg-white/8 backdrop-blur-xl border border-white/15 p-3 pl-5 md:p-4 md:pl-6 flex items-center gap-3 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.45)]">
-                <Link
-                  to="/quest"
-                  className="btn-gold flex-1 rounded-full px-6 py-4 md:px-7 md:py-5 inline-flex items-center justify-between gap-3 text-base md:text-lg font-semibold shadow-[0_14px_40px_-12px_rgba(201,168,76,0.6)] ring-1 ring-gold/30 hover:scale-[1.015] transition"
-                >
-                  <span>{t("hero.ctaStart")}</span>
-                  <ArrowRight size={20} />
-                </Link>
-                <button
-                  onClick={() => setMoreOpen(true)}
-                  aria-label="More"
-                  className="size-12 md:size-14 rounded-full bg-white/15 hover:bg-white/25 transition text-white grid place-items-center shrink-0 border border-white/20"
-                >
-                  <Menu size={20} />
-                </button>
-              </div>
-              <div className="mt-3 flex items-center justify-between gap-3 text-[12px] md:text-[13px] text-white/90 font-medium px-1 drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]">
-                <span className="tracking-wide">~8 นาที · เลือกตอบโดยไม่ต้องพิมพ์</span>
+            {/* Action cluster — refined branded CTA */}
+            <div className="mt-7 md:mt-8 flex flex-col gap-3 max-w-[22rem]">
+              <Link
+                to="/quest"
+                className="btn-gold group relative overflow-hidden rounded-2xl px-7 py-4 inline-flex items-center justify-center gap-2.5 text-base md:text-[17px] font-semibold tracking-wide shadow-[0_18px_50px_-14px_rgba(201,168,76,0.7)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
+              >
+                <Sparkles size={18} className="opacity-80" />
+                <span>{t("hero.ctaStart")}</span>
+                <ArrowRight size={18} className="transition group-hover:translate-x-0.5" />
+              </Link>
+              <button
+                onClick={() => setMoreOpen(true)}
+                className="rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/20 text-white py-3 px-5 inline-flex items-center justify-center gap-2 text-sm font-medium transition"
+              >
+                <Menu size={16} />
+                <span>สำรวจเพิ่มเติม</span>
+              </button>
+              <div className="flex items-center justify-between gap-3 text-[12px] text-white/85 font-medium px-1 mt-1 drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]">
+                <span className="tracking-wide">~8 นาที · ตอบโดยไม่ต้องพิมพ์</span>
                 <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck size={13} className="text-mint" /> ไม่ใช่การวินิจฉัยทางการแพทย์
+                  <ShieldCheck size={13} className="text-mint" /> ปลอดภัย
                 </span>
               </div>
             </div>
