@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate, notFound } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight, CalendarDays, MapPin } from "lucide-react";
 import { Shell, Section, Eyebrow } from "@/components/Shell";
-import { programs, images } from "@/lib/data";
+import { programs, images, type Program } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 
 export const Route = createFileRoute("/programs/$id")({
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/programs/$id")({
 });
 
 function ProgramDetail() {
-  const { program } = Route.useLoaderData();
+  const { program } = Route.useLoaderData() as { program: Program };
   const [state, setState] = useAppState();
   const navigate = useNavigate();
   const isBooked = state.bookedProgramId === program.id;

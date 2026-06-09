@@ -14,6 +14,7 @@ import { Route as QuestRouteImport } from './routes/quest'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PersonaRouteImport } from './routes/persona'
 import { Route as JourneyRouteImport } from './routes/journey'
+import { Route as CareRouteImport } from './routes/care'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsIdRouteImport } from './routes/programs.$id'
 
@@ -42,6 +43,11 @@ const JourneyRoute = JourneyRouteImport.update({
   path: '/journey',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CareRoute = CareRouteImport.update({
+  id: '/care',
+  path: '/care',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,6 +61,7 @@ const ProgramsIdRoute = ProgramsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/care': typeof CareRoute
   '/journey': typeof JourneyRoute
   '/persona': typeof PersonaRoute
   '/programs': typeof ProgramsRouteWithChildren
@@ -64,6 +71,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/care': typeof CareRoute
   '/journey': typeof JourneyRoute
   '/persona': typeof PersonaRoute
   '/programs': typeof ProgramsRouteWithChildren
@@ -74,6 +82,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/care': typeof CareRoute
   '/journey': typeof JourneyRoute
   '/persona': typeof PersonaRoute
   '/programs': typeof ProgramsRouteWithChildren
@@ -85,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/care'
     | '/journey'
     | '/persona'
     | '/programs'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/care'
     | '/journey'
     | '/persona'
     | '/programs'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/care'
     | '/journey'
     | '/persona'
     | '/programs'
@@ -113,6 +125,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CareRoute: typeof CareRoute
   JourneyRoute: typeof JourneyRoute
   PersonaRoute: typeof PersonaRoute
   ProgramsRoute: typeof ProgramsRouteWithChildren
@@ -157,6 +170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JourneyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/care': {
+      id: '/care'
+      path: '/care'
+      fullPath: '/care'
+      preLoaderRoute: typeof CareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -188,6 +208,7 @@ const ProgramsRouteWithChildren = ProgramsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CareRoute: CareRoute,
   JourneyRoute: JourneyRoute,
   PersonaRoute: PersonaRoute,
   ProgramsRoute: ProgramsRouteWithChildren,
