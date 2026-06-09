@@ -20,12 +20,12 @@ export const images = {
 };
 
 export type PersonaId =
-  | "sleep"
-  | "energy"
-  | "detox"
-  | "calm"
-  | "shape"
-  | "glow";
+  | "warrior"
+  | "thinker"
+  | "comfort"
+  | "feeler"
+  | "performer"
+  | "explorer";
 
 export interface Persona {
   id: PersonaId;
@@ -38,65 +38,65 @@ export interface Persona {
 }
 
 export const personas: Record<PersonaId, Persona> = {
-  sleep: {
-    id: "sleep",
-    name: "Sleep Seeker",
-    thaiName: "ผู้แสวงหาการพักผ่อน",
-    tagline: "คืนการนอนหลับลึกให้ร่างกาย",
+  warrior: {
+    id: "warrior",
+    name: "The Silent Warrior",
+    thaiName: "นักสู้เงียบ",
+    tagline: "ผู้รับผิดชอบสูง อดทน ดูแลทุกอย่างให้ดีที่สุด",
     description:
-      "คุณต้องการฟื้นฟูคุณภาพการนอน ลดความเครียดสะสม และตื่นมาด้วยพลังใหม่ทุกเช้า",
-    color: "from-indigo-500/30 to-emerald-700/30",
-    pillars: ["Sound Healing", "Sleep Massage", "Herbal Tea Ritual", "Digital Detox"],
+      "คุณเป็นคนรับผิดชอบสูง อดทน และพยายามดูแลทุกอย่างให้ดีที่สุด แต่ร่างกายอาจเริ่มสะสมความล้าโดยไม่รู้ตัว",
+    color: "from-slate-500/30 to-emerald-700/30",
+    pillars: ["Executive Recovery", "Deep Tissue Massage", "Sleep Restoration", "Adrenal Reset"],
   },
-  energy: {
-    id: "energy",
-    name: "Energy Rebuilder",
-    thaiName: "ผู้สร้างพลังใหม่",
-    tagline: "เติมพลังกายและใจให้กลับมาสดใส",
+  thinker: {
+    id: "thinker",
+    name: "The Midnight Thinker",
+    thaiName: "นกฮูกคิดมาก",
+    tagline: "คนคิดลึก วางแผนเก่ง ละเอียดรอบคอบ",
     description:
-      "เหมาะกับคนทำงานหนัก เหนื่อยล้าเรื้อรัง อยากกลับมามีพลังเต็มร้อย",
-    color: "from-amber-500/30 to-orange-600/30",
-    pillars: ["Vitality IV", "Active Yoga", "Cold Plunge", "Adaptogen Diet"],
+      "คุณเป็นคนคิดลึก วางแผนเก่ง และละเอียดรอบคอบ แต่สมองที่ไม่ค่อยได้พัก อาจส่งผลต่อการนอนและความสดชื่นในแต่ละวัน",
+    color: "from-indigo-500/30 to-violet-700/30",
+    pillars: ["Sleep Recovery", "Nervous System Reset", "Mind Quieting", "Breathwork"],
   },
-  detox: {
-    id: "detox",
-    name: "Detox Reset",
-    thaiName: "รีเซ็ตจากภายใน",
-    tagline: "ล้างพิษ ล้างสมอง เริ่มต้นใหม่",
+  comfort: {
+    id: "comfort",
+    name: "The Comfort Seeker",
+    thaiName: "ผู้แสวงหาความสบายใจ",
+    tagline: "เชื่อมอาหารกับอารมณ์อย่างสมดุล",
     description:
-      "ออกแบบสำหรับคนที่อยากล้างพิษทั้งร่างกายและจิตใจ พร้อมเริ่มต้นชีวิตใหม่",
-    color: "from-emerald-500/30 to-teal-700/30",
-    pillars: ["Juice Cleanse", "Colon Hydrotherapy", "Lymphatic Drain", "Sauna Ritual"],
+      "คุณมักใช้ความอร่อย ความสบาย หรือสิ่งคุ้นเคยช่วยปลอบใจในวันที่เหนื่อย โปรแกรมจึงเน้นเชื่อมอาหารกับอารมณ์อย่างสมดุล",
+    color: "from-amber-500/30 to-rose-600/30",
+    pillars: ["Gut Health", "Emotional Balance", "Thai Herbal Nutrition", "Mindful Eating"],
   },
-  calm: {
-    id: "calm",
-    name: "Stress Calmer",
-    thaiName: "ผู้สงบจิต",
-    tagline: "ผ่อนคลายจิตใจอย่างลึกซึ้ง",
+  feeler: {
+    id: "feeler",
+    name: "The Deep Feeler",
+    thaiName: "ผู้รู้สึกลึก",
+    tagline: "คืนพื้นที่ให้ใจได้พักจริง ๆ",
     description:
-      "สำหรับคนเครียดเรื้อรัง วิตกกังวล อยากกลับมาสงบและมีสมาธิ",
+      "คุณรับรู้อารมณ์และรายละเอียดรอบตัวได้ลึก บางครั้งใช้พลังใจมากกว่าที่คิด โปรแกรมจึงคืนพื้นที่ให้ใจได้พักจริง ๆ",
     color: "from-violet-500/30 to-indigo-700/30",
-    pillars: ["Meditation Coaching", "Breathwork", "Forest Bathing", "Aromatherapy"],
+    pillars: ["Emotional Reset", "Mindfulness", "Sound Healing", "Calm Balance"],
   },
-  shape: {
-    id: "shape",
-    name: "Body Reshape",
-    thaiName: "ปรับรูปร่างจากภายใน",
-    tagline: "หุ่นกระชับ สุขภาพดี ยั่งยืน",
+  performer: {
+    id: "performer",
+    name: "The High Performer",
+    thaiName: "เครื่องยนต์สมรรถนะสูง",
+    tagline: "ฟื้นฟูเข้มข้นสำหรับคนใช้พลังงานสูง",
     description:
-      "ออกแบบโปรแกรมโภชนาการและการออกกำลังกายเพื่อรูปร่างและสุขภาพระยะยาว",
+      "คุณมีเป้าหมายชัดและใช้พลังงานสูง การเร่งต่อเนื่องทำให้ร่างกายต้องการการฟื้นฟูอย่างจริงจัง",
     color: "from-rose-500/30 to-amber-600/30",
-    pillars: ["Personal Training", "Metabolic Test", "Macro Coaching", "Body Composition"],
+    pillars: ["Executive Detox", "Energy Reset", "Premium Recovery", "Performance Nutrition"],
   },
-  glow: {
-    id: "glow",
-    name: "Mindful Glow",
-    thaiName: "เปล่งประกายจากภายใน",
-    tagline: "ผิวพรรณและจิตใจเปล่งประกาย",
+  explorer: {
+    id: "explorer",
+    name: "The Wellness Explorer",
+    thaiName: "นักสำรวจสุขภาพ",
+    tagline: "ระบบช่วยจัดลำดับว่าควรเริ่มจากอะไร",
     description:
-      "สำหรับคนที่ต้องการดูแลผิว ความงาม ควบคู่กับจิตใจที่สดใส",
-    color: "from-pink-400/30 to-amber-500/30",
-    pillars: ["Facial Ritual", "Collagen Bar", "Sunrise Yoga", "Mindful Journaling"],
+      "คุณพร้อมเริ่มดูแลตัวเองและเปิดรับสิ่งใหม่ ต้องการระบบที่ช่วยจัดลำดับให้ชัดว่าควรเริ่มจากอะไรก่อน",
+    color: "from-emerald-500/30 to-teal-600/30",
+    pillars: ["Wellness Discovery", "Samui Starter", "Personal Roadmap", "Habit Foundation"],
   },
 };
 
@@ -114,90 +114,90 @@ export interface QuestQuestion {
 export const questions: QuestQuestion[] = [
   {
     id: 1,
-    emoji: "🌙",
-    question: "ในช่วง 1 เดือนที่ผ่านมา คุณรู้สึกอย่างไรมากที่สุด?",
+    emoji: "☀️",
+    question: "พลังงานของคุณในเช้าวันใหม่เป็นแบบไหน?",
     options: [
-      { label: "นอนไม่หลับ ตื่นกลางดึก", weights: { sleep: 3, calm: 1 } },
-      { label: "เหนื่อยล้า ไม่มีแรง", weights: { energy: 3, detox: 1 } },
-      { label: "เครียด คิดมาก", weights: { calm: 3, sleep: 1 } },
-      { label: "อยากดูดี ผิวสวยขึ้น", weights: { glow: 3, shape: 1 } },
+      { label: "ตื่นมายังล้า ต้องพึ่งกาแฟหรือเครื่องดื่มช่วยเริ่มวัน", weights: { performer: 2, warrior: 2, comfort: 1 } },
+      { label: "เริ่มวันได้ดี แต่พลังงานตกเร็วช่วงบ่าย", weights: { performer: 2, thinker: 2 } },
+      { label: "อยากนอนต่อ รู้สึกว่ายังพักไม่พอ", weights: { thinker: 2, feeler: 2 } },
+      { label: "พลังงานพอใช้ ค่อย ๆ เริ่มวันแบบไม่รีบ", weights: { explorer: 3 } },
     ],
   },
   {
     id: 2,
-    emoji: "🍃",
-    question: "เป้าหมายหลักของทริปนี้คือ?",
+    emoji: "🌊",
+    question: "ช่วงนี้ความเครียดของคุณมักแสดงออกแบบไหน?",
     options: [
-      { label: "พักผ่อนเต็มที่ ฟื้นการนอน", weights: { sleep: 3 } },
-      { label: "ล้างพิษ รีเซ็ตร่างกาย", weights: { detox: 3 } },
-      { label: "ลดน้ำหนัก ปรับรูปร่าง", weights: { shape: 3 } },
-      { label: "สงบจิตใจ ทำสมาธิ", weights: { calm: 3 } },
+      { label: "รู้สึกแน่นในใจ หรือคิดเรื่องเดิมซ้ำ ๆ", weights: { thinker: 3, feeler: 1 } },
+      { label: "หงุดหงิดง่าย หรือรู้สึกต้องรีบจัดการทุกอย่าง", weights: { performer: 2, warrior: 2 } },
+      { label: "อยากอยู่เงียบ ๆ ไม่อยากคุยกับใคร", weights: { feeler: 3 } },
+      { label: "ยังรับมือได้ แต่รู้ว่าตัวเองต้องการพักบ้าง", weights: { explorer: 2, warrior: 1 } },
     ],
   },
   {
     id: 3,
-    emoji: "💪",
-    question: "วันธรรมดาของคุณ ออกกำลังกายแค่ไหน?",
+    emoji: "🌙",
+    question: "การนอนของคุณในช่วง 2 สัปดาห์ที่ผ่านมาเป็นอย่างไร?",
     options: [
-      { label: "ไม่ได้ออกเลย", weights: { energy: 2, shape: 2 } },
-      { label: "เดิน/โยคะเบาๆ", weights: { calm: 2, glow: 1 } },
-      { label: "ออก 2-3 ครั้ง/สัปดาห์", weights: { shape: 2, energy: 1 } },
-      { label: "ออกหนักทุกวัน", weights: { detox: 1, energy: 2 } },
+      { label: "หลับยาก เพราะสมองยังคิดเรื่องงานหรือชีวิต", weights: { thinker: 3 } },
+      { label: "หลับได้ แต่ตื่นกลางดึก หรือตื่นมาไม่สดชื่น", weights: { warrior: 2, thinker: 1 } },
+      { label: "นอนน้อย เพราะเวลาชีวิตไม่เป็นระบบ", weights: { performer: 2, comfort: 1 } },
+      { label: "นอนได้พอสมควร แต่อยากให้หลับลึกกว่านี้", weights: { explorer: 2, feeler: 1 } },
     ],
   },
   {
     id: 4,
-    emoji: "🥗",
-    question: "อาหารส่วนใหญ่ที่คุณกิน?",
+    emoji: "🍵",
+    question: "เวลาเหนื่อยหรือเครียด คุณมักดูแลตัวเองอย่างไร?",
     options: [
-      { label: "Fast food / ของทอด", weights: { detox: 3, shape: 2 } },
-      { label: "ข้าวมันไก่ อาหารตามสั่ง", weights: { detox: 2, energy: 1 } },
-      { label: "คลีน/ผักผลไม้", weights: { glow: 2, shape: 1 } },
-      { label: "ไม่ค่อยมีเวลากิน", weights: { energy: 3, calm: 1 } },
+      { label: "หาอาหาร ของหวาน หรือเครื่องดื่มที่ทำให้รู้สึกดีขึ้น", weights: { comfort: 3 } },
+      { label: "เลื่อนมือถือ ดูคลิป หาสิ่งเบี่ยงเบนความคิด", weights: { comfort: 1, thinker: 2 } },
+      { label: "ออกไปเดิน ขยับร่างกาย หรือหาอากาศหายใจ", weights: { explorer: 2, performer: 1 } },
+      { label: "เก็บไว้คนเดียว แล้วพยายามผ่านไปให้ได้", weights: { feeler: 2, warrior: 2 } },
     ],
   },
   {
     id: 5,
-    emoji: "☕",
-    question: "คุณดื่มกาแฟ/ชาวันละกี่แก้ว?",
+    emoji: "🥗",
+    question: "อาหารในชีวิตประจำวันของคุณใกล้เคียงข้อไหนที่สุด?",
     options: [
-      { label: "ไม่ดื่ม", weights: { calm: 2, sleep: 1 } },
-      { label: "1 แก้ว", weights: { glow: 1, shape: 1 } },
-      { label: "2-3 แก้ว", weights: { energy: 2, detox: 1 } },
-      { label: "มากกว่า 3 แก้ว", weights: { detox: 2, sleep: 2 } },
+      { label: "กินไม่เป็นเวลา บางมื้อข้าม บางมื้อกินหนัก", weights: { warrior: 2, performer: 2 } },
+      { label: "กินตามสะดวก อะไรง่ายก็เลือกอันนั้น", weights: { comfort: 3 } },
+      { label: "พยายามเลือกอาหารดีขึ้น แต่ยังทำต่อเนื่องยาก", weights: { explorer: 2, comfort: 1 } },
+      { label: "ค่อนข้างใส่ใจอาหาร แต่อยากได้แผนเฉพาะตัว", weights: { explorer: 2, performer: 2 } },
     ],
   },
   {
     id: 6,
-    emoji: "📱",
-    question: "ใช้มือถือ/หน้าจอต่อวันประมาณ?",
+    emoji: "💆",
+    question: "ร่างกายของคุณส่งสัญญาณอะไรบ่อยที่สุด?",
     options: [
-      { label: "น้อยกว่า 3 ชม.", weights: { calm: 2, glow: 1 } },
-      { label: "3-6 ชม.", weights: { shape: 1, energy: 1 } },
-      { label: "6-10 ชม.", weights: { sleep: 2, calm: 1 } },
-      { label: "มากกว่า 10 ชม.", weights: { sleep: 3, calm: 2 } },
+      { label: "ปวดคอ บ่า ไหล่ หรือหลังจากการนั่งนาน", weights: { warrior: 2, performer: 2 } },
+      { label: "ปวดหัว เหนื่อยง่าย พลังงานไม่คงที่", weights: { thinker: 2, performer: 1 } },
+      { label: "ท้องอืด แน่นท้อง ระบบย่อยไม่ค่อยสบาย", weights: { comfort: 3 } },
+      { label: "ไม่มีอาการชัด แต่ไม่สดชื่นเหมือนเดิม", weights: { explorer: 2, feeler: 1 } },
     ],
   },
   {
     id: 7,
-    emoji: "🧘",
-    question: "เคยทำสมาธิหรือ Breathwork มาก่อนไหม?",
+    emoji: "🏝️",
+    question: "ถ้าได้ไปพักที่สมุย 3 วัน คุณอยากให้ทริปนี้ช่วยอะไรมากที่สุด?",
     options: [
-      { label: "ยังไม่เคย แต่อยากลอง", weights: { calm: 2, sleep: 1 } },
-      { label: "เคยบ้าง แต่ไม่ต่อเนื่อง", weights: { calm: 2 } },
-      { label: "ทำสม่ำเสมอ", weights: { glow: 1, calm: 1 } },
-      { label: "ไม่สนใจ", weights: { shape: 2, energy: 1 } },
+      { label: "ได้พักจริง ๆ ปิดเสียงรบกวน นอนให้เต็มอิ่ม", weights: { warrior: 2, thinker: 2 } },
+      { label: "ให้ร่างกายฟื้นจากความล้าและอาการปวดเมื่อย", weights: { warrior: 2, performer: 2 } },
+      { label: "ให้ใจสงบ ลดความคิดมาก และรู้สึกเบาขึ้น", weights: { feeler: 2, thinker: 1 } },
+      { label: "กลับไปพร้อมพลังงานใหม่และแรงบันดาลใจ", weights: { performer: 2, explorer: 1 } },
     ],
   },
   {
     id: 8,
     emoji: "✨",
-    question: "หลังจบทริป อยากกลับไปด้วยความรู้สึกแบบไหนมากที่สุด?",
+    question: "ถ้า Goodfill ออกแบบโปรแกรมให้ 1 อย่าง คุณอยากให้เน้นเรื่องใดมากที่สุด?",
     options: [
-      { label: "หลับสนิทเหมือนเด็ก", weights: { sleep: 3 } },
-      { label: "พลังเต็มเปี่ยม สดใส", weights: { energy: 3 } },
-      { label: "ตัวเบา รีเซ็ตเรียบร้อย", weights: { detox: 3 } },
-      { label: "สงบ ใจเย็น มีสติ", weights: { calm: 3 } },
+      { label: "Sleep Recovery — นอนหลับดีขึ้นและฟื้นตัวลึกขึ้น", weights: { thinker: 3, warrior: 1 } },
+      { label: "Stress Reset — ลดความเครียดและคืนความสงบให้ใจ", weights: { feeler: 3 } },
+      { label: "Body Balance — ลดปวดเมื่อยและดูแลร่างกายให้สมดุล", weights: { warrior: 2, comfort: 1 } },
+      { label: "Energy Restore — เพิ่มพลังงานและความสดชื่น", weights: { performer: 3, explorer: 1 } },
     ],
   },
 ];
@@ -205,8 +205,14 @@ export const questions: QuestQuestion[] = [
 export function scorePersona(
   answers: Record<number, number>,
 ): PersonaId {
+  return scorePersonaTop2(answers)[0];
+}
+
+export function scorePersonaTop2(
+  answers: Record<number, number>,
+): [PersonaId, PersonaId] {
   const totals: Record<PersonaId, number> = {
-    sleep: 0, energy: 0, detox: 0, calm: 0, shape: 0, glow: 0,
+    warrior: 0, thinker: 0, comfort: 0, feeler: 0, performer: 0, explorer: 0,
   };
   for (const q of questions) {
     const idx = answers[q.id];
@@ -217,8 +223,10 @@ export function scorePersona(
       totals[k as PersonaId] += v ?? 0;
     }
   }
-  return (Object.entries(totals).sort((a, b) => b[1] - a[1])[0]?.[0] ??
-    "calm") as PersonaId;
+  const sorted = Object.entries(totals).sort((a, b) => b[1] - a[1]);
+  const primary = (sorted[0]?.[0] ?? "explorer") as PersonaId;
+  const secondary = (sorted.find(([k]) => k !== primary)?.[0] ?? "explorer") as PersonaId;
+  return [primary, secondary];
 }
 
 export interface Program {
@@ -246,7 +254,7 @@ export const programs: Program[] = [
     nights: 2,
     price: 38000,
     tagline: "Short escape สำหรับคน timeline แน่น",
-    matches: ["calm", "sleep", "glow"],
+    matches: ["feeler", "thinker", "explorer"],
     image: programReset,
     venue: "Bo Phut Beach Villa",
     highlights: [
@@ -275,7 +283,7 @@ export const programs: Program[] = [
     nights: 4,
     price: 72000,
     tagline: "Sweet spot — เห็นผลจริง ไม่หักโหม",
-    matches: ["sleep", "calm", "energy"],
+    matches: ["warrior", "thinker", "feeler"],
     image: programBalance,
     venue: "Chaweng Noi Wellness Resort",
     highlights: [
@@ -308,7 +316,7 @@ export const programs: Program[] = [
     nights: 6,
     price: 128000,
     tagline: "Deep work — เปลี่ยนนิสัย เปลี่ยนชีวิต",
-    matches: ["detox", "shape", "energy"],
+    matches: ["performer", "warrior", "comfort"],
     image: programTransform,
     venue: "Lamai Hilltop Sanctuary",
     highlights: [

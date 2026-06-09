@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { useMemo, useState } from "react";
 import { DashShell } from "@/components/DashShell";
-import { questions, scorePersona } from "@/lib/data";
+import { questions, scorePersonaTop2 } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 
 export const Route = createFileRoute("/quest")({
@@ -26,7 +26,7 @@ function Quest() {
   const progress = ((step + (answers[q.id] != null ? 1 : 0)) / questions.length) * 100;
   const selected = answers[q.id];
 
-  const persona = useMemo(() => scorePersona(answers), [answers]);
+  const [persona, secondaryPersona] = useMemo(() => scorePersonaTop2(answers), [answers]);
 
   function choose(idx: number) {
     setAnswers((a) => ({ ...a, [q.id]: idx }));
@@ -40,6 +40,7 @@ function Quest() {
         ...s,
         questAnswers: answers,
         persona,
+        secondaryPersona,
         credits: s.persona ? s.credits : s.credits + 300,
       }));
       navigate({ to: "/persona" });

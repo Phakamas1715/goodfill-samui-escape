@@ -18,6 +18,10 @@ export const Route = createFileRoute("/persona")({
 function PersonaPage() {
   const [state] = useAppState();
   const persona = state.persona ? personas[state.persona] : null;
+  const secondary =
+    state.secondaryPersona && state.secondaryPersona !== state.persona
+      ? personas[state.secondaryPersona]
+      : null;
 
   if (!persona) {
     return (
@@ -50,6 +54,14 @@ function PersonaPage() {
             ))}
           </div>
         </DashCard>
+
+        {secondary && (
+          <DashCard className="mt-3">
+            <div className="text-[10px] tracking-[0.25em] uppercase text-gold">Persona รอง</div>
+            <div className="font-display text-lg text-navy mt-0.5">{secondary.name}</div>
+            <div className="text-xs text-muted-foreground">{secondary.thaiName} · {secondary.tagline}</div>
+          </DashCard>
+        )}
 
         <div className="mt-3">
           <div className="text-[11px] tracking-widest uppercase text-gold mb-2">โปรแกรมที่แนะนำ</div>
