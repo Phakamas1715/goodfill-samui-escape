@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ArrowRight, Sparkles, Compass, HeartPulse, Leaf, MoonStar, X } from "lucide-react";
+import { ArrowRight, Sparkles, Compass, HeartPulse, Leaf, MoonStar, X, Building2, Phone, MapPin, ExternalLink } from "lucide-react";
 import { Nav } from "@/components/Nav";
 import { images, personas } from "@/lib/data";
 import welcomeHost from "@/assets/welcome-host.png";
@@ -40,7 +40,7 @@ const phases = [
 
 function Landing() {
   const [slide, setSlide] = useState(0);
-  const [modal, setModal] = useState<null | "journey" | "personas" | "samui">(null);
+  const [modal, setModal] = useState<null | "journey" | "personas" | "samui" | "company">(null);
   const { t } = useI18n();
 
   useEffect(() => {
@@ -129,6 +129,9 @@ function Landing() {
               </button>
               <button onClick={() => setModal("samui")} className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white">
                 {t("hero.btnSamui")}
+              </button>
+              <button onClick={() => setModal("company")} className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white inline-flex items-center gap-1.5">
+                <Building2 size={14} /> {t("hero.btnCompany")}
               </button>
             </div>
 
@@ -272,6 +275,37 @@ function Landing() {
                       </div>
                     ))}
                   </div>
+                </>
+              )}
+
+              {modal === "company" && (
+                <>
+                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">{t("modal.company.kicker")}</div>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.company.title")}</h2>
+                  <p className="text-sm text-muted-foreground mt-3 leading-relaxed">{t("modal.company.intro")}</p>
+                  <div className="mt-5 grid sm:grid-cols-2 gap-2.5">
+                    {(["modal.company.s1","modal.company.s2","modal.company.s3","modal.company.s4","modal.company.s5","modal.company.s6"] as TKey[]).map((k, i) => (
+                      <div key={k} className="card-soft p-3.5 rounded-xl flex items-center gap-3">
+                        <span className="size-8 rounded-lg bg-pale-mint border border-mint/60 grid place-items-center text-emerald font-display text-sm">0{i+1}</span>
+                        <span className="text-sm">{t(k)}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-6 grid sm:grid-cols-2 gap-3">
+                    <div className="card-soft p-4 rounded-2xl">
+                      <div className="text-[10px] tracking-[0.25em] uppercase text-emerald">{t("modal.company.contact")}</div>
+                      <a href="tel:+66945958741" className="mt-2 flex items-center gap-2 text-sm hover:text-emerald"><Phone size={14}/> 094-595-8741</a>
+                      <a href="mailto:admin@samui741.com" className="mt-1.5 flex items-center gap-2 text-sm hover:text-emerald"><ExternalLink size={14}/> admin@samui741.com</a>
+                      <div className="mt-1.5 flex items-center gap-2 text-sm text-navy/70"><span className="text-emerald">LINE</span> @samui741</div>
+                    </div>
+                    <div className="card-soft p-4 rounded-2xl">
+                      <div className="text-[10px] tracking-[0.25em] uppercase text-emerald">HQ</div>
+                      <div className="mt-2 flex items-start gap-2 text-sm text-navy/80"><MapPin size={14} className="mt-0.5 shrink-0"/><span>{t("modal.company.addr")}</span></div>
+                    </div>
+                  </div>
+                  <a href="https://samui-741.com/?lang=th" target="_blank" rel="noreferrer" className="btn-emerald rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm mt-6">
+                    {t("modal.company.visit")} <ArrowRight size={16} />
+                  </a>
                 </>
               )}
             </motion.div>
