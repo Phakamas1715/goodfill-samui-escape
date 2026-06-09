@@ -7,7 +7,7 @@ import { questions, scorePersonaTop2, pick } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 import { useI18n } from "@/lib/i18n";
 
-export const Route = createFileRoute("/quest")({
+export const Route = createFileRoute("/programs/")({
   head: () => ({
     meta: [
       { title: "Wellness Quest — Goodfill Care" },
