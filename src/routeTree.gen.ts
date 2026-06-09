@@ -28,6 +28,7 @@ import { Route as MealsIdRouteImport } from './routes/meals.$id'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as ApiPublicLineLoginRouteImport } from './routes/api/public/line-login'
+import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
 import { Route as ApiPublicLinePartnerWebhookRouteImport } from './routes/api/public/line.partner-webhook'
 import { Route as ApiPublicLineCustomerWebhookRouteImport } from './routes/api/public/line.customer-webhook'
 
@@ -125,6 +126,12 @@ const ApiPublicLineLoginRoute = ApiPublicLineLoginRouteImport.update({
   path: '/api/public/line-login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminBookingsRoute =
+  AuthenticatedAdminBookingsRouteImport.update({
+    id: '/bookings',
+    path: '/bookings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const ApiPublicLinePartnerWebhookRoute =
   ApiPublicLinePartnerWebhookRouteImport.update({
     id: '/api/public/line/partner-webhook',
@@ -155,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
+  '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/api/public/line-login': typeof ApiPublicLineLoginRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
@@ -176,6 +184,7 @@ export interface FileRoutesByTo {
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs': typeof ProgramsIndexRoute
+  '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/api/public/line-login': typeof ApiPublicLineLoginRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
@@ -200,6 +209,7 @@ export interface FileRoutesById {
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
+  '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/api/public/line-login': typeof ApiPublicLineLoginRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
@@ -224,6 +234,7 @@ export interface FileRouteTypes {
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
+    | '/admin/bookings'
     | '/api/public/line-login'
     | '/admin/'
     | '/api/public/line/customer-webhook'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/meals/$id'
     | '/programs/$id'
     | '/programs'
+    | '/admin/bookings'
     | '/api/public/line-login'
     | '/admin'
     | '/api/public/line/customer-webhook'
@@ -268,6 +280,7 @@ export interface FileRouteTypes {
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
+    | '/_authenticated/admin/bookings'
     | '/api/public/line-login'
     | '/_authenticated/admin/'
     | '/api/public/line/customer-webhook'
@@ -431,6 +444,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicLineLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/bookings': {
+      id: '/_authenticated/admin/bookings'
+      path: '/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AuthenticatedAdminBookingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/api/public/line/partner-webhook': {
       id: '/api/public/line/partner-webhook'
       path: '/api/public/line/partner-webhook'
@@ -449,10 +469,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
