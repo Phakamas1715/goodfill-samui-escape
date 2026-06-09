@@ -141,7 +141,7 @@ function Landing() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 min-w-0 max-w-[58%] sm:max-w-[62%] md:max-w-[60%] lg:max-w-none"
+            className="relative z-10 min-w-0 max-w-[64%] sm:max-w-[62%] md:max-w-[60%] lg:max-w-none"
           >
             <div className="flex items-center gap-3">
               <img
@@ -311,7 +311,7 @@ function Landing() {
             transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden absolute right-0 bottom-0 h-[64vh] max-h-[560px] w-auto max-w-[48%] object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
+            className="lg:hidden fixed right-0 bottom-16 md:bottom-4 h-[78vh] max-h-[720px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)] z-0"
           />
         </div>
       </main>
