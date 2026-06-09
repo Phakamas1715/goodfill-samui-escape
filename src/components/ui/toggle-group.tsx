@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
-import { type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 import { toggleVariants } from "@/components/ui/toggle";
@@ -11,17 +10,18 @@ import { toggleVariants } from "@/components/ui/toggle";
 // Types
 // ============================================================================
 
-interface ToggleGroupProps
-  extends React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root>, VariantProps<typeof toggleVariants> {
+type ToggleGroupProps = React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root> & {
   variant?: "default" | "gold" | "emerald";
+  size?: "default" | "sm" | "lg";
   orientation?: "horizontal" | "vertical";
-}
+};
 
-interface ToggleGroupItemProps
-  extends React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item>, VariantProps<typeof toggleVariants> {
+type ToggleGroupItemProps = React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item> & {
+  variant?: "default" | "gold" | "emerald";
+  size?: "default" | "sm" | "lg";
   icon?: React.ReactNode;
   label?: string;
-}
+};
 
 // ============================================================================
 // Constants
@@ -43,7 +43,11 @@ const VARIANT_STYLES = {
 // Context
 // ============================================================================
 
-const ToggleGroupContext = React.createContext<VariantProps<typeof toggleVariants>>({
+const ToggleGroupContext = React.createContext<{
+  variant?: "default" | "gold" | "emerald";
+  size?: "default" | "sm" | "lg";
+  orientation?: "horizontal" | "vertical";
+}>({
   size: "default",
   variant: "default",
   orientation: "horizontal",
@@ -82,8 +86,8 @@ const ToggleGroupItem = React.forwardRef<React.ElementRef<typeof ToggleGroupPrim
         ref={ref}
         className={cn(
           toggleVariants({
-            variant: context.variant || variant,
-            size: context.size || size,
+            variant: "default",
+            size: (context.size || size) as "default" | "sm" | "lg",
           }),
           "transition-all duration-200",
           "data-[state=on]:shadow-md",
@@ -118,7 +122,7 @@ const EmeraldToggleGroup = (props: ToggleGroupProps) => <ToggleGroup variant="em
 /**
  * Toggle group with icons only
  */
-interface IconToggleGroupProps extends ToggleGroupProps {
+type IconToggleGroupProps = ToggleGroupProps & {
   items: Array<{
     value: string;
     icon: React.ReactNode;
@@ -126,19 +130,16 @@ interface IconToggleGroupProps extends ToggleGroupProps {
   }>;
   value?: string[];
   onValueChange?: (value: string[]) => void;
-}
+};
 
 const IconToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitive.Root>, IconToggleGroupProps>(
   ({ items, value, onValueChange, variant, size, ...props }, ref) => {
     return (
       <ToggleGroup
         ref={ref}
-        type="multiple"
-        value={value}
-        onValueChange={onValueChange}
         variant={variant}
         size={size}
-        {...props}
+        {...({ ...props, type: "multiple", value, onValueChange } as ToggleGroupProps)}
       >
         {items.map((item) => (
           <ToggleGroupItem key={item.value} value={item.value} icon={item.icon}>
@@ -154,7 +155,7 @@ IconToggleGroup.displayName = "IconToggleGroup";
 /**
  * Toggle group with labels
  */
-interface LabelToggleGroupProps extends ToggleGroupProps {
+type LabelToggleGroupProps = ToggleGroupProps & {
   items: Array<{
     value: string;
     label: string;
@@ -162,19 +163,16 @@ interface LabelToggleGroupProps extends ToggleGroupProps {
   }>;
   value?: string[];
   onValueChange?: (value: string[]) => void;
-}
+};
 
 const LabelToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitive.Root>, LabelToggleGroupProps>(
   ({ items, value, onValueChange, variant, size, ...props }, ref) => {
     return (
       <ToggleGroup
         ref={ref}
-        type="multiple"
-        value={value}
-        onValueChange={onValueChange}
         variant={variant}
         size={size}
-        {...props}
+        {...({ ...props, type: "multiple", value, onValueChange } as ToggleGroupProps)}
       >
         {items.map((item) => (
           <ToggleGroupItem key={item.value} value={item.value} icon={item.icon} label={item.label} />
