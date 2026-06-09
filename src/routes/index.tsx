@@ -177,16 +177,18 @@ function Landing() {
               </div>
             </div>
 
-            <div className="mt-6 md:mt-10 flex gap-5 md:gap-8 text-ivory">
+            <div className="mt-6 md:mt-8 flex items-center gap-5 md:gap-7 text-ivory">
               {[
                 { v: "8", k: "hero.stat.min" as TKey },
-                { v: "+300", k: "hero.stat.credits" as TKey },
                 { v: "6", k: "hero.stat.personas" as TKey },
                 { v: "12+", k: "hero.stat.partners" as TKey },
-              ].map((s) => (
-                <div key={s.k}>
-                  <div className="font-display text-xl md:text-2xl text-gold">{s.v}</div>
-                  <div className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-ivory/70 mt-0.5">{t(s.k)}</div>
+              ].map((s, i) => (
+                <div key={s.k} className="flex items-center gap-5 md:gap-7">
+                  {i > 0 && <span className="h-8 w-px bg-ivory/20" />}
+                  <div>
+                    <div className="font-display text-xl md:text-2xl text-gold">{s.v}</div>
+                    <div className="text-[9px] md:text-[10px] tracking-[0.22em] uppercase text-ivory/70 mt-0.5">{t(s.k)}</div>
+                  </div>
                 </div>
               ))}
             </div>
