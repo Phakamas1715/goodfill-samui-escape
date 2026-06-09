@@ -68,7 +68,7 @@ const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root
   ) => {
     const variantStyle = VARIANT_STYLES[variant];
     const sizeStyle = SIZE_STYLES[size];
-    const percentage = Math.min(100, Math.max(0, value));
+    const percentage = Math.min(100, Math.max(0, value ?? 0));
 
     return (
       <div className="w-full space-y-2">
@@ -114,7 +114,7 @@ interface CircularProgressProps extends Omit<ProgressProps, "size"> {
 
 const CircularProgress = React.forwardRef<HTMLDivElement, CircularProgressProps>(
   ({ value = 0, variant = "default", size = 48, strokeWidth = 4, animated = true, className, ...props }, ref) => {
-    const percentage = Math.min(100, Math.max(0, value));
+    const percentage = Math.min(100, Math.max(0, value ?? 0));
     const radius = (size - strokeWidth) / 2;
     const circumference = radius * 2 * Math.PI;
     const offset = circumference - (percentage / 100) * circumference;
