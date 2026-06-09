@@ -1,0 +1,130 @@
+import { createFileRoute, Link, useNavigate, notFound } from "@tanstack/react-router";
+import { ArrowLeft, ArrowRight, CalendarDays, MapPin } from "lucide-react";
+import { Shell, Section, Eyebrow } from "@/components/Shell";
+import { programs, images, type Program } from "@/lib/data";
+import { useAppState } from "@/lib/state";
+
+export const Route = createFileRoute("/programs/$id")({
+  head: ({ params }) => {
+    const p = programs.find((x) => x.id === params.id);
+    return {
+      meta: [
+        { title: p ? `${p.name} — Goodfill Care` : "Program — Goodfill Care" },
+        { name: "description", content: p?.tagline ?? "Wellness program ที่เกาะสมุย" },
+      ],
+    };
+  },
+  notFoundComponent: () => (
+    <Shell><Section><h1 className="font-display text-3xl">ไม่พบโปรแกรม</h1><Link to="/programs" className="text-gold mt-4 inline-block">← กลับไปดูโปรแกรมทั้งหมด</Link></Section></Shell>
+  ),
+  loader: ({ params }) => {
+    const p = programs.find((x) => x.id === params.id);
+    if (!p) throw notFound();
+    return { program: p };
+  },
+  component: ProgramDetail,
+});
+
+function ProgramDetail() {
+  const { program } = Route.useLoaderData() as { program: Program };
+  const [state, setState] = useAppState();
+  const navigate = useNavigate();
+  const isBooked = state.bookedProgramId === program.id;
+
+  function book() {
+    const date = new Date();
+    date.setDate(date.getDate() + 21);
+    setState((s) => ({
+      ...s,
+      bookedProgramId: program.id,
+      bookingDate: date.toISOString(),
+    }));
+    navigate({ to: "/journey" });
+  }
+
+  return (
+    <Shell>
+      <Section>
+        <Link to="/programs" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-2">
+          <ArrowLeft size={14} /> โปรแกรมทั้งหมด
+        </Link>
+
+        <div className="grid lg:grid-cols-5 gap-8 mt-8">
+          <div className="lg:col-span-3">
+            <div className="aspect-[16/10] rounded-[2rem] overflow-hidden">
+              <img src={program.image} alt={program.name} className="size-full object-cover" width={1280} height={800} />
+            </div>
+            <div className="grid grid-cols-3 gap-3 mt-3">
+              <img src={images.spa} alt="spa" loading="lazy" className="aspect-square object-cover rounded-2xl" />
+              <img src={images.food} alt="food" loading="lazy" className="aspect-square object-cover rounded-2xl" />
+              <img src={images.meditation} alt="meditation" loading="lazy" className="aspect-square object-cover rounded-2xl" />
+            </div>
+          </div>
+
+          <div className="lg:col-span-2">
+            <Eyebrow>{program.duration}</Eyebrow>
+            <h1 className="font-display text-4xl md:text-5xl mt-3">{program.name}</h1>
+            <p className="text-muted-foreground mt-3">{program.tagline}</p>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mt-4">
+              <MapPin size={14} className="text-gold" /> {program.venue}
+            </div>
+
+            <div className="mt-8 glass rounded-3xl p-6">
+              <div className="flex items-baseline justify-between">
+                <div>
+                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground">ราคาต่อท่าน</div>
+                  <div className="font-display text-4xl gold-text">฿{program.price.toLocaleString()}</div>
+                  <div className="text-xs text-muted-foreground mt-1">รวมที่พัก อาหาร และทรีตเมนต์</div>
+                </div>
+              </div>
+              {state.credits > 0 && (
+                <div className="mt-4 text-sm text-emerald flex items-center gap-2">
+                  ✦ ใช้ {state.credits} Calm Credits ได้ในการชำระ
+                </div>
+              )}
+              <button
+                onClick={book}
+                disabled={isBooked}
+                className="btn-gold rounded-full w-full py-4 mt-6 inline-flex items-center justify-center gap-2 disabled:opacity-60"
+              >
+                {isBooked ? "✓ จองแล้ว — ดู Journey" : "จองโปรแกรมนี้"}
+                {!isBooked && <ArrowRight size={16} />}
+              </button>
+              {isBooked && (
+                <Link to="/journey" className="block text-center text-sm text-gold mt-3">ไปที่ My Journey →</Link>
+              )}
+            </div>
+
+            <div className="mt-8">
+              <div className="text-xs tracking-widest text-gold uppercase">Highlights</div>
+              <ul className="mt-3 space-y-2">
+                {program.highlights.map((h) => (
+                  <li key={h} className="flex items-start gap-3 text-sm">
+                    <span className="text-gold mt-1">✦</span> {h}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-20">
+          <div className="flex items-center gap-2 text-gold text-xs tracking-[0.25em] uppercase">
+            <CalendarDays size={14} /> Day-by-day itinerary
+          </div>
+          <h2 className="font-display text-3xl mt-3">ตารางการเดินทาง</h2>
+          <div className="mt-8 grid md:grid-cols-2 gap-4">
+            {program.schedule.map((d) => (
+              <div key={d.day} className="glass rounded-2xl p-6">
+                <div className="font-display text-lg text-gold">{d.day}</div>
+                <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                  {d.items.map((i) => <li key={i}>· {i}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
+    </Shell>
+  );
+}
