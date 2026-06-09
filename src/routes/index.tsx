@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Compass, HeartPulse, Leaf, MoonStar } from "lucide-react";
 import { Shell, Section, Eyebrow } from "@/components/Shell";
 import { images, personas } from "@/lib/data";
+import welcomeHost from "@/assets/welcome-host.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,10 +39,10 @@ function Landing() {
             width={1920}
             height={1080}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/20" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ivory via-ivory/85 to-ivory/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ivory/85 via-ivory/40 to-transparent" />
         </div>
-        <div className="relative mx-auto max-w-6xl px-5 md:px-8 pb-16 md:pb-24 pt-44 w-full">
+        <div className="relative mx-auto max-w-6xl px-5 md:px-8 pb-16 md:pb-24 pt-44 w-full grid lg:grid-cols-[1fr,420px] gap-8 items-end">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -49,10 +50,11 @@ function Landing() {
             className="max-w-2xl"
           >
             <Eyebrow>Koh Samui · Thailand</Eyebrow>
-            <h1 className="font-display text-5xl md:text-7xl leading-[1.05] mt-5">
-              ค้นหา <em className="gold-text not-italic">Wellness</em> <br />
+            <h1 className="font-display text-5xl md:text-7xl leading-[1.05] mt-5 text-navy">
+              ค้นหา <em className="text-emerald not-italic">Wellness</em> <br />
               ที่ใช่สำหรับ<span className="block">ร่างกายและใจของคุณ</span>
             </h1>
+            <div className="text-xs tracking-[0.25em] uppercase text-emerald-deep/70 mt-3">Create your best version</div>
             <p className="mt-6 text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed">
               เริ่มต้นการพักผ่อนของคุณก่อนที่เครื่องบินจะลงจอด —
               แบบประเมิน 8 ข้อจะค้นพบสิ่งที่ร่างกายคุณต้องการจริงๆ
@@ -60,15 +62,15 @@ function Landing() {
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <Link
-                to="/quest"
-                className="btn-gold rounded-full px-7 py-4 inline-flex items-center gap-2 text-sm md:text-base"
+                to="/channel"
+                className="btn-emerald rounded-full px-7 py-4 inline-flex items-center gap-2 text-sm md:text-base"
               >
-                เริ่มแบบประเมิน Wellness Quest
+                เริ่มต้นการเดินทาง · Start
                 <ArrowRight size={18} />
               </Link>
               <Link
                 to="/programs"
-                className="glass rounded-full px-7 py-4 text-sm md:text-base hover:bg-white/5 transition"
+                className="card-cream rounded-full px-7 py-4 text-sm md:text-base hover:bg-cream transition"
               >
                 ดูแพ็คเกจทั้งหมด
               </Link>
@@ -81,11 +83,20 @@ function Landing() {
                 { v: "12+", l: "Partner Venues" },
               ].map((s) => (
                 <div key={s.l}>
-                  <div className="font-display text-2xl md:text-3xl gold-text">{s.v}</div>
+                  <div className="font-display text-2xl md:text-3xl text-emerald">{s.v}</div>
                   <div className="text-[11px] tracking-[0.2em] uppercase text-muted-foreground mt-1">{s.l}</div>
                 </div>
               ))}
             </div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="hidden lg:flex justify-end relative"
+          >
+            <div className="absolute inset-0 bg-gradient-radial from-mint/40 to-transparent blur-2xl" />
+            <img src={welcomeHost} alt="Wellness host" className="relative h-[520px] w-auto object-contain drop-shadow-2xl" />
           </motion.div>
         </div>
       </section>
@@ -94,7 +105,7 @@ function Landing() {
       <Section>
         <div className="text-center max-w-2xl mx-auto">
           <Eyebrow>The Goodfill Journey</Eyebrow>
-          <h2 className="font-display text-4xl md:text-5xl mt-4">การเดินทาง 5 ขั้นตอน</h2>
+          <h2 className="font-display text-4xl md:text-5xl mt-4 text-navy">การเดินทาง 5 ขั้นตอน</h2>
           <p className="mt-4 text-muted-foreground">
             ทุกช่วงเวลา ตั้งแต่ก่อนออกเดินทางไปจนถึงหลังกลับบ้าน
             ได้รับการดูแลอย่างต่อเนื่องและพิถีพิถัน
@@ -108,15 +119,15 @@ function Landing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: i * 0.05, duration: 0.5 }}
-              className="glass rounded-3xl p-7 hover:bg-white/5 transition group"
+              className="card-soft p-7 hover:-translate-y-1 transition group"
             >
               <div className="flex items-center justify-between">
-                <div className="size-12 rounded-2xl bg-emerald/20 border border-emerald/30 grid place-items-center text-gold group-hover:scale-110 transition">
+                <div className="size-12 rounded-2xl bg-pale-mint border border-mint/60 grid place-items-center text-emerald group-hover:scale-110 transition">
                   <p.icon size={20} />
                 </div>
-                <span className="font-display text-3xl text-muted-foreground/50">{p.num}</span>
+                <span className="font-display text-3xl text-mint">{p.num}</span>
               </div>
-              <h3 className="font-display text-xl mt-6">{p.title}</h3>
+              <h3 className="font-display text-xl mt-6 text-navy">{p.title}</h3>
               <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{p.desc}</p>
             </motion.div>
           ))}
@@ -128,7 +139,7 @@ function Landing() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <Eyebrow>6 Wellness Personas</Eyebrow>
-            <h2 className="font-display text-4xl md:text-5xl mt-4">
+            <h2 className="font-display text-4xl md:text-5xl mt-4 text-navy">
               คุณอยู่ในกลุ่มไหน?
             </h2>
             <p className="mt-5 text-muted-foreground leading-relaxed">
@@ -137,7 +148,7 @@ function Landing() {
             </p>
             <Link
               to="/quest"
-              className="mt-8 inline-flex items-center gap-2 text-gold hover:gap-3 transition-all text-sm tracking-wider uppercase"
+              className="mt-8 inline-flex items-center gap-2 text-emerald hover:gap-3 transition-all text-sm tracking-wider uppercase"
             >
               ค้นพบ Persona ของคุณ <ArrowRight size={16} />
             </Link>
@@ -146,10 +157,10 @@ function Landing() {
             {Object.values(personas).map((p) => (
               <div
                 key={p.id}
-                className={`glass rounded-2xl p-5 bg-gradient-to-br ${p.color}`}
+                className="card-soft rounded-2xl p-5 hover:-translate-y-0.5 transition"
               >
-                <div className="text-xs tracking-widest uppercase text-gold">{p.id}</div>
-                <div className="font-display text-lg mt-1">{p.name}</div>
+                <div className="text-xs tracking-widest uppercase text-emerald">{p.id}</div>
+                <div className="font-display text-lg mt-1 text-navy">{p.name}</div>
                 <div className="text-xs text-muted-foreground mt-1">{p.thaiName}</div>
               </div>
             ))}
@@ -161,8 +172,8 @@ function Landing() {
       <Section>
         <div className="text-center max-w-xl mx-auto">
           <Eyebrow>The Samui Experience</Eyebrow>
-          <h2 className="font-display text-4xl md:text-5xl mt-4">
-            จุดหมายที่ทำให้ทุกอย่าง<em className="gold-text not-italic"> ช้าลง</em>
+          <h2 className="font-display text-4xl md:text-5xl mt-4 text-navy">
+            จุดหมายที่ทำให้ทุกอย่าง<em className="text-emerald not-italic"> ช้าลง</em>
           </h2>
         </div>
         <div className="mt-12 grid grid-cols-12 gap-3 md:gap-4 auto-rows-[160px] md:auto-rows-[220px]">
@@ -176,18 +187,20 @@ function Landing() {
 
       {/* CTA */}
       <Section>
-        <div className="glass rounded-[2rem] p-10 md:p-16 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-deep/30 via-transparent to-gold/10 pointer-events-none" />
+        <div className="rounded-[2rem] p-10 md:p-16 text-center relative overflow-hidden bg-gradient-to-br from-emerald to-deep-teal text-ivory">
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-gold/15 pointer-events-none" />
           <div className="relative">
-            <Eyebrow>เริ่มได้แล้ววันนี้</Eyebrow>
+            <span className="inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-gold-soft">
+              <span className="size-1 rounded-full bg-gold-soft" />เริ่มได้แล้ววันนี้
+            </span>
             <h2 className="font-display text-4xl md:text-6xl mt-5">
-              ใช้เวลาเพียง <em className="gold-text not-italic">8 นาที</em>
+              ใช้เวลาเพียง <em className="text-gold not-italic">8 นาที</em>
             </h2>
-            <p className="text-muted-foreground mt-5 max-w-lg mx-auto">
+            <p className="opacity-80 mt-5 max-w-lg mx-auto">
               แบบประเมินจะช่วยให้คุณและทีมเข้าใจกันก่อนเดินทาง
               เพื่อให้ทุกนาทีที่เกาะสมุยมีความหมายที่สุด
             </p>
-            <Link to="/quest" className="btn-gold rounded-full px-8 py-4 inline-flex items-center gap-2 mt-10">
+            <Link to="/channel" className="btn-gold rounded-full px-8 py-4 inline-flex items-center gap-2 mt-10">
               เริ่มแบบประเมินตอนนี้ <ArrowRight size={18} />
             </Link>
           </div>
