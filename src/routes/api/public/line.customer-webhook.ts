@@ -25,40 +25,171 @@ function verifySignature(secret: string, rawBody: string, signature: string | nu
 }
 
 async function lineReply(token: string, replyToken: string, messages: unknown[]) {
-  const res = await fetch("https://api.line.me/v2/bot/message/reply", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ replyToken, messages }),
-  });
-  if (!res.ok) {
-    console.error("[customer-webhook] reply failed", res.status, await res.text().catch(() => ""));
+  try {
+    const res = await fetch("https://api.line.me/v2/bot/message/reply", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ replyToken, messages }),
+    });
+    if (!res.ok) {
+      console.error("[customer-webhook] reply failed", res.status, await res.text().catch(() => ""));
+    }
+  } catch (err) {
+    console.error("[customer-webhook] reply error:", err);
   }
 }
 
-const STATUS_LABEL: Record<string, string> = {
-  pending: "รอยืนยันจากผู้ดูแล ⏳",
-  accepted: "ยืนยันแล้ว ✓ ทีมงานกำลังเตรียมการ",
-  rejected: "ขออภัย ไม่สามารถรับงานช่วงนี้ได้",
-  completed: "เสร็จสิ้นการดูแล ✓ ขอบคุณที่ใช้บริการ",
+// Multi-language status labels
+const STATUS_LABEL: Record<string, { th: string; en: string }> = {
+  pending: { th: "⏳ รอยืนยันจากผู้ดูแล", en: "⏳ Pending confirmation" },
+  accepted: { th: "✅ ยืนยันแล้ว ทีมงานกำลังเตรียมการ", en: "✅ Confirmed - Team is preparing" },
+  rejected: { th: "❌ ขออภัย ไม่สามารถรับงานช่วงนี้ได้", en: "❌ Sorry, unable to accept at this time" },
+  completed: { th: "🎉 เสร็จสิ้นการดูแล ขอบคุณที่ใช้บริการ", en: "🎉 Completed - Thank you for choosing us" },
+  cancelled: { th: "🚫 ยกเลิกการจองแล้ว", en: "🚫 Booking cancelled" },
 };
 
-const WELCOME_TEXT =
-  "ยินดีต้อนรับสู่ Goodfill Care · Koh Samui 🌿\n\n" +
-  "พิมพ์คำสั่ง:\n" +
-  "• โปรแกรม — ดูแพ็กเกจดูแลสุขภาพ\n" +
-  "• สถานะ — เช็คสถานะการจองล่าสุด\n" +
-  "• GF-XXXX — เช็คสถานะการจองตามรหัส\n" +
-  "• ติดต่อ — พูดคุยกับทีมงาน";
+function getStatusText(status: string, lang: string): string {
+  const label = STATUS_LABEL[status];
+  if (!label) return status;
+  return lang === "th" ? label.th : label.en;
+}
+
+function detectLanguage(text: string): string {
+  // Thai character range
+  const hasThai = /[ก-๙]/.test(text);
+  return hasThai ? "th" : "en";
+}
+
+// Multi-language welcome messages
+function getWelcomeText(lang: string): string {
+  if (lang === "en") {
+    return (
+      "🌿 Welcome to Goodfill Care · Koh Samui 🌿\n\n" +
+      "Available commands:\n" +
+      "• /programs — View wellness packages\n" +
+      "• /status — Check latest booking status\n" +
+      "• /status GF-XXXX — Check specific booking\n" +
+      "• /contact — Contact support team\n" +
+      "• /help — Show this menu again\n\n" +
+      "✨ Start your wellness journey today!"
+    );
+  }
+  return (
+    "🌿 ยินดีต้อนรับสู่ Goodfill Care · Koh Samui 🌿\n\n" +
+    "พิมพ์คำสั่ง:\n" +
+    "• /programs — ดูแพ็กเกจดูแลสุขภาพ\n" +
+    "• /status — เช็คสถานะการจองล่าสุด\n" +
+    "• /status GF-XXXX — เช็คสถานะตามรหัส\n" +
+    "• /contact — ติดต่อทีมงาน\n" +
+    "• /help — แสดงเมนูนี้\n\n" +
+    "✨ เริ่มต้นการเดินทาง Wellness ของคุณวันนี้!"
+  );
+}
+
+function getProgramsText(lang: string): string {
+  if (lang === "en") {
+    return (
+      "🌿 View our wellness programs:\n\n" +
+      "https://goodfillcare-samui.com/programs\n\n" +
+      "Choose from:\n" +
+      "• 3-day Mindful Balance\n" +
+      "• 5-day Detox Reset\n" +
+      "• 7-day Full Transformation\n\n" +
+      "✨ Each program includes meals, activities, and expert guidance."
+    );
+  }
+  return (
+    "🌿 ดูโปรแกรม wellness ของเรา:\n\n" +
+    "https://goodfillcare-samui.com/programs\n\n" +
+    "เลือกโปรแกรม:\n" +
+    "• Mindful Balance 3 วัน\n" +
+    "• Detox Reset 5 วัน\n" +
+    "• Full Transformation 7 วัน\n\n" +
+    "✨ ทุกโปรแกรมรวมอาหาร กิจกรรม และคำแนะนำจากผู้เชี่ยวชาญ"
+  );
+}
+
+function getContactText(lang: string): string {
+  if (lang === "en") {
+    return (
+      "💬 Contact Goodfill Care Team:\n\n" +
+      "📞 Phone: +66 94-595-8741\n" +
+      "💬 LINE: @goodfillcare\n" +
+      "📧 Email: admin@goodfillcare-samui.com\n" +
+      "🌐 Website: https://goodfillcare-samui.com\n\n" +
+      "We'll get back to you within 24 hours."
+    );
+  }
+  return (
+    "💬 ติดต่อทีมงาน Goodfill Care:\n\n" +
+    "📞 โทร: 094-595-8741\n" +
+    "💬 LINE: @goodfillcare\n" +
+    "📧 อีเมล: admin@goodfillcare-samui.com\n" +
+    "🌐 เว็บไซต์: https://goodfillcare-samui.com\n\n" +
+    "ทีมงานจะตอบกลับภายใน 24 ชั่วโมง"
+  );
+}
+
+function formatBookingResponse(booking: any, lang: string): string {
+  const isThai = lang === "th";
+  const statusText = getStatusText(booking.status, lang);
+
+  const bookingDate = booking.booking_date
+    ? new Date(booking.booking_date).toLocaleDateString(isThai ? "th-TH" : "en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "-";
+
+  if (isThai) {
+    return (
+      `📋 <b>${booking.booking_code}</b>\n\n` +
+      `📌 โปรแกรม: ${booking.program_name}\n` +
+      `📅 ระยะเวลา: ${booking.program_duration || "-"} วัน\n` +
+      `🗓️ วันที่: ${bookingDate}\n` +
+      `📊 สถานะ: ${statusText}`
+    );
+  } else {
+    return (
+      `📋 <b>${booking.booking_code}</b>\n\n` +
+      `📌 Program: ${booking.program_name}\n` +
+      `📅 Duration: ${booking.program_duration || "-"} days\n` +
+      `🗓️ Date: ${bookingDate}\n` +
+      `📊 Status: ${statusText}`
+    );
+  }
+}
 
 async function handleEvent(event: LineEvent) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const token = process.env.LINE_CHANNEL_ACCESS_TOKEN!;
   const customerUserId = event.source?.userId;
 
+  if (!token) {
+    console.error("[customer-webhook] Missing LINE_CHANNEL_ACCESS_TOKEN");
+    return;
+  }
+
   // Follow / friend added → welcome
   if (event.type === "follow") {
-    if (event.replyToken && token) {
-      await lineReply(token, event.replyToken, [{ type: "text", text: WELCOME_TEXT }]);
+    if (event.replyToken) {
+      // Store user identity
+      if (customerUserId) {
+        try {
+          await supabaseAdmin.from("line_identities").upsert(
+            {
+              line_user_id: customerUserId,
+              last_active_at: new Date().toISOString(),
+              language_preference: "th", // Default to Thai
+            },
+            { onConflict: "line_user_id" },
+          );
+        } catch (err) {
+          console.error("Failed to store LINE identity:", err);
+        }
+      }
+      await lineReply(token, event.replyToken, [{ type: "text", text: getWelcomeText("th") }]);
     }
     return;
   }
@@ -66,94 +197,114 @@ async function handleEvent(event: LineEvent) {
   if (event.type === "message" && event.message?.type === "text" && event.message.text) {
     const text = event.message.text.trim();
     const lower = text.toLowerCase();
+    const lang = detectLanguage(text);
 
-    // Status by explicit code
-    const codeMatch = text.match(/^(GF-[A-Z0-9]+)/i);
-    if (codeMatch) {
-      const code = codeMatch[1].toUpperCase();
+    // Update last active timestamp
+    if (customerUserId) {
+      try {
+        await supabaseAdmin
+          .from("line_identities")
+          .update({ last_active_at: new Date().toISOString() })
+          .eq("line_user_id", customerUserId);
+      } catch (err) {
+        console.error("Failed to update last active:", err);
+      }
+    }
+
+    // Handle /start or /menu commands
+    if (
+      text === "/start" ||
+      text === "/menu" ||
+      text === "/help" ||
+      lower === "menu" ||
+      lower === "เมนู" ||
+      lower === "help"
+    ) {
+      if (event.replyToken) {
+        await lineReply(token, event.replyToken, [{ type: "text", text: getWelcomeText(lang) }]);
+      }
+      return;
+    }
+
+    // Handle /programs command
+    if (text === "/programs" || lower === "programs" || lower === "โปรแกรม") {
+      if (event.replyToken) {
+        await lineReply(token, event.replyToken, [{ type: "text", text: getProgramsText(lang) }]);
+      }
+      return;
+    }
+
+    // Handle /contact command
+    if (text === "/contact" || lower === "contact" || lower === "ติดต่อ") {
+      if (event.replyToken) {
+        await lineReply(token, event.replyToken, [{ type: "text", text: getContactText(lang) }]);
+      }
+      return;
+    }
+
+    // Handle /status command with optional booking code
+    const statusMatch = text.match(/^\/status(?:\s+(GF-[A-Z0-9]+))?$/i);
+    if (statusMatch || lower === "status" || lower === "สถานะ") {
+      const specificCode = statusMatch?.[1] ? statusMatch[1].toUpperCase() : null;
+
+      if (!customerUserId && !specificCode) return;
+
+      let query = supabaseAdmin
+        .from("bookings")
+        .select("booking_code, program_name, program_duration, booking_date, status")
+        .order("created_at", { ascending: false });
+
+      if (specificCode) {
+        query = query.eq("booking_code", specificCode);
+      } else {
+        query = query.eq("customer_line_user_id", customerUserId);
+      }
+
+      const { data: rows } = await query.limit(1);
+      const row = rows?.[0];
+
+      if (event.replyToken) {
+        if (!row) {
+          const noBookingMsg =
+            lang === "th"
+              ? "📭 ยังไม่พบการจองในระบบ\nพิมพ์ '/programs' เพื่อดูแพ็กเกจ หรือ '/contact' ติดต่อทีมงานครับ"
+              : "📭 No booking found\nType '/programs' to view packages or '/contact' to reach our team";
+          await lineReply(token, event.replyToken, [{ type: "text", text: noBookingMsg }]);
+        } else {
+          await lineReply(token, event.replyToken, [
+            { type: "text", text: formatBookingResponse(row, lang), parseMode: "HTML" },
+          ]);
+        }
+      }
+      return;
+    }
+
+    // Handle direct booking code input (without /status prefix)
+    const directCodeMatch = text.match(/^(GF-[A-Z0-9]+)$/i);
+    if (directCodeMatch) {
+      const code = directCodeMatch[1].toUpperCase();
       const { data: row } = await supabaseAdmin
         .from("bookings")
         .select("booking_code, program_name, program_duration, booking_date, status")
         .eq("booking_code", code)
         .maybeSingle();
-      if (event.replyToken && token) {
+
+      if (event.replyToken) {
         if (!row) {
-          await lineReply(token, event.replyToken, [
-            { type: "text", text: `ไม่พบการจอง ${code}` },
-          ]);
+          const notFoundMsg = lang === "th" ? `ไม่พบการจอง ${code}` : `Booking ${code} not found`;
+          await lineReply(token, event.replyToken, [{ type: "text", text: notFoundMsg }]);
         } else {
           await lineReply(token, event.replyToken, [
-            {
-              type: "text",
-              text:
-                `📋 ${row.booking_code}\n` +
-                `โปรแกรม: ${row.program_name} (${row.program_duration} วัน)\n` +
-                `วันที่: ${row.booking_date ?? "-"}\n` +
-                `สถานะ: ${STATUS_LABEL[row.status] ?? row.status}`,
-            },
+            { type: "text", text: formatBookingResponse(row, lang), parseMode: "HTML" },
           ]);
         }
       }
       return;
     }
 
-    // Status of latest booking for this customer userId
-    if (lower.includes("สถานะ") || lower === "status") {
-      if (!customerUserId) return;
-      const { data: rows } = await supabaseAdmin
-        .from("bookings")
-        .select("booking_code, program_name, program_duration, booking_date, status")
-        .eq("customer_line_user_id", customerUserId)
-        .order("created_at", { ascending: false })
-        .limit(1);
-      const row = rows?.[0];
-      if (event.replyToken && token) {
-        if (!row) {
-          await lineReply(token, event.replyToken, [
-            { type: "text", text: "ยังไม่พบการจองในระบบ พิมพ์ 'โปรแกรม' เพื่อดูแพ็กเกจครับ" },
-          ]);
-        } else {
-          await lineReply(token, event.replyToken, [
-            {
-              type: "text",
-              text:
-                `📋 ${row.booking_code}\n` +
-                `โปรแกรม: ${row.program_name} (${row.program_duration} วัน)\n` +
-                `วันที่: ${row.booking_date ?? "-"}\n` +
-                `สถานะ: ${STATUS_LABEL[row.status] ?? row.status}`,
-            },
-          ]);
-        }
-      }
-      return;
-    }
-
-    if (lower.includes("โปรแกรม") || lower === "menu" || lower === "เมนู") {
-      if (event.replyToken && token) {
-        await lineReply(token, event.replyToken, [
-          {
-            type: "text",
-            text:
-              "เลือกดูโปรแกรมและจองได้ที่:\n" +
-              "https://goodfill-samui-escape.lovable.app/programs",
-          },
-        ]);
-      }
-      return;
-    }
-
-    if (lower.includes("ติดต่อ") || lower.includes("contact") || lower.includes("help")) {
-      if (event.replyToken && token) {
-        await lineReply(token, event.replyToken, [
-          { type: "text", text: "ทีมงานจะติดต่อกลับโดยเร็วที่สุด หรือโทร 099-xxx-xxxx ครับ 🌿" },
-        ]);
-      }
-      return;
-    }
-
-    // Default: welcome menu
-    if (event.replyToken && token) {
-      await lineReply(token, event.replyToken, [{ type: "text", text: WELCOME_TEXT }]);
+    // Default: show welcome menu for unrecognized commands
+    if (event.replyToken && text && !text.startsWith("/")) {
+      await lineReply(token, event.replyToken, [{ type: "text", text: getWelcomeText(lang) }]);
     }
   }
 }
@@ -164,31 +315,47 @@ export const Route = createFileRoute("/api/public/line/customer-webhook")({
       POST: async ({ request }) => {
         const secret = process.env.CUSTOMER_LINE_CHANNEL_SECRET;
         if (!secret) {
+          console.error("[customer-webhook] Missing CUSTOMER_LINE_CHANNEL_SECRET");
           return new Response("Missing CUSTOMER_LINE_CHANNEL_SECRET", { status: 500 });
         }
-        const rawBody = await request.text();
+
+        let rawBody: string;
+        try {
+          rawBody = await request.text();
+        } catch (err) {
+          console.error("[customer-webhook] Failed to read body:", err);
+          return new Response("Failed to read body", { status: 400 });
+        }
+
         const signature = request.headers.get("x-line-signature");
         if (!verifySignature(secret, rawBody, signature)) {
+          console.warn("[customer-webhook] Invalid signature");
           return new Response("Invalid signature", { status: 401 });
         }
 
         let payload: { events?: LineEvent[] } = {};
         try {
           payload = JSON.parse(rawBody);
-        } catch {
+        } catch (err) {
+          console.error("[customer-webhook] Invalid JSON:", err);
           return new Response("Invalid JSON", { status: 400 });
         }
 
-        for (const e of payload.events ?? []) {
+        const events = payload.events ?? [];
+
+        for (const e of events) {
           try {
             await handleEvent(e);
           } catch (err) {
-            console.error("[customer-webhook] event error", err);
+            console.error("[customer-webhook] event error:", err);
           }
         }
-        return new Response("ok");
+
+        return new Response("ok", { status: 200 });
       },
-      GET: async () => new Response("ok"),
+      GET: async () => {
+        return new Response("LINE Customer Webhook is running", { status: 200 });
+      },
     },
   },
 });
