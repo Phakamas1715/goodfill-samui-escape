@@ -139,7 +139,7 @@ const IconToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrim
         ref={ref}
         variant={variant}
         size={size}
-        {...({ type: "multiple", value, onValueChange, ...props } as ToggleGroupProps)}
+        {...({ ...props, type: "multiple", value, onValueChange } as ToggleGroupProps)}
       >
         {items.map((item) => (
           <ToggleGroupItem key={item.value} value={item.value} icon={item.icon}>
@@ -172,7 +172,7 @@ const LabelToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPri
         ref={ref}
         variant={variant}
         size={size}
-        {...({ type: "multiple", value, onValueChange, ...props } as ToggleGroupProps)}
+        {...({ ...props, type: "multiple", value, onValueChange } as ToggleGroupProps)}
       >
         {items.map((item) => (
           <ToggleGroupItem key={item.value} value={item.value} icon={item.icon} label={item.label} />
