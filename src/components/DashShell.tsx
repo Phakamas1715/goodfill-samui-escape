@@ -25,6 +25,8 @@ interface DashShellProps {
   highlight?: string;
   /** Compact header — smaller title/spacing so the route fits one mobile viewport. */
   compact?: boolean;
+  /** Optional host/brand label shown in the header. */
+  host?: string;
 }
 
 /**
