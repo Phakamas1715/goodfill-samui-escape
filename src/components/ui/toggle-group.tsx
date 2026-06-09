@@ -122,7 +122,7 @@ const EmeraldToggleGroup = (props: ToggleGroupProps) => <ToggleGroup variant="em
 /**
  * Toggle group with icons only
  */
-interface IconToggleGroupProps extends ToggleGroupProps {
+type IconToggleGroupProps = ToggleGroupProps & {
   items: Array<{
     value: string;
     icon: React.ReactNode;
@@ -130,7 +130,7 @@ interface IconToggleGroupProps extends ToggleGroupProps {
   }>;
   value?: string[];
   onValueChange?: (value: string[]) => void;
-}
+};
 
 const IconToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitive.Root>, IconToggleGroupProps>(
   ({ items, value, onValueChange, variant, size, ...props }, ref) => {
@@ -158,7 +158,7 @@ IconToggleGroup.displayName = "IconToggleGroup";
 /**
  * Toggle group with labels
  */
-interface LabelToggleGroupProps extends ToggleGroupProps {
+type LabelToggleGroupProps = ToggleGroupProps & {
   items: Array<{
     value: string;
     label: string;
@@ -166,7 +166,7 @@ interface LabelToggleGroupProps extends ToggleGroupProps {
   }>;
   value?: string[];
   onValueChange?: (value: string[]) => void;
-}
+};
 
 const LabelToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitive.Root>, LabelToggleGroupProps>(
   ({ items, value, onValueChange, variant, size, ...props }, ref) => {
