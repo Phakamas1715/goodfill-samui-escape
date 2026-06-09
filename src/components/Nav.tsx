@@ -38,7 +38,7 @@ export function Nav() {
         <div className="flex items-center justify-between gap-4 py-3 md:py-3.5">
           {/* Logo (left) */}
           <Link to="/" className="flex items-center gap-2.5 group shrink-0 min-w-0">
-            <img src={logo} alt="Goodfill Care" className="h-9 md:h-11 w-auto object-contain shrink-0" />
+            <img src={logo} alt="Goodfill Care" className="h-9 md:h-11 w-auto object-contain shrink-0 text-6xl" />
             <span className="hidden sm:flex flex-col leading-none min-w-0">
               <span className="font-display text-xl md:text-2xl text-navy whitespace-nowrap">Goodfill <span className="text-emerald">Care</span></span>
               <span className="text-[10px] tracking-[0.28em] uppercase text-emerald-deep/60 mt-0.5 whitespace-nowrap">Koh Samui</span>
