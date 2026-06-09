@@ -14,16 +14,25 @@ import { Route as QuestRouteImport } from './routes/quest'
 import { Route as PersonaRouteImport } from './routes/persona'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PartnerRouteImport } from './routes/partner'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as ExpertRouteImport } from './routes/expert'
 import { Route as ConsentRouteImport } from './routes/consent'
 import { Route as ChannelRouteImport } from './routes/channel'
 import { Route as CareRouteImport } from './routes/care'
-import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsIndexRouteImport } from './routes/programs.index'
 import { Route as ProgramsIdRouteImport } from './routes/programs.$id'
 import { Route as MealsIdRouteImport } from './routes/meals.$id'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as ApiPublicLineLoginRouteImport } from './routes/api/public/line-login'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
+import { Route as AuthenticatedAdminReviewsRouteImport } from './routes/_authenticated/admin.reviews'
+import { Route as AuthenticatedAdminProgramsRouteImport } from './routes/_authenticated/admin.programs'
+import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
 import { Route as ApiPublicLinePartnerWebhookRouteImport } from './routes/api/public/line.partner-webhook'
 import { Route as ApiPublicLineCustomerWebhookRouteImport } from './routes/api/public/line.customer-webhook'
 
@@ -52,6 +61,11 @@ const PartnerRoute = PartnerRouteImport.update({
   path: '/partner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JourneyRoute = JourneyRouteImport.update({
   id: '/journey',
   path: '/journey',
@@ -77,9 +91,8 @@ const CareRoute = CareRouteImport.update({
   path: '/care',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -102,6 +115,50 @@ const MealsIdRoute = MealsIdRouteImport.update({
   path: '/meals/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const ApiPublicLineLoginRoute = ApiPublicLineLoginRouteImport.update({
+  id: '/api/public/line-login',
+  path: '/api/public/line-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminReviewsRoute =
+  AuthenticatedAdminReviewsRouteImport.update({
+    id: '/reviews',
+    path: '/reviews',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminProgramsRoute =
+  AuthenticatedAdminProgramsRouteImport.update({
+    id: '/programs',
+    path: '/programs',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminBookingsRoute =
+  AuthenticatedAdminBookingsRouteImport.update({
+    id: '/bookings',
+    path: '/bookings',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const ApiPublicLinePartnerWebhookRoute =
   ApiPublicLinePartnerWebhookRouteImport.update({
     id: '/api/public/line/partner-webhook',
@@ -117,31 +174,39 @@ const ApiPublicLineCustomerWebhookRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
+  '/login': typeof LoginRoute
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
+  '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/admin/programs': typeof AuthenticatedAdminProgramsRoute
+  '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/api/public/line-login': typeof ApiPublicLineLoginRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
+  '/login': typeof LoginRoute
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
@@ -150,26 +215,42 @@ export interface FileRoutesByTo {
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs': typeof ProgramsIndexRoute
+  '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/admin/programs': typeof AuthenticatedAdminProgramsRoute
+  '/admin/reviews': typeof AuthenticatedAdminReviewsRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/api/public/line-login': typeof ApiPublicLineLoginRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
+  '/login': typeof LoginRoute
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
+  '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
+  '/_authenticated/admin/programs': typeof AuthenticatedAdminProgramsRoute
+  '/_authenticated/admin/reviews': typeof AuthenticatedAdminReviewsRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/api/public/line-login': typeof ApiPublicLineLoginRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
 }
@@ -177,31 +258,39 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
     | '/care'
     | '/channel'
     | '/consent'
     | '/expert'
     | '/journey'
+    | '/login'
     | '/partner'
     | '/partners'
     | '/persona'
     | '/quest'
     | '/report'
+    | '/admin'
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
+    | '/admin/bookings'
+    | '/admin/programs'
+    | '/admin/reviews'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/api/public/line-login'
+    | '/admin/'
     | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/care'
     | '/channel'
     | '/consent'
     | '/expert'
     | '/journey'
+    | '/login'
     | '/partner'
     | '/partners'
     | '/persona'
@@ -210,37 +299,54 @@ export interface FileRouteTypes {
     | '/meals/$id'
     | '/programs/$id'
     | '/programs'
+    | '/admin/bookings'
+    | '/admin/programs'
+    | '/admin/reviews'
+    | '/admin/settings'
+    | '/admin/users'
+    | '/api/public/line-login'
+    | '/admin'
     | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
   id:
     | '__root__'
     | '/'
-    | '/admin'
+    | '/_authenticated'
     | '/care'
     | '/channel'
     | '/consent'
     | '/expert'
     | '/journey'
+    | '/login'
     | '/partner'
     | '/partners'
     | '/persona'
     | '/quest'
     | '/report'
+    | '/_authenticated/admin'
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
+    | '/_authenticated/admin/bookings'
+    | '/_authenticated/admin/programs'
+    | '/_authenticated/admin/reviews'
+    | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/users'
+    | '/api/public/line-login'
+    | '/_authenticated/admin/'
     | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   CareRoute: typeof CareRoute
   ChannelRoute: typeof ChannelRoute
   ConsentRoute: typeof ConsentRoute
   ExpertRoute: typeof ExpertRoute
   JourneyRoute: typeof JourneyRoute
+  LoginRoute: typeof LoginRoute
   PartnerRoute: typeof PartnerRoute
   PartnersRoute: typeof PartnersRoute
   PersonaRoute: typeof PersonaRoute
@@ -249,6 +355,7 @@ export interface RootRouteChildren {
   MealsIdRoute: typeof MealsIdRoute
   ProgramsIdRoute: typeof ProgramsIdRoute
   ProgramsIndexRoute: typeof ProgramsIndexRoute
+  ApiPublicLineLoginRoute: typeof ApiPublicLineLoginRoute
   ApiPublicLineCustomerWebhookRoute: typeof ApiPublicLineCustomerWebhookRoute
   ApiPublicLinePartnerWebhookRoute: typeof ApiPublicLinePartnerWebhookRoute
 }
@@ -290,6 +397,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journey': {
       id: '/journey'
       path: '/journey'
@@ -325,11 +439,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -360,6 +474,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MealsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/api/public/line-login': {
+      id: '/api/public/line-login'
+      path: '/api/public/line-login'
+      fullPath: '/api/public/line-login'
+      preLoaderRoute: typeof ApiPublicLineLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/reviews': {
+      id: '/_authenticated/admin/reviews'
+      path: '/reviews'
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AuthenticatedAdminReviewsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/programs': {
+      id: '/_authenticated/admin/programs'
+      path: '/programs'
+      fullPath: '/admin/programs'
+      preLoaderRoute: typeof AuthenticatedAdminProgramsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/bookings': {
+      id: '/_authenticated/admin/bookings'
+      path: '/bookings'
+      fullPath: '/admin/bookings'
+      preLoaderRoute: typeof AuthenticatedAdminBookingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/api/public/line/partner-webhook': {
       id: '/api/public/line/partner-webhook'
       path: '/api/public/line/partner-webhook'
@@ -377,14 +547,47 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
+  AuthenticatedAdminProgramsRoute: typeof AuthenticatedAdminProgramsRoute
+  AuthenticatedAdminReviewsRoute: typeof AuthenticatedAdminReviewsRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
+  AuthenticatedAdminProgramsRoute: AuthenticatedAdminProgramsRoute,
+  AuthenticatedAdminReviewsRoute: AuthenticatedAdminReviewsRoute,
+  AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   CareRoute: CareRoute,
   ChannelRoute: ChannelRoute,
   ConsentRoute: ConsentRoute,
   ExpertRoute: ExpertRoute,
   JourneyRoute: JourneyRoute,
+  LoginRoute: LoginRoute,
   PartnerRoute: PartnerRoute,
   PartnersRoute: PartnersRoute,
   PersonaRoute: PersonaRoute,
@@ -393,9 +596,20 @@ const rootRouteChildren: RootRouteChildren = {
   MealsIdRoute: MealsIdRoute,
   ProgramsIdRoute: ProgramsIdRoute,
   ProgramsIndexRoute: ProgramsIndexRoute,
+  ApiPublicLineLoginRoute: ApiPublicLineLoginRoute,
   ApiPublicLineCustomerWebhookRoute: ApiPublicLineCustomerWebhookRoute,
   ApiPublicLinePartnerWebhookRoute: ApiPublicLinePartnerWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -110,6 +110,39 @@ export type Database = {
         }
         Relationships: []
       }
+      line_identities: {
+        Row: {
+          channel: string
+          created_at: string
+          display_name: string | null
+          id: string
+          line_user_id: string
+          picture_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          channel: string
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          line_user_id: string
+          picture_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          line_user_id?: string
+          picture_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       programs: {
         Row: {
           config: Json
@@ -196,7 +229,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "staff" | "user"
+      app_role: "admin" | "staff" | "user" | "expert" | "partner"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -324,7 +357,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "staff", "user"],
+      app_role: ["admin", "staff", "user", "expert", "partner"],
     },
   },
 } as const
