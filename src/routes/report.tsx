@@ -69,8 +69,8 @@ function ReportPage() {
                     </div>
                     <div className="mt-2 flex items-baseline gap-2">
                       <div>
-                        <div className="text-[9px] uppercase tracking-widest text-muted-foreground">{t("report.before")}</div>
-                        <div className="font-display text-base text-muted-foreground line-through decoration-1">{m.before}{m.unit}</div>
+                        <div className="text-[9px] uppercase tracking-widest text-navy/60">{t("report.before")}</div>
+                        <div className="font-display text-base text-navy/70 line-through decoration-1">{m.before}{m.unit}</div>
                       </div>
                       <div className="text-gold text-sm">→</div>
                       <div>
