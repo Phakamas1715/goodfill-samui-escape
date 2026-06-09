@@ -77,7 +77,8 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const stateStyle = error ? variantStyle.error : variantStyle.normal;
     const [charCount, setCharCount] = React.useState(typeof value === "string" ? value.length : 0);
 
-    const textareaId = id || React.useId();
+    const generatedId = React.useId();
+    const textareaId = id || generatedId;
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setCharCount(e.target.value.length);

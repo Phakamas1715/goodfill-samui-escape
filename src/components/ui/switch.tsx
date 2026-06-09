@@ -59,7 +59,8 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
   ({ className, variant = "default", size = "default", label, description, id, ...props }, ref) => {
     const variantStyle = VARIANT_STYLES[variant];
     const sizeStyle = SIZE_STYLES[size];
-    const switchId = id || React.useId();
+    const generatedId = React.useId();
+    const switchId = id || generatedId;
 
     const switchElement = (
       <SwitchPrimitives.Root
