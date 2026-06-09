@@ -120,11 +120,22 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+    line-height: 1.6;
     background-image:
       radial-gradient(ellipse 80% 60% at 10% 0%, rgba(92, 189, 185, 0.18), transparent 60%),
       radial-gradient(ellipse 60% 50% at 90% 100%, rgba(45, 138, 158, 0.12), transparent 60%);
     background-attachment: fixed;
   }
+
+  @media (min-width: 768px) {
+    body { font-size: 18px; }
+  }
+
+  /* Senior-friendly readability: bump small utility sizes a notch */
+  .text-xs   { font-size: 0.825rem; }
+  .text-sm   { font-size: 0.95rem;  }
+  .text-base { font-size: 1.0625rem; }
 
   h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.005em; font-weight: 600; }
 
