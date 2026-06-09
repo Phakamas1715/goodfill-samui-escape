@@ -205,6 +205,7 @@ export type Database = {
           id: string
           language_code: string | null
           language_preference: string | null
+          last_active_at: string | null
           last_name: string | null
           start_param: string | null
           tg_user_id: number | null
@@ -219,6 +220,7 @@ export type Database = {
           id?: string
           language_code?: string | null
           language_preference?: string | null
+          last_active_at?: string | null
           last_name?: string | null
           start_param?: string | null
           tg_user_id?: number | null
@@ -233,6 +235,7 @@ export type Database = {
           id?: string
           language_code?: string | null
           language_preference?: string | null
+          last_active_at?: string | null
           last_name?: string | null
           start_param?: string | null
           tg_user_id?: number | null
@@ -246,6 +249,7 @@ export type Database = {
         Row: {
           chat_id: number
           created_at: string
+          processed_at: string | null
           raw_update: Json
           text: string | null
           tg_user_id: number | null
@@ -254,6 +258,7 @@ export type Database = {
         Insert: {
           chat_id: number
           created_at?: string
+          processed_at?: string | null
           raw_update: Json
           text?: string | null
           tg_user_id?: number | null
@@ -262,6 +267,7 @@ export type Database = {
         Update: {
           chat_id?: number
           created_at?: string
+          processed_at?: string | null
           raw_update?: Json
           text?: string | null
           tg_user_id?: number | null
