@@ -62,17 +62,33 @@ async function handleEvent(event: LineEvent) {
     const status = statusMap[action];
     if (!status) return;
 
+    if (!partnerUserId) return;
+    // Verify ownership before mutating
+    const { data: target } = await supabaseAdmin
+      .from("bookings")
+      .select("id, partner_line_user_id")
+      .eq("booking_code", id)
+      .maybeSingle();
+    if (!target || target.partner_line_user_id !== partnerUserId) {
+      if (event.replyToken && partnerToken) {
+        await lineReply(partnerToken, event.replyToken, [
+          { type: "text", text: `ไม่ได้รับอนุญาตให้จัดการการจอง ${id}` },
+        ]);
+      }
+      return;
+    }
     const { data: row, error } = await supabaseAdmin
       .from("bookings")
       .update({
         status,
         partner_response: {
           last_action: action,
-          actor_line_user_id: partnerUserId ?? null,
+          actor_line_user_id: partnerUserId,
           responded_at: new Date().toISOString(),
         },
       })
-      .eq("booking_code", id)
+      .eq("id", target.id)
+      .eq("partner_line_user_id", partnerUserId)
       .select("booking_code, program_name")
       .maybeSingle();
 
@@ -103,14 +119,18 @@ async function handleEvent(event: LineEvent) {
     if (mealMatch) {
       const code = mealMatch[1].toUpperCase();
       const line = mealMatch[2].trim();
+      if (!partnerUserId) return;
       const { data: row } = await supabaseAdmin
         .from("bookings")
-        .select("id, booking_code, meal_plan")
+        .select("id, booking_code, meal_plan, partner_line_user_id")
         .eq("booking_code", code)
+        .eq("partner_line_user_id", partnerUserId)
         .maybeSingle();
       if (!row) {
         if (event.replyToken && partnerToken) {
-          await lineReply(partnerToken, event.replyToken, [{ type: "text", text: `ไม่พบการจอง ${code}` }]);
+          await lineReply(partnerToken, event.replyToken, [
+            { type: "text", text: `ไม่พบการจอง ${code} หรือไม่ได้รับอนุญาต` },
+          ]);
         }
         return;
       }
@@ -140,8 +160,9 @@ async function handleEvent(event: LineEvent) {
       .select("id, booking_code, program_name, partner_notes")
       .order("created_at", { ascending: false })
       .limit(1);
+    if (!partnerUserId) return;
+    query = query.eq("partner_line_user_id", partnerUserId);
     if (bookingCode) query = query.eq("booking_code", bookingCode);
-    else if (partnerUserId) query = query.eq("partner_line_user_id", partnerUserId);
 
     const { data: rows } = await query;
     const target = rows?.[0];
