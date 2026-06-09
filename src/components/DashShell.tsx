@@ -3,17 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Nav } from "./Nav";
 import { images } from "@/lib/data";
-import hostWelcome from "@/assets/host-welcome.png.asset.json";
-import hostFitness from "@/assets/host-fitness.png.asset.json";
-import hostWai from "@/assets/host-wai.png.asset.json";
-import hostGift from "@/assets/host-gift.png.asset.json";
-
-export const hosts = {
-  welcome: hostWelcome.url,
-  fitness: hostFitness.url,
-  wai: hostWai.url,
-  gift: hostGift.url,
-} as const;
 
 export const bgs = {
   beach: images.heroSamui,
@@ -24,18 +13,14 @@ export const bgs = {
   meditation: images.meditation,
 } as const;
 
-export type HostKey = keyof typeof hosts;
 export type BgKey = keyof typeof bgs;
 
 interface DashShellProps {
   bg?: BgKey;
-  host?: HostKey | null;
   title: string;
   subtitle?: string;
   kicker?: string;
   children: ReactNode;
-  /** show host as small floating bubble (true) vs large side image */
-  hostFloating?: boolean;
   /** Optional gold highlight ribbon shown under the title (e.g. "Best for Sleep Seekers"). */
   highlight?: string;
   /** Compact header — smaller title/spacing so the route fits one mobile viewport. */
@@ -48,12 +33,10 @@ interface DashShellProps {
  */
 export function DashShell({
   bg = "beach",
-  host = "welcome",
   title,
   subtitle,
   kicker,
   children,
-  hostFloating = true,
   highlight,
   compact = false,
 }: DashShellProps) {
@@ -148,26 +131,13 @@ export function DashShell({
 
       <Nav />
 
-      {/* Goodfill host illustration — anchored to bottom-right of the viewport */}
-      {host && (
-        <motion.img
-          key={host}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          src={hosts[host]}
-          alt="Goodfill Care wellness host"
-          className="hidden lg:block pointer-events-none select-none absolute bottom-0 right-2 xl:right-6 h-[70vh] max-h-[640px] w-auto object-contain object-bottom z-[1] drop-shadow-[0_18px_40px_rgba(6,78,59,0.55)]"
-        />
-      )}
-
       <main
         className={`relative h-full ${compact ? "pt-16 md:pt-20" : "pt-20 md:pt-24"} pb-20 md:pb-6 px-3 md:px-6 flex flex-col overflow-y-auto`}
       >
-        <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col min-h-0 lg:pr-[22rem] xl:pr-[26rem]">
+        <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col min-h-0">
           {/* HEADER */}
           <div className={`flex items-end justify-between gap-3 ${compact ? "mb-2 md:mb-3" : "mb-5 md:mb-6"} sun-glow`}>
-            <div className="min-w-0">
+            <div className="min-w-0 w-full">
               {kicker && (
                 <motion.div
                   initial={{ opacity: 0, x: -10 }}
@@ -182,7 +152,7 @@ export function DashShell({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className={`font-display ${compact ? "text-xl md:text-3xl lg:text-4xl" : "text-2xl md:text-4xl lg:text-5xl"} text-ivory leading-[1.1] mt-1.5 tracking-tight drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)] line-clamp-2`}
+                className={`font-display ${compact ? "text-xl md:text-3xl lg:text-4xl" : "text-2xl md:text-4xl lg:text-5xl"} text-ivory leading-[1.1] mt-1.5 tracking-tight drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)]`}
               >
                 {title}
               </motion.h1>
@@ -208,16 +178,6 @@ export function DashShell({
                 </motion.p>
               )}
             </div>
-            {host && hostFloating && (
-              <motion.img
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
-                src={hosts[host]}
-                alt="Goodfill Care wellness host illustration"
-                className="lg:hidden h-12 md:h-16 w-auto object-contain shrink-0 drop-shadow-[0_8px_18px_rgba(6,78,59,0.4)]"
-              />
-            )}
           </div>
 
           {/* CONTENT with fade-in animation */}
