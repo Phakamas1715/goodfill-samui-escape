@@ -46,6 +46,9 @@ function ProgramDetail() {
     const mealPlan = program.schedule.flatMap((d) =>
       d.items.filter((i) => /อาหาร|มื้อ|meal|breakfast|lunch|dinner|juice|tea|smoothie/i.test(i))
     );
+    const mealsUrl = typeof window !== "undefined"
+      ? `${window.location.origin}/meals/${program.id}`
+      : `/meals/${program.id}`;
     toast.loading("กำลังส่งใบจองทาง LINE...", { id: "book" });
     try {
       const res = await confirm({
@@ -57,6 +60,8 @@ function ProgramDetail() {
           programPrice: program.price,
           bookingDate,
           mealPlan,
+          mealsUrl,
+          expertName: program.expert.name,
         },
       });
       setState((s) => ({ ...s, bookedProgramId: program.id, bookingDate }));
