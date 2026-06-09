@@ -24,6 +24,7 @@ const VARIANT_STYLES = {
   default: {
     border: "border-border",
     icon: "text-gold",
+    gradient: "",
   },
   gold: {
     border: "border-gold/30",
@@ -307,6 +308,4 @@ export {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
-  ConfirmDialog,
-  SuccessDialog,
 };
