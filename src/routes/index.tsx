@@ -6,6 +6,7 @@ import { Nav } from "@/components/Nav";
 import { images, personas } from "@/lib/data";
 import welcomeHost from "@/assets/welcome-host.png";
 import logo from "@/assets/goodfill-logo.png";
+import { useI18n, type TKey } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,16 +31,17 @@ const slides = [
 ];
 
 const phases = [
-  { num: "01", title: "Pre-arrival Wellness Quest", desc: "ตอบ 8 ข้อ ค้นพบ Wellness Persona ของคุณ พร้อมรับ 300 Calm Credits", icon: Sparkles },
-  { num: "02", title: "Personalized Program", desc: "AI จับคู่แพ็คเกจที่เหมาะกับร่างกาย ไลฟ์สไตล์ และเป้าหมายของคุณ", icon: Compass },
-  { num: "03", title: "Partner Service Experience", desc: "เครือข่ายรีสอร์ท สปา และผู้เชี่ยวชาญที่ผ่านการคัดสรรบนเกาะสมุย", icon: Leaf },
-  { num: "04", title: "Final Wellness Report", desc: "สรุปผล Before/After พร้อมแผน 90 วันต่อจากนี้", icon: HeartPulse },
-  { num: "05", title: "Long-term Goodfill Care", desc: "ติดตาม habit · สะสม Calm Credits · กลับมาทุกฤดูที่คุณต้องการ", icon: MoonStar },
+  { num: "01", titleKey: "phase.01.title" as TKey, descKey: "phase.01.desc" as TKey, icon: Sparkles },
+  { num: "02", titleKey: "phase.02.title" as TKey, descKey: "phase.02.desc" as TKey, icon: Compass },
+  { num: "03", titleKey: "phase.03.title" as TKey, descKey: "phase.03.desc" as TKey, icon: Leaf },
+  { num: "04", titleKey: "phase.04.title" as TKey, descKey: "phase.04.desc" as TKey, icon: HeartPulse },
+  { num: "05", titleKey: "phase.05.title" as TKey, descKey: "phase.05.desc" as TKey, icon: MoonStar },
 ];
 
 function Landing() {
   const [slide, setSlide] = useState(0);
   const [modal, setModal] = useState<null | "journey" | "personas" | "samui">(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 4500);
