@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import liff from "@line/liff";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { Loader2, Sparkles } from "lucide-react";
 
 const searchSchema = z.object({
   redirect: z.string().optional(),
@@ -21,9 +22,7 @@ function LoginPage() {
   const search = useSearch({ from: "/login" });
   const channel = search.channel ?? "customer";
   const liffId =
-    channel === "partner"
-      ? (import.meta.env.VITE_PARTNER_LIFF_ID as string)
-      : (import.meta.env.VITE_LIFF_ID as string);
+    channel === "partner" ? (import.meta.env.VITE_PARTNER_LIFF_ID as string) : (import.meta.env.VITE_LIFF_ID as string);
   const channelId = liffId?.split("-")[0];
 
   const [state, setState] = useState<"init" | "login" | "signing" | "done" | "error">("init");
@@ -72,35 +71,112 @@ function LoginPage() {
     };
   }, [liffId, channelId, channel, nav, search.redirect]);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-cream">
-      <div className="card-cream rounded-2xl p-8 max-w-md w-full text-center shadow-lg">
-        <div className="text-[11px] tracking-[0.2em] uppercase text-emerald mb-2">Goodfill Care</div>
-        <h1 className="font-display text-3xl text-navy mb-4">เข้าสู่ระบบด้วย LINE</h1>
-        <div className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Channel</div>
-        <div className="text-sm text-emerald font-medium mb-4">
-          {channel === "partner" ? "Partner OA" : "Customer OA"}
-        </div>
-        <p className="text-sm text-muted-foreground min-h-[2.5rem]">
-          {state === "init" && "กำลังเริ่มต้น LIFF…"}
-          {state === "login" && "กำลังเปิดหน้า LINE Login…"}
-          {state === "signing" && "กำลังตรวจสอบตัวตน…"}
-          {state === "done" && "สำเร็จ! กำลังพาไปหน้า Admin…"}
-          {state === "error" && `ผิดพลาด: ${msg}`}
-        </p>
-        {state === "error" && (
-          <div className="mt-4 space-y-2">
-            <button
-              onClick={() => location.reload()}
-              className="btn-gold rounded-full px-5 py-2 text-sm"
-            >
-              ลองใหม่
-            </button>
-            <p className="text-[11px] text-muted-foreground">
-              💡 หน้านี้ใช้งานได้ในแอป LINE เท่านั้น (สแกน QR หรือเปิดผ่าน Rich Menu)
-            </p>
+  // Helper to render status content
+  const renderStatus = () => {
+    switch (state) {
+      case "init":
+        return (
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 size={32} className="animate-spin text-gold" />
+            <span className="text-base md:text-lg text-navy/80">กำลังเริ่มต้น LIFF…</span>
           </div>
-        )}
+        );
+      case "login":
+        return (
+          <div className="flex flex-col items-center gap-3">
+            <div className="size-12 md:size-14 rounded-full bg-green-500/20 flex items-center justify-center">
+              <div className="size-3 md:size-4 rounded-full bg-green-500 animate-pulse" />
+            </div>
+            <span className="text-base md:text-lg text-navy/80">กำลังเปิดหน้า LINE Login…</span>
+          </div>
+        );
+      case "signing":
+        return (
+          <div className="flex flex-col items-center gap-3">
+            <Loader2 size={32} className="animate-spin text-gold" />
+            <span className="text-base md:text-lg text-navy/80">กำลังตรวจสอบตัวตน…</span>
+          </div>
+        );
+      case "done":
+        return (
+          <div className="flex flex-col items-center gap-3">
+            <div className="size-12 md:size-14 rounded-full bg-emerald/20 flex items-center justify-center">
+              <Sparkles size={24} className="text-emerald" />
+            </div>
+            <span className="text-base md:text-lg text-emerald font-medium">สำเร็จ! กำลังนำทาง…</span>
+          </div>
+        );
+      case "error":
+        return (
+          <div className="flex flex-col items-center gap-3">
+            <div className="size-12 md:size-14 rounded-full bg-coral/20 flex items-center justify-center">
+              <span className="text-2xl text-coral">⚠️</span>
+            </div>
+            <span className="text-sm md:text-base text-coral text-center">{msg}</span>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-5 md:p-8 bg-gradient-to-br from-cream via-white to-cream">
+      <div className="card-cream rounded-2xl md:rounded-3xl p-6 md:p-10 max-w-md w-full shadow-xl border border-white/50">
+        {/* Logo / Brand */}
+        <div className="flex justify-center mb-4">
+          <div className="size-16 md:size-20 rounded-2xl bg-gradient-to-br from-emerald to-gold flex items-center justify-center shadow-lg">
+            <span className="text-white text-2xl md:text-3xl font-display font-bold">GC</span>
+          </div>
+        </div>
+
+        <div className="text-center">
+          <div className="text-[10px] md:text-[11px] tracking-[0.3em] uppercase text-gold font-semibold mb-2">
+            Goodfill Care
+          </div>
+          <h1 className="font-display text-2xl md:text-3xl lg:text-4xl text-navy mb-2 leading-tight">
+            เข้าสู่ระบบด้วย LINE
+          </h1>
+
+          {/* Channel Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/20 mt-2 mb-5">
+            <span className="text-[10px] md:text-[11px] uppercase tracking-wider text-gold font-semibold">
+              {channel === "partner" ? "Partner OA" : "Customer OA"}
+            </span>
+          </div>
+
+          {/* Status Area — larger and clearer */}
+          <div className="min-h-[120px] md:min-h-[140px] flex items-center justify-center">{renderStatus()}</div>
+
+          {/* Error Action */}
+          {state === "error" && (
+            <div className="mt-6 space-y-3">
+              <button
+                onClick={() => location.reload()}
+                className="btn-gold rounded-full px-6 py-3 text-sm md:text-base font-semibold inline-flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
+              >
+                <Sparkles size={16} />
+                ลองใหม่
+              </button>
+              <div className="p-4 bg-coral/5 rounded-xl border border-coral/20 mt-4">
+                <p className="text-[11px] md:text-xs text-muted-foreground leading-relaxed">
+                  💡 หน้านี้ใช้งานได้ในแอป LINE เท่านั้น
+                  <br />
+                  (สแกน QR หรือเปิดผ่าน Rich Menu)
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Loading hint for non-error states */}
+          {state !== "error" && state !== "done" && (
+            <div className="mt-6 pt-4 border-t border-mint/30">
+              <p className="text-[10px] md:text-[11px] text-muted-foreground">
+                กำลังเชื่อมต่อกับ LINE OA{channel === "partner" ? " (Partner)" : ""}…
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
