@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { tgSendMessage, tgEscape } from "@/lib/telegram.server";
 
 const BookingInput = z.object({
   programId: z.string().min(1).max(100),
@@ -15,6 +16,7 @@ const BookingInput = z.object({
   partnerUserId: z.string().min(1).max(64).optional(),
   dietaryPlan: z.enum(["Signature", "Plant-based", "High-Protein", "Detox Light"]).optional(),
   dietaryNotes: z.string().max(1000).optional(),
+  customerTelegramChatId: z.union([z.string(), z.number()]).optional(),
 });
 
 async function linePush(token: string, to: string, messages: unknown[]) {
