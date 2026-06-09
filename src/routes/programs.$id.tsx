@@ -1,11 +1,12 @@
 import { createFileRoute, Link, useNavigate, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, CalendarDays, ChefHat, MapPin } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ChefHat, MapPin, X, Sparkles } from "lucide-react";
 import { Shell, Section, Eyebrow } from "@/components/Shell";
 import { programs, pick, type Program } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 import { confirmBooking } from "@/lib/booking.functions";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 
