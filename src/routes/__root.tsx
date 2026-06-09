@@ -90,6 +90,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:description", content: "Goodfill  Care   Wellness  Samui" },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/6Xf4sshoH2VuYEuQfnjq4Hf2dF62/social-images/social-1780986927804-S__40984587.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/6Xf4sshoH2VuYEuQfnjq4Hf2dF62/social-images/social-1780986927804-S__40984587.webp" },
+      { name: "google-site-verification", content: "UNPWGVjT5m4JslinX6nZtPGEejd5UMk6de9Hf0nCeqc" },
     ],
     links: [
       {
