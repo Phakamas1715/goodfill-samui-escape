@@ -61,7 +61,7 @@ export function Nav() {
             <LangToggle />
             <Link
               to="/quest"
-              className="hidden md:inline-flex btn-emerald rounded-full px-5 py-2 text-[15px] whitespace-nowrap"
+              className="hidden md:inline-flex rounded-full px-5 py-2 text-[14px] whitespace-nowrap border border-emerald/50 text-emerald-deep bg-white/70 hover:bg-pale-mint/70 transition"
             >
               {t("nav.cta")}
             </Link>

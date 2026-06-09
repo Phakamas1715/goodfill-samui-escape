@@ -75,10 +75,10 @@ function PersonaPage() {
   return (
     <DashShell compact bg="meditation" host="wai" highlight={pick(persona.tagline, lang)} kicker={t("persona.kicker")} title={pick(persona.name, lang)} subtitle={pick(persona.thaiName, lang)}>
       <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        <DashCard className={`card-glass p-5 md:p-6 bg-gradient-to-br from-violet-500/30 to-indigo-700/30 bg-orange-950 ${persona.color}`}>
-          <p className="text-sm md:text-base text-navy text-gray-100">{pick(persona.tagline, lang)}</p>
-          <p className="text-xs text-muted-foreground mt-1 leading-relaxed line-clamp-2">{pick(persona.description, lang)}</p>
-          <div className="flex items-center gap-1.5 text-gold text-[10px] tracking-[0.25em] uppercase mt-3">
+        <DashCard className="p-4 md:p-5 bg-gradient-to-br from-emerald-deep/95 via-navy/95 to-emerald-deep/90 ring-1 ring-white/15 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]" variant="deep">
+          <p className="text-sm md:text-base font-semibold text-ivory leading-snug drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)] break-words">{pick(persona.tagline, lang)}</p>
+          <p className="text-xs text-ivory/85 mt-1.5 leading-relaxed line-clamp-3">{pick(persona.description, lang)}</p>
+          <div className="flex items-center gap-1.5 text-gold text-[10px] tracking-[0.25em] uppercase mt-3 font-semibold">
             <Sparkles size={12} /> {t("persona.pillars")}
           </div>
           <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -117,7 +117,7 @@ function PersonaPage() {
             <button
               onClick={runAI}
               disabled={loadingAI}
-              className="btn-gold rounded-full px-3 py-1.5 text-[11px] font-semibold inline-flex items-center gap-1.5 disabled:opacity-60"
+              className="btn-gold rounded-full px-4 py-2 text-xs md:text-sm font-bold inline-flex items-center gap-1.5 disabled:opacity-60 shadow-[0_0_24px_rgba(244,166,74,0.55)] ring-1 ring-gold/60 animate-pulse"
             >
               {loadingAI ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
               {loadingAI
