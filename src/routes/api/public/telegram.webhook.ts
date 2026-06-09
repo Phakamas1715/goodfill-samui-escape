@@ -9,6 +9,38 @@ function safeEqual(a: string, b: string): boolean {
   return ab.length === bb.length && timingSafeEqual(ab, bb);
 }
 
+const SITE = "https://goodfillcare-samui.com";
+
+const CUSTOMER_MAIN_MENU = {
+  inline_keyboard: [
+    [
+      { text: "🌿 ดูโปรแกรม", url: `${SITE}/programs` },
+      { text: "📅 My Journey", url: `${SITE}/journey` },
+    ],
+    [
+      { text: "📋 สถานะการจอง", callback_data: "status" },
+      { text: "💬 ติดต่อทีมงาน", callback_data: "contact" },
+    ],
+  ],
+};
+
+async function tgAnswerCallback(callbackQueryId: string, text?: string) {
+  const { tg, lovable } = (() => {
+    const lovable = process.env.LOVABLE_API_KEY!;
+    const tg = process.env.TELEGRAM_API_KEY!;
+    return { lovable, tg };
+  })();
+  await fetch("https://connector-gateway.lovable.dev/telegram/answerCallbackQuery", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${lovable}`,
+      "X-Connection-Api-Key": tg,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ callback_query_id: callbackQueryId, text }),
+  }).catch(() => {});
+}
+
 export const Route = createFileRoute("/api/public/telegram/webhook")({
   server: {
     handlers: {
@@ -27,6 +59,48 @@ export const Route = createFileRoute("/api/public/telegram/webhook")({
         const update = (await request.json().catch(() => null)) as any;
         if (!update || typeof update.update_id !== "number") {
           return Response.json({ ok: true, ignored: true });
+        }
+
+        // Handle inline button callbacks
+        if (update.callback_query) {
+          const cq = update.callback_query;
+          const chatId: number | undefined = cq.message?.chat?.id;
+          const action: string | undefined = cq.data;
+          await tgAnswerCallback(cq.id);
+          if (!chatId || !action) return Response.json({ ok: true });
+
+          if (action === "status") {
+            // Look up most recent booking that pushed to this telegram chat
+            const { data: rows } = await supabaseAdmin
+              .from("bookings")
+              .select("booking_code, program_name, program_duration, booking_date, status, customer_push")
+              .order("created_at", { ascending: false })
+              .limit(50);
+            const booking = (rows ?? []).find((b: any) => {
+              const tg = b?.customer_push?.telegram;
+              if (!tg) return false;
+              return Number(tg?.chat_id ?? tg) === chatId;
+            }) ?? null;
+            const text = booking
+              ? `📋 <b>${tgEscape(booking.booking_code)}</b>\n` +
+                `โปรแกรม: ${tgEscape(booking.program_name)} (${booking.program_duration} วัน)\n` +
+                `วันที่: ${booking.booking_date ?? "-"}\n` +
+                `สถานะ: <b>${tgEscape(booking.status)}</b>`
+              : `ยังไม่พบการจองในระบบ\nกดดูโปรแกรมเพื่อเริ่มจองได้เลยครับ 🌿`;
+            await tgSendMessage(chatId, text, { parse_mode: "HTML", reply_markup: CUSTOMER_MAIN_MENU }).catch(() => {});
+            return Response.json({ ok: true });
+          }
+
+          if (action === "contact") {
+            await tgSendMessage(
+              chatId,
+              `💬 ติดต่อทีมงาน Goodfill Care\n📞 099-xxx-xxxx\n🌿 หรือเปิดแชท: ${SITE}`,
+              { reply_markup: CUSTOMER_MAIN_MENU },
+            ).catch(() => {});
+            return Response.json({ ok: true });
+          }
+
+          return Response.json({ ok: true });
         }
 
         const msg = update.message ?? update.edited_message;
@@ -78,9 +152,15 @@ export const Route = createFileRoute("/api/public/telegram/webhook")({
                 `• ยืนยันการจอง wellness program\n` +
                 `• QR แผนอาหารและการรับบริการ\n` +
                 `• อัปเดตจากผู้เชี่ยวชาญ\n\n` +
-                `เปิดเว็บไซต์: https://goodfillcare-samui.com`,
-              { parse_mode: "HTML" },
+                `เลือกเมนูด้านล่าง:`,
+              { parse_mode: "HTML", reply_markup: CUSTOMER_MAIN_MENU },
             ).catch(() => {});
+            return Response.json({ ok: true });
+          }
+
+          // /menu — show inline menu
+          if (text.trim() === "/menu" || text.trim().toLowerCase() === "menu") {
+            await tgSendMessage(chatId, "🌿 เมนูหลัก Goodfill Care", { reply_markup: CUSTOMER_MAIN_MENU }).catch(() => {});
             return Response.json({ ok: true });
           }
 
@@ -88,7 +168,8 @@ export const Route = createFileRoute("/api/public/telegram/webhook")({
           if (text && !text.startsWith("/")) {
             await tgSendMessage(
               chatId,
-              "ขอบคุณที่ติดต่อ Goodfill Care 🌿\nทีมงานจะตอบกลับเร็วๆ นี้ หรือคุณสามารถจองโปรแกรมได้ที่ https://goodfillcare-samui.com",
+              "ขอบคุณที่ติดต่อ Goodfill Care 🌿\nทีมงานจะตอบกลับเร็วๆ นี้ หรือเลือกเมนูด้านล่างได้เลยครับ",
+              { reply_markup: CUSTOMER_MAIN_MENU },
             ).catch(() => {});
           }
         }

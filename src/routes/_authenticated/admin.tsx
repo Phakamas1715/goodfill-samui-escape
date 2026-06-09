@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, Link, redirect, useNavigate } from "@tanstack/
 import { useServerFn } from "@tanstack/react-start";
 import { getMyRoles } from "@/lib/admin.functions";
 import { supabase } from "@/integrations/supabase/client";
-import { LayoutDashboard, Calendar, Package, Users, Settings, LogOut, Star } from "lucide-react";
+import { LayoutDashboard, Calendar, Package, Users, Settings, LogOut, Star, MessageSquare } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   beforeLoad: async () => {
@@ -22,6 +22,7 @@ const navItems = [
   { to: "/admin/programs", label: "Programs", icon: Package },
   { to: "/admin/reviews", label: "Reviews", icon: Star },
   { to: "/admin/users", label: "Users & Roles", icon: Users },
+  { to: "/admin/line", label: "LINE Menu", icon: MessageSquare },
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ] as const;
 
