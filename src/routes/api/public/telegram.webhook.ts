@@ -315,7 +315,7 @@ export const Route = createFileRoute("/api/public/telegram/webhook")({
                   language_preference: detectedLang,
                   start_param: startParam,
                   last_active_at: new Date().toISOString(),
-                },
+                } as never,
                 { onConflict: "chat_id" },
               );
             } catch (err) {
