@@ -214,13 +214,13 @@
 
 /* Dark ocean data card — text reads white on deep ocean with crisp contrast. */
 @utility card-deep {
-  background: linear-gradient(155deg, #062a36 0%, #0C3B4A 55%, #1E88A8 100%);
-  color: #F4FBFF;
+  background: linear-gradient(155deg, #0A1E18 0%, #142C25 55%, #0F4A38 100%);
+  color: #FAF7F2;
   border-radius: 1.75rem;
-  border: 1px solid rgba(127, 227, 208, 0.35);
+  border: 1px solid rgba(152, 138, 113, 0.35);
   box-shadow:
-    0 28px 58px -22px rgba(6, 42, 54, 0.7),
-    0 6px 16px -4px rgba(12, 59, 74, 0.45),
+    0 28px 58px -22px rgba(10, 30, 24, 0.7),
+    0 6px 16px -4px rgba(20, 44, 37, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
@@ -235,44 +235,44 @@
 }
 
 @utility gold-text {
-  background: linear-gradient(135deg, #EFE3D0, #C9A24A 55%, #E89A6B);
+  background: linear-gradient(135deg, #C9B89B, #988A71 55%, #B4806A);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 @utility btn-gold {
-  background: linear-gradient(135deg, #FFF1C7 0%, #C9A24A 55%, #E89A6B 100%);
-  color: #0C3B4A;
+  background: linear-gradient(135deg, #C9B89B 0%, #988A71 55%, #7E715C 100%);
+  color: #FAF7F2;
   font-weight: 600;
   letter-spacing: 0.02em;
-  box-shadow: 0 14px 36px -10px rgba(201, 162, 74, 0.55), 0 6px 18px -8px rgba(232, 154, 107, 0.45);
+  box-shadow: 0 14px 36px -10px rgba(152, 138, 113, 0.55), 0 6px 18px -8px rgba(126, 113, 92, 0.45);
   transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 20px 48px -10px rgba(201, 162, 74, 0.7), 0 10px 28px -10px rgba(232, 154, 107, 0.55);
+    box-shadow: 0 20px 48px -10px rgba(152, 138, 113, 0.7), 0 10px 28px -10px rgba(126, 113, 92, 0.55);
     filter: brightness(1.04);
   }
 }
 
 @utility btn-emerald {
-  background: linear-gradient(135deg, #1E88A8 0%, #0C3B4A 100%);
-  color: #F4FBFF;
+  background: linear-gradient(135deg, #0F4A38 0%, #142C25 100%);
+  color: #FAF7F2;
   font-weight: 600;
   letter-spacing: 0.01em;
-  box-shadow: 0 14px 34px -12px rgba(12, 59, 74, 0.6);
+  box-shadow: 0 14px 34px -12px rgba(20, 44, 37, 0.6);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  &:hover { transform: translateY(-2px); box-shadow: 0 20px 46px -12px rgba(12, 59, 74, 0.75); }
+  &:hover { transform: translateY(-2px); box-shadow: 0 20px 46px -12px rgba(20, 44, 37, 0.75); }
 }
 
 @utility btn-coral {
-  background: linear-gradient(135deg, #F3C2A0, #E89A6B 60%, #C9A24A);
-  color: #0C3B4A;
+  background: linear-gradient(135deg, #D9B7A4, #B4806A 60%, #988A71);
+  color: #FAF7F2;
   font-weight: 600;
   letter-spacing: 0.02em;
-  box-shadow: 0 14px 34px -10px rgba(232, 154, 107, 0.55);
+  box-shadow: 0 14px 34px -10px rgba(180, 128, 106, 0.55);
   transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
-  &:hover { transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 20px 48px -10px rgba(232, 154, 107, 0.7); }
+  &:hover { transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 20px 48px -10px rgba(180, 128, 106, 0.7); }
 }
 
 /* Premium pill chip — frosted with emerald text. */
