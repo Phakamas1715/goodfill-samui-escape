@@ -107,11 +107,11 @@ function MealsPage() {
           ))}
         </div>
 
-        {/* AI-enhanced meal plan from Z.AI */}
+        {/* AI-enhanced meal plan from AI */}
         <div className="mt-10 card-deep rounded-3xl p-6">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-gold text-xs tracking-[0.25em] uppercase">
-              <Wand2 size={14} /> {lang === "th" ? "แผนเสริม โดย Z.AI" : "AI-tailored add-on plan"}
+              <Wand2 size={14} /> {lang === "th" ? "แผนเสริม โดย AI" : "AI-tailored add-on plan"}
             </div>
             <button
               onClick={runAIPlan}
@@ -154,8 +154,8 @@ function MealsPage() {
           {!aiPlan && !loadingAI && !aiError && (
             <p className="text-[12px] text-ivory/70 mt-3 leading-relaxed">
               {lang === "th"
-                ? "ให้ Z.AI สร้างเมนูเสริมส่วนตัวจาก persona ของคุณ ผู้เชี่ยวชาญสามารถใช้เป็นจุดตั้งต้นในการปรับให้ลึกขึ้น"
-                : "Let Z.AI draft a personalised add-on menu from your persona — your expert uses it as a starting point."}
+                ? "ให้ AI สร้างเมนูเสริมส่วนตัวจาก persona ของคุณ ผู้เชี่ยวชาญสามารถใช้เป็นจุดตั้งต้นในการปรับให้ลึกขึ้น"
+                : "Let AI draft a personalised add-on menu from your persona — your expert uses it as a starting point."}
             </p>
           )}
         </div>

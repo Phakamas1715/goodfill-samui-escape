@@ -73,7 +73,7 @@ function PersonaPage() {
   const recommended = programsForPersona(persona.id);
 
   return (
-    <DashShell bg="meditation" host="wai" highlight={pick(persona.tagline, lang)} kicker={t("persona.kicker")} title={pick(persona.name, lang)} subtitle={pick(persona.thaiName, lang)}>
+    <DashShell compact bg="meditation" host="wai" highlight={pick(persona.tagline, lang)} kicker={t("persona.kicker")} title={pick(persona.name, lang)} subtitle={pick(persona.thaiName, lang)}>
       <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <DashCard className={`card-glass p-5 md:p-6 bg-gradient-to-br from-violet-500/30 to-indigo-700/30 bg-orange-950 ${persona.color}`}>
           <p className="text-sm md:text-base text-navy text-gray-100">{pick(persona.tagline, lang)}</p>
@@ -81,22 +81,37 @@ function PersonaPage() {
           <div className="flex items-center gap-1.5 text-gold text-[10px] tracking-[0.25em] uppercase mt-3">
             <Sparkles size={12} /> {t("persona.pillars")}
           </div>
-          <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-1.5">
-            {persona.pillars.map((p) => (
-              <div key={p.th} className="rounded-xl bg-white/70 border border-white/60 p-2 text-center">
-                <div className="text-[11px] font-medium text-navy">{pick(p, lang)}</div>
-              </div>
-            ))}
+          <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
+            {persona.pillars.map((p, i) => {
+              const gradients = [
+                "from-amber-300 via-orange-400 to-rose-500",
+                "from-emerald-300 via-teal-400 to-cyan-500",
+                "from-fuchsia-400 via-pink-500 to-rose-500",
+                "from-sky-300 via-indigo-400 to-violet-500",
+              ];
+              const emojis = ["✨", "🌿", "🧘", "🌊"];
+              return (
+                <div
+                  key={p.th}
+                  className={`relative overflow-hidden rounded-xl p-2.5 text-center bg-gradient-to-br ${gradients[i % 4]} shadow-[0_8px_22px_-10px_rgba(0,0,0,0.45)] ring-1 ring-white/40`}
+                >
+                  <div className="text-base leading-none mb-1">{emojis[i % 4]}</div>
+                  <div className="text-[11px] md:text-xs font-bold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
+                    {pick(p, lang)}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </DashCard>
 
-        {/* AI Insight — powered by Z.AI */}
+        {/* AI Insight — powered by AI */}
         <DashCard className="mt-3 bg-gradient-to-br from-emerald-deep/95 to-navy/95 text-ivory" variant="deep">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Wand2 size={14} className="text-gold" />
               <div className="text-[10px] tracking-[0.25em] uppercase text-gold font-semibold">
-                {lang === "th" ? "บทวิเคราะห์เชิงลึก · Z.AI" : "Deep Insight · Z.AI"}
+                {lang === "th" ? "บทวิเคราะห์เชิงลึก · AI" : "Deep Insight · AI"}
               </div>
             </div>
             <button
@@ -154,8 +169,8 @@ function PersonaPage() {
           {!insight && !loadingAI && !aiError && (
             <p className="text-[11px] text-ivory/70 mt-2 leading-relaxed">
               {lang === "th"
-                ? "กดวิเคราะห์เพื่อให้ Z.AI สรุปจุดแข็ง จุดโฟกัส และ ritual ประจำวันที่เหมาะกับคุณ — ผู้เชี่ยวชาญใช้ข้อมูลนี้วางแผนได้ทันที"
-                : "Tap analyze to let Z.AI summarise strengths, focus, and daily ritual matched to your persona — used by experts to fine-tune your plan."}
+                ? "กดวิเคราะห์เพื่อให้ AI สรุปจุดแข็ง จุดโฟกัส และ ritual ประจำวันที่เหมาะกับคุณ — ผู้เชี่ยวชาญใช้ข้อมูลนี้วางแผนได้ทันที"
+                : "Tap analyze to let AI summarise strengths, focus, and daily ritual matched to your persona — used by experts to fine-tune your plan."}
             </p>
           )}
         </DashCard>

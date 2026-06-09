@@ -38,6 +38,8 @@ interface DashShellProps {
   hostFloating?: boolean;
   /** Optional gold highlight ribbon shown under the title (e.g. "Best for Sleep Seekers"). */
   highlight?: string;
+  /** Compact header — smaller title/spacing so the route fits one mobile viewport. */
+  compact?: boolean;
 }
 
 /**
@@ -53,6 +55,7 @@ export function DashShell({
   children,
   hostFloating = true,
   highlight,
+  compact = false,
 }: DashShellProps) {
   // Rotating background slideshow — keeps internal pages visually alive.
   const slides = [
@@ -130,10 +133,10 @@ export function DashShell({
         />
       )}
 
-      <main className="relative h-full pt-20 md:pt-24 pb-20 md:pb-6 px-3 md:px-6 flex flex-col">
+      <main className={`relative h-full ${compact ? "pt-16 md:pt-20" : "pt-20 md:pt-24"} pb-20 md:pb-6 px-3 md:px-6 flex flex-col`}>
         <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col min-h-0 lg:pr-[22rem] xl:pr-[26rem]">
           {/* HEADER — compact */}
-          <div className="flex items-end justify-between gap-3 mb-5 md:mb-6 sun-glow">
+          <div className={`flex items-end justify-between gap-3 ${compact ? "mb-2 md:mb-3" : "mb-5 md:mb-6"} sun-glow`}>
             <div className="min-w-0">
               {kicker && (
                 <div className="text-[11px] md:text-[12px] tracking-[0.32em] uppercase font-semibold flex items-center gap-2 gold-text">
@@ -141,7 +144,7 @@ export function DashShell({
                   {kicker}
                 </div>
               )}
-              <h1 className="font-display text-2xl md:text-4xl lg:text-5xl text-ivory leading-[1.1] mt-2 tracking-tight drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)] line-clamp-2">
+              <h1 className={`font-display ${compact ? "text-xl md:text-3xl lg:text-4xl" : "text-2xl md:text-4xl lg:text-5xl"} text-ivory leading-[1.1] mt-1.5 tracking-tight drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)] line-clamp-2`}>
                 {title}
               </h1>
               {highlight && (
