@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Sparkles, Wand2, Loader2 } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DashShell, DashCard } from "@/components/DashShell";
 import { personas, programsForPersona, pick } from "@/lib/data";
 import { useAppState } from "@/lib/state";
@@ -32,6 +32,25 @@ function PersonaPage() {
   const [insight, setInsight] = useState<any>(state.aiInsight ?? null);
   const [loadingAI, setLoadingAI] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const calmingMessagesTh = [
+    "หายใจเข้าลึกๆ ปล่อยลมหายใจช้าๆ…",
+    "AI กำลังฟังเสียงภายในของคุณ…",
+    "กำลังเรียบเรียง ritual ที่เหมาะกับจังหวะชีวิตคุณ…",
+    "อีกสักครู่ ผู้เชี่ยวชาญในระบบกำลังจับคู่แพ็กเกจให้คุณ…",
+  ];
+  const calmingMessagesEn = [
+    "Breathe in deeply, exhale slowly…",
+    "AI is listening to your inner rhythm…",
+    "Composing a ritual tuned to your pace…",
+    "Matching the right specialists to your persona…",
+  ];
+  const [calmingIdx, setCalmingIdx] = useState(0);
+  useEffect(() => {
+    if (!loadingAI) return;
+    setCalmingIdx(0);
+    const id = setInterval(() => setCalmingIdx((i) => i + 1), 2200);
+    return () => clearInterval(id);
+  }, [loadingAI]);
 
   async function runAI() {
     if (!persona) return;
@@ -129,6 +148,44 @@ function PersonaPage() {
             </button>
           </div>
           {aiError && <p className="text-xs text-coral mt-2">{aiError}</p>}
+          {loadingAI && !insight && (
+            <div className="mt-3 space-y-2">
+              <div className="relative overflow-hidden rounded-xl bg-white/8 border border-white/12 p-3">
+                <div className="h-3 w-2/3 rounded-full bg-white/12 mb-2 overflow-hidden relative">
+                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+                </div>
+                <div className="h-2.5 w-11/12 rounded-full bg-white/10 mb-1.5 overflow-hidden relative">
+                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.4s_ease-in-out_infinite] [animation-delay:0.2s] bg-gradient-to-r from-transparent via-fuchsia-300/30 to-transparent" />
+                </div>
+                <div className="h-2.5 w-4/5 rounded-full bg-white/10 overflow-hidden relative">
+                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.4s_ease-in-out_infinite] [animation-delay:0.4s] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {[0, 1, 2, 3].map((i) => (
+                  <div key={i} className="relative overflow-hidden rounded-xl bg-white/8 border border-white/12 p-2.5 h-16">
+                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-gold/25 via-50% to-transparent" style={{ animationDelay: `${i * 0.15}s` }} />
+                    <div className="h-2 w-1/2 rounded-full bg-white/15 mb-1.5" />
+                    <div className="h-2 w-3/4 rounded-full bg-white/10" />
+                  </div>
+                ))}
+              </div>
+              <div className="text-center min-h-[1.25rem] mt-1">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={calmingIdx}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.6 }}
+                    className="text-[11px] tracking-wide text-gold/90 italic"
+                  >
+                    {(lang === "th" ? calmingMessagesTh : calmingMessagesEn)[calmingIdx % 4]}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
+            </div>
+          )}
           {insight && (
             <div className="mt-3 space-y-2 text-sm">
               {insight.summary && <p className="text-ivory/95 leading-relaxed">{insight.summary}</p>}
@@ -205,7 +262,40 @@ function PersonaPage() {
 
         <div className="mt-3">
           <div className="text-[11px] tracking-widest uppercase text-gold mb-2">{t("persona.recommended")}</div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          {/* Mobile: swipeable horizontal carousel · Desktop: grid */}
+          <div className="sm:hidden -mx-4 px-4">
+            <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              {recommended.map((p) => (
+                <Link
+                  key={p.id}
+                  to="/programs/$id"
+                  params={{ id: p.id }}
+                  className="snap-center shrink-0 w-[78%] bg-white/85 backdrop-blur-md border border-white/60 rounded-2xl overflow-hidden shadow-[0_12px_30px_-12px_rgba(0,0,0,0.35)] active:scale-[0.98] transition"
+                >
+                  <div className="aspect-[16/10] overflow-hidden">
+                    <img src={p.image} alt={pick(p.name, lang)} loading="lazy" className="size-full object-cover" />
+                  </div>
+                  <div className="p-3">
+                    <div className="text-[10px] tracking-widest text-gold uppercase">{pick(p.duration, lang)}</div>
+                    <div className="font-display text-base text-navy mt-0.5 line-clamp-1">{pick(p.name, lang)}</div>
+                    <div className="mt-2 flex items-center justify-between">
+                      <div className="text-xs text-navy">฿{p.price.toLocaleString()}</div>
+                      <ArrowRight size={14} className="text-gold" />
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="flex justify-center gap-1.5 mt-1">
+              {recommended.map((_, i) => (
+                <span key={i} className="h-1 w-5 rounded-full bg-gold/30" />
+              ))}
+            </div>
+            <p className="text-center text-[10px] text-ivory/60 mt-1">
+              {lang === "th" ? "← ปัดเพื่อดูเพิ่มเติม →" : "← swipe to explore →"}
+            </p>
+          </div>
+          <div className="hidden sm:grid grid-cols-3 gap-2">
             {recommended.map((p) => (
               <Link
                 key={p.id}
