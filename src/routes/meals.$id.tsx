@@ -1,8 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ChefHat, Utensils } from "lucide-react";
+import { ArrowLeft, ChefHat, Utensils, Wand2, Loader2, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Shell, Section, Eyebrow } from "@/components/Shell";
 import { programs, images, pick, type Program } from "@/lib/data";
 import { useI18n } from "@/lib/i18n";
+import { useAppState } from "@/lib/state";
+import { getMealPlan } from "@/lib/ai-insights.functions";
 
 export const Route = createFileRoute("/meals/$id")({
   head: ({ params }) => {
@@ -28,6 +32,32 @@ export const Route = createFileRoute("/meals/$id")({
 function MealsPage() {
   const { t, lang } = useI18n();
   const { program } = Route.useLoaderData() as { program: Program };
+  const [state] = useAppState();
+  const fetchPlan = useServerFn(getMealPlan);
+  const [aiPlan, setAiPlan] = useState<any>(null);
+  const [loadingAI, setLoadingAI] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+
+  async function runAIPlan() {
+    setLoadingAI(true);
+    setAiError(null);
+    try {
+      const result = await fetchPlan({
+        data: {
+          personaId: state.persona ?? "balanced",
+          personaName: state.persona ?? "Balanced wellness traveller",
+          days: Math.min(7, program.mealPlan.length || 3),
+          lang,
+        },
+      });
+      setAiPlan(result);
+    } catch (e: any) {
+      setAiError(e?.message ?? "AI error");
+    } finally {
+      setLoadingAI(false);
+    }
+  }
+
   const tiles = [images.mealBreakfast, images.mealLunch, images.mealDinner];
 
   return (
@@ -75,6 +105,59 @@ function MealsPage() {
               )}
             </div>
           ))}
+        </div>
+
+        {/* AI-enhanced meal plan from Z.AI */}
+        <div className="mt-10 card-deep rounded-3xl p-6">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-gold text-xs tracking-[0.25em] uppercase">
+              <Wand2 size={14} /> {lang === "th" ? "แผนเสริม โดย Z.AI" : "AI-tailored add-on plan"}
+            </div>
+            <button
+              onClick={runAIPlan}
+              disabled={loadingAI}
+              className="btn-gold rounded-full px-3 py-1.5 text-[11px] font-semibold inline-flex items-center gap-1.5 disabled:opacity-60"
+            >
+              {loadingAI ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
+              {loadingAI
+                ? lang === "th" ? "กำลังสร้าง…" : "Generating…"
+                : aiPlan ? lang === "th" ? "สร้างใหม่" : "Regenerate"
+                : lang === "th" ? "ให้ AI ช่วยวางแผน" : "Generate with AI"}
+            </button>
+          </div>
+          {aiError && <p className="text-xs text-coral mt-3">{aiError}</p>}
+          {aiPlan?.days?.length > 0 && (
+            <div className="mt-4 space-y-3">
+              {aiPlan.days.map((d: any, i: number) => (
+                <div key={i} className="rounded-2xl bg-white/5 border border-white/10 p-4">
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-gold">
+                    {lang === "th" ? `วันที่ ${d.day ?? i + 1}` : `Day ${d.day ?? i + 1}`}
+                  </div>
+                  <div className="mt-2 grid md:grid-cols-3 gap-3 text-sm text-ivory/95">
+                    <MealRow label={t("meals.breakfast")} value={d.breakfast ?? ""} />
+                    <MealRow label={t("meals.lunch")} value={d.lunch ?? ""} />
+                    <MealRow label={t("meals.dinner")} value={d.dinner ?? ""} />
+                  </div>
+                  {(d.snack || d.hydration) && (
+                    <div className="mt-3 grid md:grid-cols-2 gap-3 text-xs text-ivory/80">
+                      {d.snack && <div>🥥 {d.snack}</div>}
+                      {d.hydration && <div>💧 {d.hydration}</div>}
+                    </div>
+                  )}
+                </div>
+              ))}
+              {aiPlan.notes && (
+                <div className="text-xs italic text-ivory/80 border-l-2 border-gold pl-3">{aiPlan.notes}</div>
+              )}
+            </div>
+          )}
+          {!aiPlan && !loadingAI && !aiError && (
+            <p className="text-[12px] text-ivory/70 mt-3 leading-relaxed">
+              {lang === "th"
+                ? "ให้ Z.AI สร้างเมนูเสริมส่วนตัวจาก persona ของคุณ ผู้เชี่ยวชาญสามารถใช้เป็นจุดตั้งต้นในการปรับให้ลึกขึ้น"
+                : "Let Z.AI draft a personalised add-on menu from your persona — your expert uses it as a starting point."}
+            </p>
+          )}
         </div>
 
         <div className="mt-10 glass rounded-2xl p-5 text-sm text-muted-foreground">

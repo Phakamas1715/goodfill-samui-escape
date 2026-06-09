@@ -36,6 +36,8 @@ interface DashShellProps {
   children: ReactNode;
   /** show host as small floating bubble (true) vs large side image */
   hostFloating?: boolean;
+  /** Optional gold highlight ribbon shown under the title (e.g. "Best for Sleep Seekers"). */
+  highlight?: string;
 }
 
 /**
@@ -50,6 +52,7 @@ export function DashShell({
   kicker,
   children,
   hostFloating = true,
+  highlight,
 }: DashShellProps) {
   // Rotating background slideshow — keeps internal pages visually alive.
   const slides = [
@@ -113,8 +116,22 @@ export function DashShell({
 
       <Nav />
 
+      {/* Goodfill host illustration — anchored to bottom-right of the viewport,
+          full body with hem touching the bottom edge. Hidden on small screens. */}
+      {host && (
+        <motion.img
+          key={host}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          src={hosts[host]}
+          alt="Goodfill Care wellness host"
+          className="hidden lg:block pointer-events-none select-none absolute bottom-0 right-2 xl:right-6 h-[70vh] max-h-[640px] w-auto object-contain object-bottom z-[1] drop-shadow-[0_18px_40px_rgba(6,78,59,0.55)]"
+        />
+      )}
+
       <main className="relative h-full pt-20 md:pt-24 pb-20 md:pb-6 px-3 md:px-6 flex flex-col">
-        <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col min-h-0">
+        <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col min-h-0 lg:pr-[22rem] xl:pr-[26rem]">
           {/* HEADER — compact */}
           <div className="flex items-end justify-between gap-3 mb-5 md:mb-6 sun-glow">
             <div className="min-w-0">
@@ -127,6 +144,12 @@ export function DashShell({
               <h1 className="font-display text-4xl md:text-6xl text-ivory leading-[1.05] truncate mt-2 tracking-tight drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)]">
                 {title}
               </h1>
+              {highlight && (
+                <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold via-gold-soft to-coral text-emerald-deep text-[11px] md:text-xs font-bold tracking-wider uppercase px-3 py-1 shadow-[0_8px_24px_-8px_rgba(244,166,74,0.65)] ring-1 ring-gold/40">
+                  <span className="size-1.5 rounded-full bg-emerald-deep animate-pulse" />
+                  {highlight}
+                </div>
+              )}
               {subtitle && (
                 <p className="text-base md:text-lg text-ivory/85 line-clamp-1 mt-2 drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
                   {subtitle}
@@ -140,7 +163,7 @@ export function DashShell({
                 transition={{ duration: 0.6 }}
                 src={hosts[host]}
                 alt="Goodfill Care wellness host illustration"
-                className="h-16 md:h-24 w-auto object-contain shrink-0 drop-shadow-[0_10px_24px_rgba(6,78,59,0.4)]"
+                className="lg:hidden h-16 md:h-24 w-auto object-contain shrink-0 drop-shadow-[0_10px_24px_rgba(6,78,59,0.4)]"
               />
             )}
           </div>
