@@ -132,8 +132,8 @@ export const dict = {
   "hero.title2": { th: "เกาะสมุย", en: "Koh Samui" },
   "hero.title3": { th: "ที่ออกแบบเพื่อคุณคนเดียว", en: "designed just for you" },
   "hero.desc": {
-    th: "Luxury Personalized Wellness Companion — ดูแลสุขภาพและความสุขของคุณ แบบที่คุณไม่ต้องคิดเอง · 8 คำถาม · 6 Personas · ผู้เชี่ยวชาญรับรอง · QR รับบริการ · Calm Credits",
-    en: "Luxury Personalized Wellness Companion — we take care of your wellbeing so you don't have to think. 8 questions · 6 personas · expert-reviewed · QR redemption · Calm Credits.",
+    th: "Luxury Personalized Wellness Companion",
+    en: "Luxury Personalized Wellness Companion",
   },
   "hero.ctaStart": { th: "เริ่มแบบประเมิน · 8 นาที", en: "Start Quest · 8 min" },
   "hero.btnJourney": { th: "การเดินทาง 5 ขั้น", en: "5-Phase Journey" },

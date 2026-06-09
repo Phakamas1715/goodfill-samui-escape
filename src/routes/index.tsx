@@ -143,7 +143,7 @@ function Landing() {
               <img
                 src={logo}
                 alt="Goodfill Care"
-                className="h-12 md:h-14 w-auto object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)]"
+                className="h-12 md:h-14 w-auto object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] text-7xl"
               />
               <div className="flex flex-col leading-none">
                 <span className="font-display text-2xl md:text-3xl text-white drop-shadow-md">
