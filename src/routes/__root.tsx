@@ -82,10 +82,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Goodfill Care — Wellness Journey ที่เกาะสมุย" },
       { name: "description", content: "Pre-arrival Wellness Quest · Personalized Program · Final Wellness Report · Long-term Care ที่เกาะสมุย" },
       { name: "theme-color", content: "#FFF8EC" },
-      { property: "og:title", content: "Goodfill Care — Koh Samui Wellness" },
-      { property: "og:description", content: "แบบประเมินก่อนเดินทาง โปรแกรมเฉพาะคุณ และการดูแลระยะยาวที่เกาะสมุย" },
+      { property: "og:title", content: "Goodfill Care — Wellness Journey ที่เกาะสมุย" },
+      { property: "og:description", content: "Pre-arrival Wellness Quest · Personalized Program · Final Wellness Report · Long-term Care ที่เกาะสมุย" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Goodfill Care — Wellness Journey ที่เกาะสมุย" },
+      { name: "twitter:description", content: "Pre-arrival Wellness Quest · Personalized Program · Final Wellness Report · Long-term Care ที่เกาะสมุย" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/6Xf4sshoH2VuYEuQfnjq4Hf2dF62/social-images/social-1780986927804-S__40984587.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/6Xf4sshoH2VuYEuQfnjq4Hf2dF62/social-images/social-1780986927804-S__40984587.webp" },
     ],
     links: [
       {
