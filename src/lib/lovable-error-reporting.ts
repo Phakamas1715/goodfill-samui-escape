@@ -289,7 +289,7 @@ export function initGlobalErrorHandlers() {
 
     // Call original handler if exists
     if (originalOnUnhandledRejection) {
-      originalOnUnhandledRejection(event);
+      originalOnUnhandledRejection.call(window, event);
     }
   };
 
