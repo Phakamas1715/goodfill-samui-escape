@@ -351,6 +351,7 @@ export const confirmBooking = createServerFn({ method: "POST" })
           partner_push: JSON.parse(JSON.stringify(partner)),
           dietary_plan: data.dietaryPlan ?? null,
           dietary_notes: data.dietaryNotes ?? null,
+          partner_notes: data.personaNote ?? null,
         })
         .select("id")
         .single();
