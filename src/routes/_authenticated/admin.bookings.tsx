@@ -254,16 +254,20 @@ function BookingsPage() {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        {b.customer_push?.ok ? (
-                          <CheckCircle size={14} className="text-emerald" title="ส่งถึงลูกค้าแล้ว" />
-                        ) : (
-                          <XCircle size={14} className="text-red-400" title="ส่งไม่สำเร็จ" />
-                        )}
-                        {b.partner_push?.ok ? (
-                          <CheckCircle size={14} className="text-emerald" title="ส่งถึงพาร์ทเนอร์แล้ว" />
-                        ) : (
-                          <XCircle size={14} className="text-red-400" title="ส่งไม่สำเร็จ" />
-                        )}
+                        <span title={b.customer_push?.ok ? "ส่งถึงลูกค้าแล้ว" : "ส่งไม่สำเร็จ"}>
+                          {b.customer_push?.ok ? (
+                            <CheckCircle size={14} className="text-emerald" />
+                          ) : (
+                            <XCircle size={14} className="text-red-400" />
+                          )}
+                        </span>
+                        <span title={b.partner_push?.ok ? "ส่งถึงพาร์ทเนอร์แล้ว" : "ส่งไม่สำเร็จ"}>
+                          {b.partner_push?.ok ? (
+                            <CheckCircle size={14} className="text-emerald" />
+                          ) : (
+                            <XCircle size={14} className="text-red-400" />
+                          )}
+                        </span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
