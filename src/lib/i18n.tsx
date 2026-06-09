@@ -26,6 +26,7 @@ export const dict = {
   "hero.btnJourney": { th: "การเดินทาง 5 ขั้น", en: "5-Phase Journey" },
   "hero.btnPersonas": { th: "6 Personas", en: "6 Personas" },
   "hero.btnSamui": { th: "บรรยากาศสมุย", en: "Samui Atmosphere" },
+  "hero.btnCompany": { th: "เกี่ยวกับบริษัท", en: "About Company" },
   "hero.stat.min": { th: "นาที / Quest", en: "Min Quest" },
   "hero.stat.credits": { th: "Calm Credits", en: "Calm Credits" },
   "hero.stat.personas": { th: "Personas", en: "Personas" },
@@ -80,6 +81,25 @@ export const dict = {
   "samui.food": { th: "อาหาร Wellness", en: "Wellness Cuisine" },
   "samui.med": { th: "สมาธิ", en: "Meditation" },
   "samui.sunrise": { th: "อรุณสมุย", en: "Samui Sunrise" },
+
+  "modal.company.kicker": { th: "บริษัทแม่ · Parent Company", en: "Parent Company" },
+  "modal.company.title": { th: "Samui 741 · Hospitality crafted by the island", en: "Samui 741 · Hospitality crafted by the island" },
+  "modal.company.intro": {
+    th: "Samui 741 หลอมรวมความเชี่ยวชาญด้าน ร้านอาหาร โรงแรม อสังหาริมทรัพย์ สปา และการท่องเที่ยว สู่บทใหม่ของ Wellness — Goodfill Care คือแพลตฟอร์มสุขภาพในเครือ ที่นำประสบการณ์ทั้งหมดมารวมไว้ในที่เดียว",
+    en: "Samui 741 fuses expertise across Restaurants, Hotels, Real Estate, Spa and Tourism into a new wellness chapter — Goodfill Care is its in-house wellness platform that brings every craft together.",
+  },
+  "modal.company.s1": { th: "Restaurants · ร้านอาหารพรีเมียม", en: "Restaurants · Premium dining" },
+  "modal.company.s2": { th: "Hotels · โรงแรมและรีสอร์ทบูทีค", en: "Hotels · Boutique resorts" },
+  "modal.company.s3": { th: "Real Estate · พูลวิลล่า & คอนโด", en: "Real Estate · Villas & condos" },
+  "modal.company.s4": { th: "Spa · ทรีตเมนต์โดยผู้เชี่ยวชาญ", en: "Spa · Expert treatments" },
+  "modal.company.s5": { th: "Tourism · ทัวร์ไพรเวต", en: "Tourism · Private journeys" },
+  "modal.company.s6": { th: "Wellness · Goodfill Care", en: "Wellness · Goodfill Care" },
+  "modal.company.contact": { th: "ติดต่อเรา", en: "Contact" },
+  "modal.company.addr": {
+    th: "บริษัท สมุย 741 จำกัด · 99/201 หมู่ 2 ต.บ่อผุด อ.เกาะสมุย จ.สุราษฎร์ธานี 84320",
+    en: "Samui 741 Co., Ltd. · 99/201 Moo 2, Bo Phut, Koh Samui, Surat Thani 84320",
+  },
+  "modal.company.visit": { th: "เยี่ยมชม samui-741.com", en: "Visit samui-741.com" },
 } satisfies Dict;
 
 export type TKey = keyof typeof dict;
