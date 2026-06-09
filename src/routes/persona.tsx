@@ -81,12 +81,27 @@ function PersonaPage() {
           <div className="flex items-center gap-1.5 text-gold text-[10px] tracking-[0.25em] uppercase mt-3">
             <Sparkles size={12} /> {t("persona.pillars")}
           </div>
-          <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-1.5">
-            {persona.pillars.map((p) => (
-              <div key={p.th} className="rounded-xl bg-white/70 border border-white/60 p-2 text-center">
-                <div className="text-[11px] font-medium text-navy">{pick(p, lang)}</div>
-              </div>
-            ))}
+          <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
+            {persona.pillars.map((p, i) => {
+              const gradients = [
+                "from-amber-300 via-orange-400 to-rose-500",
+                "from-emerald-300 via-teal-400 to-cyan-500",
+                "from-fuchsia-400 via-pink-500 to-rose-500",
+                "from-sky-300 via-indigo-400 to-violet-500",
+              ];
+              const emojis = ["✨", "🌿", "🧘", "🌊"];
+              return (
+                <div
+                  key={p.th}
+                  className={`relative overflow-hidden rounded-xl p-2.5 text-center bg-gradient-to-br ${gradients[i % 4]} shadow-[0_8px_22px_-10px_rgba(0,0,0,0.45)] ring-1 ring-white/40`}
+                >
+                  <div className="text-base leading-none mb-1">{emojis[i % 4]}</div>
+                  <div className="text-[11px] md:text-xs font-bold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
+                    {pick(p, lang)}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </DashCard>
 
