@@ -100,6 +100,16 @@ export const dict = {
   "habit.hydration": { th: "Hydration 2L", en: "Hydration 2L" },
   "habit.screen": { th: "No screen after 10pm", en: "No screen after 10pm" },
 
+  "footer.tagline": {
+    th: "แพลตฟอร์มดูแลสุขภาพแบบครบวงจร สำหรับการพักผ่อนระดับพรีเมียมที่เกาะสมุย",
+    en: "An all-in-one wellness platform for premium retreats on Koh Samui.",
+  },
+  "footer.experience": { th: "ประสบการณ์", en: "Experience" },
+  "footer.forTeams": { th: "สำหรับทีม", en: "For Teams" },
+  "footer.contact": { th: "ติดต่อ", en: "Contact" },
+  "footer.location": { th: "เกาะสมุย · สุราษฎร์ธานี · ประเทศไทย", en: "Koh Samui · Surat Thani · Thailand" },
+  "footer.rights": { th: "Create your best version", en: "Create your best version" },
+
   "report.kicker": { th: "Phase 4 · Final Report", en: "Phase 4 · Final Report" },
   "report.title": { th: "7 วันที่เปลี่ยนคุณ", en: "7 days that changed you" },
   "report.subtitle": { th: "Before / After summary", en: "Before / After summary" },
