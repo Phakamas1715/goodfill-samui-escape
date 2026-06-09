@@ -2,40 +2,246 @@
 // Server-side Supabase client with service role key - bypasses RLS.
 // Use this for admin operations in server functions and server routes only.
 // For user-authenticated queries (with RLS), use the auth middleware instead.
-import { createClient } from '@supabase/supabase-js';
-import type { Database } from './types';
 
-function createSupabaseAdminClient() {
+import { createClient } from "@supabase/supabase-js";
+import type { Database } from "./types";
+
+// ============================================================================
+// Types
+// ============================================================================
+
+type SupabaseAdminClient = ReturnType<typeof createClient<Database>>;
+
+interface AdminClientConfig {
+  url: string;
+  serviceRoleKey: string;
+}
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+const CLIENT_OPTIONS = {
+  auth: {
+    storage: undefined,
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false,
+  },
+  db: {
+    schema: "public",
+  },
+  global: {
+    headers: {
+      "X-Client-Info": "goodfill-care-admin",
+    },
+  },
+} as const;
+
+// ============================================================================
+// Helper Functions
+// ============================================================================
+
+function logAdminEvent(event: string, details?: Record<string, unknown>): void {
+  if (process.env.NODE_ENV === "development") {
+    console.debug(`[SupabaseAdmin] ${event}`, details);
+  }
+}
+
+function logAdminError(event: string, error: unknown): void {
+  const errorMessage = error instanceof Error ? error.message : String(error);
+  console.error(`[SupabaseAdmin] ${event} failed:`, errorMessage);
+}
+
+function getAdminClientConfig(): AdminClientConfig {
   const SUPABASE_URL = process.env.SUPABASE_URL;
   const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-    const missing = [
-      ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
-      ...(!SUPABASE_SERVICE_ROLE_KEY ? ['SUPABASE_SERVICE_ROLE_KEY'] : []),
-    ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(', ')}. Connect Supabase in Lovable Cloud.`;
-    console.error(`[Supabase] ${message}`);
+  const missing: string[] = [];
+  if (!SUPABASE_URL) missing.push("SUPABASE_URL");
+  if (!SUPABASE_SERVICE_ROLE_KEY) missing.push("SUPABASE_SERVICE_ROLE_KEY");
+
+  if (missing.length > 0) {
+    const message = `Missing Supabase environment variable(s): ${missing.join(", ")}. Connect Supabase in Lovable Cloud.`;
+    console.error(`[SupabaseAdmin] ${message}`);
     throw new Error(message);
   }
 
-  return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-    auth: {
-      storage: undefined,
-      persistSession: false,
-      autoRefreshToken: false,
-    }
-  });
+  // Validate URL format
+  try {
+    new URL(SUPABASE_URL!);
+  } catch {
+    throw new Error(`Invalid SUPABASE_URL: ${SUPABASE_URL}`);
+  }
+
+  // Validate service role key format (basic check)
+  if (!SUPABASE_SERVICE_ROLE_KEY!.startsWith("eyJ")) {
+    console.warn("[SupabaseAdmin] SUPABASE_SERVICE_ROLE_KEY appears to be invalid (should start with eyJ)");
+  }
+
+  return {
+    url: SUPABASE_URL!,
+    serviceRoleKey: SUPABASE_SERVICE_ROLE_KEY!,
+  };
 }
 
-let _supabaseAdmin: ReturnType<typeof createSupabaseAdminClient> | undefined;
+// ============================================================================
+// Client Creation
+// ============================================================================
 
-// Server-side Supabase client with service role - bypasses RLS
-// SECURITY: Only use this for trusted server-side operations, never expose to client code
-// Import like: import { supabaseAdmin } from "@/integrations/supabase/client.server";
-export const supabaseAdmin = new Proxy({} as ReturnType<typeof createSupabaseAdminClient>, {
-  get(_, prop, receiver) {
-    if (!_supabaseAdmin) _supabaseAdmin = createSupabaseAdminClient();
-    return Reflect.get(_supabaseAdmin, prop, receiver);
+function createSupabaseAdminClient(): SupabaseAdminClient {
+  const startTime = Date.now();
+  const { url, serviceRoleKey } = getAdminClientConfig();
+
+  logAdminEvent("creating-client", { url: url.replace(/\/$/, "") });
+
+  try {
+    const client = createClient<Database>(url, serviceRoleKey, CLIENT_OPTIONS);
+    const duration = Date.now() - startTime;
+    logAdminEvent("client-created", { durationMs: duration });
+    return client;
+  } catch (error) {
+    logAdminError("client-creation", error);
+    throw new Error(
+      `Failed to create Supabase admin client: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
+}
+
+// ============================================================================
+// Singleton Proxy
+// ============================================================================
+
+let _supabaseAdmin: SupabaseAdminClient | undefined;
+let _lastAccessTime: number | undefined;
+let _isShuttingDown = false;
+
+/**
+ * Server-side Supabase client with service role - bypasses RLS
+ * SECURITY: Only use this for trusted server-side operations, never expose to client code
+ *
+ * @example
+ * import { supabaseAdmin } from "@/integrations/supabase/client.server";
+ *
+ * // Use in server function
+ * const { data } = await supabaseAdmin.from('users').select('*');
+ */
+export const supabaseAdmin = new Proxy({} as SupabaseAdminClient, {
+  get(target, prop, receiver) {
+    // Prevent access during shutdown
+    if (_isShuttingDown) {
+      console.warn("[SupabaseAdmin] Access attempted during shutdown");
+      throw new Error("Supabase admin client is shutting down");
+    }
+
+    // Initialize client on first access
+    if (!_supabaseAdmin) {
+      _supabaseAdmin = createSupabaseAdminClient();
+      _lastAccessTime = Date.now();
+
+      // Set up optional health check interval
+      if (typeof setInterval !== "undefined" && process.env.NODE_ENV === "development") {
+        // Check connection every minute in development
+        setInterval(() => {
+          if (_supabaseAdmin && _lastAccessTime && Date.now() - _lastAccessTime > 60000) {
+            logAdminEvent("client-idle", { lastAccessMs: Date.now() - _lastAccessTime });
+          }
+        }, 60000);
+      }
+    }
+
+    // Update last access time on each use
+    _lastAccessTime = Date.now();
+
+    const value = Reflect.get(_supabaseAdmin, prop, receiver);
+
+    // Track method calls for debugging
+    if (typeof value === "function" && process.env.NODE_ENV === "development") {
+      return function (...args: unknown[]) {
+        logAdminEvent(`method-${String(prop)}`, {
+          args: args.slice(0, 2).map((a) => (typeof a === "object" ? "[Object]" : a)),
+        });
+        return (value as Function).apply(_supabaseAdmin, args);
+      };
+    }
+
+    return value;
   },
 });
+
+// ============================================================================
+// Health Check Function
+// ============================================================================
+
+/**
+ * Checks if the admin client is properly configured and can connect.
+ * Use this for startup validation or health endpoints.
+ */
+export async function checkAdminClientHealth(): Promise<{ healthy: boolean; error?: string; latencyMs?: number }> {
+  const startTime = Date.now();
+
+  try {
+    const { data, error } = await supabaseAdmin.from("_health").select("1").limit(1).maybeSingle();
+    const latencyMs = Date.now() - startTime;
+
+    if (error) {
+      // Table might not exist, try a different approach
+      const { error: versionError } = await supabaseAdmin.rpc("version").maybeSingle();
+      if (versionError) {
+        return { healthy: false, error: versionError.message, latencyMs };
+      }
+    }
+
+    return { healthy: true, latencyMs };
+  } catch (error) {
+    return {
+      healthy: false,
+      error: error instanceof Error ? error.message : String(error),
+      latencyMs: Date.now() - startTime,
+    };
+  }
+}
+
+// ============================================================================
+// Cleanup Function (for hot reloading)
+// ============================================================================
+
+/**
+ * Resets the admin client instance. Useful for testing or hot reload.
+ * DO NOT call this in production unless you know what you're doing.
+ */
+export function resetAdminClient(): void {
+  if (process.env.NODE_ENV === "production") {
+    console.warn("[SupabaseAdmin] Client reset attempted in production - ignoring");
+    return;
+  }
+  _supabaseAdmin = undefined;
+  _lastAccessTime = undefined;
+  logAdminEvent("client-reset");
+}
+
+// ============================================================================
+// Shutdown Handler (for graceful shutdown)
+// ============================================================================
+
+if (typeof process !== "undefined") {
+  const shutdown = () => {
+    _isShuttingDown = true;
+    logAdminEvent("shutting-down");
+    _supabaseAdmin = undefined;
+  };
+
+  process.on("beforeExit", shutdown);
+  process.on("SIGINT", shutdown);
+  process.on("SIGTERM", shutdown);
+}
+
+// ============================================================================
+// Default Export
+// ============================================================================
+
+export default {
+  supabaseAdmin,
+  checkAdminClientHealth,
+  resetAdminClient,
+};
