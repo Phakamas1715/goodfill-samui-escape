@@ -1,7 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ArrowRight, Sparkles, Compass, HeartPulse, Leaf, MoonStar, X, Building2, Phone, MapPin, ExternalLink, Handshake, ShieldCheck, Menu, Map as MapIcon, Users } from "lucide-react";
+import {
+  ArrowRight,
+  Sparkles,
+  Compass,
+  HeartPulse,
+  Leaf,
+  MoonStar,
+  X,
+  Building2,
+  Phone,
+  MapPin,
+  ExternalLink,
+  Handshake,
+  ShieldCheck,
+  Menu,
+  Map as MapIcon,
+  Users,
+} from "lucide-react";
 import { Nav } from "@/components/Nav";
 import { images, personas, pick } from "@/lib/data";
 import welcomeHost from "@/assets/welcome-host.png";
@@ -13,9 +30,15 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Goodfill Care — Koh Samui Wellness Journey" },
-      { name: "description", content: "เริ่มจากแบบประเมิน 8 ข้อ ค้นพบโปรแกรมพักผ่อนแบบลักชัวรี่ที่เกาะสมุย เหมาะกับร่างกายและจิตใจของคุณ" },
+      {
+        name: "description",
+        content: "เริ่มจากแบบประเมิน 8 ข้อ ค้นพบโปรแกรมพักผ่อนแบบลักชัวรี่ที่เกาะสมุย เหมาะกับร่างกายและจิตใจของคุณ",
+      },
       { property: "og:title", content: "Goodfill Care — Koh Samui Wellness" },
-      { property: "og:description", content: "Pre-arrival Quest · Personalized Program · Final Report · Long-term Care" },
+      {
+        property: "og:description",
+        content: "Pre-arrival Quest · Personalized Program · Final Report · Long-term Care",
+      },
       { property: "og:image", content: "https://goodfillcare-samui.com/icon-512.png" },
       { property: "og:url", content: "https://goodfillcare-samui.com/" },
       { name: "twitter:image", content: "https://goodfillcare-samui.com/icon-512.png" },
@@ -80,7 +103,10 @@ function Landing() {
   // Esc to close
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { setModal(null); setMoreOpen(false); }
+      if (e.key === "Escape") {
+        setModal(null);
+        setMoreOpen(false);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -113,10 +139,10 @@ function Landing() {
             className="absolute inset-0 size-full object-cover"
           />
         </AnimatePresence>
-        {/* readability overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep via-emerald-deep/65 to-emerald-deep/15" />
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/90 via-emerald-deep/40 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.18),transparent_55%)]" />
+        {/* SOFTENED readability overlays — less contrast, smoother blending */}
+        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/70 via-emerald-deep/40 to-emerald-deep/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/70 via-emerald-deep/20 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.08),transparent_55%)]" />
       </div>
 
       {/* Slide indicator */}
@@ -126,7 +152,7 @@ function Landing() {
             key={i}
             onClick={() => setSlide(i)}
             aria-label={`Slide ${i + 1}`}
-            className={`h-1 rounded-full transition-all ${i === slide ? "w-7 bg-gold" : "w-3 bg-ivory/40"}`}
+            className={`h-1 rounded-full transition-all ${i === slide ? "w-7 bg-gold/80" : "w-3 bg-ivory/30"}`}
           />
         ))}
       </div>
@@ -134,119 +160,112 @@ function Landing() {
       <Nav />
 
       {/* MAIN CONTENT */}
-      <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col overflow-hidden">
+      <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col overflow-y-auto">
         <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] pb-[50px] lg:pr-[50px] mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 min-w-0 max-w-[72%] sm:max-w-[64%] md:max-w-[60%] lg:max-w-none"
+            className="relative z-10 min-w-0 max-w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-none"
           >
             <div className="flex items-center gap-3">
               <img
                 src={logo}
                 alt="Goodfill Care"
-                className="h-20 md:h-28 w-auto object-contain drop-shadow-[0_10px_36px_rgba(0,0,0,0.6)] rounded-2xl ring-1 ring-gold/30 bg-white/10 backdrop-blur-sm p-1.5"
+                className="h-16 md:h-24 w-auto object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)] rounded-2xl ring-1 ring-gold/20 bg-white/5 backdrop-blur-sm p-1.5"
               />
               <div className="flex flex-col leading-none">
-                <span className="font-display text-3xl md:text-5xl text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.7)] tracking-tight">
-                  Goodfill <span className="text-gold italic">Care</span>
+                <span className="font-display text-2xl md:text-4xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] tracking-tight">
+                  Goodfill <span className="text-gold/90 italic">Care</span>
                 </span>
-                <span className="text-[11px] md:text-[13px] tracking-[0.4em] uppercase text-gold-soft mt-2 font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)]">
+                <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-gold-soft/80 mt-1 font-semibold">
                   {t("hero.kicker")}
                 </span>
               </div>
             </div>
 
             {/* Editorial kicker rule */}
-            <div className="hidden lg:flex items-center gap-3 mt-8">
-              <span className="h-px w-12 bg-gold" />
-              <span className="text-gold text-[11px] tracking-[0.4em] uppercase font-medium">
-                Wellness Journey
-              </span>
+            <div className="hidden lg:flex items-center gap-3 mt-6">
+              <span className="h-px w-10 bg-gold/60" />
+              <span className="text-gold/80 text-[10px] tracking-[0.4em] uppercase font-medium">Wellness Journey</span>
             </div>
 
-          <h1 className="font-display font-normal text-[1.6rem] sm:text-[2.4rem] md:text-6xl lg:text-[4.5rem] leading-[1.1] mt-5 md:mt-6 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)] lg:max-w-[640px]">
-              {t("hero.title1")}<br />
-              <em className="italic text-gold font-normal">{t("hero.title2")}</em>{" "}
+            <h1 className="font-display font-normal text-[1.5rem] sm:text-[2rem] md:text-5xl lg:text-[3.8rem] leading-[1.15] mt-4 md:mt-5 text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.5)] lg:max-w-[580px]">
+              {t("hero.title1")}
+              <br />
+              <em className="italic text-gold/95 font-normal">{t("hero.title2")}</em>{" "}
               <span className="block">{t("hero.title3")}</span>
             </h1>
-          <p className="mt-4 md:mt-6 max-w-md text-[15px] md:text-lg text-white font-medium leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
+            <p className="mt-3 md:mt-5 max-w-md text-[14px] md:text-base text-white/90 font-medium leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.4)]">
               {t("hero.desc")}
             </p>
 
-            {/* Editorial proof points — green dot bullets */}
-            <div className="hidden md:flex flex-wrap gap-x-7 gap-y-2 mt-6">
-              {[
-                "8 Wellness Quests",
-                "6 Distinct Personas",
-                "                 3 / 5 / 7 Day Programs",
-              ].map((label) => (
+            {/* Editorial proof points — softer green dot bullets */}
+            <div className="hidden md:flex flex-wrap gap-x-6 gap-y-2 mt-5">
+              {["8 Wellness Quests", "6 Distinct Personas", "3 / 5 / 7 Day Programs"].map((label) => (
                 <div key={label} className="flex items-center gap-2">
-                  <span className="size-1.5 rounded-full bg-mint shadow-[0_0_8px_rgba(120,200,170,0.6)]" />
-                  <span className="text-white/70 text-[10px] tracking-[0.22em] uppercase font-medium">
-                    {label}
-                  </span>
+                  <span className="size-1.5 rounded-full bg-mint/70 shadow-[0_0_4px_rgba(120,200,170,0.4)]" />
+                  <span className="text-white/60 text-[9px] tracking-[0.2em] uppercase font-medium">{label}</span>
                 </div>
               ))}
             </div>
 
             {/* Action cluster — refined branded CTA */}
-            <div className="mt-7 md:mt-8 flex flex-col gap-4 max-w-[22rem]">
+            <div className="mt-6 md:mt-7 flex flex-col gap-3 max-w-[20rem]">
               <Link
                 to="/quest"
-                className="btn-gold group relative overflow-hidden rounded-2xl px-5 py-3.5 inline-flex items-center justify-center gap-2 text-sm md:text-[17px] font-bold tracking-wide whitespace-nowrap shadow-[0_18px_50px_-14px_rgba(201,168,76,0.7)] ring-1 ring-gold/40 hover:scale-[1.02] transition mt-[5px]"
+                className="btn-gold group relative overflow-hidden rounded-xl px-5 py-3 inline-flex items-center justify-center gap-2 text-sm md:text-[15px] font-bold tracking-wide whitespace-nowrap shadow-[0_12px_32px_-12px_rgba(201,168,76,0.5)] ring-1 ring-gold/30 hover:scale-[1.02] transition"
               >
-                <Sparkles size={18} className="opacity-80" />
+                <Sparkles size={16} className="opacity-80" />
                 <span>{t("hero.ctaStart")}</span>
-                <ArrowRight size={18} className="transition group-hover:translate-x-0.5" />
+                <ArrowRight size={16} className="transition group-hover:translate-x-0.5" />
               </Link>
               <button
                 onClick={() => setMoreOpen(true)}
-                className="rounded-2xl bg-white/15 hover:bg-white/25 backdrop-blur-xl border border-white/30 text-white py-3 px-5 inline-flex items-center justify-center gap-2 text-[15px] font-semibold transition"
+                className="rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-lg border border-white/20 text-white/90 py-2.5 px-4 inline-flex items-center justify-center gap-2 text-[14px] font-semibold transition"
               >
-                <Menu size={16} />
+                <Menu size={15} />
                 <span>สำรวจเพิ่มเติม</span>
               </button>
-              <div className="flex items-center justify-between gap-3 text-[13px] text-white font-semibold px-1 mt-1 drop-shadow-[0_1px_6px_rgba(0,0,0,0.75)]">
+              <div className="flex items-center justify-between gap-3 text-[11px] text-white/80 font-semibold px-1 mt-1">
                 <span className="tracking-wide">~8 นาที · ตอบโดยไม่ต้องพิมพ์</span>
                 <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck size={14} className="text-mint" /> ปลอดภัย
+                  <ShieldCheck size={12} className="text-mint/80" /> ปลอดภัย
                 </span>
               </div>
             </div>
 
-            <div className="mt-6 hidden md:flex items-center gap-5 md:gap-7 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
+            <div className="mt-5 hidden md:flex items-center gap-5 text-white/80">
               {[
                 { v: "8", k: "hero.stat.min" as TKey },
                 { v: "6", k: "hero.stat.personas" as TKey },
                 { v: "12+", k: "hero.stat.partners" as TKey },
               ].map((s, i) => (
-                <div key={s.k} className="flex items-center gap-5 md:gap-7">
-                  {i > 0 && <span className="h-8 w-px bg-white/30" />}
+                <div key={s.k} className="flex items-center gap-5">
+                  {i > 0 && <span className="h-6 w-px bg-white/20" />}
                   <div>
-                    <div className="font-display text-2xl md:text-3xl font-semibold text-gold">{s.v}</div>
-                    <div className="text-[10px] md:text-[11px] tracking-[0.22em] uppercase text-white/85 font-medium mt-0.5">{t(s.k)}</div>
+                    <div className="font-display text-xl md:text-2xl font-semibold text-gold/90">{s.v}</div>
+                    <div className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-white/70 font-medium mt-0.5">
+                      {t(s.k)}
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* RIGHT — Editorial pull-quote sidebar (desktop) */}
+          {/* RIGHT — Editorial pull-quote sidebar (desktop) — softer contrast */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.0, delay: 0.25 }}
-            className="relative z-20 hidden lg:block border-l border-white/15 pl-12 self-center text-white"
+            className="relative z-20 hidden lg:block border-l border-white/10 pl-10 self-center text-white/90"
           >
-            <div className="space-y-10 max-w-sm">
+            <div className="space-y-8 max-w-sm">
               <div>
-                <div className="text-gold text-[11px] tracking-[0.35em] uppercase font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)]">
-                  Refined Care
-                </div>
-                <p className="mt-3 text-white text-[15px] font-medium leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
+                <div className="text-gold/80 text-[10px] tracking-[0.35em] uppercase font-bold">Refined Care</div>
+                <p className="mt-3 text-white/90 text-[14px] font-medium leading-relaxed">
                   Curated specifically for global travelers seeking deep restoration in the heart of Thailand —
                   ภายใต้การดูแลของผู้เชี่ยวชาญ Wellness และเชฟโภชนาการที่ออกแบบทุกขั้นตอนเฉพาะคุณ
                 </p>
@@ -254,78 +273,74 @@ function Landing() {
 
               <div className="relative">
                 <div
-                  className="absolute -top-10 -left-5 text-7xl text-gold/25 select-none pointer-events-none"
+                  className="absolute -top-8 -left-4 text-6xl text-gold/15 select-none pointer-events-none"
                   aria-hidden
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
                   &ldquo;
                 </div>
-                <p className="relative font-display italic text-2xl leading-snug text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.65)]">
-                  A sanctuary where every breath is intentional,
-                  and every moment is yours.
+                <p className="relative font-display italic text-xl leading-snug text-white/95">
+                  A sanctuary where every breath is intentional, and every moment is yours.
                 </p>
-                <div className="mt-4 flex items-center gap-3">
-                  <span className="h-px w-8 bg-gold/70" />
-                  <span className="text-[10px] tracking-[0.3em] uppercase text-white/80 font-medium">
+                <div className="mt-3 flex items-center gap-3">
+                  <span className="h-px w-6 bg-gold/50" />
+                  <span className="text-[9px] tracking-[0.3em] uppercase text-white/70 font-medium">
                     Goodfill Promise
                   </span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4 pt-6 border-t border-white/25">
+              <div className="grid grid-cols-2 gap-x-5 gap-y-3 pt-5 border-t border-white/15">
                 <div>
-                  <div className="font-display text-2xl text-gold">6</div>
-                  <div className="text-[11px] tracking-[0.25em] uppercase text-white/90 mt-1 font-medium">Personas</div>
+                  <div className="font-display text-xl text-gold/90">6</div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                    Personas
+                  </div>
                 </div>
                 <div>
-                  <div className="font-display text-2xl text-gold">3·5·7</div>
-                  <div className="text-[11px] tracking-[0.25em] uppercase text-white/90 mt-1 font-medium">Day Plans</div>
+                  <div className="font-display text-xl text-gold/90">3·5·7</div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                    Day Plans
+                  </div>
                 </div>
                 <div>
-                  <div className="font-display text-2xl text-gold">+300</div>
-                  <div className="text-[11px] tracking-[0.25em] uppercase text-white/90 mt-1 font-medium">Calm Credits</div>
+                  <div className="font-display text-xl text-gold/90">+300</div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                    Calm Credits
+                  </div>
                 </div>
                 <div>
-                  <div className="font-display text-2xl text-gold">12+</div>
-                  <div className="text-[11px] tracking-[0.25em] uppercase text-white/90 mt-1 font-medium">Partners</div>
+                  <div className="font-display text-xl text-gold/90">12+</div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                    Partners
+                  </div>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* Mobile host — bigger, transparent, sits behind content */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.1, delay: 0.25 }}
-            className="hidden"
-          >
-            {/* host hidden on desktop in editorial layout */}
-          </motion.div>
-
-          {/* Mobile host — large Goodfill assistant, hem anchored flush to
-              the bottom of the viewport so the dress doesn't float. */}
+          {/* MOBILE HOST — pushed further right and bottom to avoid text clash */}
           <motion.img
-            initial={{ opacity: 0, x: 30, scale: 0.94 }}
+            initial={{ opacity: 0, x: 40, scale: 0.94 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden fixed -right-[18%] sm:-right-[12%] bottom-16 md:bottom-4 h-[78vh] max-h-[720px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)] z-0"
+            className="lg:hidden fixed -right-[25%] sm:-right-[15%] bottom-8 md:bottom-2 h-[70vh] max-h-[680px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] z-0 opacity-90"
           />
-          {/* Soft right-edge vignette so host blends behind text on mobile */}
-          <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-emerald-deep/55 via-emerald-deep/15 to-transparent z-[1]" />
+          {/* Softer right-edge vignette for better text separation */}
+          <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-2/5 bg-gradient-to-l from-emerald-deep/40 via-emerald-deep/10 to-transparent z-[1]" />
         </div>
       </main>
 
-      {/* MODAL POPUPS */}
+      {/* MODAL POPUPS — unchanged for brevity, same as original except softened colors if desired */}
       <AnimatePresence>
         {modal && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-navy/60 backdrop-blur-md"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-navy/50 backdrop-blur-md"
             onClick={() => setModal(null)}
           >
             <motion.div
@@ -338,27 +353,27 @@ function Landing() {
             >
               <button
                 onClick={() => setModal(null)}
-                className="absolute top-3 right-3 size-12 rounded-full bg-cream hover:bg-mint/50 grid place-items-center shadow-md ring-1 ring-mint/40 active:scale-95 transition"
+                className="absolute top-3 right-3 size-10 rounded-full bg-cream hover:bg-mint/40 grid place-items-center shadow-md ring-1 ring-mint/30 active:scale-95 transition"
                 aria-label="ปิด"
               >
-                <X size={22} />
+                <X size={20} />
               </button>
 
               {modal === "journey" && (
                 <>
-                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">{t("modal.journey.kicker")}</div>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">{t("modal.journey.kicker")}</div>
                   <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.journey.title")}</h2>
                   <div className="mt-6 grid sm:grid-cols-2 gap-3">
                     {phases.map((p) => (
-                      <div key={p.num} className="card-soft p-5 rounded-2xl">
+                      <div key={p.num} className="card-soft p-5 rounded-2xl bg-white/80">
                         <div className="flex items-center justify-between">
-                          <div className="size-10 rounded-xl bg-pale-mint border border-mint/60 grid place-items-center text-emerald">
+                          <div className="size-10 rounded-xl bg-pale-mint/70 border border-mint/40 grid place-items-center text-emerald/80">
                             <p.icon size={18} />
                           </div>
-                          <span className="font-display text-2xl text-mint">{p.num}</span>
+                          <span className="font-display text-2xl text-mint/70">{p.num}</span>
                         </div>
                         <div className="font-display text-lg mt-3">{t(p.titleKey)}</div>
-                        <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{t(p.descKey)}</p>
+                        <p className="text-xs text-muted-foreground/80 mt-1.5 leading-relaxed">{t(p.descKey)}</p>
                       </div>
                     ))}
                   </div>
@@ -367,31 +382,40 @@ function Landing() {
 
               {modal === "personas" && (
                 <>
-                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">{t("modal.personas.kicker")}</div>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">
+                    {t("modal.personas.kicker")}
+                  </div>
                   <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.personas.title")}</h2>
-                  <p className="text-sm text-muted-foreground mt-2">{t("modal.personas.sub")}</p>
+                  <p className="text-sm text-muted-foreground/80 mt-2">{t("modal.personas.sub")}</p>
                   <div className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {Object.values(personas).map((p) => (
-                      <div key={p.id} className={`relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br ${p.color} ring-1 ring-white/40 shadow-[0_8px_24px_-12px_rgba(12,35,64,0.35)]`}>
-                        <div className="absolute inset-0 bg-white/65 backdrop-blur-[2px]" />
+                      <div
+                        key={p.id}
+                        className={`relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br ${p.color} ring-1 ring-white/30 shadow-md`}
+                      >
+                        <div className="absolute inset-0 bg-white/70 backdrop-blur-[1px]" />
                         <div className="relative">
-                          <div className="text-[10px] tracking-widest uppercase text-emerald font-bold">{p.id}</div>
-                          <div className="font-display text-lg mt-1 text-navy">{pick(p.name, lang)}</div>
-                          <div className="text-xs text-emerald-deep/80 font-medium">{pick(p.thaiName, lang)}</div>
-                          <div className="text-xs mt-2 text-navy/85 line-clamp-2">{pick(p.tagline, lang)}</div>
+                          <div className="text-[9px] tracking-widest uppercase text-emerald/90 font-bold">{p.id}</div>
+                          <div className="font-display text-lg mt-1 text-navy/90">{pick(p.name, lang)}</div>
+                          <div className="text-xs text-emerald-deep/70 font-medium">{pick(p.thaiName, lang)}</div>
+                          <div className="text-xs mt-2 text-navy/70 line-clamp-2">{pick(p.tagline, lang)}</div>
                         </div>
                       </div>
                     ))}
                   </div>
-                  <Link to="/quest" onClick={() => setModal(null)} className="btn-emerald rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm mt-6">
-                    {t("modal.personas.cta")} <ArrowRight size={16} />
+                  <Link
+                    to="/quest"
+                    onClick={() => setModal(null)}
+                    className="btn-emerald rounded-full px-5 py-2.5 inline-flex items-center gap-2 text-sm mt-6"
+                  >
+                    {t("modal.personas.cta")} <ArrowRight size={15} />
                   </Link>
                 </>
               )}
 
               {modal === "samui" && (
                 <>
-                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">{t("modal.samui.kicker")}</div>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">{t("modal.samui.kicker")}</div>
                   <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.samui.title")}</h2>
                   <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-3">
                     {[
@@ -404,7 +428,7 @@ function Landing() {
                     ].map((it) => (
                       <div key={it.k} className="relative rounded-2xl overflow-hidden aspect-[4/5]">
                         <img src={it.src} alt={t(it.k)} className="size-full object-cover" />
-                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/80 to-transparent p-3">
+                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy/70 to-transparent p-3">
                           <div className="text-ivory text-xs tracking-wider">{t(it.k)}</div>
                         </div>
                       </div>
@@ -415,31 +439,61 @@ function Landing() {
 
               {modal === "company" && (
                 <>
-                  <div className="text-[11px] tracking-[0.3em] uppercase text-gold">{t("modal.company.kicker")}</div>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">{t("modal.company.kicker")}</div>
                   <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.company.title")}</h2>
-                  <p className="text-sm text-muted-foreground mt-3 leading-relaxed">{t("modal.company.intro")}</p>
+                  <p className="text-sm text-muted-foreground/80 mt-3 leading-relaxed">{t("modal.company.intro")}</p>
                   <div className="mt-5 grid sm:grid-cols-2 gap-2.5">
-                    {(["modal.company.s1","modal.company.s2","modal.company.s3","modal.company.s4","modal.company.s5","modal.company.s6"] as TKey[]).map((k, i) => (
-                      <div key={k} className="card-soft p-3.5 rounded-xl flex items-center gap-3">
-                        <span className="size-8 rounded-lg bg-pale-mint border border-mint/60 grid place-items-center text-emerald font-display text-sm">0{i+1}</span>
-                        <span className="text-sm">{t(k)}</span>
+                    {(
+                      [
+                        "modal.company.s1",
+                        "modal.company.s2",
+                        "modal.company.s3",
+                        "modal.company.s4",
+                        "modal.company.s5",
+                        "modal.company.s6",
+                      ] as TKey[]
+                    ).map((k, i) => (
+                      <div key={k} className="card-soft p-3.5 rounded-xl flex items-center gap-3 bg-white/70">
+                        <span className="size-8 rounded-lg bg-pale-mint/60 border border-mint/40 grid place-items-center text-emerald/80 font-display text-sm">
+                          0{i + 1}
+                        </span>
+                        <span className="text-sm text-navy/80">{t(k)}</span>
                       </div>
                     ))}
                   </div>
                   <div className="mt-6 grid sm:grid-cols-2 gap-3">
-                    <div className="card-soft p-4 rounded-2xl">
-                      <div className="text-[10px] tracking-[0.25em] uppercase text-emerald">{t("modal.company.contact")}</div>
-                      <a href="tel:+66945958741" className="mt-2 flex items-center gap-2 text-sm hover:text-emerald"><Phone size={14}/> 094-595-8741</a>
-                      <a href="mailto:admin@samui741.com" className="mt-1.5 flex items-center gap-2 text-sm hover:text-emerald"><ExternalLink size={14}/> admin@samui741.com</a>
-                      <div className="mt-1.5 flex items-center gap-2 text-sm text-navy/70"><span className="text-emerald">LINE</span> @samui741</div>
+                    <div className="card-soft p-4 rounded-2xl bg-white/80">
+                      <div className="text-[9px] tracking-[0.25em] uppercase text-emerald/80">
+                        {t("modal.company.contact")}
+                      </div>
+                      <a href="tel:+66945958741" className="mt-2 flex items-center gap-2 text-sm hover:text-emerald/80">
+                        <Phone size={13} /> 094-595-8741
+                      </a>
+                      <a
+                        href="mailto:admin@samui741.com"
+                        className="mt-1.5 flex items-center gap-2 text-sm hover:text-emerald/80"
+                      >
+                        <ExternalLink size={13} /> admin@samui741.com
+                      </a>
+                      <div className="mt-1.5 flex items-center gap-2 text-sm text-navy/70">
+                        <span className="text-emerald/80">LINE</span> @samui741
+                      </div>
                     </div>
-                    <div className="card-soft p-4 rounded-2xl">
-                      <div className="text-[10px] tracking-[0.25em] uppercase text-emerald">HQ</div>
-                      <div className="mt-2 flex items-start gap-2 text-sm text-navy/80"><MapPin size={14} className="mt-0.5 shrink-0"/><span>{t("modal.company.addr")}</span></div>
+                    <div className="card-soft p-4 rounded-2xl bg-white/80">
+                      <div className="text-[9px] tracking-[0.25em] uppercase text-emerald/80">HQ</div>
+                      <div className="mt-2 flex items-start gap-2 text-sm text-navy/70">
+                        <MapPin size={13} className="mt-0.5 shrink-0" />
+                        <span>{t("modal.company.addr")}</span>
+                      </div>
                     </div>
                   </div>
-                  <a href="https://samui-741.com/?lang=th" target="_blank" rel="noreferrer" className="btn-emerald rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm mt-6">
-                    {t("modal.company.visit")} <ArrowRight size={16} />
+                  <a
+                    href="https://samui-741.com/?lang=th"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-emerald rounded-full px-5 py-2.5 inline-flex items-center gap-2 text-sm mt-6"
+                  >
+                    {t("modal.company.visit")} <ArrowRight size={15} />
                   </a>
                 </>
               )}
@@ -448,14 +502,14 @@ function Landing() {
         )}
       </AnimatePresence>
 
-      {/* MORE MENU (progressive disclosure for secondary actions) */}
+      {/* MORE MENU — soft contrast */}
       <AnimatePresence>
         {moreOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[110] flex items-end md:items-center justify-center p-4 bg-navy/60 backdrop-blur-md"
+            className="fixed inset-0 z-[110] flex items-end md:items-center justify-center p-4 bg-navy/50 backdrop-blur-md"
             onClick={() => setMoreOpen(false)}
           >
             <motion.div
@@ -468,37 +522,40 @@ function Landing() {
             >
               <button
                 onClick={() => setMoreOpen(false)}
-                className="absolute top-3 right-3 size-12 rounded-full bg-cream hover:bg-mint/50 grid place-items-center shadow-md ring-1 ring-mint/40 active:scale-95 transition"
+                className="absolute top-3 right-3 size-10 rounded-full bg-cream hover:bg-mint/40 grid place-items-center shadow-md ring-1 ring-mint/30 active:scale-95 transition"
                 aria-label="ปิด"
               >
-                <X size={22} />
+                <X size={20} />
               </button>
-              <div className="text-[10px] tracking-[0.3em] uppercase text-gold">Goodfill Care</div>
+              <div className="text-[9px] tracking-[0.3em] uppercase text-gold/80">Goodfill Care</div>
               <h3 className="font-display text-2xl mt-1">เมนูเพิ่มเติม</h3>
               <div className="mt-4 grid grid-cols-1 gap-2">
                 {moreItems.map((m) => (
                   <button
                     key={m.key}
-                    onClick={() => { setMoreOpen(false); setModal(m.key); }}
-                    className="card-soft rounded-2xl p-4 flex items-center gap-3 text-left hover:bg-pale-mint/60 active:scale-[0.99] transition"
+                    onClick={() => {
+                      setMoreOpen(false);
+                      setModal(m.key);
+                    }}
+                    className="card-soft rounded-2xl p-4 flex items-center gap-3 text-left hover:bg-pale-mint/40 active:scale-[0.99] transition bg-white/70"
                   >
-                    <span className="size-10 rounded-xl bg-pale-mint border border-mint/60 grid place-items-center text-emerald">
-                      <m.icon size={18} />
+                    <span className="size-10 rounded-xl bg-pale-mint/60 border border-mint/30 grid place-items-center text-emerald/80">
+                      <m.icon size={17} />
                     </span>
                     <span className="font-medium">{m.label}</span>
-                    <ArrowRight size={16} className="ml-auto text-emerald" />
+                    <ArrowRight size={15} className="ml-auto text-emerald/70" />
                   </button>
                 ))}
                 <Link
                   to="/partners"
                   onClick={() => setMoreOpen(false)}
-                  className="card-soft rounded-2xl p-4 flex items-center gap-3 hover:bg-pale-mint/60 active:scale-[0.99] transition"
+                  className="card-soft rounded-2xl p-4 flex items-center gap-3 hover:bg-pale-mint/40 active:scale-[0.99] transition bg-white/70"
                 >
-                  <span className="size-10 rounded-xl bg-pale-mint border border-mint/60 grid place-items-center text-emerald">
-                    <Handshake size={18} />
+                  <span className="size-10 rounded-xl bg-pale-mint/60 border border-mint/30 grid place-items-center text-emerald/80">
+                    <Handshake size={17} />
                   </span>
                   <span className="font-medium">{t("hero.btnPartners")}</span>
-                  <ArrowRight size={16} className="ml-auto text-emerald" />
+                  <ArrowRight size={15} className="ml-auto text-emerald/70" />
                 </Link>
               </div>
             </motion.div>
