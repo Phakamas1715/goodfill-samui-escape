@@ -170,7 +170,15 @@ function ProgramDetail() {
           ].filter(Boolean).join(" | "),
         });
       }
-      navigate({ to: "/journey" });
+      navigate({
+        to: "/booking-success",
+        search: {
+          bookingId: res.bookingId,
+          programName: pick(program.name, lang),
+          dates: bookingDate,
+          location: pick(program.venue, lang),
+        },
+      });
     } catch (e) {
       toast.error(t("programs.errorToast"), { id: "book", description: String(e).slice(0, 200) });
     } finally {
