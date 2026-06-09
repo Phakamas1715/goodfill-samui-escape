@@ -114,7 +114,8 @@ export const attachSupabaseAuth = createMiddleware({ type: "function" }).client(
     logAuthEvent("middleware", { hasToken, durationMs: duration });
 
     // Attach token to request headers
-    const headers = token ? { [AUTHORIZATION_HEADER]: `${BEARER_PREFIX}${token}` } : {};
+    const headers: Record<string, string> = {};
+    if (token) headers[AUTHORIZATION_HEADER] = `${BEARER_PREFIX}${token}`;
 
     return next({ headers });
   } catch (error) {
@@ -143,15 +144,16 @@ export const attachSupabaseAuth = createMiddleware({ type: "function" }).client(
  *     // ...
  *   });
  */
-export const attachSupabaseAuthServer = createMiddleware({ type: "function" }).server(async ({ next, request }) => {
+export const attachSupabaseAuthServer = createMiddleware({ type: "function" }).server(async ({ next }) => {
+  const { getRequest } = await import("@tanstack/react-start/server");
+  const request = getRequest();
   const authHeader = request.headers.get(AUTHORIZATION_HEADER);
   const token = authHeader?.startsWith(BEARER_PREFIX) ? authHeader.slice(BEARER_PREFIX.length) : null;
 
   logAuthEvent("server-middleware", { hasToken: !!token });
 
   return next({
-    token,
-    headers: token ? { [AUTHORIZATION_HEADER]: authHeader! } : {},
+    context: { token },
   });
 });
 
