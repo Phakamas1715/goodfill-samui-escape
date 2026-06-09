@@ -22,6 +22,7 @@ import { Route as DetoxRouteImport } from './routes/detox'
 import { Route as ConsentRouteImport } from './routes/consent'
 import { Route as ChannelRouteImport } from './routes/channel'
 import { Route as CareRouteImport } from './routes/care'
+import { Route as BookingSuccessRouteImport } from './routes/booking-success'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsIndexRouteImport } from './routes/programs.index'
@@ -105,6 +106,11 @@ const ChannelRoute = ChannelRouteImport.update({
 const CareRoute = CareRouteImport.update({
   id: '/care',
   path: '/care',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingSuccessRoute = BookingSuccessRouteImport.update({
+  id: '/booking-success',
+  path: '/booking-success',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -211,6 +217,7 @@ const ApiPublicLineCustomerWebhookRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/booking-success': typeof BookingSuccessRoute
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
@@ -244,6 +251,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/booking-success': typeof BookingSuccessRoute
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
@@ -278,6 +286,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/booking-success': typeof BookingSuccessRoute
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
@@ -313,6 +322,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/booking-success'
     | '/care'
     | '/channel'
     | '/consent'
@@ -346,6 +356,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/booking-success'
     | '/care'
     | '/channel'
     | '/consent'
@@ -379,6 +390,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/booking-success'
     | '/care'
     | '/channel'
     | '/consent'
@@ -414,6 +426,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  BookingSuccessRoute: typeof BookingSuccessRoute
   CareRoute: typeof CareRoute
   ChannelRoute: typeof ChannelRoute
   ConsentRoute: typeof ConsentRoute
@@ -527,6 +540,13 @@ declare module '@tanstack/react-router' {
       path: '/care'
       fullPath: '/care'
       preLoaderRoute: typeof CareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/booking-success': {
+      id: '/booking-success'
+      path: '/booking-success'
+      fullPath: '/booking-success'
+      preLoaderRoute: typeof BookingSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -714,6 +734,7 @@ const LoginRouteWithChildren = LoginRoute._addFileChildren(LoginRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  BookingSuccessRoute: BookingSuccessRoute,
   CareRoute: CareRoute,
   ChannelRoute: ChannelRoute,
   ConsentRoute: ConsentRoute,
