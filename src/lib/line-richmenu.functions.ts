@@ -64,8 +64,9 @@ async function lineApi(token: string, path: string, init: RequestInit & { body?:
 }
 
 async function lineUploadRichMenuImage(token: string, richMenuId: string, image: Buffer) {
-  // Image upload uses the data-api host
-  const body = new Uint8Array(image.buffer, image.byteOffset, image.byteLength);
+  // Image upload uses the data-api host. Convert to a Blob so fetch types accept it.
+  const arr = image.buffer.slice(image.byteOffset, image.byteOffset + image.byteLength) as ArrayBuffer;
+  const body = new Blob([arr], { type: "image/png" });
   const res = await fetch(`https://api-data.line.me/v2/bot/richmenu/${richMenuId}/content`, {
     method: "POST",
     headers: {

@@ -70,23 +70,17 @@ export const Route = createFileRoute("/api/public/telegram/webhook")({
           if (!chatId || !action) return Response.json({ ok: true });
 
           if (action === "status") {
-            const tgUserId = cq.from?.id;
-            // Try to look up most recent booking for this telegram chat
-            const { data: ident } = await supabaseAdmin
-              .from("telegram_identities")
-              .select("user_id")
-              .eq("chat_id", chatId)
-              .maybeSingle();
-            let booking: any = null;
-            if (ident?.user_id) {
-              const { data } = await supabaseAdmin
-                .from("bookings")
-                .select("booking_code, program_name, program_duration, booking_date, status")
-                .eq("customer_user_id", ident.user_id)
-                .order("created_at", { ascending: false })
-                .limit(1);
-              booking = data?.[0] ?? null;
-            }
+            // Look up most recent booking that pushed to this telegram chat
+            const { data: rows } = await supabaseAdmin
+              .from("bookings")
+              .select("booking_code, program_name, program_duration, booking_date, status, customer_push")
+              .order("created_at", { ascending: false })
+              .limit(50);
+            const booking = (rows ?? []).find((b: any) => {
+              const tg = b?.customer_push?.telegram;
+              if (!tg) return false;
+              return Number(tg?.chat_id ?? tg) === chatId;
+            }) ?? null;
             const text = booking
               ? `📋 <b>${tgEscape(booking.booking_code)}</b>\n` +
                 `โปรแกรม: ${tgEscape(booking.program_name)} (${booking.program_duration} วัน)\n` +
