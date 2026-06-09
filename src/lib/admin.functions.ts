@@ -206,7 +206,7 @@ export const upsertProgram = createServerFn({ method: "POST" })
 
     if (data.id) {
       const { id, ...rest } = data;
-      const { error } = await context.supabase.from("programs").update(rest).eq("id", id);
+      const { error } = await context.supabase.from("programs").update(rest as never).eq("id", id);
 
       if (error) {
         console.error("[upsertProgram] Update error:", error);
@@ -216,7 +216,7 @@ export const upsertProgram = createServerFn({ method: "POST" })
     }
 
     const { id: _omit, ...rest } = data;
-    const { data: ins, error } = await context.supabase.from("programs").insert(rest).select("id").single();
+    const { data: ins, error } = await context.supabase.from("programs").insert(rest as never).select("id").single();
 
     if (error) {
       console.error("[upsertProgram] Insert error:", error);
