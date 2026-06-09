@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { ChevronRight, MoreHorizontal, Home, Sparkles } from "lucide-react";
+import { ChevronRight, MoreHorizontal, Home, Sparkles, ChevronLeft } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -12,6 +12,8 @@ interface BreadcrumbProps extends React.ComponentPropsWithoutRef<"nav"> {
   separator?: React.ReactNode;
   variant?: "default" | "gold" | "emerald";
   showHome?: boolean;
+  backButton?: boolean;
+  onBack?: () => void;
 }
 
 interface BreadcrumbLinkProps extends React.ComponentPropsWithoutRef<"a"> {
@@ -40,26 +42,39 @@ const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
       separator = <ChevronRight className="h-3.5 w-3.5" />,
       variant = "default",
       showHome = false,
+      backButton = false,
+      onBack,
       children,
       ...props
     },
     ref,
   ) => (
     <nav ref={ref} aria-label="breadcrumb" className={cn("w-full", className)} {...props}>
-      <BreadcrumbList>
-        {showHome && (
-          <>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/" className="flex items-center gap-1">
-                <Home className="h-3.5 w-3.5" />
-                <span className="sr-only">Home</span>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator>{separator}</BreadcrumbSeparator>
-          </>
+      <div className="flex items-center gap-2">
+        {backButton && (
+          <button
+            onClick={onBack}
+            className="flex items-center justify-center rounded-full p-1 text-muted-foreground hover:bg-muted/50 hover:text-navy transition-colors"
+            aria-label="Go back"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
         )}
-        {children}
-      </BreadcrumbList>
+        <BreadcrumbList>
+          {showHome && (
+            <>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/" className="flex items-center gap-1">
+                  <Home className="h-3.5 w-3.5" />
+                  <span className="sr-only">Home</span>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator>{separator}</BreadcrumbSeparator>
+            </>
+          )}
+          {children}
+        </BreadcrumbList>
+      </div>
     </nav>
   ),
 );
@@ -163,6 +178,21 @@ function EmeraldBreadcrumb(props: Omit<BreadcrumbProps, "variant">) {
 }
 
 /**
+ * Breadcrumb with back button for mobile navigation
+ */
+function BackBreadcrumb({
+  onBack,
+  children,
+  ...props
+}: Omit<BreadcrumbProps, "backButton" | "onBack"> & { onBack: () => void }) {
+  return (
+    <Breadcrumb backButton onBack={onBack} {...props}>
+      {children}
+    </Breadcrumb>
+  );
+}
+
+/**
  * Breadcrumb item with icon support
  */
 interface IconBreadcrumbItemProps extends React.ComponentPropsWithoutRef<typeof BreadcrumbItem> {
@@ -185,9 +215,54 @@ function IconBreadcrumbItem({ icon, href, children, ...props }: IconBreadcrumbIt
  */
 function AdminBreadcrumb({ items }: { items: Array<{ label: string; href?: string }> }) {
   return (
-    <Breadcrumb showHome>
+    <Breadcrumb showHome variant="gold">
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
+        return (
+          <React.Fragment key={item.label}>
+            <BreadcrumbItem>
+              {isLast ? (
+                <BreadcrumbPage>{item.label}</BreadcrumbPage>
+              ) : (
+                <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+              )}
+            </BreadcrumbItem>
+            {!isLast && <BreadcrumbSeparator />}
+          </React.Fragment>
+        );
+      })}
+    </Breadcrumb>
+  );
+}
+
+/**
+ * Responsive breadcrumb that collapses on mobile
+ */
+function ResponsiveBreadcrumb({ items }: { items: Array<{ label: string; href?: string }> }) {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const visibleItems = isMobile ? items.slice(-2) : items;
+  const hiddenCount = items.length - visibleItems.length;
+
+  return (
+    <Breadcrumb>
+      {hiddenCount > 0 && (
+        <>
+          <BreadcrumbItem>
+            <BreadcrumbEllipsis />
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+        </>
+      )}
+      {visibleItems.map((item, index) => {
+        const isLast = index === visibleItems.length - 1;
         return (
           <React.Fragment key={item.label}>
             <BreadcrumbItem>
@@ -225,6 +300,15 @@ function createBreadcrumbsFromPath(path: string): Array<{ label: string; href: s
   return breadcrumbs;
 }
 
+/**
+ * Get page title from breadcrumb
+ */
+function getPageTitleFromPath(path: string): string {
+  const breadcrumbs = createBreadcrumbsFromPath(path);
+  const last = breadcrumbs[breadcrumbs.length - 1];
+  return last?.label || "Home";
+}
+
 // ============================================================================
 // Default Export
 // ============================================================================
@@ -239,7 +323,10 @@ export {
   BreadcrumbEllipsis,
   GoldBreadcrumb,
   EmeraldBreadcrumb,
+  BackBreadcrumb,
   IconBreadcrumbItem,
   AdminBreadcrumb,
+  ResponsiveBreadcrumb,
   createBreadcrumbsFromPath,
+  getPageTitleFromPath,
 };
