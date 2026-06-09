@@ -130,12 +130,12 @@ TabsContent.displayName = TabsPrimitive.Content.displayName;
 /**
  * Gold tabs for premium sections
  */
-const GoldTabs = (props: TabsListProps) => <Tabs variant="gold" {...props} />;
+const GoldTabs = (props: React.ComponentProps<typeof TabsPrimitive.Root>) => <Tabs {...props} />;
 
 /**
  * Emerald tabs for wellness sections
  */
-const EmeraldTabs = (props: TabsListProps) => <Tabs variant="emerald" {...props} />;
+const EmeraldTabs = (props: React.ComponentProps<typeof TabsPrimitive.Root>) => <Tabs {...props} />;
 
 /**
  * Underlined tabs (alternative style)
