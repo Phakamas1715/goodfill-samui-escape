@@ -8,10 +8,10 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface InputOTPProps extends React.ComponentPropsWithoutRef<typeof OTPInput> {
+type InputOTPProps = React.ComponentPropsWithoutRef<typeof OTPInput> & {
   variant?: "default" | "gold" | "emerald";
   size?: "sm" | "default" | "lg";
-}
+};
 
 interface InputOTPSlotProps extends React.ComponentPropsWithoutRef<"div"> {
   index: number;
