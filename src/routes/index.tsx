@@ -126,7 +126,7 @@ function Landing() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10"
+            className="relative z-10 max-w-[280px] sm:max-w-[400px] lg:max-w-none"
           >
             <div className="flex items-center gap-3">
               <div className="relative size-16 md:size-20 rounded-3xl bg-white grid place-items-center shadow-2xl ring-1 ring-white/60">
@@ -143,7 +143,7 @@ function Landing() {
               </div>
             </div>
 
-          <h1 className="font-display font-semibold text-[2.8rem] sm:text-[3.4rem] md:text-6xl lg:text-7xl leading-[1.02] mt-6 md:mt-8 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)]">
+          <h1 className="font-display font-semibold text-[2.2rem] sm:text-[3.2rem] md:text-6xl lg:text-7xl leading-[1.05] mt-5 md:mt-8 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)]">
               {t("hero.title1")}<br />
               <em className="not-italic text-gold">{t("hero.title2")}</em>{" "}
               <span className="block">{t("hero.title3")}</span>
@@ -226,7 +226,7 @@ function Landing() {
             transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden absolute -right-8 bottom-[230px] h-[52vh] max-h-[480px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
+            className="lg:hidden absolute -right-10 bottom-[210px] h-[46vh] max-h-[420px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
           />
         </div>
       </main>
