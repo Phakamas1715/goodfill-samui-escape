@@ -75,8 +75,8 @@ function PersonaPage() {
   return (
     <DashShell bg="meditation" host="wai" highlight={pick(persona.tagline, lang)} kicker={t("persona.kicker")} title={pick(persona.name, lang)} subtitle={pick(persona.thaiName, lang)}>
       <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        <DashCard className={`bg-gradient-to-br ${persona.color}`}>
-          <p className="text-sm md:text-base text-navy">{pick(persona.tagline, lang)}</p>
+        <DashCard className={`card-glass p-5 md:p-6 bg-gradient-to-br from-violet-500/30 to-indigo-700/30 bg-orange-950 ${persona.color}`}>
+          <p className="text-sm md:text-base text-navy text-gray-100">{pick(persona.tagline, lang)}</p>
           <p className="text-xs text-muted-foreground mt-1 leading-relaxed line-clamp-2">{pick(persona.description, lang)}</p>
           <div className="flex items-center gap-1.5 text-gold text-[10px] tracking-[0.25em] uppercase mt-3">
             <Sparkles size={12} /> {t("persona.pillars")}
