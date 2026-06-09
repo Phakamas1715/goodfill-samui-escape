@@ -192,7 +192,7 @@ function Landing() {
                 className="rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/20 text-white py-3 px-5 inline-flex items-center justify-center gap-2 text-sm font-medium transition"
               >
                 <Menu size={16} />
-                <span>{t("hero.btnExplore") ?? "สำรวจเพิ่มเติม"}</span>
+                <span>สำรวจเพิ่มเติม</span>
               </button>
               <div className="flex items-center justify-between gap-3 text-[12px] text-white/85 font-medium px-1 mt-1 drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]">
                 <span className="tracking-wide">~8 นาที · ตอบโดยไม่ต้องพิมพ์</span>
