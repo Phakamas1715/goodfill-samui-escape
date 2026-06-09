@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createHash } from "crypto";
+import { createClient } from "@supabase/supabase-js";
 
 export const Route = createFileRoute("/api/public/line-login")({
   server: {
@@ -30,7 +31,9 @@ export const Route = createFileRoute("/api/public/line-login")({
         if (!lineUserId) return new Response("no sub in token", { status: 401 });
 
         const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-        if (!serviceKey) return new Response("server misconfigured", { status: 500 });
+        const supabaseUrl = process.env.SUPABASE_URL;
+        const anonKey = process.env.SUPABASE_PUBLISHABLE_KEY;
+        if (!serviceKey || !supabaseUrl || !anonKey) return new Response("server misconfigured", { status: 500 });
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const password = createHash("sha256").update(`${serviceKey}:line:${channel}:${lineUserId}`).digest("hex");
@@ -71,7 +74,23 @@ export const Route = createFileRoute("/api/public/line-login")({
             .eq("channel", channel);
         }
 
-        return Response.json({ email, password, userId, channel, lineUserId, name: claims.name });
+        // Exchange the internal password for a short-lived Supabase session server-side.
+        // The raw password never leaves the server.
+        const sb = createClient(supabaseUrl, anonKey, {
+          auth: { persistSession: false, autoRefreshToken: false },
+        });
+        const { data: signed, error: signErr } = await sb.auth.signInWithPassword({ email, password });
+        if (signErr || !signed.session) {
+          return new Response(`sign in failed: ${signErr?.message ?? "unknown"}`, { status: 500 });
+        }
+        return Response.json({
+          access_token: signed.session.access_token,
+          refresh_token: signed.session.refresh_token,
+          userId,
+          channel,
+          lineUserId,
+          name: claims.name,
+        });
       },
     },
   },
