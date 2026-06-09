@@ -295,7 +295,7 @@ function Landing() {
             transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden absolute -right-6 bottom-[200px] h-[48vh] max-h-[440px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
+            className="lg:hidden absolute -right-6 bottom-[58px] h-[52vh] max-h-[500px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
           />
         </div>
       </main>
