@@ -194,7 +194,7 @@ function BadgeGroup({ children, className }: { children: React.ReactNode; classN
   return (
     <div className={cn("flex flex-wrap gap-2", className)}>
       {children}
-    </Grid>
+    </div>
   );
 }
 
