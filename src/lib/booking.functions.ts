@@ -188,6 +188,8 @@ export const confirmBooking = createServerFn({ method: "POST" })
       qrUrl,
       mealsUrl,
       expertName: data.expertName,
+      dietaryPlan: data.dietaryPlan,
+      dietaryNotes: data.dietaryNotes,
     });
 
     const partnerMsg = receiptFlex({
@@ -203,6 +205,8 @@ export const confirmBooking = createServerFn({ method: "POST" })
       mealsUrl,
       expertName: data.expertName,
       partnerActions: true,
+      dietaryPlan: data.dietaryPlan,
+      dietaryNotes: data.dietaryNotes,
     });
 
     const mealMsg = data.mealPlan && data.mealPlan.length
