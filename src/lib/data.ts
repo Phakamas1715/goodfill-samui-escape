@@ -1,4 +1,4 @@
-// Goodfill Care — quest, personas, programs (static client data)
+// Goodfill Care — quest, personas, programs (static client data, bilingual)
 
 import heroSamui from "@/assets/hero-samui.jpg";
 import yoga from "@/assets/yoga-sunrise.jpg";
@@ -19,192 +19,244 @@ export const images = {
   mealBreakfast, mealLunch, mealDinner,
 };
 
+export type Lang = "th" | "en";
+export type Bi = { th: string; en: string };
+export const pick = (b: Bi | string, lang: Lang): string =>
+  typeof b === "string" ? b : b[lang];
+export const pickList = (a: (Bi | string)[], lang: Lang): string[] =>
+  a.map((x) => pick(x, lang));
+
 export type PersonaId =
-  | "warrior"
-  | "thinker"
-  | "comfort"
-  | "feeler"
-  | "performer"
-  | "explorer";
+  | "warrior" | "thinker" | "comfort" | "feeler" | "performer" | "explorer";
 
 export interface Persona {
   id: PersonaId;
-  name: string;
-  thaiName: string;
-  tagline: string;
-  description: string;
-  color: string; // tailwind class fragment
-  pillars: string[];
+  name: Bi;
+  thaiName: Bi;
+  tagline: Bi;
+  description: Bi;
+  color: string;
+  pillars: Bi[];
 }
 
 export const personas: Record<PersonaId, Persona> = {
   warrior: {
     id: "warrior",
-    name: "The Silent Warrior",
-    thaiName: "นักสู้เงียบ",
-    tagline: "ผู้รับผิดชอบสูง อดทน ดูแลทุกอย่างให้ดีที่สุด",
-    description:
-      "คุณเป็นคนรับผิดชอบสูง อดทน และพยายามดูแลทุกอย่างให้ดีที่สุด แต่ร่างกายอาจเริ่มสะสมความล้าโดยไม่รู้ตัว",
+    name: { th: "The Silent Warrior", en: "The Silent Warrior" },
+    thaiName: { th: "นักสู้เงียบ", en: "Silent Warrior" },
+    tagline: {
+      th: "ผู้รับผิดชอบสูง อดทน ดูแลทุกอย่างให้ดีที่สุด",
+      en: "High responsibility, enduring, takes care of everyone.",
+    },
+    description: {
+      th: "คุณเป็นคนรับผิดชอบสูง อดทน และพยายามดูแลทุกอย่างให้ดีที่สุด แต่ร่างกายอาจเริ่มสะสมความล้าโดยไม่รู้ตัว",
+      en: "You're highly responsible and enduring, taking care of everything — but your body may be quietly accumulating fatigue.",
+    },
     color: "from-slate-500/30 to-emerald-700/30",
-    pillars: ["Executive Recovery", "Deep Tissue Massage", "Sleep Restoration", "Adrenal Reset"],
+    pillars: [
+      { th: "Executive Recovery", en: "Executive Recovery" },
+      { th: "Deep Tissue Massage", en: "Deep Tissue Massage" },
+      { th: "Sleep Restoration", en: "Sleep Restoration" },
+      { th: "Adrenal Reset", en: "Adrenal Reset" },
+    ],
   },
   thinker: {
     id: "thinker",
-    name: "The Midnight Thinker",
-    thaiName: "นกฮูกคิดมาก",
-    tagline: "คนคิดลึก วางแผนเก่ง ละเอียดรอบคอบ",
-    description:
-      "คุณเป็นคนคิดลึก วางแผนเก่ง และละเอียดรอบคอบ แต่สมองที่ไม่ค่อยได้พัก อาจส่งผลต่อการนอนและความสดชื่นในแต่ละวัน",
+    name: { th: "The Midnight Thinker", en: "The Midnight Thinker" },
+    thaiName: { th: "นกฮูกคิดมาก", en: "Midnight Owl" },
+    tagline: {
+      th: "คนคิดลึก วางแผนเก่ง ละเอียดรอบคอบ",
+      en: "Deep thinker, strong planner, detail-oriented.",
+    },
+    description: {
+      th: "คุณเป็นคนคิดลึก วางแผนเก่ง และละเอียดรอบคอบ แต่สมองที่ไม่ค่อยได้พัก อาจส่งผลต่อการนอนและความสดชื่นในแต่ละวัน",
+      en: "You think deeply and plan carefully, but a mind that never rests can affect your sleep and daily energy.",
+    },
     color: "from-indigo-500/30 to-violet-700/30",
-    pillars: ["Sleep Recovery", "Nervous System Reset", "Mind Quieting", "Breathwork"],
+    pillars: [
+      { th: "Sleep Recovery", en: "Sleep Recovery" },
+      { th: "Nervous System Reset", en: "Nervous System Reset" },
+      { th: "Mind Quieting", en: "Mind Quieting" },
+      { th: "Breathwork", en: "Breathwork" },
+    ],
   },
   comfort: {
     id: "comfort",
-    name: "The Comfort Seeker",
-    thaiName: "ผู้แสวงหาความสบายใจ",
-    tagline: "เชื่อมอาหารกับอารมณ์อย่างสมดุล",
-    description:
-      "คุณมักใช้ความอร่อย ความสบาย หรือสิ่งคุ้นเคยช่วยปลอบใจในวันที่เหนื่อย โปรแกรมจึงเน้นเชื่อมอาหารกับอารมณ์อย่างสมดุล",
+    name: { th: "The Comfort Seeker", en: "The Comfort Seeker" },
+    thaiName: { th: "ผู้แสวงหาความสบายใจ", en: "Comfort Seeker" },
+    tagline: {
+      th: "เชื่อมอาหารกับอารมณ์อย่างสมดุล",
+      en: "Reconnect food with emotion, in balance.",
+    },
+    description: {
+      th: "คุณมักใช้ความอร่อย ความสบาย หรือสิ่งคุ้นเคยช่วยปลอบใจในวันที่เหนื่อย โปรแกรมจึงเน้นเชื่อมอาหารกับอารมณ์อย่างสมดุล",
+      en: "You often turn to food, comfort, or the familiar on tough days. This program balances food and emotion gently.",
+    },
     color: "from-amber-500/30 to-rose-600/30",
-    pillars: ["Gut Health", "Emotional Balance", "Thai Herbal Nutrition", "Mindful Eating"],
+    pillars: [
+      { th: "Gut Health", en: "Gut Health" },
+      { th: "Emotional Balance", en: "Emotional Balance" },
+      { th: "Thai Herbal Nutrition", en: "Thai Herbal Nutrition" },
+      { th: "Mindful Eating", en: "Mindful Eating" },
+    ],
   },
   feeler: {
     id: "feeler",
-    name: "The Deep Feeler",
-    thaiName: "ผู้รู้สึกลึก",
-    tagline: "คืนพื้นที่ให้ใจได้พักจริง ๆ",
-    description:
-      "คุณรับรู้อารมณ์และรายละเอียดรอบตัวได้ลึก บางครั้งใช้พลังใจมากกว่าที่คิด โปรแกรมจึงคืนพื้นที่ให้ใจได้พักจริง ๆ",
+    name: { th: "The Deep Feeler", en: "The Deep Feeler" },
+    thaiName: { th: "ผู้รู้สึกลึก", en: "Deep Feeler" },
+    tagline: {
+      th: "คืนพื้นที่ให้ใจได้พักจริง ๆ",
+      en: "Give your heart real space to rest.",
+    },
+    description: {
+      th: "คุณรับรู้อารมณ์และรายละเอียดรอบตัวได้ลึก บางครั้งใช้พลังใจมากกว่าที่คิด โปรแกรมจึงคืนพื้นที่ให้ใจได้พักจริง ๆ",
+      en: "You sense emotions and details deeply, often spending more emotional energy than you realize. This program returns space to your heart.",
+    },
     color: "from-violet-500/30 to-indigo-700/30",
-    pillars: ["Emotional Reset", "Mindfulness", "Sound Healing", "Calm Balance"],
+    pillars: [
+      { th: "Emotional Reset", en: "Emotional Reset" },
+      { th: "Mindfulness", en: "Mindfulness" },
+      { th: "Sound Healing", en: "Sound Healing" },
+      { th: "Calm Balance", en: "Calm Balance" },
+    ],
   },
   performer: {
     id: "performer",
-    name: "The High Performer",
-    thaiName: "เครื่องยนต์สมรรถนะสูง",
-    tagline: "ฟื้นฟูเข้มข้นสำหรับคนใช้พลังงานสูง",
-    description:
-      "คุณมีเป้าหมายชัดและใช้พลังงานสูง การเร่งต่อเนื่องทำให้ร่างกายต้องการการฟื้นฟูอย่างจริงจัง",
+    name: { th: "The High Performer", en: "The High Performer" },
+    thaiName: { th: "เครื่องยนต์สมรรถนะสูง", en: "High Performer" },
+    tagline: {
+      th: "ฟื้นฟูเข้มข้นสำหรับคนใช้พลังงานสูง",
+      en: "Intensive recovery for high-energy lives.",
+    },
+    description: {
+      th: "คุณมีเป้าหมายชัดและใช้พลังงานสูง การเร่งต่อเนื่องทำให้ร่างกายต้องการการฟื้นฟูอย่างจริงจัง",
+      en: "You're goal-driven and high-energy. Constant acceleration means your body needs serious recovery.",
+    },
     color: "from-rose-500/30 to-amber-600/30",
-    pillars: ["Executive Detox", "Energy Reset", "Premium Recovery", "Performance Nutrition"],
+    pillars: [
+      { th: "Executive Detox", en: "Executive Detox" },
+      { th: "Energy Reset", en: "Energy Reset" },
+      { th: "Premium Recovery", en: "Premium Recovery" },
+      { th: "Performance Nutrition", en: "Performance Nutrition" },
+    ],
   },
   explorer: {
     id: "explorer",
-    name: "The Wellness Explorer",
-    thaiName: "นักสำรวจสุขภาพ",
-    tagline: "ระบบช่วยจัดลำดับว่าควรเริ่มจากอะไร",
-    description:
-      "คุณพร้อมเริ่มดูแลตัวเองและเปิดรับสิ่งใหม่ ต้องการระบบที่ช่วยจัดลำดับให้ชัดว่าควรเริ่มจากอะไรก่อน",
+    name: { th: "The Wellness Explorer", en: "The Wellness Explorer" },
+    thaiName: { th: "นักสำรวจสุขภาพ", en: "Wellness Explorer" },
+    tagline: {
+      th: "ระบบช่วยจัดลำดับว่าควรเริ่มจากอะไร",
+      en: "A system that helps you decide where to begin.",
+    },
+    description: {
+      th: "คุณพร้อมเริ่มดูแลตัวเองและเปิดรับสิ่งใหม่ ต้องการระบบที่ช่วยจัดลำดับให้ชัดว่าควรเริ่มจากอะไรก่อน",
+      en: "You're ready to take better care of yourself and open to new things — you need a system that orders the first steps clearly.",
+    },
     color: "from-emerald-500/30 to-teal-600/30",
-    pillars: ["Wellness Discovery", "Samui Starter", "Personal Roadmap", "Habit Foundation"],
+    pillars: [
+      { th: "Wellness Discovery", en: "Wellness Discovery" },
+      { th: "Samui Starter", en: "Samui Starter" },
+      { th: "Personal Roadmap", en: "Personal Roadmap" },
+      { th: "Habit Foundation", en: "Habit Foundation" },
+    ],
   },
 };
 
 export interface QuestOption {
-  label: string;
+  label: Bi;
   weights: Partial<Record<PersonaId, number>>;
 }
 export interface QuestQuestion {
   id: number;
   emoji: string;
-  question: string;
+  question: Bi;
   options: QuestOption[];
 }
 
 export const questions: QuestQuestion[] = [
   {
-    id: 1,
-    emoji: "☀️",
-    question: "พลังงานของคุณในเช้าวันใหม่เป็นแบบไหน?",
+    id: 1, emoji: "☀️",
+    question: { th: "พลังงานของคุณในเช้าวันใหม่เป็นแบบไหน?", en: "How is your energy on a new morning?" },
     options: [
-      { label: "ตื่นมายังล้า ต้องพึ่งกาแฟหรือเครื่องดื่มช่วยเริ่มวัน", weights: { performer: 2, warrior: 2, comfort: 1 } },
-      { label: "เริ่มวันได้ดี แต่พลังงานตกเร็วช่วงบ่าย", weights: { performer: 2, thinker: 2 } },
-      { label: "อยากนอนต่อ รู้สึกว่ายังพักไม่พอ", weights: { thinker: 2, feeler: 2 } },
-      { label: "พลังงานพอใช้ ค่อย ๆ เริ่มวันแบบไม่รีบ", weights: { explorer: 3 } },
+      { label: { th: "ตื่นมายังล้า ต้องพึ่งกาแฟหรือเครื่องดื่มช่วยเริ่มวัน", en: "Wake up tired — need coffee to start the day." }, weights: { performer: 2, warrior: 2, comfort: 1 } },
+      { label: { th: "เริ่มวันได้ดี แต่พลังงานตกเร็วช่วงบ่าย", en: "Start well, but energy drops in the afternoon." }, weights: { performer: 2, thinker: 2 } },
+      { label: { th: "อยากนอนต่อ รู้สึกว่ายังพักไม่พอ", en: "Want to keep sleeping — don't feel rested." }, weights: { thinker: 2, feeler: 2 } },
+      { label: { th: "พลังงานพอใช้ ค่อย ๆ เริ่มวันแบบไม่รีบ", en: "Enough energy — ease into the day." }, weights: { explorer: 3 } },
     ],
   },
   {
-    id: 2,
-    emoji: "🌊",
-    question: "ช่วงนี้ความเครียดของคุณมักแสดงออกแบบไหน?",
+    id: 2, emoji: "🌊",
+    question: { th: "ช่วงนี้ความเครียดของคุณมักแสดงออกแบบไหน?", en: "How does your stress usually show up lately?" },
     options: [
-      { label: "รู้สึกแน่นในใจ หรือคิดเรื่องเดิมซ้ำ ๆ", weights: { thinker: 3, feeler: 1 } },
-      { label: "หงุดหงิดง่าย หรือรู้สึกต้องรีบจัดการทุกอย่าง", weights: { performer: 2, warrior: 2 } },
-      { label: "อยากอยู่เงียบ ๆ ไม่อยากคุยกับใคร", weights: { feeler: 3 } },
-      { label: "ยังรับมือได้ แต่รู้ว่าตัวเองต้องการพักบ้าง", weights: { explorer: 2, warrior: 1 } },
+      { label: { th: "รู้สึกแน่นในใจ หรือคิดเรื่องเดิมซ้ำ ๆ", en: "Tight chest, or replaying the same thoughts." }, weights: { thinker: 3, feeler: 1 } },
+      { label: { th: "หงุดหงิดง่าย หรือรู้สึกต้องรีบจัดการทุกอย่าง", en: "Easily irritated, rushing to fix everything." }, weights: { performer: 2, warrior: 2 } },
+      { label: { th: "อยากอยู่เงียบ ๆ ไม่อยากคุยกับใคร", en: "Want to be quiet — not talk to anyone." }, weights: { feeler: 3 } },
+      { label: { th: "ยังรับมือได้ แต่รู้ว่าตัวเองต้องการพักบ้าง", en: "Still coping, but I know I need a break." }, weights: { explorer: 2, warrior: 1 } },
     ],
   },
   {
-    id: 3,
-    emoji: "🌙",
-    question: "การนอนของคุณในช่วง 2 สัปดาห์ที่ผ่านมาเป็นอย่างไร?",
+    id: 3, emoji: "🌙",
+    question: { th: "การนอนของคุณในช่วง 2 สัปดาห์ที่ผ่านมาเป็นอย่างไร?", en: "How has your sleep been the last two weeks?" },
     options: [
-      { label: "หลับยาก เพราะสมองยังคิดเรื่องงานหรือชีวิต", weights: { thinker: 3 } },
-      { label: "หลับได้ แต่ตื่นกลางดึก หรือตื่นมาไม่สดชื่น", weights: { warrior: 2, thinker: 1 } },
-      { label: "นอนน้อย เพราะเวลาชีวิตไม่เป็นระบบ", weights: { performer: 2, comfort: 1 } },
-      { label: "นอนได้พอสมควร แต่อยากให้หลับลึกกว่านี้", weights: { explorer: 2, feeler: 1 } },
+      { label: { th: "หลับยาก เพราะสมองยังคิดเรื่องงานหรือชีวิต", en: "Hard to fall asleep — mind still on work or life." }, weights: { thinker: 3 } },
+      { label: { th: "หลับได้ แต่ตื่นกลางดึก หรือตื่นมาไม่สดชื่น", en: "Sleep, but wake at night or wake unrefreshed." }, weights: { warrior: 2, thinker: 1 } },
+      { label: { th: "นอนน้อย เพราะเวลาชีวิตไม่เป็นระบบ", en: "Sleep too little — schedule is irregular." }, weights: { performer: 2, comfort: 1 } },
+      { label: { th: "นอนได้พอสมควร แต่อยากให้หลับลึกกว่านี้", en: "Sleep is OK, but I want deeper rest." }, weights: { explorer: 2, feeler: 1 } },
     ],
   },
   {
-    id: 4,
-    emoji: "🍵",
-    question: "เวลาเหนื่อยหรือเครียด คุณมักดูแลตัวเองอย่างไร?",
+    id: 4, emoji: "🍵",
+    question: { th: "เวลาเหนื่อยหรือเครียด คุณมักดูแลตัวเองอย่างไร?", en: "When tired or stressed, how do you take care of yourself?" },
     options: [
-      { label: "หาอาหาร ของหวาน หรือเครื่องดื่มที่ทำให้รู้สึกดีขึ้น", weights: { comfort: 3 } },
-      { label: "เลื่อนมือถือ ดูคลิป หาสิ่งเบี่ยงเบนความคิด", weights: { comfort: 1, thinker: 2 } },
-      { label: "ออกไปเดิน ขยับร่างกาย หรือหาอากาศหายใจ", weights: { explorer: 2, performer: 1 } },
-      { label: "เก็บไว้คนเดียว แล้วพยายามผ่านไปให้ได้", weights: { feeler: 2, warrior: 2 } },
+      { label: { th: "หาอาหาร ของหวาน หรือเครื่องดื่มที่ทำให้รู้สึกดีขึ้น", en: "Find food, sweets, or drinks that make me feel better." }, weights: { comfort: 3 } },
+      { label: { th: "เลื่อนมือถือ ดูคลิป หาสิ่งเบี่ยงเบนความคิด", en: "Scroll the phone, watch clips, distract myself." }, weights: { comfort: 1, thinker: 2 } },
+      { label: { th: "ออกไปเดิน ขยับร่างกาย หรือหาอากาศหายใจ", en: "Go walk, move my body, get fresh air." }, weights: { explorer: 2, performer: 1 } },
+      { label: { th: "เก็บไว้คนเดียว แล้วพยายามผ่านไปให้ได้", en: "Keep it to myself and push through." }, weights: { feeler: 2, warrior: 2 } },
     ],
   },
   {
-    id: 5,
-    emoji: "🥗",
-    question: "อาหารในชีวิตประจำวันของคุณใกล้เคียงข้อไหนที่สุด?",
+    id: 5, emoji: "🥗",
+    question: { th: "อาหารในชีวิตประจำวันของคุณใกล้เคียงข้อไหนที่สุด?", en: "Which best describes your daily eating?" },
     options: [
-      { label: "กินไม่เป็นเวลา บางมื้อข้าม บางมื้อกินหนัก", weights: { warrior: 2, performer: 2 } },
-      { label: "กินตามสะดวก อะไรง่ายก็เลือกอันนั้น", weights: { comfort: 3 } },
-      { label: "พยายามเลือกอาหารดีขึ้น แต่ยังทำต่อเนื่องยาก", weights: { explorer: 2, comfort: 1 } },
-      { label: "ค่อนข้างใส่ใจอาหาร แต่อยากได้แผนเฉพาะตัว", weights: { explorer: 2, performer: 2 } },
+      { label: { th: "กินไม่เป็นเวลา บางมื้อข้าม บางมื้อกินหนัก", en: "Eat irregularly — skip meals, then eat heavy." }, weights: { warrior: 2, performer: 2 } },
+      { label: { th: "กินตามสะดวก อะไรง่ายก็เลือกอันนั้น", en: "Eat what's convenient — whatever is easy." }, weights: { comfort: 3 } },
+      { label: { th: "พยายามเลือกอาหารดีขึ้น แต่ยังทำต่อเนื่องยาก", en: "Trying to eat better, but hard to stay consistent." }, weights: { explorer: 2, comfort: 1 } },
+      { label: { th: "ค่อนข้างใส่ใจอาหาร แต่อยากได้แผนเฉพาะตัว", en: "Quite mindful, but I want a personal plan." }, weights: { explorer: 2, performer: 2 } },
     ],
   },
   {
-    id: 6,
-    emoji: "💆",
-    question: "ร่างกายของคุณส่งสัญญาณอะไรบ่อยที่สุด?",
+    id: 6, emoji: "💆",
+    question: { th: "ร่างกายของคุณส่งสัญญาณอะไรบ่อยที่สุด?", en: "What does your body signal most often?" },
     options: [
-      { label: "ปวดคอ บ่า ไหล่ หรือหลังจากการนั่งนาน", weights: { warrior: 2, performer: 2 } },
-      { label: "ปวดหัว เหนื่อยง่าย พลังงานไม่คงที่", weights: { thinker: 2, performer: 1 } },
-      { label: "ท้องอืด แน่นท้อง ระบบย่อยไม่ค่อยสบาย", weights: { comfort: 3 } },
-      { label: "ไม่มีอาการชัด แต่ไม่สดชื่นเหมือนเดิม", weights: { explorer: 2, feeler: 1 } },
+      { label: { th: "ปวดคอ บ่า ไหล่ หรือหลังจากการนั่งนาน", en: "Neck, shoulder, or back pain from sitting." }, weights: { warrior: 2, performer: 2 } },
+      { label: { th: "ปวดหัว เหนื่อยง่าย พลังงานไม่คงที่", en: "Headache, easy fatigue, unstable energy." }, weights: { thinker: 2, performer: 1 } },
+      { label: { th: "ท้องอืด แน่นท้อง ระบบย่อยไม่ค่อยสบาย", en: "Bloating, heavy stomach, digestion issues." }, weights: { comfort: 3 } },
+      { label: { th: "ไม่มีอาการชัด แต่ไม่สดชื่นเหมือนเดิม", en: "No clear symptoms — just not as fresh as before." }, weights: { explorer: 2, feeler: 1 } },
     ],
   },
   {
-    id: 7,
-    emoji: "🏝️",
-    question: "ถ้าได้ไปพักที่สมุย 3 วัน คุณอยากให้ทริปนี้ช่วยอะไรมากที่สุด?",
+    id: 7, emoji: "🏝️",
+    question: { th: "ถ้าได้ไปพักที่สมุย 3 วัน คุณอยากให้ทริปนี้ช่วยอะไรมากที่สุด?", en: "If you had 3 days on Samui, what would you want most?" },
     options: [
-      { label: "ได้พักจริง ๆ ปิดเสียงรบกวน นอนให้เต็มอิ่ม", weights: { warrior: 2, thinker: 2 } },
-      { label: "ให้ร่างกายฟื้นจากความล้าและอาการปวดเมื่อย", weights: { warrior: 2, performer: 2 } },
-      { label: "ให้ใจสงบ ลดความคิดมาก และรู้สึกเบาขึ้น", weights: { feeler: 2, thinker: 1 } },
-      { label: "กลับไปพร้อมพลังงานใหม่และแรงบันดาลใจ", weights: { performer: 2, explorer: 1 } },
+      { label: { th: "ได้พักจริง ๆ ปิดเสียงรบกวน นอนให้เต็มอิ่ม", en: "Real rest — silence, deep sleep, full reset." }, weights: { warrior: 2, thinker: 2 } },
+      { label: { th: "ให้ร่างกายฟื้นจากความล้าและอาการปวดเมื่อย", en: "Body recovery from fatigue and aches." }, weights: { warrior: 2, performer: 2 } },
+      { label: { th: "ให้ใจสงบ ลดความคิดมาก และรู้สึกเบาขึ้น", en: "A calm mind, less overthinking, lighter feeling." }, weights: { feeler: 2, thinker: 1 } },
+      { label: { th: "กลับไปพร้อมพลังงานใหม่และแรงบันดาลใจ", en: "Return with fresh energy and inspiration." }, weights: { performer: 2, explorer: 1 } },
     ],
   },
   {
-    id: 8,
-    emoji: "✨",
-    question: "ถ้า Goodfill ออกแบบโปรแกรมให้ 1 อย่าง คุณอยากให้เน้นเรื่องใดมากที่สุด?",
+    id: 8, emoji: "✨",
+    question: { th: "ถ้า Goodfill ออกแบบโปรแกรมให้ 1 อย่าง คุณอยากให้เน้นเรื่องใดมากที่สุด?", en: "If Goodfill designed one program for you, what should it focus on?" },
     options: [
-      { label: "Sleep Recovery — นอนหลับดีขึ้นและฟื้นตัวลึกขึ้น", weights: { thinker: 3, warrior: 1 } },
-      { label: "Stress Reset — ลดความเครียดและคืนความสงบให้ใจ", weights: { feeler: 3 } },
-      { label: "Body Balance — ลดปวดเมื่อยและดูแลร่างกายให้สมดุล", weights: { warrior: 2, comfort: 1 } },
-      { label: "Energy Restore — เพิ่มพลังงานและความสดชื่น", weights: { performer: 3, explorer: 1 } },
+      { label: { th: "Sleep Recovery — นอนหลับดีขึ้นและฟื้นตัวลึกขึ้น", en: "Sleep Recovery — better sleep, deeper restoration." }, weights: { thinker: 3, warrior: 1 } },
+      { label: { th: "Stress Reset — ลดความเครียดและคืนความสงบให้ใจ", en: "Stress Reset — lower stress, restore calm." }, weights: { feeler: 3 } },
+      { label: { th: "Body Balance — ลดปวดเมื่อยและดูแลร่างกายให้สมดุล", en: "Body Balance — relieve aches, restore balance." }, weights: { warrior: 2, comfort: 1 } },
+      { label: { th: "Energy Restore — เพิ่มพลังงานและความสดชื่น", en: "Energy Restore — boost energy and freshness." }, weights: { performer: 3, explorer: 1 } },
     ],
   },
 ];
 
-export function scorePersona(
-  answers: Record<number, number>,
-): PersonaId {
+export function scorePersona(answers: Record<number, number>): PersonaId {
   return scorePersonaTop2(answers)[0];
 }
 
@@ -231,123 +283,236 @@ export function scorePersonaTop2(
 
 export interface Program {
   id: string;
-  name: string;
-  duration: string;
+  name: Bi;
+  duration: Bi;
   nights: number;
-  price: number; // THB
-  tagline: string;
+  price: number;
+  tagline: Bi;
   matches: PersonaId[];
   image: string;
-  highlights: string[];
-  schedule: { day: string; items: string[] }[];
-  venue: string;
+  highlights: Bi[];
+  schedule: { day: Bi; items: Bi[] }[];
+  venue: Bi;
   gallery: string[];
-  mealPlan: { day: string; breakfast: string; lunch: string; dinner: string; note?: string }[];
-  expert: { name: string; role: string };
+  mealPlan: { day: Bi; breakfast: Bi; lunch: Bi; dinner: Bi; note?: Bi }[];
+  expert: { name: Bi; role: Bi };
 }
 
 export const programs: Program[] = [
   {
     id: "reset-3",
-    name: "The Samui Reset",
-    duration: "3 วัน 2 คืน",
+    name: { th: "The Samui Reset", en: "The Samui Reset" },
+    duration: { th: "3 วัน 2 คืน", en: "3 days · 2 nights" },
     nights: 2,
     price: 38000,
-    tagline: "Short escape สำหรับคน timeline แน่น",
+    tagline: { th: "Short escape สำหรับคน timeline แน่น", en: "Short escape for tight schedules." },
     matches: ["feeler", "thinker", "explorer"],
     image: programReset,
-    venue: "Bo Phut Beach Villa",
+    venue: { th: "Bo Phut Beach Villa", en: "Bo Phut Beach Villa" },
     highlights: [
-      "Welcome Sound Bath ริมหาด",
-      "Signature Thai Massage 90 นาที",
-      "Sunrise Yoga 2 เช้า",
-      "Wellness Chef Dinner",
+      { th: "Welcome Sound Bath ริมหาด", en: "Beachside Welcome Sound Bath" },
+      { th: "Signature Thai Massage 90 นาที", en: "Signature Thai Massage · 90 min" },
+      { th: "Sunrise Yoga 2 เช้า", en: "Sunrise Yoga · 2 mornings" },
+      { th: "Wellness Chef Dinner", en: "Wellness Chef Dinner" },
     ],
     schedule: [
-      { day: "Day 1 — Arrival", items: ["เช็คอินวิลล่า", "Welcome herbal mocktail", "Sunset breathwork ริมหาด", "Healing dinner"] },
-      { day: "Day 2 — Restore", items: ["Sunrise yoga", "Body composition scan", "Signature massage 90'", "Sound healing"] },
-      { day: "Day 3 — Carry On", items: ["Sunrise meditation", "Wellness brunch", "Personal report consult", "Departure transfer"] },
+      { day: { th: "Day 1 — Arrival", en: "Day 1 — Arrival" }, items: [
+        { th: "เช็คอินวิลล่า", en: "Villa check-in" },
+        { th: "Welcome herbal mocktail", en: "Welcome herbal mocktail" },
+        { th: "Sunset breathwork ริมหาด", en: "Beachside sunset breathwork" },
+        { th: "Healing dinner", en: "Healing dinner" },
+      ] },
+      { day: { th: "Day 2 — Restore", en: "Day 2 — Restore" }, items: [
+        { th: "Sunrise yoga", en: "Sunrise yoga" },
+        { th: "Body composition scan", en: "Body composition scan" },
+        { th: "Signature massage 90'", en: "Signature massage 90'" },
+        { th: "Sound healing", en: "Sound healing" },
+      ] },
+      { day: { th: "Day 3 — Carry On", en: "Day 3 — Carry On" }, items: [
+        { th: "Sunrise meditation", en: "Sunrise meditation" },
+        { th: "Wellness brunch", en: "Wellness brunch" },
+        { th: "Personal report consult", en: "Personal report consult" },
+        { th: "Departure transfer", en: "Departure transfer" },
+      ] },
     ],
     gallery: [programReset, villa, spa, food, meditation, yoga],
-    expert: { name: "ดร. ภัทรา วงศ์สุข", role: "Wellness Physician & Sleep Specialist" },
+    expert: {
+      name: { th: "ดร. ภัทรา วงศ์สุข", en: "Dr. Pattara Wongsuk" },
+      role: { th: "Wellness Physician & Sleep Specialist", en: "Wellness Physician & Sleep Specialist" },
+    },
     mealPlan: [
-      { day: "Day 1 — Arrival", breakfast: "—", lunch: "Welcome herbal mocktail + light salad", dinner: "Healing dinner: ปลานึ่งมะนาว + ข้าวกล้อง + ผักย่าง", note: "งดคาเฟอีนหลัง 14:00 เพื่อเตรียม sleep cycle" },
-      { day: "Day 2 — Restore", breakfast: "Tropical smoothie bowl + chia + coconut yoghurt", lunch: "Buddha bowl ควินัว + อกไก่ + อะโวคาโด", dinner: "ต้มข่าเห็ด + ปลากระพงนึ่ง + ผักลวก", note: "ดื่มน้ำ 2.5L กระจายทั้งวัน" },
-      { day: "Day 3 — Carry On", breakfast: "Wellness brunch: ไข่ลวก + อะโวคาโดโทสต์", lunch: "Light bowl ก่อนเดินทาง", dinner: "—", note: "เตรียมรายการอาหารกลับบ้าน 7 วัน" },
+      { day: { th: "Day 1 — Arrival", en: "Day 1 — Arrival" },
+        breakfast: { th: "—", en: "—" },
+        lunch: { th: "Welcome herbal mocktail + light salad", en: "Welcome herbal mocktail + light salad" },
+        dinner: { th: "Healing dinner: ปลานึ่งมะนาว + ข้าวกล้อง + ผักย่าง", en: "Healing dinner: steamed lime fish + brown rice + grilled veg" },
+        note: { th: "งดคาเฟอีนหลัง 14:00 เพื่อเตรียม sleep cycle", en: "No caffeine after 14:00 to prep your sleep cycle" } },
+      { day: { th: "Day 2 — Restore", en: "Day 2 — Restore" },
+        breakfast: { th: "Tropical smoothie bowl + chia + coconut yoghurt", en: "Tropical smoothie bowl + chia + coconut yoghurt" },
+        lunch: { th: "Buddha bowl ควินัว + อกไก่ + อะโวคาโด", en: "Buddha bowl: quinoa + chicken breast + avocado" },
+        dinner: { th: "ต้มข่าเห็ด + ปลากระพงนึ่ง + ผักลวก", en: "Tom kha mushroom + steamed sea bass + blanched greens" },
+        note: { th: "ดื่มน้ำ 2.5L กระจายทั้งวัน", en: "Drink 2.5L water spread across the day" } },
+      { day: { th: "Day 3 — Carry On", en: "Day 3 — Carry On" },
+        breakfast: { th: "Wellness brunch: ไข่ลวก + อะโวคาโดโทสต์", en: "Wellness brunch: soft-boiled eggs + avocado toast" },
+        lunch: { th: "Light bowl ก่อนเดินทาง", en: "Light bowl before travel" },
+        dinner: { th: "—", en: "—" },
+        note: { th: "เตรียมรายการอาหารกลับบ้าน 7 วัน", en: "Prep a 7-day home meal list" } },
     ],
   },
   {
     id: "balance-5",
-    name: "Mindful Balance",
-    duration: "5 วัน 4 คืน",
+    name: { th: "Mindful Balance", en: "Mindful Balance" },
+    duration: { th: "5 วัน 4 คืน", en: "5 days · 4 nights" },
     nights: 4,
     price: 72000,
-    tagline: "Sweet spot — เห็นผลจริง ไม่หักโหม",
+    tagline: { th: "Sweet spot — เห็นผลจริง ไม่หักโหม", en: "Sweet spot — real results, no overload." },
     matches: ["warrior", "thinker", "feeler"],
     image: programBalance,
-    venue: "Chaweng Noi Wellness Resort",
+    venue: { th: "Chaweng Noi Wellness Resort", en: "Chaweng Noi Wellness Resort" },
     highlights: [
-      "1:1 Wellness Coach ทุกวัน",
-      "5 Treatments แบบ tailor-made",
-      "Detox Juice Day",
-      "Sunrise yoga + Sunset breathwork",
+      { th: "1:1 Wellness Coach ทุกวัน", en: "1:1 Wellness Coach every day" },
+      { th: "5 Treatments แบบ tailor-made", en: "5 tailor-made treatments" },
+      { th: "Detox Juice Day", en: "Detox Juice Day" },
+      { th: "Sunrise yoga + Sunset breathwork", en: "Sunrise yoga + sunset breathwork" },
     ],
     schedule: [
-      { day: "Day 1", items: ["Check-in + intake", "Welcome ritual", "Light dinner"] },
-      { day: "Day 2", items: ["Yoga", "Lymphatic massage", "Coaching session", "Sound bath"] },
-      { day: "Day 3", items: ["Juice cleanse day", "Forest bathing", "Meditation"] },
-      { day: "Day 4", items: ["Active flow yoga", "Signature treatment", "Sunset breathwork"] },
-      { day: "Day 5", items: ["Final report", "Brunch", "Departure"] },
+      { day: { th: "Day 1", en: "Day 1" }, items: [
+        { th: "Check-in + intake", en: "Check-in + intake" },
+        { th: "Welcome ritual", en: "Welcome ritual" },
+        { th: "Light dinner", en: "Light dinner" },
+      ] },
+      { day: { th: "Day 2", en: "Day 2" }, items: [
+        { th: "Yoga", en: "Yoga" },
+        { th: "Lymphatic massage", en: "Lymphatic massage" },
+        { th: "Coaching session", en: "Coaching session" },
+        { th: "Sound bath", en: "Sound bath" },
+      ] },
+      { day: { th: "Day 3", en: "Day 3" }, items: [
+        { th: "Juice cleanse day", en: "Juice cleanse day" },
+        { th: "Forest bathing", en: "Forest bathing" },
+        { th: "Meditation", en: "Meditation" },
+      ] },
+      { day: { th: "Day 4", en: "Day 4" }, items: [
+        { th: "Active flow yoga", en: "Active flow yoga" },
+        { th: "Signature treatment", en: "Signature treatment" },
+        { th: "Sunset breathwork", en: "Sunset breathwork" },
+      ] },
+      { day: { th: "Day 5", en: "Day 5" }, items: [
+        { th: "Final report", en: "Final report" },
+        { th: "Brunch", en: "Brunch" },
+        { th: "Departure", en: "Departure" },
+      ] },
     ],
     gallery: [programBalance, meditation, yoga, spa, food, villa],
-    expert: { name: "นพ. กฤษฎา ศิริชัย", role: "Functional Medicine Doctor" },
+    expert: {
+      name: { th: "นพ. กฤษฎา ศิริชัย", en: "Dr. Krisada Sirichai" },
+      role: { th: "Functional Medicine Doctor", en: "Functional Medicine Doctor" },
+    },
     mealPlan: [
-      { day: "Day 1", breakfast: "—", lunch: "Welcome bowl: ปลาทูน่า + ผักสด", dinner: "Light dinner: ต้มยำกุ้ง clear soup + ข้าวกล้อง" },
-      { day: "Day 2", breakfast: "Acai bowl + เมล็ดแฟลกซ์", lunch: "Quinoa & roasted veggie bowl + ทาฮีนี", dinner: "ปลาย่างสมุนไพร + สลัดผักไทย", note: "เริ่ม intermittent 12:12" },
-      { day: "Day 3 — Juice Cleanse", breakfast: "Green juice (cucumber + apple + ginger)", lunch: "Beet & carrot juice + almond milk", dinner: "Bone broth + steamed greens", note: "วันล้างพิษ ดื่มน้ำเปล่า 3L" },
-      { day: "Day 4", breakfast: "Coconut yoghurt + berries + granola", lunch: "Salmon poke bowl + edamame", dinner: "อกไก่ย่าง + ผักรวมย่าง + quinoa" },
-      { day: "Day 5", breakfast: "Farewell brunch: omelette + อะโวคาโด + เห็ด", lunch: "—", dinner: "—" },
+      { day: { th: "Day 1", en: "Day 1" },
+        breakfast: { th: "—", en: "—" },
+        lunch: { th: "Welcome bowl: ปลาทูน่า + ผักสด", en: "Welcome bowl: tuna + fresh greens" },
+        dinner: { th: "Light dinner: ต้มยำกุ้ง clear soup + ข้าวกล้อง", en: "Light dinner: clear tom yum kung + brown rice" } },
+      { day: { th: "Day 2", en: "Day 2" },
+        breakfast: { th: "Acai bowl + เมล็ดแฟลกซ์", en: "Acai bowl + flax seeds" },
+        lunch: { th: "Quinoa & roasted veggie bowl + ทาฮีนี", en: "Quinoa & roasted veggie bowl + tahini" },
+        dinner: { th: "ปลาย่างสมุนไพร + สลัดผักไทย", en: "Herb-grilled fish + Thai garden salad" },
+        note: { th: "เริ่ม intermittent 12:12", en: "Start 12:12 intermittent fasting" } },
+      { day: { th: "Day 3 — Juice Cleanse", en: "Day 3 — Juice Cleanse" },
+        breakfast: { th: "Green juice (cucumber + apple + ginger)", en: "Green juice (cucumber + apple + ginger)" },
+        lunch: { th: "Beet & carrot juice + almond milk", en: "Beet & carrot juice + almond milk" },
+        dinner: { th: "Bone broth + steamed greens", en: "Bone broth + steamed greens" },
+        note: { th: "วันล้างพิษ ดื่มน้ำเปล่า 3L", en: "Cleanse day — drink 3L water" } },
+      { day: { th: "Day 4", en: "Day 4" },
+        breakfast: { th: "Coconut yoghurt + berries + granola", en: "Coconut yoghurt + berries + granola" },
+        lunch: { th: "Salmon poke bowl + edamame", en: "Salmon poke bowl + edamame" },
+        dinner: { th: "อกไก่ย่าง + ผักรวมย่าง + quinoa", en: "Grilled chicken + roasted veg + quinoa" } },
+      { day: { th: "Day 5", en: "Day 5" },
+        breakfast: { th: "Farewell brunch: omelette + อะโวคาโด + เห็ด", en: "Farewell brunch: omelette + avocado + mushroom" },
+        lunch: { th: "—", en: "—" },
+        dinner: { th: "—", en: "—" } },
     ],
   },
   {
     id: "transform-7",
-    name: "Full Transformation",
-    duration: "7 วัน 6 คืน",
+    name: { th: "Full Transformation", en: "Full Transformation" },
+    duration: { th: "7 วัน 6 คืน", en: "7 days · 6 nights" },
     nights: 6,
     price: 128000,
-    tagline: "Deep work — เปลี่ยนนิสัย เปลี่ยนชีวิต",
+    tagline: { th: "Deep work — เปลี่ยนนิสัย เปลี่ยนชีวิต", en: "Deep work — change habits, change life." },
     matches: ["performer", "warrior", "comfort"],
     image: programTransform,
-    venue: "Lamai Hilltop Sanctuary",
+    venue: { th: "Lamai Hilltop Sanctuary", en: "Lamai Hilltop Sanctuary" },
     highlights: [
-      "ตรวจสุขภาพละเอียด + Metabolic test",
-      "Detox protocol 7 วัน",
-      "Personal trainer + nutrition coach",
-      "Habit blueprint สำหรับ 90 วันถัดไป",
+      { th: "ตรวจสุขภาพละเอียด + Metabolic test", en: "Detailed health check + metabolic test" },
+      { th: "Detox protocol 7 วัน", en: "7-day detox protocol" },
+      { th: "Personal trainer + nutrition coach", en: "Personal trainer + nutrition coach" },
+      { th: "Habit blueprint สำหรับ 90 วันถัดไป", en: "Habit blueprint for the next 90 days" },
     ],
     schedule: [
-      { day: "Day 1", items: ["Intake + full assessment", "Welcome dinner"] },
-      { day: "Day 2-3", items: ["Detox start", "Daily yoga", "Lymphatic + sauna ritual"] },
-      { day: "Day 4-5", items: ["Active training", "Cold plunge", "Sound healing"] },
-      { day: "Day 6", items: ["Integration day", "1:1 coaching"] },
-      { day: "Day 7", items: ["Final report + 90-day plan", "Departure"] },
+      { day: { th: "Day 1", en: "Day 1" }, items: [
+        { th: "Intake + full assessment", en: "Intake + full assessment" },
+        { th: "Welcome dinner", en: "Welcome dinner" },
+      ] },
+      { day: { th: "Day 2-3", en: "Day 2-3" }, items: [
+        { th: "Detox start", en: "Detox start" },
+        { th: "Daily yoga", en: "Daily yoga" },
+        { th: "Lymphatic + sauna ritual", en: "Lymphatic + sauna ritual" },
+      ] },
+      { day: { th: "Day 4-5", en: "Day 4-5" }, items: [
+        { th: "Active training", en: "Active training" },
+        { th: "Cold plunge", en: "Cold plunge" },
+        { th: "Sound healing", en: "Sound healing" },
+      ] },
+      { day: { th: "Day 6", en: "Day 6" }, items: [
+        { th: "Integration day", en: "Integration day" },
+        { th: "1:1 coaching", en: "1:1 coaching" },
+      ] },
+      { day: { th: "Day 7", en: "Day 7" }, items: [
+        { th: "Final report + 90-day plan", en: "Final report + 90-day plan" },
+        { th: "Departure", en: "Departure" },
+      ] },
     ],
     gallery: [programTransform, yoga, spa, villa, food, meditation],
-    expert: { name: "ดร. ปริญญ์ ตั้งจิตร", role: "Performance Physician & Nutrition Coach" },
+    expert: {
+      name: { th: "ดร. ปริญญ์ ตั้งจิตร", en: "Dr. Parin Tangchitr" },
+      role: { th: "Performance Physician & Nutrition Coach", en: "Performance Physician & Nutrition Coach" },
+    },
     mealPlan: [
-      { day: "Day 1", breakfast: "—", lunch: "Intake — light bowl ปลานึ่ง + ผักสด", dinner: "Welcome dinner: salmon + roasted root veg" },
-      { day: "Day 2", breakfast: "Detox green smoothie + chia", lunch: "Buddha bowl ควินัว + อกไก่ย่าง", dinner: "Bone broth + steamed fish + ผักลวก", note: "เริ่ม detox protocol" },
-      { day: "Day 3", breakfast: "Coconut yoghurt + berries", lunch: "Light fish ceviche + avocado", dinner: "Veggie miso soup + tofu" },
-      { day: "Day 4", breakfast: "Tropical smoothie bowl", lunch: "Grilled salmon + quinoa + salad", dinner: "อกไก่อบสมุนไพร + sweet potato" },
-      { day: "Day 5", breakfast: "Egg white omelette + avocado", lunch: "Steak salad (grass-fed) + greens", dinner: "Light Thai clear soup + ปลาย่าง" },
-      { day: "Day 6", breakfast: "Overnight oats + almond butter", lunch: "Poke bowl + edamame", dinner: "Integration dinner: chef tasting menu (clean)" },
-      { day: "Day 7", breakfast: "Farewell brunch", lunch: "—", dinner: "—", note: "รับ 90-day meal blueprint กลับบ้าน" },
+      { day: { th: "Day 1", en: "Day 1" },
+        breakfast: { th: "—", en: "—" },
+        lunch: { th: "Intake — light bowl ปลานึ่ง + ผักสด", en: "Intake — light bowl: steamed fish + greens" },
+        dinner: { th: "Welcome dinner: salmon + roasted root veg", en: "Welcome dinner: salmon + roasted root veg" } },
+      { day: { th: "Day 2", en: "Day 2" },
+        breakfast: { th: "Detox green smoothie + chia", en: "Detox green smoothie + chia" },
+        lunch: { th: "Buddha bowl ควินัว + อกไก่ย่าง", en: "Buddha bowl: quinoa + grilled chicken" },
+        dinner: { th: "Bone broth + steamed fish + ผักลวก", en: "Bone broth + steamed fish + blanched greens" },
+        note: { th: "เริ่ม detox protocol", en: "Start detox protocol" } },
+      { day: { th: "Day 3", en: "Day 3" },
+        breakfast: { th: "Coconut yoghurt + berries", en: "Coconut yoghurt + berries" },
+        lunch: { th: "Light fish ceviche + avocado", en: "Light fish ceviche + avocado" },
+        dinner: { th: "Veggie miso soup + tofu", en: "Veggie miso soup + tofu" } },
+      { day: { th: "Day 4", en: "Day 4" },
+        breakfast: { th: "Tropical smoothie bowl", en: "Tropical smoothie bowl" },
+        lunch: { th: "Grilled salmon + quinoa + salad", en: "Grilled salmon + quinoa + salad" },
+        dinner: { th: "อกไก่อบสมุนไพร + sweet potato", en: "Herb-roasted chicken + sweet potato" } },
+      { day: { th: "Day 5", en: "Day 5" },
+        breakfast: { th: "Egg white omelette + avocado", en: "Egg white omelette + avocado" },
+        lunch: { th: "Steak salad (grass-fed) + greens", en: "Steak salad (grass-fed) + greens" },
+        dinner: { th: "Light Thai clear soup + ปลาย่าง", en: "Light Thai clear soup + grilled fish" } },
+      { day: { th: "Day 6", en: "Day 6" },
+        breakfast: { th: "Overnight oats + almond butter", en: "Overnight oats + almond butter" },
+        lunch: { th: "Poke bowl + edamame", en: "Poke bowl + edamame" },
+        dinner: { th: "Integration dinner: chef tasting menu (clean)", en: "Integration dinner: chef tasting menu (clean)" } },
+      { day: { th: "Day 7", en: "Day 7" },
+        breakfast: { th: "Farewell brunch", en: "Farewell brunch" },
+        lunch: { th: "—", en: "—" },
+        dinner: { th: "—", en: "—" },
+        note: { th: "รับ 90-day meal blueprint กลับบ้าน", en: "Take home your 90-day meal blueprint" } },
     ],
   },
 ];
 
 export function programsForPersona(p: PersonaId) {
-  // sort by match, keep all
   return [...programs].sort((a, b) => {
     const aM = a.matches.includes(p) ? 0 : 1;
     const bM = b.matches.includes(p) ? 0 : 1;

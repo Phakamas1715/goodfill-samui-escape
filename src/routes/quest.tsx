@@ -3,8 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { useMemo, useState } from "react";
 import { DashShell } from "@/components/DashShell";
-import { questions, scorePersonaTop2 } from "@/lib/data";
+import { questions, scorePersonaTop2, pick } from "@/lib/data";
 import { useAppState } from "@/lib/state";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/quest")({
   head: () => ({
@@ -18,6 +19,7 @@ export const Route = createFileRoute("/quest")({
 
 function Quest() {
   const navigate = useNavigate();
+  const { t, lang } = useI18n();
   const [state, setState] = useAppState();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>(state.questAnswers ?? {});
@@ -52,8 +54,8 @@ function Quest() {
       bg="yoga"
       host="fitness"
       kicker={`Wellness Quest · ${step + 1}/${questions.length}`}
-      title={q.question}
-      subtitle={`+300 Calm Credits เมื่อทำเสร็จ`}
+      title={pick(q.question, lang)}
+      subtitle={t("quest.subtitle")}
     >
       <div className="max-w-2xl mx-auto w-full">
         <div className="h-1 bg-white/60 rounded-full overflow-hidden">
@@ -84,7 +86,7 @@ function Quest() {
                     selected === idx ? "border-gold ring-2 ring-gold/30 bg-gold/5" : "border-white/60 hover:bg-pale-mint/40"
                   }`}
                 >
-                  <span className="text-sm text-navy">{opt.label}</span>
+                  <span className="text-sm text-navy">{pick(opt.label, lang)}</span>
                   <span
                     className={`size-6 rounded-full grid place-items-center transition shrink-0 ${
                       selected === idx
@@ -106,14 +108,14 @@ function Quest() {
             disabled={step === 0}
             className="text-xs text-muted-foreground hover:text-foreground transition flex items-center gap-1.5 disabled:opacity-30"
           >
-            <ArrowLeft size={14} /> ย้อนกลับ
+            <ArrowLeft size={14} /> {t("common.back")}
           </button>
           <button
             onClick={next}
             disabled={selected == null}
             className="btn-gold rounded-full px-5 py-2.5 inline-flex items-center gap-1.5 text-xs disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            {step === questions.length - 1 ? "ดูผลลัพธ์" : "ถัดไป"}
+            {step === questions.length - 1 ? t("common.viewResult") : t("common.next")}
             <ArrowRight size={14} />
           </button>
         </div>

@@ -1,73 +1,89 @@
+## Goal
 
-# Goodfill Care — Luxury Wellness PWA (เกาะสมุย)
+Right now language only works on Nav, Home, and Partners. Other pages (Quest, Persona, Programs, Journey, Care, Report, Consent, Channel, Expert, Partner, Admin) are hardcoded Thai. Also, all state (quest answers, persona, credits, habits, check-ins, bookings) lives only in browser localStorage — clearing the browser or switching devices wipes everything.
 
-## วิเคราะห์จากไฟล์ที่แนบ
+This plan does two things in stages:
 
-จากเอกสารโครงสร้าง (README + 7 HTML mockups) ระบบ Goodfill Wellness เดิมครอบคลุม 3 channels (Customer/Partner/Expert) ผ่าน LINE/Telegram/Web พร้อม Wellness Quest 8 ข้อ → 6 Personas → Calm Credits → Booking
-
-**Design DNA ที่จะคงไว้:**
-- Dark Luxury Theme: `#070E0B` base, `#1B6B4A` emerald green, `#C9A84C` gold accent
-- Typography: Playfair Display (hero) + Poppins (UI) + Sarabun (Thai body)
-- Glassmorphism cards, ambient radial glows, gold/green gradients
-
-**สโคปใหม่ (Goodfill Care PWA):** Web App ฝั่ง**ลูกค้า**ล้วน เน้น Customer Journey 5 เฟส ไม่ทำ Partner/Expert board, ไม่ทำ LINE LIFF integration ในรอบนี้
+1. Full TH/EN translation coverage on every page
+2. Real persistence in Lovable Cloud (Supabase), keyed to the signed-in user
 
 ---
 
-## 5-Phase Customer Journey
+## Stage 1 — Language coverage (frontend only)
 
+Extend `src/lib/i18n.tsx` dictionary with all UI strings used across:
+- `quest.tsx` (8 questions, options, progress, results)
+- `persona.tsx` (6 personas: titles, descriptions, traits)
+- `programs.index.tsx` + `programs.$id.tsx` (filters, package details)
+- `journey.tsx` (5 phases, QR pass labels)
+- `care.tsx` (habits, check-in, Calm Credits)
+- `report.tsx` (Before/After, 90-day plan labels)
+- `consent.tsx`, `channel.tsx`, `expert.tsx`, `partner.tsx`, `admin.tsx`
+- `Footer` in `Nav.tsx`
+
+Refactor each page to import `useI18n` and replace hardcoded strings with `t("...")`.
+
+Add `<html lang={lang}>` sync so the document language attribute updates.
+
+Data files (`src/lib/data.ts`, `partners.ts`) — change persona/program names from `string` to `{ th, en }` and pick by current lang at render.
+
+## Stage 2 — Auth (required for real persistence)
+
+Enable Lovable Cloud auth (email/password by default, optional Google).
+Add `/auth` route and `_authenticated/` layout already provided by template.
+Wire sign-in / sign-out UI into Nav (replace nothing — just add user menu).
+
+## Stage 3 — Database schema (one migration)
+
+Tables in `public`, all RLS-scoped to `auth.uid()`:
+
+```text
+profiles(user_id PK → auth.users, display_name, lang, persona, secondary_persona, credits int default 0)
+quest_responses(id, user_id, question_id int, answer int, created_at)
+persona_results(id, user_id, primary_persona, secondary_persona, scores jsonb, created_at)
+bookings(id, user_id, program_id, booking_date, status, qr_token, created_at)
+habits(id, user_id, name, days text[] default '{}', created_at)
+checkins(id, user_id, date, mood int, note, created_at)
+credit_ledger(id, user_id, delta int, reason, created_at)  -- audit trail
 ```
-1. Pre-arrival Wellness Quest  →  แบบประเมิน 8 ข้อ ค้นพบ Persona
-2. Personalized Program        →  Package matching เกาะสมุย + booking
-3. Partner Service Experience  →  ตารางบริการ + QR check-in ระหว่างพัก
-4. Final Wellness Report       →  สรุปผล metrics + insight หลังจบทริป
-5. Long-term Goodfill Care     →  Habit tracking + Calm Credits + รีบุ๊ค
-```
 
-## หน้าเว็บ (Routes)
+Every table gets:
+- `GRANT SELECT, INSERT, UPDATE, DELETE ... TO authenticated`
+- `GRANT ALL ... TO service_role`
+- `ENABLE ROW LEVEL SECURITY`
+- Policy: `auth.uid() = user_id`
+- `updated_at` trigger where applicable
 
-| Path | หน้า | สาระสำคัญ |
-|---|---|---|
-| `/` | Landing | Hero ภาพสมุยจริง, value props, CTA "เริ่มแบบประเมิน" |
-| `/quest` | Wellness Quest | 8 คำถาม UI แบบ card-by-card + progress |
-| `/persona` | ผลลัพธ์ Persona | 6 personas (Sleep Seeker, Energy Rebuilder, Detox Reset, Stress Calmer, Body Reshape, Mindful Glow) + +300 credits |
-| `/programs` | Personalized Programs | 3-day / 5-day / 7-day packages พร้อมภาพรีสอร์ท/อาหาร/treatment |
-| `/programs/$id` | รายละเอียดแพ็คเกจ | ตารางวัน, partner venues, ราคา, จอง |
-| `/booking/$id` | Booking confirm | สรุปวันที่/ผู้เข้าพัก/ชำระ |
-| `/journey` | During-stay (Phase 3) | ตารางวันนี้, QR redemption mock, daily check-in mood |
-| `/report` | Final Wellness Report | Before/After metrics, persona evolution, badge |
-| `/care` | Long-term Care | Habit streaks, Calm Credits wallet, รีบุ๊ค |
-| `/profile` | Profile/auth | Email หรือ guest mode |
+## Stage 4 — Server functions
 
-## Design Highlights
-- **ภาพจริงสวยๆ** ของเกาะสมุย: หาดทราย, infinity pool, สปา, อาหาร wellness, โยคะ sunrise → ใช้ภาพคุณภาพสูง (Unsplash CDN หรือ generate ผ่าน imagegen สำหรับ hero/persona)
-- Layout โล่ง: generous spacing, max-w-6xl, ตัดส่วนรกออก, 1 hero / 1 CTA หลักต่อหน้า
-- Framer Motion: fade-up on scroll, parallax hero, card hover lift
-- Mobile-first responsive ทุกจอ, bottom nav บน mobile
-- **PWA**: manifest + icons (installable, ไม่ทำ offline service worker)
+Replace `src/lib/state.ts` localStorage layer with server functions in `src/lib/care.functions.ts` (and friends), each using `requireSupabaseAuth`:
 
-## Stack & Backend
-- TanStack Start + Tailwind v4 + shadcn (customized) + Framer Motion
-- **Lovable Cloud** (Supabase): tables `profiles`, `quest_responses`, `personas`, `bookings`, `journey_checkins`, `credits_ledger` + RLS
-- Auth: email/password (เริ่มต้น); LINE login เลื่อนเป็น phase ถัดไป
-- Quest scoring + persona matching: ทำใน client (deterministic), บันทึกผลใน DB
+- `saveQuestAnswer({ question_id, answer })`
+- `computePersona()` — reads quest_responses, writes persona_results + updates profiles
+- `bookProgram({ program_id, date })`
+- `submitCheckin({ mood, note })`
+- `toggleHabitDay({ habit_id, date })`
+- `addCredits({ delta, reason })` (server enforces non-negative balance)
+- `getDashboard()` — one call returning everything Care/Report pages need
 
-## สิ่งที่จะยังไม่ทำในรอบนี้
-- LINE/Telegram bot integration (รอ phase 2)
-- Partner LIFF board, Expert review web
-- Payment gateway จริง (ใช้ mock confirm)
-- Push notifications
+## Stage 5 — Wire pages to server fns via TanStack Query
+
+Each page uses `useServerFn` + `useQuery`/`useMutation`. Keep an optimistic UI so the experience feels instant. Remove `useAppState` once all pages migrated; keep a thin localStorage fallback only for anonymous visitors (read-only preview of Quest before sign-in, then flush to DB on first sign-in).
+
+## Stage 6 — QA pass
+
+- Switch TH ↔ EN on every route, confirm no Thai/English leakage.
+- Sign in on phone, take Quest, sign in on desktop, see same persona + credits.
+- RLS check: try to read another user's row from the SQL console → blocked.
 
 ---
 
-## ขั้นตอนการสร้าง
-1. เปิด Lovable Cloud + สร้าง schema + RLS
-2. Design system: tokens (dark emerald + gold), fonts, base components
-3. Generate hero images (Koh Samui wellness) ผ่าน imagegen
-4. หน้า `/` Landing + Quest flow + Persona result
-5. Programs list + detail + booking mock
-6. Journey / Report / Care pages
-7. PWA manifest + icons + meta
-8. Auth + profile
+## Sequence
 
-ยืนยันแผนนี้แล้วจะเริ่มลงมือทำได้ทันที — หรือบอกว่าอยากปรับสโคป (เช่น ตัด/เพิ่มเฟสไหน, ใช้ภาษาไทยล้วน vs ไทย/อังกฤษผสม) ก่อนเริ่ม
+I'd ship this in 3 commits so you can verify each step:
+
+1. **Stage 1** (language coverage) — biggest visible win, no backend risk.
+2. **Stages 2 + 3** (auth + schema migration) — you'll be asked to approve the migration.
+3. **Stages 4 + 5 + 6** (server fns, wiring, QA).
+
+Confirm and I'll start with Stage 1.

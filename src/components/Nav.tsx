@@ -123,17 +123,18 @@ export function Nav() {
 }
 
 export function Footer() {
+  const { t } = useI18n();
   return (
     <footer className="mt-32 bg-cream/60 border-t border-mint/40">
       <div className="mx-auto max-w-6xl px-5 md:px-8 py-12 grid md:grid-cols-4 gap-8 text-sm pb-28 md:pb-12">
         <div>
           <img src={logo} alt="Goodfill Care" className="h-12 w-auto" />
           <p className="text-muted-foreground mt-2 max-w-xs">
-            แพลตฟอร์มดูแลสุขภาพแบบครบวงจร สำหรับการพักผ่อนระดับพรีเมียมที่เกาะสมุย
+            {t("footer.tagline")}
           </p>
         </div>
         <div>
-          <div className="text-emerald tracking-widest text-xs uppercase mb-3 font-medium">Experience</div>
+          <div className="text-emerald tracking-widest text-xs uppercase mb-3 font-medium">{t("footer.experience")}</div>
           <ul className="space-y-2 text-muted-foreground">
             <li><Link to="/quest">Wellness Quest</Link></li>
             <li><Link to="/programs">Programs</Link></li>
@@ -143,7 +144,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <div className="text-emerald tracking-widest text-xs uppercase mb-3 font-medium">For Teams</div>
+          <div className="text-emerald tracking-widest text-xs uppercase mb-3 font-medium">{t("footer.forTeams")}</div>
           <ul className="space-y-2 text-muted-foreground">
             <li><Link to="/partner">Partner LIFF</Link></li>
             <li><Link to="/expert">Expert Board</Link></li>
@@ -151,14 +152,14 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <div className="text-emerald tracking-widest text-xs uppercase mb-3 font-medium">Contact</div>
+          <div className="text-emerald tracking-widest text-xs uppercase mb-3 font-medium">{t("footer.contact")}</div>
           <p className="text-muted-foreground">care@goodfill.co</p>
           <p className="text-muted-foreground">+66 77 000 0000</p>
-          <p className="text-muted-foreground mt-2">เกาะสมุย · สุราษฎร์ธานี · ประเทศไทย</p>
+          <p className="text-muted-foreground mt-2">{t("footer.location")}</p>
         </div>
       </div>
       <div className="text-center text-xs text-muted-foreground pb-8">
-        © {new Date().getFullYear()} Goodfill Care · Create your best version
+        © {new Date().getFullYear()} Goodfill Care · {t("footer.rights")}
       </div>
     </footer>
   );

@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Flame, Sparkles, ArrowRight, Trophy, Clock } from "lucide-react";
 import { DashShell, DashCard, hosts } from "@/components/DashShell";
-import { personas, programs } from "@/lib/data";
+import { personas, programs, pick } from "@/lib/data";
 import { useAppState } from "@/lib/state";
+import { useI18n } from "@/lib/i18n";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
@@ -21,6 +22,7 @@ function todayKey() {
 }
 
 function CarePage() {
+  const { t, lang } = useI18n();
   const [state, setState] = useAppState();
   const persona = state.persona ? personas[state.persona] : null;
   const alumni = programs;
@@ -61,14 +63,14 @@ function CarePage() {
           <div className="font-display text-3xl md:text-4xl text-ivory mt-1 leading-none">
             {Math.max(...state.habits.map((h) => h.days.length), 0)}
           </div>
-          <div className="text-[10px] uppercase tracking-[0.22em] text-ivory/70 mt-1">Streak (days)</div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-ivory/70 mt-1">{t("care.streak")}</div>
         </DashCard>
         <DashCard variant="deep">
           <Trophy className="text-gold" size={18} />
           {persona ? (
             <>
-              <div className="font-display text-lg md:text-xl text-ivory mt-1 line-clamp-1">{persona.name}</div>
-              <div className="text-[10px] uppercase tracking-[0.22em] text-ivory/70 mt-1">Your persona</div>
+              <div className="font-display text-lg md:text-xl text-ivory mt-1 line-clamp-1">{pick(persona.name, lang)}</div>
+              <div className="text-[10px] uppercase tracking-[0.22em] text-ivory/70 mt-1">{t("care.yourPersona")}</div>
             </>
           ) : (
             <Link to="/quest" className="mt-1 flex items-center gap-2 group">
@@ -79,9 +81,9 @@ function CarePage() {
               />
               <div className="min-w-0">
                 <div className="text-[11px] md:text-xs text-ivory leading-snug line-clamp-2">
-                  พร้อมเริ่มสะสมพลังบวกหรือยังคะ?
+                  {t("care.readyToStart")}
                 </div>
-                <div className="text-[9px] uppercase tracking-widest text-gold group-hover:translate-x-0.5 transition-transform">เริ่มภารกิจแรก →</div>
+                <div className="text-[9px] uppercase tracking-widest text-gold group-hover:translate-x-0.5 transition-transform">{t("care.firstMission")}</div>
               </div>
             </Link>
           )}
@@ -90,7 +92,7 @@ function CarePage() {
 
       <div className="mt-3" style={{ touchAction: "pan-y" }}>
         <div className="flex items-center gap-2 mb-2">
-          <div className="text-[11px] tracking-widest text-gold uppercase">นิสัยวันนี้ · Daily Habits</div>
+          <div className="text-[11px] tracking-widest text-gold uppercase">{t("care.habitsTitle")}</div>
           {showHabitHint && (
             <motion.span
               aria-hidden
@@ -99,7 +101,7 @@ function CarePage() {
               transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
               className="inline-flex items-center gap-1 rounded-full bg-gold/15 text-gold ring-1 ring-gold/40 px-2 py-0.5 text-[9px] font-medium"
             >
-              <span className="size-1.5 rounded-full bg-gold" /> เริ่มเช็กอินตรงนี้
+              <span className="size-1.5 rounded-full bg-gold" /> {t("care.checkinHint")}
             </motion.span>
           )}
         </div>
@@ -179,8 +181,8 @@ function CarePage() {
           don't get swallowed by the carousel and vice versa. */}
       <div className="mt-5 pt-4 border-t border-white/40">
         <div className="flex items-center justify-between mb-2">
-          <div className="text-[11px] tracking-widest text-gold uppercase">Alumni · −15% · กลับมาอีกครั้ง</div>
-          <div className="text-[9px] tracking-widest uppercase text-muted-foreground hidden sm:block">ปัดซ้าย–ขวา</div>
+          <div className="text-[11px] tracking-widest text-gold uppercase">{t("care.alumniTitle")}</div>
+          <div className="text-[9px] tracking-widest uppercase text-muted-foreground hidden sm:block">{t("common.swipeShort")}</div>
         </div>
         <div
           className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-3 px-3 pb-1 overscroll-x-contain"
@@ -191,12 +193,12 @@ function CarePage() {
               key={p.id}
               className="snap-start shrink-0 w-[78vw] sm:w-[58vw] md:w-[360px] relative rounded-2xl overflow-hidden border border-white/60 shadow-[0_10px_32px_rgba(8,42,67,0.18)]"
             >
-              <img src={p.image} alt={p.name} loading="lazy" className="absolute inset-0 size-full object-cover" />
+              <img src={p.image} alt={pick(p.name, lang)} loading="lazy" className="absolute inset-0 size-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/90 via-emerald-deep/40 to-black/20" />
               <div className="relative z-10 flex flex-col justify-between p-3 md:p-4 min-h-[150px] md:min-h-[170px]">
                 <div className="flex items-start justify-between">
                   <span className="inline-flex items-center gap-1 rounded-full bg-black/35 backdrop-blur px-2 py-1 text-[10px] text-ivory ring-1 ring-white/20">
-                    <Clock size={11} /> {p.duration}
+                    <Clock size={11} /> {pick(p.duration, lang)}
                   </span>
                   <span className="rounded-full bg-gold/95 text-emerald-deep text-[10px] font-medium px-2 py-1 shadow">
                     #{i + 1}
@@ -204,7 +206,7 @@ function CarePage() {
                 </div>
                 <div>
                   <div className="font-display text-base md:text-lg text-ivory leading-tight line-clamp-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
-                    {p.name}
+                    {pick(p.name, lang)}
                   </div>
                   <div className="flex items-center justify-between mt-2 gap-2">
                     <div className="text-ivory drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">
@@ -215,7 +217,7 @@ function CarePage() {
                       to="/programs"
                       className="rounded-full bg-white/10 backdrop-blur-sm text-ivory ring-1 ring-gold/70 px-3 py-1.5 text-[11px] font-medium inline-flex items-center gap-1 hover:bg-gold/15 hover:ring-gold transition"
                     >
-                      จองอีกครั้ง <ArrowRight size={12} />
+                      {t("common.bookAgain")} <ArrowRight size={12} />
                     </Link>
                   </div>
                 </div>
