@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ArrowRight, Sparkles, Compass, HeartPulse, Leaf, MoonStar, X, Building2, Phone, MapPin, ExternalLink, Handshake, ShieldCheck, Menu, Map as MapIcon, Users } from "lucide-react";
 import { Nav } from "@/components/Nav";
-import { images, personas } from "@/lib/data";
+import { images, personas, pick } from "@/lib/data";
 import welcomeHost from "@/assets/welcome-host.png";
 import logo from "@/assets/goodfill-logo.png";
 import { useI18n, type TKey } from "@/lib/i18n";
@@ -356,9 +356,9 @@ function Landing() {
                     {Object.values(personas).map((p) => (
                       <div key={p.id} className="card-soft p-4 rounded-2xl">
                         <div className="text-[10px] tracking-widest uppercase text-emerald">{p.id}</div>
-                        <div className="font-display text-lg mt-1">{p.name}</div>
-                        <div className="text-xs text-muted-foreground">{p.thaiName}</div>
-                        <div className="text-xs mt-2 text-navy/70 line-clamp-2">{p.tagline}</div>
+                        <div className="font-display text-lg mt-1">{pick(p.name, lang)}</div>
+                        <div className="text-xs text-muted-foreground">{pick(p.thaiName, lang)}</div>
+                        <div className="text-xs mt-2 text-navy/70 line-clamp-2">{pick(p.tagline, lang)}</div>
                       </div>
                     ))}
                   </div>
