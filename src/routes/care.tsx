@@ -58,6 +58,7 @@ function CarePage() {
 
   return (
     <DashShell bg="meditation" host="gift" kicker="Phase 5 · Long-term Care" title="Care Plan ของคุณ" subtitle="ติดตามนิสัย · สะสม Calm Credits">
+      <h2 className="sr-only">Wellness summary — credits, streak, and persona</h2>
       <div className="grid grid-cols-3 gap-2 md:gap-3">
         <DashCard variant="deep">
           <Sparkles className="text-gold" size={18} />
@@ -97,6 +98,7 @@ function CarePage() {
       </div>
 
       <div className="mt-3" style={{ touchAction: "pan-y" }}>
+        <h2 className="sr-only">Daily habits tracker</h2>
         <div className="flex items-center gap-2 mb-2">
           <div className="text-[11px] tracking-widest text-gold uppercase">{t("care.habitsTitle")}</div>
           {showHabitHint && (
@@ -186,6 +188,7 @@ function CarePage() {
       {/* Visible separator + dedicated horizontal-swipe zone, so habit taps
           don't get swallowed by the carousel and vice versa. */}
       <div className="mt-5 pt-4 border-t border-white/40">
+        <h2 className="sr-only">Alumni programs you can book again</h2>
         <div className="flex items-center justify-between mb-2">
           <div className="text-[11px] tracking-widest text-gold uppercase">{t("care.alumniTitle")}</div>
           <div className="text-[9px] tracking-widest uppercase text-muted-foreground hidden sm:block">{t("common.swipeShort")}</div>
