@@ -308,6 +308,4 @@ export {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
-  ConfirmDialog,
-  SuccessDialog,
 };
