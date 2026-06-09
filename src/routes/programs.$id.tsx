@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, CalendarDays, MapPin } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ChefHat, MapPin } from "lucide-react";
 import { Shell, Section, Eyebrow } from "@/components/Shell";
 import { programs, type Program } from "@/lib/data";
 import { useAppState } from "@/lib/state";
