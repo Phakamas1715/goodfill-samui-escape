@@ -142,7 +142,7 @@ function ProgramsAdmin() {
       duration: String(fd.get("duration") || ""),
       price: Number(fd.get("price") || 0),
       currency: String(fd.get("currency") || "THB"),
-      image_url: images[0]?.url ?? String(fd.get("image_url") || "") || null,
+      image_url: images[0]?.url ?? (String(fd.get("image_url") || "") || null),
       sort_order: Number(fd.get("sort_order") || 0),
       is_published: fd.get("is_published") === "on",
       images,
