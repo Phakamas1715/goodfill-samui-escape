@@ -15,6 +15,7 @@ const BookingInput = z.object({
   expertName: z.string().min(1).max(200).optional(),
   dietaryPlan: z.enum(["Signature", "Plant-based", "High-Protein", "Detox Light"]).optional(),
   dietaryNotes: z.string().max(1000).optional(),
+  personaNote: z.string().max(1200).optional(),
 });
 
 async function linePush(token: string, to: string, messages: unknown[]) {
@@ -49,6 +50,7 @@ function receiptFlex(opts: {
   partnerActions?: boolean;
   dietaryPlan?: string;
   dietaryNotes?: string;
+  personaNote?: string;
 }) {
   return {
     type: "flex",
@@ -86,6 +88,13 @@ function receiptFlex(opts: {
                 { type: "separator", margin: "md" },
                 { type: "text", text: "แพ้อาหาร / หมายเหตุ", size: "xs", color: "#B45309", weight: "bold", margin: "md" },
                 { type: "text", text: opts.dietaryNotes, size: "sm", color: "#0F3D2E", wrap: true },
+              ]
+            : []),
+          ...(opts.personaNote
+            ? [
+                { type: "separator", margin: "md" },
+                { type: "text", text: "PERSONA · โปรไฟล์ลูกค้า", size: "xs", color: "#0B4A3F", weight: "bold", margin: "md" },
+                { type: "text", text: opts.personaNote, size: "sm", color: "#0F3D2E", wrap: true },
               ]
             : []),
           ...(opts.qrUrl
