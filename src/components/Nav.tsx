@@ -24,7 +24,7 @@ export function Nav() {
         <button
           key={l}
           onClick={() => setLang(l)}
-          className={`px-2.5 py-1 rounded-full transition ${lang === l ? "bg-emerald text-ivory shadow-sm" : "text-emerald-deep/70 hover:text-emerald"}`}
+          className={`px-2.5 py-1 rounded-full transition ${lang === l ? "bg-emerald text-white shadow-sm" : "text-navy/60 hover:text-emerald"}`}
           aria-pressed={lang === l}
         >
           {l.toUpperCase()}
@@ -35,7 +35,7 @@ export function Nav() {
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-navy/10 shadow-[0_2px_18px_-10px_rgba(12,35,64,0.25)]">
+      <header className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-mint/20 shadow-[0_2px_18px_-10px_rgba(12,35,64,0.25)]">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <div className="flex items-center justify-between gap-4 py-3 md:py-3.5">
             {/* Logo (left) - ขนาดใหญ่ขึ้น */}
@@ -53,7 +53,7 @@ export function Nav() {
                 <span className="font-display text-xl md:text-2xl text-navy whitespace-nowrap">
                   Goodfill <span className="text-emerald">Care</span>
                 </span>
-                <span className="text-[10px] tracking-[0.28em] uppercase text-emerald-deep/60 mt-0.5 whitespace-nowrap">
+                <span className="text-[10px] tracking-[0.28em] uppercase text-emerald/60 mt-0.5 whitespace-nowrap">
                   Koh Samui
                 </span>
               </span>
@@ -77,12 +77,12 @@ export function Nav() {
               <LangToggle />
               <Link
                 to="/quest"
-                className="hidden md:inline-flex rounded-full px-5 py-2 text-[14px] whitespace-nowrap border border-emerald/50 text-emerald-deep bg-white/70 hover:bg-pale-mint/70 transition"
+                className="hidden md:inline-flex rounded-full px-5 py-2 text-[14px] whitespace-nowrap border border-emerald/40 text-emerald bg-white/70 hover:bg-emerald/10 transition"
               >
                 {t("nav.cta")}
               </Link>
               <button
-                className="lg:hidden text-emerald-deep grid place-items-center size-10 rounded-full bg-pale-mint border border-mint/40"
+                className="lg:hidden text-emerald grid place-items-center size-10 rounded-full bg-pale-mint border border-mint/40"
                 onClick={() => setOpen((o) => !o)}
                 aria-label="Menu"
               >
@@ -93,13 +93,13 @@ export function Nav() {
 
           {/* Mobile Menu Drawer */}
           {open && (
-            <div className="lg:hidden border-t border-navy/10 bg-white pb-4 pt-3 flex flex-col gap-1">
+            <div className="lg:hidden border-t border-mint/20 bg-white pb-4 pt-3 flex flex-col gap-1">
               {linkDefs.map((l) => (
                 <Link
                   key={l.to}
                   to={l.to}
                   onClick={() => setOpen(false)}
-                  className="px-4 py-3 rounded-2xl text-base hover:bg-pale-mint flex items-center justify-between"
+                  className="px-4 py-3 rounded-2xl text-base text-navy/80 hover:bg-pale-mint hover:text-emerald flex items-center justify-between transition"
                   activeProps={{ className: "text-emerald bg-pale-mint" }}
                   activeOptions={{ exact: l.to === "/" }}
                 >
@@ -111,21 +111,21 @@ export function Nav() {
                 <Link
                   to="/partner"
                   onClick={() => setOpen(false)}
-                  className="card-cream text-center text-sm py-2.5 rounded-xl hover:bg-pale-mint transition"
+                  className="bg-cream text-center text-sm py-2.5 rounded-xl text-navy/70 hover:text-emerald hover:bg-pale-mint transition"
                 >
                   Partner
                 </Link>
                 <Link
                   to="/expert"
                   onClick={() => setOpen(false)}
-                  className="card-cream text-center text-sm py-2.5 rounded-xl hover:bg-pale-mint transition"
+                  className="bg-cream text-center text-sm py-2.5 rounded-xl text-navy/70 hover:text-emerald hover:bg-pale-mint transition"
                 >
                   Expert
                 </Link>
                 <Link
                   to="/admin"
                   onClick={() => setOpen(false)}
-                  className="card-cream text-center text-sm py-2.5 rounded-xl hover:bg-pale-mint transition"
+                  className="bg-cream text-center text-sm py-2.5 rounded-xl text-navy/70 hover:text-emerald hover:bg-pale-mint transition"
                 >
                   Admin
                 </Link>
@@ -137,16 +137,16 @@ export function Nav() {
 
       {/* Mobile bottom navigation */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-50">
-        <div className="bg-white/95 backdrop-blur-sm border-t border-navy/10 px-2 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center justify-between shadow-[0_-4px_20px_-10px_rgba(12,35,64,0.25)]">
+        <div className="bg-white/95 backdrop-blur-sm border-t border-mint/20 px-2 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-center justify-between shadow-[0_-4px_20px_-10px_rgba(12,35,64,0.25)]">
           {linkDefs.map((l) => (
             <Link
               key={l.to}
               to={l.to}
               activeOptions={{ exact: l.to === "/" }}
               activeProps={{ className: "text-emerald" }}
-              className="flex-1 flex flex-col items-center gap-1 py-1.5 rounded-xl text-navy/65 text-[11px] transition-colors"
+              className="flex-1 flex flex-col items-center gap-1 py-1.5 rounded-xl text-navy/60 text-[11px] transition-colors hover:text-emerald"
             >
-              <l.icon size={22} strokeWidth={1.75} />
+              <l.icon size={22} strokeWidth={1.75} className="text-navy/60 group-hover:text-emerald" />
               <span className="font-medium text-[10px]">{t(l.key as never)}</span>
             </Link>
           ))}
@@ -161,7 +161,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-32 bg-gradient-to-b from-cream/80 to-cream/40 border-t border-mint/40">
+    <footer className="mt-32 bg-gradient-to-b from-cream/80 to-cream/40 border-t border-mint/30">
       <div className="mx-auto max-w-6xl px-5 md:px-8 py-12">
         {/* Top Section - Logo + Description */}
         <div className="grid md:grid-cols-4 gap-8 pb-8 border-b border-mint/30">
@@ -180,7 +180,7 @@ export function Footer() {
                 <span className="font-display text-xl text-navy font-semibold">
                   Goodfill <span className="text-emerald">Care</span>
                 </span>
-                <span className="text-[9px] tracking-[0.25em] uppercase text-emerald-deep/60">Koh Samui</span>
+                <span className="text-[9px] tracking-[0.25em] uppercase text-emerald/60">Koh Samui</span>
               </div>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">{t("footer.tagline")}</p>
@@ -253,13 +253,16 @@ export function Footer() {
               {t("footer.contact")}
             </div>
             <ul className="space-y-2">
-              <li className="text-sm text-muted-foreground">
-                <a href="mailto:care@goodfill.co" className="hover:text-emerald transition-colors">
+              <li className="text-sm">
+                <a
+                  href="mailto:care@goodfill.co"
+                  className="text-muted-foreground hover:text-emerald transition-colors"
+                >
                   care@goodfill.co
                 </a>
               </li>
-              <li className="text-sm text-muted-foreground">
-                <a href="tel:+66770000000" className="hover:text-emerald transition-colors">
+              <li className="text-sm">
+                <a href="tel:+66770000000" className="text-muted-foreground hover:text-emerald transition-colors">
                   +66 77 000 0000
                 </a>
               </li>
@@ -302,11 +305,11 @@ export function Footer() {
             © {currentYear} Goodfill Care · {t("footer.rights")}
           </p>
           <div className="flex items-center justify-center gap-4 mt-2 text-[10px]">
-            <Link to="/privacy" className="hover:text-emerald transition-colors">
+            <Link to="/privacy" className="text-muted-foreground hover:text-emerald transition-colors">
               Privacy Policy
             </Link>
             <span className="text-muted-foreground/30">|</span>
-            <Link to="/terms" className="hover:text-emerald transition-colors">
+            <Link to="/terms" className="text-muted-foreground hover:text-emerald transition-colors">
               Terms of Service
             </Link>
           </div>
