@@ -32,14 +32,11 @@ function ConsentPage() {
 
         <div className="mt-8 flex gap-3">
           <Link to="/channel" className="card-cream rounded-full px-5 py-3 text-sm">ย้อนกลับ</Link>
-          <Link
-            to="/quest"
-            disabled={!canContinue}
-            aria-disabled={!canContinue}
-            className={`rounded-full px-7 py-3 text-sm ${canContinue ? "btn-emerald" : "bg-muted text-muted-foreground pointer-events-none"}`}
-          >
-            เริ่มแบบประเมิน
-          </Link>
+          {canContinue ? (
+            <Link to="/quest" className="rounded-full px-7 py-3 text-sm btn-emerald">เริ่มแบบประเมิน</Link>
+          ) : (
+            <button disabled className="rounded-full px-7 py-3 text-sm bg-muted text-muted-foreground cursor-not-allowed">เริ่มแบบประเมิน</button>
+          )}
         </div>
       </Section>
     </Shell>
