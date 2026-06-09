@@ -299,14 +299,15 @@ function Landing() {
             {/* host hidden on desktop in editorial layout */}
           </motion.div>
 
-          {/* Mobile host — bigger, transparent, sits behind content */}
+          {/* Mobile host — large Goodfill assistant, hem anchored flush to
+              the bottom of the viewport so the dress doesn't float. */}
           <motion.img
             initial={{ opacity: 0, x: 30, scale: 0.94 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden absolute -right-6 bottom-[58px] h-[52vh] max-h-[500px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
+            className="lg:hidden fixed -right-4 bottom-0 h-[72vh] max-h-[640px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
           />
         </div>
       </main>
