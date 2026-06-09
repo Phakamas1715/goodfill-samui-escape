@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Nav } from "./Nav";
 import { images } from "@/lib/data";
 import hostWelcome from "@/assets/host-welcome.png.asset.json";
@@ -50,35 +51,64 @@ export function DashShell({
   children,
   hostFloating = true,
 }: DashShellProps) {
+  // Rotating background slideshow — keeps internal pages visually alive.
+  const slides = [bgs[bg], images.villa, images.spa, images.yoga, images.meditation, images.food];
+  const [slide, setSlide] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 6000);
+    return () => clearInterval(t);
+  }, [slides.length]);
   return (
     <div className="fixed inset-0 overflow-hidden bg-background text-foreground">
       {/* SAMUI BACKGROUND */}
       <div className="absolute inset-0">
-        <img src={bgs[bg]} alt="" className="size-full object-cover opacity-90" />
+        <AnimatePresence>
+          <motion.img
+            key={slide}
+            src={slides[slide]}
+            alt=""
+            initial={{ opacity: 0, scale: 1.06 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.6, ease: "easeOut" }}
+            className="absolute inset-0 size-full object-cover"
+          />
+        </AnimatePresence>
         {/* Magazine-style readability wash — bright page tone over imagery so
             dark navy data cards pop with crisp contrast above it. */}
-        <div className="absolute inset-0 bg-gradient-to-b from-ivory/75 via-ivory/85 to-ivory/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ivory/70 via-ivory/80 to-ivory/95" />
         <div className="absolute inset-0 bg-gradient-to-tr from-sea/15 via-transparent to-mint/10 mix-blend-multiply" />
+        {/* Slide indicators */}
+        <div className="absolute top-20 right-4 md:right-6 z-10 flex gap-1.5">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setSlide(i)}
+              aria-label={`Slide ${i + 1}`}
+              className={`h-1 rounded-full transition-all ${i === slide ? "w-6 bg-gold" : "w-2.5 bg-navy/25"}`}
+            />
+          ))}
+        </div>
       </div>
 
       <Nav />
 
-      <main className="relative h-full pt-20 md:pt-24 pb-24 md:pb-6 px-3 md:px-6 flex flex-col">
+      <main className="relative h-full pt-20 md:pt-24 pb-20 md:pb-6 px-3 md:px-6 flex flex-col">
         <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col min-h-0">
           {/* HEADER — compact */}
           <div className="flex items-end justify-between gap-3 mb-4 md:mb-5">
             <div className="min-w-0">
               {kicker && (
-                <div className="text-[10px] md:text-[11px] tracking-[0.32em] uppercase text-sea font-semibold flex items-center gap-2">
+                <div className="text-[11px] md:text-[12px] tracking-[0.32em] uppercase text-sea font-semibold flex items-center gap-2">
                   <span className="inline-block h-px w-6 bg-sea/60" />
                   {kicker}
                 </div>
               )}
-              <h1 className="font-display text-3xl md:text-4xl text-navy leading-[1.1] truncate mt-1">
+              <h1 className="font-display text-3xl md:text-5xl text-navy leading-[1.1] truncate mt-1">
                 {title}
               </h1>
               {subtitle && (
-                <p className="text-xs md:text-sm text-muted-foreground line-clamp-1 mt-1">
+                <p className="text-sm md:text-base text-muted-foreground line-clamp-1 mt-1">
                   {subtitle}
                 </p>
               )}
