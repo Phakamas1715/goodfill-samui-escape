@@ -176,3 +176,9 @@
   transition: transform 0.2s ease;
   &:hover { transform: translateY(-1px); }
 }
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}
