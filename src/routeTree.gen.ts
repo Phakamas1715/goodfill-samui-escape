@@ -25,6 +25,7 @@ import { Route as ProgramsIndexRouteImport } from './routes/programs.index'
 import { Route as ProgramsIdRouteImport } from './routes/programs.$id'
 import { Route as MealsIdRouteImport } from './routes/meals.$id'
 import { Route as ApiPublicLinePartnerWebhookRouteImport } from './routes/api/public/line.partner-webhook'
+import { Route as ApiPublicLineCustomerWebhookRouteImport } from './routes/api/public/line.customer-webhook'
 
 const ReportRoute = ReportRouteImport.update({
   id: '/report',
@@ -107,6 +108,12 @@ const ApiPublicLinePartnerWebhookRoute =
     path: '/api/public/line/partner-webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicLineCustomerWebhookRoute =
+  ApiPublicLineCustomerWebhookRouteImport.update({
+    id: '/api/public/line/customer-webhook',
+    path: '/api/public/line/customer-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
+  '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -142,6 +150,7 @@ export interface FileRoutesByTo {
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs': typeof ProgramsIndexRoute
+  '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
 }
 export interface FileRoutesById {
@@ -161,6 +170,7 @@ export interface FileRoutesById {
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
+  '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
 }
 export interface FileRouteTypes {
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
+    | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -199,6 +210,7 @@ export interface FileRouteTypes {
     | '/meals/$id'
     | '/programs/$id'
     | '/programs'
+    | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
   id:
     | '__root__'
@@ -217,6 +229,7 @@ export interface FileRouteTypes {
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
+    | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
   fileRoutesById: FileRoutesById
 }
@@ -236,6 +249,7 @@ export interface RootRouteChildren {
   MealsIdRoute: typeof MealsIdRoute
   ProgramsIdRoute: typeof ProgramsIdRoute
   ProgramsIndexRoute: typeof ProgramsIndexRoute
+  ApiPublicLineCustomerWebhookRoute: typeof ApiPublicLineCustomerWebhookRoute
   ApiPublicLinePartnerWebhookRoute: typeof ApiPublicLinePartnerWebhookRoute
 }
 
@@ -353,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicLinePartnerWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/line/customer-webhook': {
+      id: '/api/public/line/customer-webhook'
+      path: '/api/public/line/customer-webhook'
+      fullPath: '/api/public/line/customer-webhook'
+      preLoaderRoute: typeof ApiPublicLineCustomerWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -372,6 +393,7 @@ const rootRouteChildren: RootRouteChildren = {
   MealsIdRoute: MealsIdRoute,
   ProgramsIdRoute: ProgramsIdRoute,
   ProgramsIndexRoute: ProgramsIndexRoute,
+  ApiPublicLineCustomerWebhookRoute: ApiPublicLineCustomerWebhookRoute,
   ApiPublicLinePartnerWebhookRoute: ApiPublicLinePartnerWebhookRoute,
 }
 export const routeTree = rootRouteImport
