@@ -47,6 +47,8 @@ function receiptFlex(opts: {
   mealsUrl?: string;
   expertName?: string;
   partnerActions?: boolean;
+  dietaryPlan?: string;
+  dietaryNotes?: string;
 }) {
   return {
     type: "flex",
@@ -78,6 +80,14 @@ function receiptFlex(opts: {
           row("สถานที่", opts.programVenue),
           row("ราคา", `฿${opts.programPrice.toLocaleString()}`),
           ...(opts.expertName ? [row("ผู้เชี่ยวชาญ", opts.expertName)] : []),
+          ...(opts.dietaryPlan ? [row("แผนอาหาร", opts.dietaryPlan)] : []),
+          ...(opts.dietaryNotes
+            ? [
+                { type: "separator", margin: "md" },
+                { type: "text", text: "แพ้อาหาร / หมายเหตุ", size: "xs", color: "#B45309", weight: "bold", margin: "md" },
+                { type: "text", text: opts.dietaryNotes, size: "sm", color: "#0F3D2E", wrap: true },
+              ]
+            : []),
           ...(opts.qrUrl
             ? [
                 { type: "separator", margin: "md" },
