@@ -84,10 +84,10 @@ function PersonaPage() {
           <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
             {persona.pillars.map((p, i) => {
               const gradients = [
-                "from-amber-300 via-orange-400 to-rose-500",
-                "from-emerald-300 via-teal-400 to-cyan-500",
-                "from-fuchsia-400 via-pink-500 to-rose-500",
-                "from-sky-300 via-indigo-400 to-violet-500",
+                "from-amber-200/70 via-orange-300/65 to-rose-400/60",
+                "from-emerald-200/70 via-teal-300/65 to-cyan-400/60",
+                "from-fuchsia-300/65 via-pink-400/60 to-rose-400/60",
+                "from-sky-200/70 via-indigo-300/65 to-violet-400/60",
               ];
               const emojis = ["✨", "🌿", "🧘", "🌊"];
               return (

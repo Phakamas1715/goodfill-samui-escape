@@ -305,6 +305,73 @@ export interface Program {
 
 export const programs: Program[] = [
   {
+    id: "recharge-3",
+    name: { th: "The Samui Recharge", en: "The Samui Recharge" },
+    duration: { th: "3 วัน 2 คืน", en: "3 days · 2 nights" },
+    nights: 2,
+    price: 12545,
+    tagline: {
+      th: "แพ็กเกจฟื้นฟูครบวงจร · ตรวจสุขภาพ · บำบัด · โภชนาการ",
+      en: "Full recharge — check-up, therapy, nutrition.",
+    },
+    matches: ["feeler", "comfort", "thinker"],
+    image: samuiSpaRitual,
+    venue: { th: "Hug Samui × Royal Muang Samui", en: "Hug Samui × Royal Muang Samui" },
+    highlights: [
+      { th: "ตรวจสุขภาพและอารมณ์ (Medical Check-up)", en: "Medical & mood check-up" },
+      { th: "โยคะส่วนตัว (Private Yoga Session)", en: "Private yoga session" },
+      { th: "สมุนไพรบำบัด ล้างพิษลำไส้", en: "Herbal gut-detox therapy" },
+      { th: "นวดบำบัดแบบองค์รวม (Holistic Massage)", en: "Holistic massage" },
+      { th: "โปรแกรมบำรุงผิวหน้า (Facial Treatment)", en: "Facial treatment" },
+      { th: "มื้ออาหารเพื่อสุขภาพ + Wellness Consult", en: "Healthy meal + wellness consult" },
+    ],
+    schedule: [
+      { day: { th: "Day 1 — Arrival", en: "Day 1 — Arrival" }, items: [
+        { th: "เช็คอินที่ Royal Muang Samui", en: "Check-in at Royal Muang Samui" },
+        { th: "Welcome herbal drink + intake form", en: "Welcome herbal drink + intake form" },
+        { th: "Healing dinner ริมทะเล", en: "Healing dinner by the sea" },
+      ] },
+      { day: { th: "Day 2 — Recharge", en: "Day 2 — Recharge" }, items: [
+        { th: "เช้า · ตรวจสุขภาพและอารมณ์", en: "Morning · medical & mood check-up" },
+        { th: "เช้า · โยคะส่วนตัว", en: "Morning · private yoga" },
+        { th: "เช้า · สมุนไพรบำบัดล้างพิษ", en: "Morning · herbal detox therapy" },
+        { th: "บ่าย · นวดบำบัดองค์รวม", en: "Afternoon · holistic massage" },
+        { th: "บ่าย · Facial treatment", en: "Afternoon · facial treatment" },
+        { th: "เย็น · มื้ออาหารเพื่อสุขภาพ", en: "Evening · healthy meal" },
+      ] },
+      { day: { th: "Day 3 — Consult & Depart", en: "Day 3 — Consult & Depart" }, items: [
+        { th: "Sunrise meditation", en: "Sunrise meditation" },
+        { th: "Wellness consultation · สรุปผลและคำแนะนำ", en: "Wellness consultation · summary & guidance" },
+        { th: "Brunch + departure", en: "Brunch + departure" },
+      ] },
+    ],
+    gallery: [samuiSpaRitual, samuiInfinity, samuiLongtail, spa, food, yoga],
+    expert: {
+      name: { th: "ดร. ปานรวีร์ ประดิษฐ์ศร", en: "Dr. Panrawee Praditsorn" },
+      role: {
+        th: "นักกำหนดอาหารวิชาชีพ · สถาบันโภชนาการ มหิดล (ปริญญาเอกด้านโภชนาการ ประเทศเยอรมนี) · ที่ปรึกษาโดย พญ. สวนันท์ วัชราวนิช",
+        en: "Registered Dietitian · Mahidol Institute of Nutrition (PhD Nutrition, Germany) · Advised by Dr. Sawanan Watcharawanich",
+      },
+    },
+    mealPlan: [
+      { day: { th: "Day 1", en: "Day 1" },
+        breakfast: { th: "—", en: "—" },
+        lunch: { th: "Welcome herbal drink + light salad", en: "Welcome herbal drink + light salad" },
+        dinner: { th: "ปลานึ่งสมุนไพร + ข้าวกล้อง + ผักย่าง", en: "Herb-steamed fish + brown rice + grilled veg" },
+        note: { th: "งดคาเฟอีนหลัง 14:00", en: "No caffeine after 14:00" } },
+      { day: { th: "Day 2", en: "Day 2" },
+        breakfast: { th: "Tropical smoothie bowl + เมล็ดเจีย", en: "Tropical smoothie bowl + chia" },
+        lunch: { th: "Buddha bowl ควินัว + อกไก่ + อะโวคาโด", en: "Buddha bowl: quinoa + chicken + avocado" },
+        dinner: { th: "ต้มข่าเห็ด + ปลากระพงนึ่ง + ผักลวก", en: "Tom kha mushroom + steamed sea bass + greens" },
+        note: { th: "ดื่มน้ำ 2.5L กระจายทั้งวัน", en: "Drink 2.5L water across the day" } },
+      { day: { th: "Day 3", en: "Day 3" },
+        breakfast: { th: "ไข่ลวก + อะโวคาโดโทสต์", en: "Soft-boiled eggs + avocado toast" },
+        lunch: { th: "Light bowl ก่อนเดินทาง", en: "Light bowl before travel" },
+        dinner: { th: "—", en: "—" },
+        note: { th: "รับแผนอาหาร 7 วันกลับบ้าน", en: "Take home a 7-day meal plan" } },
+    ],
+  },
+  {
     id: "reset-3",
     name: { th: "The Samui Reset", en: "The Samui Reset" },
     duration: { th: "3 วัน 2 คืน", en: "3 days · 2 nights" },
