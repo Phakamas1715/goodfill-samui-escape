@@ -16,7 +16,7 @@ interface AspectRatioProps extends React.ComponentPropsWithoutRef<typeof AspectR
 // Constants
 // ============================================================================
 
-const COMMON_RATIOS = {
+export const COMMON_RATIOS = {
   square: 1 / 1, // 1:1
   video: 16 / 9, // 16:9
   portrait: 3 / 4, // 3:4
@@ -25,10 +25,40 @@ const COMMON_RATIOS = {
   story: 9 / 16, // 9:16
   widescreen: 2 / 1, // 2:1
   golden: 1.618 / 1, // Golden ratio
+  poster: 2 / 3, // 2:3 (movie poster)
+  ultrawide: 32 / 9, // 32:9
 } as const;
 
+export type CommonRatioKey = keyof typeof COMMON_RATIOS;
+
 // ============================================================================
-// Components
+// Helper Functions
+// ============================================================================
+
+/**
+ * Get common ratio value by name or return number if already a number
+ */
+export function getRatio(ratio: CommonRatioKey | number): number {
+  if (typeof ratio === "number") return ratio;
+  return COMMON_RATIOS[ratio];
+}
+
+/**
+ * Get CSS padding-bottom value for a ratio
+ */
+export function getRatioPadding(ratio: number): string {
+  return `${(1 / ratio) * 100}%`;
+}
+
+/**
+ * Validate if a ratio is within reasonable bounds
+ */
+export function isValidRatio(ratio: number): boolean {
+  return ratio > 0 && ratio < 10;
+}
+
+// ============================================================================
+// Main Component
 // ============================================================================
 
 /**
@@ -48,7 +78,7 @@ const COMMON_RATIOS = {
  */
 const AspectRatio = React.forwardRef<HTMLDivElement, AspectRatioProps>(
   ({ ratio = 1, className, children, ...props }, ref) => {
-    const paddingBottom = `${(1 / ratio) * 100}%`;
+    const paddingBottom = getRatioPadding(ratio);
 
     return (
       <AspectRatioPrimitive.Root
@@ -79,11 +109,12 @@ AspectRatio.displayName = AspectRatioPrimitive.Root.displayName;
  *   objectFit="cover"
  * />
  */
-interface AspectImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, "ratio"> {
-  ratio?: keyof typeof COMMON_RATIOS | number;
+export interface AspectImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, "ratio"> {
+  ratio?: CommonRatioKey | number;
   objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
   objectPosition?: string;
   lazy?: boolean;
+  fallbackSrc?: string;
 }
 
 export function AspectImage({
@@ -94,18 +125,35 @@ export function AspectImage({
   objectPosition = "center",
   className,
   lazy = true,
+  fallbackSrc,
+  onError,
   ...props
 }: AspectImageProps) {
-  const ratioValue = typeof ratio === "string" ? COMMON_RATIOS[ratio as keyof typeof COMMON_RATIOS] : ratio;
+  const ratioValue = getRatio(ratio);
+  const [imgSrc, setImgSrc] = React.useState(src);
+
+  const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    if (fallbackSrc && imgSrc !== fallbackSrc) {
+      setImgSrc(fallbackSrc);
+    }
+    onError?.(e);
+  };
 
   return (
     <AspectRatio ratio={ratioValue} className={className}>
       <img
-        src={src}
+        src={imgSrc}
         alt={alt}
         loading={lazy ? "lazy" : "eager"}
-        className={`size-full ${objectFit === "cover" ? "object-cover" : `object-${objectFit}`}`}
+        className={cn("size-full", {
+          "object-cover": objectFit === "cover",
+          "object-contain": objectFit === "contain",
+          "object-fill": objectFit === "fill",
+          "object-none": objectFit === "none",
+          "object-scale-down": objectFit === "scale-down",
+        })}
         style={{ objectPosition }}
+        onError={handleError}
         {...props}
       />
     </AspectRatio>
@@ -122,17 +170,40 @@ export function AspectImage({
  *   controls
  * />
  */
-interface AspectVideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElement>, "ratio"> {
-  ratio?: keyof typeof COMMON_RATIOS | number;
+export interface AspectVideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElement>, "ratio"> {
+  ratio?: CommonRatioKey | number;
   poster?: string;
+  autoPlay?: boolean;
+  muted?: boolean;
+  loop?: boolean;
 }
 
-export function AspectVideo({ src, ratio = "video", poster, className, controls = true, ...props }: AspectVideoProps) {
-  const ratioValue = typeof ratio === "string" ? COMMON_RATIOS[ratio as keyof typeof COMMON_RATIOS] : ratio;
+export function AspectVideo({
+  src,
+  ratio = "video",
+  poster,
+  className,
+  controls = true,
+  autoPlay = false,
+  muted = false,
+  loop = false,
+  ...props
+}: AspectVideoProps) {
+  const ratioValue = getRatio(ratio);
 
   return (
     <AspectRatio ratio={ratioValue} className={className}>
-      <video src={src} poster={poster} controls={controls} className="size-full object-cover" {...props} />
+      <video
+        src={src}
+        poster={poster}
+        controls={controls}
+        autoPlay={autoPlay}
+        muted={muted}
+        loop={loop}
+        playsInline
+        className="size-full object-cover"
+        {...props}
+      />
     </AspectRatio>
   );
 }
@@ -146,16 +217,17 @@ export function AspectVideo({ src, ratio = "video", poster, className, controls 
  *   ratio="square"
  * />
  */
-interface AspectMapProps extends Omit<React.IframeHTMLAttributes<HTMLIFrameElement>, "ratio"> {
-  ratio?: keyof typeof COMMON_RATIOS | number;
+export interface AspectMapProps extends Omit<React.IframeHTMLAttributes<HTMLIFrameElement>, "ratio"> {
+  ratio?: CommonRatioKey | number;
+  title?: string;
 }
 
-export function AspectMap({ src, ratio = "square", className, ...props }: AspectMapProps) {
-  const ratioValue = typeof ratio === "string" ? COMMON_RATIOS[ratio as keyof typeof COMMON_RATIOS] : ratio;
+export function AspectMap({ src, ratio = "square", className, title = "Map", ...props }: AspectMapProps) {
+  const ratioValue = getRatio(ratio);
 
   return (
     <AspectRatio ratio={ratioValue} className={className}>
-      <iframe src={src} className="size-full" allowFullScreen loading="lazy" {...props} />
+      <iframe src={src} title={title} className="size-full" allowFullScreen loading="lazy" {...props} />
     </AspectRatio>
   );
 }
@@ -171,15 +243,18 @@ export function AspectMap({ src, ratio = "square", className, ...props }: Aspect
  *   ratio="portrait"
  * />
  */
-interface AspectCardProps {
+export interface AspectCardProps {
   image: string;
   title?: string;
   description?: string;
-  ratio?: keyof typeof COMMON_RATIOS | number;
+  ratio?: CommonRatioKey | number;
   overlay?: boolean;
   className?: string;
   onClick?: () => void;
   children?: React.ReactNode;
+  imageClassName?: string;
+  overlayClassName?: string;
+  contentClassName?: string;
 }
 
 export function AspectCard({
@@ -191,28 +266,44 @@ export function AspectCard({
   className,
   onClick,
   children,
+  imageClassName,
+  overlayClassName,
+  contentClassName,
 }: AspectCardProps) {
-  const ratioValue = typeof ratio === "string" ? COMMON_RATIOS[ratio as keyof typeof COMMON_RATIOS] : ratio;
+  const ratioValue = getRatio(ratio);
 
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-xl cursor-pointer transition-transform hover:scale-[1.02]",
+        "group relative overflow-hidden rounded-xl cursor-pointer transition-transform duration-300 hover:scale-[1.02]",
         className,
       )}
       onClick={onClick}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e) => e.key === "Enter" && onClick() : undefined}
     >
       <AspectRatio ratio={ratioValue}>
         <img
           src={image}
           alt={title}
-          className="size-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className={cn(
+            "size-full object-cover transition-transform duration-700 group-hover:scale-110",
+            imageClassName,
+          )}
         />
-        {overlay && <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />}
+        {overlay && (
+          <div
+            className={cn(
+              "absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent",
+              overlayClassName,
+            )}
+          />
+        )}
         {(title || description || children) && (
-          <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-            {title && <h3 className="font-display text-lg font-semibold">{title}</h3>}
-            {description && <p className="text-sm text-white/80 mt-1">{description}</p>}
+          <div className={cn("absolute bottom-0 left-0 right-0 p-4 text-white", contentClassName)}>
+            {title && <h3 className="font-display text-lg font-semibold leading-tight">{title}</h3>}
+            {description && <p className="text-sm text-white/80 mt-1 line-clamp-2">{description}</p>}
             {children}
           </div>
         )}
@@ -221,29 +312,59 @@ export function AspectCard({
   );
 }
 
-// ============================================================================
-// Utility Functions
-// ============================================================================
-
 /**
- * Get common ratio value by name
+ * Lazy loading wrapper for images with aspect ratio
  */
-export function getRatio(ratio: keyof typeof COMMON_RATIOS | number): number {
-  if (typeof ratio === "number") return ratio;
-  return COMMON_RATIOS[ratio];
-}
+export function LazyAspectImage(props: AspectImageProps) {
+  const [isVisible, setIsVisible] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
 
-/**
- * Get CSS padding-bottom value for a ratio
- */
-export function getRatioPadding(ratio: number): string {
-  return `${(1 / ratio) * 100}%`;
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "100px" },
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref}>
+      {isVisible && <AspectImage {...props} />}
+      {!isVisible && (
+        <div
+          className={cn("bg-muted animate-pulse rounded", props.className)}
+          style={{ aspectRatio: getRatio(props.ratio || "square") }}
+        />
+      )}
+    </div>
+  );
 }
 
 // ============================================================================
 // Default Export
 // ============================================================================
 
-export { AspectRatio, COMMON_RATIOS };
+export {
+  AspectRatio,
+  AspectImage,
+  AspectVideo,
+  AspectMap,
+  AspectCard,
+  LazyAspectImage,
+  COMMON_RATIOS,
+  getRatio,
+  getRatioPadding,
+  isValidRatio,
+};
 
 export default AspectRatio;
