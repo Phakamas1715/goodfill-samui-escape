@@ -11,7 +11,13 @@ export const Route = createFileRoute("/quest")({
   head: () => ({
     meta: [
       { title: "Wellness Quest — Goodfill Care" },
-      { name: "description", content: "ตอบ 8 ข้อ ค้นพบ Wellness Persona ของคุณ พร้อมรับ 300 Calm Credits" },
+      { name: "description", content: "ตอบ 8 ข้อสั้น ๆ เพื่อค้นพบ Wellness Persona ของคุณ — Sleep Seeker, Energy Rebuilder, Detox Reset หรือ Mindful Glow พร้อมรับ 300 Calm Credits ทันที" },
+      { property: "og:title", content: "Wellness Quest — ค้นพบ Persona ของคุณใน 8 ข้อ" },
+      { property: "og:description", content: "แบบประเมินสั้น ๆ เพื่อจับคู่คุณกับโปรแกรม Wellness ที่เกาะสมุยที่เหมาะกับร่างกายและจิตใจคุณที่สุด" },
+      { property: "og:url", content: "https://goodfillcare-samui.com/quest" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://goodfillcare-samui.com/quest" },
     ],
   }),
   component: Quest,
