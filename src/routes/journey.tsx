@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Calendar, Camera, Smile, QrCode, ArrowRight } from "lucide-react";
+import { Calendar, Camera, Smile, QrCode, ArrowRight, Send } from "lucide-react";
 import { DashShell, DashCard } from "@/components/DashShell";
 import { programs, pick } from "@/lib/data";
 import { useAppState } from "@/lib/state";
@@ -124,6 +124,24 @@ function JourneyPage() {
             <Camera size={14} /> {t("journey.finalReport")}
           </Link>
       </div>
+
+      <a
+        href={`https://t.me/goodfillcare_bot?start=journey-${program.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-mint/50 bg-white/80 backdrop-blur px-4 py-3 hover:border-gold transition group"
+      >
+        <div className="flex items-center gap-3">
+          <div className="size-10 rounded-full bg-[#229ED9]/10 grid place-items-center text-[#229ED9]">
+            <Send size={18} />
+          </div>
+          <div>
+            <div className="text-sm font-medium text-navy">รับการแจ้งเตือนผ่าน Telegram</div>
+            <div className="text-[11px] text-muted-foreground">QR แผนอาหาร · ยืนยันบริการ · อัปเดตจาก expert</div>
+          </div>
+        </div>
+        <ArrowRight size={16} className="text-muted-foreground group-hover:text-gold transition" />
+      </a>
     </DashShell>
   );
 }
