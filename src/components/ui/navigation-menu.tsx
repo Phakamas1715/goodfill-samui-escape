@@ -1,7 +1,6 @@
 import * as React from "react";
-import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
-import { cva, type VariantProps } from "class-variance-authority";
-import { ChevronDown, Sparkles } from "lucide-react";
+import * as MenubarPrimitive from "@radix-ui/react-menubar";
+import { Check, ChevronRight, Circle, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -9,11 +8,12 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface NavigationMenuProps extends React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root> {
+interface MenubarProps extends React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root> {
   variant?: "default" | "gold" | "emerald";
 }
 
-interface NavigationMenuTriggerProps extends React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger> {
+interface MenubarItemProps extends React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Item> {
+  inset?: boolean;
   icon?: React.ReactNode;
 }
 
@@ -23,193 +23,275 @@ interface NavigationMenuTriggerProps extends React.ComponentPropsWithoutRef<type
 
 const VARIANT_STYLES = {
   default: {
-    trigger: "bg-white/80 hover:bg-navy/5 hover:text-navy data-[state=open]:bg-navy/5 data-[state=open]:text-navy",
-    content: "bg-white/95 backdrop-blur-sm border border-mint/30 shadow-lg",
-    viewport: "bg-white/95 backdrop-blur-sm border border-mint/30",
+    root: "bg-white/95 backdrop-blur-sm border border-mint/30 shadow-sm",
+    trigger: "hover:bg-navy/5 data-[state=open]:bg-navy/5 data-[state=open]:text-navy",
+    item: "focus:bg-navy/5 focus:text-navy",
+    subTrigger: "focus:bg-navy/5 data-[state=open]:bg-navy/5",
   },
   gold: {
-    trigger:
-      "bg-gold/5 hover:bg-gold/10 hover:text-emerald-deep data-[state=open]:bg-gold/10 data-[state=open]:text-emerald-deep",
-    content: "bg-gradient-to-br from-gold/10 to-gold-soft/20 border border-gold/40 shadow-lg",
-    viewport: "bg-gradient-to-br from-gold/10 to-gold-soft/20 border border-gold/40",
+    root: "bg-gradient-to-br from-gold/10 to-gold-soft/20 border border-gold/40 shadow-md",
+    trigger: "hover:bg-gold/10 data-[state=open]:bg-gold/10 data-[state=open]:text-emerald-deep",
+    item: "focus:bg-gold/10 focus:text-emerald-deep",
+    subTrigger: "focus:bg-gold/10 data-[state=open]:bg-gold/10",
   },
   emerald: {
-    trigger:
-      "bg-emerald/5 hover:bg-emerald/10 hover:text-ivory data-[state=open]:bg-emerald/10 data-[state=open]:text-ivory",
-    content: "bg-gradient-to-br from-emerald/10 to-emerald-deep/20 border border-emerald/40 shadow-lg",
-    viewport: "bg-gradient-to-br from-emerald/10 to-emerald-deep/20 border border-emerald/40",
+    root: "bg-gradient-to-br from-emerald/10 to-emerald-deep/20 border border-emerald/40 shadow-md",
+    trigger: "hover:bg-emerald/10 data-[state=open]:bg-emerald/10 data-[state=open]:text-ivory",
+    item: "focus:bg-emerald/10 focus:text-ivory",
+    subTrigger: "focus:bg-emerald/10 data-[state=open]:bg-emerald/10",
   },
 } as const;
-
-const navigationMenuTriggerStyle = cva(
-  cn(
-    "group inline-flex h-10 w-max items-center justify-center rounded-xl px-5 py-2 text-sm font-medium cursor-pointer transition-all duration-200",
-    "focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2",
-    "disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed",
-    "[&_svg]:size-4 [&_svg]:shrink-0",
-  ),
-);
 
 // ============================================================================
 // Components
 // ============================================================================
 
-const NavigationMenu = React.forwardRef<React.ElementRef<typeof NavigationMenuPrimitive.Root>, NavigationMenuProps>(
-  ({ className, children, variant = "default", ...props }, ref) => {
+function MenubarMenu({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Menu>) {
+  return <MenubarPrimitive.Menu {...props} />;
+}
+
+function MenubarGroup({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Group>) {
+  return <MenubarPrimitive.Group {...props} />;
+}
+
+function MenubarPortal({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Portal>) {
+  return <MenubarPrimitive.Portal {...props} />;
+}
+
+function MenubarRadioGroup({ ...props }: React.ComponentProps<typeof MenubarPrimitive.RadioGroup>) {
+  return <MenubarPrimitive.RadioGroup {...props} />;
+}
+
+function MenubarSub({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Sub>) {
+  return <MenubarPrimitive.Sub data-slot="menubar-sub" {...props} />;
+}
+
+const Menubar = React.forwardRef<React.ElementRef<typeof MenubarPrimitive.Root>, MenubarProps>(
+  ({ className, variant = "default", ...props }, ref) => {
     const variantStyle = VARIANT_STYLES[variant];
 
     return (
-      <NavigationMenuPrimitive.Root
+      <MenubarPrimitive.Root
         ref={ref}
-        className={cn("relative z-10 flex max-w-max flex-1 items-center justify-center", className)}
+        className={cn("flex h-11 items-center gap-1.5 rounded-xl p-1 shadow-sm", variantStyle.root, className)}
         {...props}
-      >
-        {children}
-        <NavigationMenuViewport variant={variant} />
-      </NavigationMenuPrimitive.Root>
+      />
     );
   },
 );
-NavigationMenu.displayName = NavigationMenuPrimitive.Root.displayName;
+Menubar.displayName = MenubarPrimitive.Root.displayName;
 
-const NavigationMenuList = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>
+const MenubarTrigger = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>
 >(({ className, ...props }, ref) => (
-  <NavigationMenuPrimitive.List
+  <MenubarPrimitive.Trigger
     ref={ref}
-    className={cn("group flex flex-1 list-none items-center justify-center gap-1", className)}
+    className={cn(
+      "flex cursor-default select-none items-center rounded-lg px-4 py-2 text-base font-medium outline-none transition-colors",
+      "focus:bg-accent focus:text-accent-foreground",
+      "data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+      className,
+    )}
     {...props}
   />
 ));
-NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName;
+MenubarTrigger.displayName = MenubarPrimitive.Trigger.displayName;
 
-const NavigationMenuItem = NavigationMenuPrimitive.Item;
-
-const NavigationMenuTrigger = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
-  NavigationMenuTriggerProps
->(({ className, children, icon, ...props }, ref) => (
-  <NavigationMenuPrimitive.Trigger
-    ref={ref}
-    className={cn(navigationMenuTriggerStyle(), "group", className)}
-    {...props}
-  >
-    {icon && <span className="mr-2">{icon}</span>}
-    {children}
-    <ChevronDown
-      className="relative ml-1.5 h-3.5 w-3.5 transition-transform duration-300 group-data-[state=open]:rotate-180"
-      aria-hidden="true"
-    />
-  </NavigationMenuPrimitive.Trigger>
-));
-NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName;
-
-const NavigationMenuContent = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content> & {
-    variant?: "default" | "gold" | "emerald";
+const MenubarSubTrigger = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.SubTrigger>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubTrigger> & {
+    inset?: boolean;
   }
->(({ className, variant = "default", ...props }, ref) => {
-  const variantStyle = VARIANT_STYLES[variant];
-
-  return (
-    <NavigationMenuPrimitive.Content
-      ref={ref}
-      className={cn(
-        "left-0 top-0 w-full rounded-xl p-2",
-        "data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out",
-        "data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out",
-        "data-[motion=from-end]:slide-in-from-right-52",
-        "data-[motion=from-start]:slide-in-from-left-52",
-        "data-[motion=to-end]:slide-out-to-right-52",
-        "data-[motion=to-start]:slide-out-to-left-52",
-        "md:absolute md:w-auto",
-        variantStyle.content,
-        className,
-      )}
-      {...props}
-    />
-  );
-});
-NavigationMenuContent.displayName = NavigationMenuPrimitive.Content.displayName;
-
-const NavigationMenuLink = NavigationMenuPrimitive.Link;
-
-const NavigationMenuViewport = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport> & {
-    variant?: "default" | "gold" | "emerald";
-  }
->(({ className, variant = "default", ...props }, ref) => {
-  const variantStyle = VARIANT_STYLES[variant];
-
-  return (
-    <div className={cn("absolute left-0 top-full flex justify-center")}>
-      <NavigationMenuPrimitive.Viewport
-        className={cn(
-          "origin-top-center relative mt-2 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-xl shadow-lg",
-          "data-[state=open]:animate-in data-[state=closed]:animate-out",
-          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90",
-          "md:w-[var(--radix-navigation-menu-viewport-width)]",
-          variantStyle.viewport,
-          className,
-        )}
-        ref={ref}
-        {...props}
-      />
-    </div>
-  );
-});
-NavigationMenuViewport.displayName = NavigationMenuPrimitive.Viewport.displayName;
-
-const NavigationMenuIndicator = React.forwardRef<
-  React.ElementRef<typeof NavigationMenuPrimitive.Indicator>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>
->(({ className, ...props }, ref) => (
-  <NavigationMenuPrimitive.Indicator
+>(({ className, inset, children, ...props }, ref) => (
+  <MenubarPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "top-full z-[1] flex h-2 items-end justify-center overflow-hidden",
-      "data-[state=visible]:animate-in data-[state=hidden]:animate-out",
-      "data-[state=hidden]:fade-out data-[state=visible]:fade-in",
+      "flex cursor-default select-none items-center rounded-lg px-4 py-2.5 text-base outline-none transition-colors",
+      "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+      inset && "pl-8",
       className,
     )}
     {...props}
   >
-    <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-gold/50 shadow-md" />
-  </NavigationMenuPrimitive.Indicator>
+    {children}
+    <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground" />
+  </MenubarPrimitive.SubTrigger>
 ));
-NavigationMenuIndicator.displayName = NavigationMenuPrimitive.Indicator.displayName;
+MenubarSubTrigger.displayName = MenubarPrimitive.SubTrigger.displayName;
 
-// ============================================================================
-// Additional Components
-// ============================================================================
+const MenubarSubContent = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.SubContent>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubContent>
+>(({ className, ...props }, ref) => (
+  <MenubarPrimitive.SubContent
+    ref={ref}
+    className={cn(
+      "z-50 min-w-[14rem] overflow-hidden rounded-xl border bg-white/95 backdrop-blur-sm p-2 shadow-xl",
+      "data-[state=open]:animate-in data-[state=closed]:animate-out",
+      "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+      "data-[side=bottom]:slide-in-from-top-2",
+      "data-[side=left]:slide-in-from-right-2",
+      "data-[side=right]:slide-in-from-left-2",
+      "data-[side=top]:slide-in-from-bottom-2",
+      "origin-(--radix-menubar-content-transform-origin)",
+      className,
+    )}
+    {...props}
+  />
+));
+MenubarSubContent.displayName = MenubarPrimitive.SubContent.displayName;
 
-/**
- * Navigation menu with gold theme
- */
-const GoldNavigationMenu = (props: NavigationMenuProps) => <NavigationMenu variant="gold" {...props} />;
+const MenubarContent = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>
+>(({ className, align = "start", alignOffset = -4, sideOffset = 8, ...props }, ref) => (
+  <MenubarPrimitive.Portal>
+    <MenubarPrimitive.Content
+      ref={ref}
+      align={align}
+      alignOffset={alignOffset}
+      sideOffset={sideOffset}
+      className={cn(
+        "z-50 min-w-[14rem] overflow-hidden rounded-xl border bg-white/95 backdrop-blur-sm p-2 shadow-xl",
+        "data-[state=open]:animate-in data-[state=closed]:animate-out",
+        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+        "data-[side=bottom]:slide-in-from-top-2",
+        "data-[side=left]:slide-in-from-right-2",
+        "data-[side=right]:slide-in-from-left-2",
+        "data-[side=top]:slide-in-from-bottom-2",
+        "origin-(--radix-menubar-content-transform-origin)",
+        className,
+      )}
+      {...props}
+    />
+  </MenubarPrimitive.Portal>
+));
+MenubarContent.displayName = MenubarPrimitive.Content.displayName;
 
-/**
- * Navigation menu with emerald theme
- */
-const EmeraldNavigationMenu = (props: NavigationMenuProps) => <NavigationMenu variant="emerald" {...props} />;
+const MenubarItem = React.forwardRef<React.ElementRef<typeof MenubarPrimitive.Item>, MenubarItemProps>(
+  ({ className, inset, icon, children, ...props }, ref) => (
+    <MenubarPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center gap-3 rounded-lg px-4 py-2.5 text-base outline-none transition-colors",
+        "focus:bg-accent focus:text-accent-foreground",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        inset && "pl-8",
+        className,
+      )}
+      {...props}
+    >
+      {icon && <span className="shrink-0 text-gold">{icon}</span>}
+      {children}
+    </MenubarPrimitive.Item>
+  ),
+);
+MenubarItem.displayName = MenubarPrimitive.Item.displayName;
+
+const MenubarCheckboxItem = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.CheckboxItem>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.CheckboxItem>
+>(({ className, children, checked, ...props }, ref) => (
+  <MenubarPrimitive.CheckboxItem
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-lg py-2.5 pl-9 pr-4 text-base outline-none transition-colors",
+      "focus:bg-accent focus:text-accent-foreground",
+      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className,
+    )}
+    checked={checked}
+    {...props}
+  >
+    <span className="absolute left-3 flex h-5 w-5 items-center justify-center">
+      <MenubarPrimitive.ItemIndicator>
+        <Check className="h-4 w-4 text-emerald" />
+      </MenubarPrimitive.ItemIndicator>
+    </span>
+    {children}
+  </MenubarPrimitive.CheckboxItem>
+));
+MenubarCheckboxItem.displayName = MenubarPrimitive.CheckboxItem.displayName;
+
+const MenubarRadioItem = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.RadioItem>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.RadioItem>
+>(({ className, children, ...props }, ref) => (
+  <MenubarPrimitive.RadioItem
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-lg py-2.5 pl-9 pr-4 text-base outline-none transition-colors",
+      "focus:bg-accent focus:text-accent-foreground",
+      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className,
+    )}
+    {...props}
+  >
+    <span className="absolute left-3 flex h-5 w-5 items-center justify-center">
+      <MenubarPrimitive.ItemIndicator>
+        <Circle className="h-3.5 w-3.5 fill-current text-emerald" />
+      </MenubarPrimitive.ItemIndicator>
+    </span>
+    {children}
+  </MenubarPrimitive.RadioItem>
+));
+MenubarRadioItem.displayName = MenubarPrimitive.RadioItem.displayName;
+
+const MenubarLabel = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Label> & {
+    inset?: boolean;
+  }
+>(({ className, inset, ...props }, ref) => (
+  <MenubarPrimitive.Label
+    ref={ref}
+    className={cn(
+      "px-4 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground",
+      inset && "pl-8",
+      className,
+    )}
+    {...props}
+  />
+));
+MenubarLabel.displayName = MenubarPrimitive.Label.displayName;
+
+const MenubarSeparator = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <MenubarPrimitive.Separator ref={ref} className={cn("-mx-1 my-1 h-px bg-mint/30", className)} {...props} />
+));
+MenubarSeparator.displayName = MenubarPrimitive.Separator.displayName;
+
+const MenubarShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
+  return (
+    <span className={cn("ml-auto text-xs tracking-widest text-muted-foreground font-mono", className)} {...props} />
+  );
+};
+MenubarShortcut.displayName = "MenubarShortcut";
 
 // ============================================================================
 // Default Export
 // ============================================================================
 
 export {
-  navigationMenuTriggerStyle,
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuContent,
-  NavigationMenuTrigger,
-  NavigationMenuLink,
-  NavigationMenuIndicator,
-  NavigationMenuViewport,
-  GoldNavigationMenu,
-  EmeraldNavigationMenu,
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  MenubarContent,
+  MenubarItem,
+  MenubarSeparator,
+  MenubarLabel,
+  MenubarCheckboxItem,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarPortal,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarGroup,
+  MenubarSub,
+  MenubarShortcut,
 };
