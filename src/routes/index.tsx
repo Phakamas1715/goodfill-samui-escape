@@ -147,13 +147,13 @@ function Landing() {
               <img
                 src={logo}
                 alt="Goodfill Care"
-                className="h-12 md:h-14 w-auto object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] text-8xl"
+                className="h-20 md:h-28 w-auto object-contain drop-shadow-[0_10px_36px_rgba(0,0,0,0.6)] rounded-2xl ring-1 ring-gold/30 bg-white/10 backdrop-blur-sm p-1.5"
               />
               <div className="flex flex-col leading-none">
-                <span className="font-display text-2xl md:text-3xl text-white drop-shadow-md">
+                <span className="font-display text-3xl md:text-5xl text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.7)] tracking-tight">
                   Goodfill <span className="text-gold italic">Care</span>
                 </span>
-                <span className="text-[10px] md:text-[11px] tracking-[0.32em] uppercase text-gold-soft/95 mt-1.5">
+                <span className="text-[11px] md:text-[13px] tracking-[0.4em] uppercase text-gold-soft mt-2 font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)]">
                   {t("hero.kicker")}
                 </span>
               </div>
