@@ -84,8 +84,8 @@ function Quest() {
       subtitle={t("quest.subtitle")}
     >
       <div className="max-w-3xl mx-auto w-full px-4 md:px-0">
-        {/* Progress Bar — taller for better visibility */}
-        <div className="h-2 bg-white/40 rounded-full overflow-hidden">
+        {/* Progress Bar */}
+        <div className="h-2 bg-white/30 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-emerald to-gold"
             initial={false}
@@ -103,19 +103,26 @@ function Quest() {
             transition={{ duration: 0.35 }}
             className="mt-8"
           >
-            {/* Bigger emoji */}
-            <div className="text-5xl md:text-6xl mb-4 drop-shadow-lg">{q.emoji}</div>
+            {/* Emoji */}
+            <div className="text-6xl md:text-7xl mb-5 drop-shadow-lg">{q.emoji}</div>
 
-            {/* Option Cards — larger, more spacious */}
-            <div className="mt-4 grid gap-4">
+            {/* Question Text - เพิ่มให้เห็นชัดเจน */}
+            <div className="text-white text-xl md:text-2xl font-medium mb-6 drop-shadow-md">
+              {pick(q.question, lang)}
+            </div>
+
+            {/* Option Cards */}
+            <div className="mt-2 grid gap-4">
               {q.options.map((opt, idx) => (
-                <button
+                <motion.button
                   key={idx}
                   onClick={() => choose(idx)}
-                  className={`backdrop-blur-md border-2 rounded-2xl px-5 py-4 md:px-6 md:py-5 text-left flex items-center justify-between gap-4 transition-all duration-200 group shadow-md ${
+                  whileHover={{ scale: selected === idx ? 1 : 1.01 }}
+                  whileTap={{ scale: 0.99 }}
+                  className={`group backdrop-blur-md border-2 rounded-2xl px-5 py-4 md:px-6 md:py-5 text-left flex items-center justify-between gap-4 transition-all duration-200 shadow-md ${
                     selected === idx
                       ? "border-emerald bg-gradient-to-r from-emerald to-emerald/90 text-white shadow-xl scale-[1.01]"
-                      : "bg-white/90 border-white/70 text-navy hover:bg-pale-mint/50 hover:border-emerald/50 hover:shadow-lg"
+                      : "bg-white/90 border-white/30 text-navy hover:bg-white/95 hover:border-emerald/40 hover:shadow-lg"
                   }`}
                 >
                   <span
@@ -125,42 +132,63 @@ function Quest() {
                   >
                     {pick(opt.label, lang)}
                   </span>
-                  <span
-                    className={`size-7 md:size-8 rounded-full grid place-items-center transition shrink-0 ${
+                  <motion.span
+                    animate={selected === idx ? { scale: [1, 1.2, 1] } : {}}
+                    transition={{ duration: 0.3 }}
+                    className={`size-7 md:size-8 rounded-full grid place-items-center transition-all duration-200 shrink-0 ${
                       selected === idx
                         ? "bg-gold text-emerald-deep scale-110 shadow-md"
-                        : "border-2 border-mint/70 text-transparent group-hover:border-emerald/60 group-hover:scale-105"
+                        : "border-2 border-mint/50 text-transparent group-hover:border-emerald/60 group-hover:scale-105"
                     }`}
                   >
                     <Check size={16} strokeWidth={2.5} />
-                  </span>
-                </button>
+                  </motion.span>
+                </motion.button>
               ))}
             </div>
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation Buttons — larger touch targets */}
-        <div className="mt-8 flex items-center justify-between">
-          <button
+        {/* Navigation Buttons */}
+        <div className="mt-10 flex items-center justify-between">
+          <motion.button
+            whileHover={{ x: -3 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => setStep((s) => Math.max(0, s - 1))}
             disabled={step === 0}
-            className="text-sm md:text-base text-white/80 hover:text-white transition flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed font-medium"
+            className="text-sm md:text-base text-white/70 hover:text-white transition flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed font-medium"
           >
             <ArrowLeft size={18} /> {t("common.back")}
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+            whileHover={{ x: 3 }}
+            whileTap={{ scale: 0.95 }}
             onClick={next}
             disabled={selected == null}
-            className={`rounded-full px-6 py-3 md:px-8 md:py-3.5 inline-flex items-center gap-2 text-sm md:text-base font-semibold transition-all ${
+            className={`rounded-full px-6 py-3 md:px-8 md:py-3.5 inline-flex items-center gap-2 text-sm md:text-base font-semibold transition-all duration-200 ${
               selected == null
-                ? "bg-white/20 text-white/40 cursor-not-allowed backdrop-blur-sm"
-                : "btn-gold shadow-xl hover:scale-[1.03] active:scale-[0.98]"
+                ? "bg-white/10 text-white/40 cursor-not-allowed backdrop-blur-sm"
+                : "btn-gold shadow-lg hover:scale-[1.02] active:scale-[0.98]"
             }`}
           >
             {step === questions.length - 1 ? t("common.viewResult") : t("common.next")}
             <ArrowRight size={18} />
-          </button>
+          </motion.button>
+        </div>
+
+        {/* Progress Indicator Text */}
+        <div className="mt-6 text-center">
+          <span className="text-white/40 text-xs tracking-wider">
+            {step + 1} / {questions.length}
+          </span>
+        </div>
+
+        {/* Calm Credits Badge */}
+        <div className="mt-4 flex justify-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold/10 backdrop-blur-sm border border-gold/30">
+            <span className="text-gold text-xs">✨</span>
+            <span className="text-gold-soft text-[10px] font-medium tracking-wide">+300 Calm Credits เมื่อทำเสร็จ</span>
+          </div>
         </div>
       </div>
     </DashShell>
