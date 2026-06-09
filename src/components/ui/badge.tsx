@@ -7,9 +7,7 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {
+interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
   asChild?: boolean;
 }
 
@@ -23,26 +21,18 @@ const badgeVariants = cva(
     variants: {
       variant: {
         // Default variants
-        default:
-          "border-transparent bg-navy text-ivory shadow-sm hover:bg-navy/80",
-        secondary:
-          "border-transparent bg-cream text-navy shadow-sm hover:bg-cream/80",
-        outline:
-          "border border-border bg-transparent text-foreground hover:bg-accent/10",
+        default: "border-transparent bg-navy text-ivory shadow-sm hover:bg-navy/80",
+        secondary: "border-transparent bg-cream text-navy shadow-sm hover:bg-cream/80",
+        outline: "border border-border bg-transparent text-foreground hover:bg-accent/10",
 
         // Status variants
-        success:
-          "border-transparent bg-emerald-100 text-emerald-800 shadow-sm hover:bg-emerald-200",
-        warning:
-          "border-transparent bg-amber-100 text-amber-800 shadow-sm hover:bg-amber-200",
-        error:
-          "border-transparent bg-coral-100 text-coral-800 shadow-sm hover:bg-coral-200",
-        info:
-          "border-transparent bg-sky-100 text-sky-800 shadow-sm hover:bg-sky-200",
+        success: "border-transparent bg-emerald-100 text-emerald-800 shadow-sm hover:bg-emerald-200",
+        warning: "border-transparent bg-amber-100 text-amber-800 shadow-sm hover:bg-amber-200",
+        error: "border-transparent bg-coral-100 text-coral-800 shadow-sm hover:bg-coral-200",
+        info: "border-transparent bg-sky-100 text-sky-800 shadow-sm hover:bg-sky-200",
 
         // Premium variants
-        gold:
-          "border-transparent bg-gradient-to-r from-gold to-gold-soft text-emerald-deep shadow-md hover:shadow-lg",
+        gold: "border-transparent bg-gradient-to-r from-gold to-gold-soft text-emerald-deep shadow-md hover:shadow-lg",
         emerald:
           "border-transparent bg-gradient-to-r from-emerald to-emerald-deep text-ivory shadow-md hover:shadow-lg",
 
@@ -153,9 +143,7 @@ function StatusBadge({ status, showDot = true, children, ...props }: StatusBadge
 
   return (
     <Badge variant={variant} className="gap-1.5" {...props}>
-      {showDot && (
-        <span className={cn("h-1.5 w-1.5 rounded-full", STATUS_DOT_COLORS[status])} />
-      )}
+      {showDot && <span className={cn("h-1.5 w-1.5 rounded-full", STATUS_DOT_COLORS[status])} />}
       {children || status}
     </Badge>
   );
@@ -191,10 +179,33 @@ function CategoryBadge({ icon, children, ...props }: CategoryBadgeProps) {
  * </BadgeGroup>
  */
 function BadgeGroup({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <div className={cn("flex flex-wrap gap-2", className)}>{children}</div>;
+}
+
+/**
+ * Badge with close button (removable)
+ *
+ * @example
+ * <RemovableBadge onRemove={() => handleRemove()}>Filter</RemovableBadge>
+ */
+interface RemovableBadgeProps extends BadgeProps {
+  onRemove: () => void;
+}
+
+function RemovableBadge({ children, onRemove, ...props }: RemovableBadgeProps) {
   return (
-    <div className={cn("flex flex-wrap gap-2", className)}>
+    <Badge {...props} className={cn("gap-1", props.className)}>
       {children}
-    </div>
+      <button
+        onClick={onRemove}
+        className="ml-0.5 rounded-full hover:bg-black/10 p-0.5 transition-colors"
+        aria-label="Remove"
+      >
+        <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </Badge>
   );
 }
 
@@ -217,6 +228,7 @@ export {
   StatusBadge,
   CategoryBadge,
   BadgeGroup,
+  RemovableBadge,
   BadgeSkeleton,
   STATUS_VARIANTS,
   STATUS_DOT_COLORS,
