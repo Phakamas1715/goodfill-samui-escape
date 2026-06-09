@@ -6,8 +6,18 @@ import spa from "@/assets/spa-treatment.jpg";
 import food from "@/assets/wellness-food.jpg";
 import villa from "@/assets/villa-pool.jpg";
 import meditation from "@/assets/meditation.jpg";
+import programReset from "@/assets/program-reset.jpg";
+import programBalance from "@/assets/program-balance.jpg";
+import programTransform from "@/assets/program-transform.jpg";
+import mealBreakfast from "@/assets/meal-breakfast.jpg";
+import mealLunch from "@/assets/meal-lunch.jpg";
+import mealDinner from "@/assets/meal-dinner.jpg";
 
-export const images = { heroSamui, yoga, spa, food, villa, meditation };
+export const images = {
+  heroSamui, yoga, spa, food, villa, meditation,
+  programReset, programBalance, programTransform,
+  mealBreakfast, mealLunch, mealDinner,
+};
 
 export type PersonaId =
   | "sleep"
@@ -223,6 +233,9 @@ export interface Program {
   highlights: string[];
   schedule: { day: string; items: string[] }[];
   venue: string;
+  gallery: string[];
+  mealPlan: { day: string; breakfast: string; lunch: string; dinner: string; note?: string }[];
+  expert: { name: string; role: string };
 }
 
 export const programs: Program[] = [
