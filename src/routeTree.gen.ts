@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ReportRouteImport } from './routes/report'
 import { Route as QuestRouteImport } from './routes/quest'
-import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PersonaRouteImport } from './routes/persona'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PartnerRouteImport } from './routes/partner'
@@ -22,6 +21,7 @@ import { Route as ChannelRouteImport } from './routes/channel'
 import { Route as CareRouteImport } from './routes/care'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProgramsIndexRouteImport } from './routes/programs.index'
 import { Route as ProgramsIdRouteImport } from './routes/programs.$id'
 
 const ReportRoute = ReportRouteImport.update({
@@ -32,11 +32,6 @@ const ReportRoute = ReportRouteImport.update({
 const QuestRoute = QuestRouteImport.update({
   id: '/quest',
   path: '/quest',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProgramsRoute = ProgramsRouteImport.update({
-  id: '/programs',
-  path: '/programs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PersonaRoute = PersonaRouteImport.update({
@@ -89,10 +84,15 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgramsIndexRoute = ProgramsIndexRouteImport.update({
+  id: '/programs/',
+  path: '/programs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProgramsIdRoute = ProgramsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => ProgramsRoute,
+  id: '/programs/$id',
+  path: '/programs/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -106,10 +106,10 @@ export interface FileRoutesByFullPath {
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
-  '/programs': typeof ProgramsRouteWithChildren
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
   '/programs/$id': typeof ProgramsIdRoute
+  '/programs/': typeof ProgramsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -122,10 +122,10 @@ export interface FileRoutesByTo {
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
-  '/programs': typeof ProgramsRouteWithChildren
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
   '/programs/$id': typeof ProgramsIdRoute
+  '/programs': typeof ProgramsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -139,10 +139,10 @@ export interface FileRoutesById {
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
-  '/programs': typeof ProgramsRouteWithChildren
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
   '/programs/$id': typeof ProgramsIdRoute
+  '/programs/': typeof ProgramsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -157,10 +157,10 @@ export interface FileRouteTypes {
     | '/partner'
     | '/partners'
     | '/persona'
-    | '/programs'
     | '/quest'
     | '/report'
     | '/programs/$id'
+    | '/programs/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -173,10 +173,10 @@ export interface FileRouteTypes {
     | '/partner'
     | '/partners'
     | '/persona'
-    | '/programs'
     | '/quest'
     | '/report'
     | '/programs/$id'
+    | '/programs'
   id:
     | '__root__'
     | '/'
@@ -189,10 +189,10 @@ export interface FileRouteTypes {
     | '/partner'
     | '/partners'
     | '/persona'
-    | '/programs'
     | '/quest'
     | '/report'
     | '/programs/$id'
+    | '/programs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -206,9 +206,10 @@ export interface RootRouteChildren {
   PartnerRoute: typeof PartnerRoute
   PartnersRoute: typeof PartnersRoute
   PersonaRoute: typeof PersonaRoute
-  ProgramsRoute: typeof ProgramsRouteWithChildren
   QuestRoute: typeof QuestRoute
   ReportRoute: typeof ReportRoute
+  ProgramsIdRoute: typeof ProgramsIdRoute
+  ProgramsIndexRoute: typeof ProgramsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -225,13 +226,6 @@ declare module '@tanstack/react-router' {
       path: '/quest'
       fullPath: '/quest'
       preLoaderRoute: typeof QuestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/programs': {
-      id: '/programs'
-      path: '/programs'
-      fullPath: '/programs'
-      preLoaderRoute: typeof ProgramsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/persona': {
@@ -304,27 +298,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programs/': {
+      id: '/programs/'
+      path: '/programs'
+      fullPath: '/programs/'
+      preLoaderRoute: typeof ProgramsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/programs/$id': {
       id: '/programs/$id'
-      path: '/$id'
+      path: '/programs/$id'
       fullPath: '/programs/$id'
       preLoaderRoute: typeof ProgramsIdRouteImport
-      parentRoute: typeof ProgramsRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
-
-interface ProgramsRouteChildren {
-  ProgramsIdRoute: typeof ProgramsIdRoute
-}
-
-const ProgramsRouteChildren: ProgramsRouteChildren = {
-  ProgramsIdRoute: ProgramsIdRoute,
-}
-
-const ProgramsRouteWithChildren = ProgramsRoute._addFileChildren(
-  ProgramsRouteChildren,
-)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -337,10 +326,21 @@ const rootRouteChildren: RootRouteChildren = {
   PartnerRoute: PartnerRoute,
   PartnersRoute: PartnersRoute,
   PersonaRoute: PersonaRoute,
-  ProgramsRoute: ProgramsRouteWithChildren,
   QuestRoute: QuestRoute,
   ReportRoute: ReportRoute,
+  ProgramsIdRoute: ProgramsIdRoute,
+  ProgramsIndexRoute: ProgramsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
