@@ -113,11 +113,11 @@ export function DashShell({
                   {kicker}
                 </div>
               )}
-              <h1 className="font-display text-4xl md:text-6xl text-emerald-deep leading-[1.05] truncate mt-2 tracking-tight">
+              <h1 className="font-display text-4xl md:text-6xl text-ivory leading-[1.05] truncate mt-2 tracking-tight drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)]">
                 {title}
               </h1>
               {subtitle && (
-                <p className="text-base md:text-lg text-muted-foreground line-clamp-1 mt-2">
+                <p className="text-base md:text-lg text-ivory/85 line-clamp-1 mt-2 drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
                   {subtitle}
                 </p>
               )}
