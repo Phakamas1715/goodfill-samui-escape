@@ -1,112 +1,72 @@
+## Approach
 
-## Goodfill — แผนการพัฒนา 4 Phase
+ตอนนี้แอป Goodfill Care มี route และ flow ครบทั้ง 10 หน้าที่ขอแล้ว (ไม่ต้องสร้างใหม่จากศูนย์) — สิ่งที่จะทำคือ **rebrand design system** ทั้งหมดให้เป็นสไตล์ **Luxury Tropical Wellness** ตามพาเลตและ spec ที่ให้มา และเก็บงาน UX detail ทุกหน้าให้สงบ มีจังหวะเดียวกัน
 
-ลุยทีละ phase, แต่ละ phase verify ก่อนข้าม
+## Mapping 10 หน้า → route ที่มีอยู่
 
-### Phase 1 — Admin Dashboard จริง (LINE Login)
-**Schema**
-- `user_roles` มีอยู่แล้ว (admin/moderator/user) — เพิ่ม role `staff`, `expert`, `partner`
-- เพิ่มตาราง `line_identities` (user_id ↔ line_user_id, channel: customer/partner) สำหรับ map LINE → user
-- เพิ่มตาราง `app_settings` (key/value JSONB) — ตั้งค่าได้จริง (LINE OA names, opening hours, brand text, feature flags)
-- programs ตารางมีอยู่แล้ว — เพิ่ม policy admin update/insert/delete
+| # | หน้า | Route |
+|---|---|---|
+| 1 | Welcome / Hero | `/` |
+| 2 | Bio-assessment summary | `/quest` (สรุปท้ายแบบประเมิน) |
+| 3 | AI recommendation (ถามต้องการช่วยอะไร) | `/persona` (ส่วนบน) |
+| 4 | AI crafting program | `/persona` (AI Insight) |
+| 5 | Program detail | `/programs/$id` |
+| 6 | Daily meal plan | `/meals/$id` |
+| 7 | Location selection | `/channel` |
+| 8 | Expert consultation | `/expert` |
+| 9 | Booking | `/programs/$id` (booking modal) |
+| 10 | Booking success | สร้างใหม่ `/booking-success` |
 
-**Routes**
-- `/admin` (under `_authenticated/` + has_role admin/staff check) — แดชบอร์ดหลัก
-  - `/admin/bookings` — ดู bookings realtime, filter status, view dietary plan/notes, send LINE message, mark complete
-  - `/admin/programs` — CRUD programs (title, price, days, location, image_url, dietary options)
-  - `/admin/reviews` — ดู/อนุมัติรีวิว
-  - `/admin/users` — assign roles, ดู line identities
-  - `/admin/settings` — แก้ app_settings (brand name, contact, LINE OA ids — display only, hours)
-- `/admin/login` — LINE Login flow ผ่าน LIFF (ใช้ VITE_LIFF_ID ที่มี): user เปิดใน LINE → liff.init → liff.getIDToken → POST `/api/public/line-login` → server verify ID token กับ LINE → upsert profile + line_identities → set Supabase session via service role create-or-sign-in flow → redirect /admin
+## Design tokens ใหม่ (`src/styles.css`)
 
-**Server fns**
-- `admin.functions.ts` — listBookings, updateBooking, listPrograms, upsertProgram, deleteProgram, listReviews, listUsers, assignRole, getSettings, updateSetting (all `requireSupabaseAuth` + has_role check)
-- Route `/api/public/line-login` — verify LIFF ID token, mint Supabase session
-
-**Verify P1:** สร้าง admin user, ทดสอบ CRUD programs, แก้ settings, see bookings list
-
----
-
-### Phase 2 — Image System + Storage
-- สร้าง bucket `program-images` (public)
-- หน้า Admin upload (drag-drop, preview, alt text), เก็บ urls ลง `programs.image_urls` (เปลี่ยน image_url → text[])
-- AI generate placeholder ทันที 4 programs × 6 ภาพ (hero, gallery×3, meal, venue) ผ่าน Lovable AI gateway (`google/gemini-3.1-flash-image-preview`) → upload Storage → update DB
-- Gallery component ในหน้า `/programs/$id` (carousel + lightbox)
-- เพิ่ม OG image จาก hero image แต่ละโปรแกรม
-
-**Verify P2:** ภาพโชว์ครบทุกโปรแกรม, admin upload ใหม่ได้, OG preview ทำงาน
-
----
-
-### Phase 3 — LINE Rich Menu + LIFF
-- LIFF endpoints ใน app:
-  - `/liff/quest` — Wellness Quest (ใช้ที่มี)
-  - `/liff/pass` — My Wellness Pass (QR code + booking info)
-  - `/liff/partner` — Partner Board (today queue, scan QR)
-  - `/liff/expert` — Expert Review Board
-- Rich Menu setup script (server fn `setupRichMenu`) — สร้าง rich menu ฝั่ง customer (4 ปุ่ม: Quest/My Pass/Programs/Contact) และ partner (Today Queue/Scan QR/Menu)
-- ส่ง LINE message ตอน confirm booking มี action button → LIFF URL พร้อม `?bookingCode=GF-XXXX`
-- QR code generator (`qrcode` lib) แสดงใน `/liff/pass`
-- Scan QR ใน `/liff/partner` (ใช้ liff.scanCodeV2) → POST `/api/redeem` → mark booking redeemed
-
-**Verify P3:** เปิดใน LINE app เห็น rich menu, กดเปิด LIFF ได้, QR pass แสดงผล, partner scan ได้
-
----
-
-### Phase 4 — Notification Engine + Expert Review
-- ตาราง `notifications_queue` (event_type, target_channel, target_line_id, payload, status, sent_at)
-- Server fn `pushNotification(eventType, bookingId)` — สร้างข้อความ flex ตาม event:
-  - booking_created → customer + partner
-  - check_in_reminder → customer (cron)
-  - today_queue → partner morning
-  - risk_flag → expert
-  - review_submitted → admin
-- Trigger จากจุดเหล่านี้: confirmBooking, redeemBooking, submitReview, ฯลฯ
-- Expert Review Board (`/liff/expert` + `/admin/expert-review`): list pending cases, approve/reject meal & activity plan, add notes
-- เพิ่มตาราง `expert_reviews` (booking_id, reviewer_id, status, meal_plan_approved, notes)
-
-**Verify P4:** trigger event ทดสอบครบ → ข้อความถึง LINE จริง
-
----
-
-## Technical highlights
-
-**LINE Login flow (P1):**
-```
-User เปิด /admin/login ใน LINE → liff.init(VITE_LIFF_ID)
-→ liff.getIDToken() → POST /api/public/line-login {id_token}
-→ Server: fetch https://api.line.me/oauth2/v2.1/verify (verify token)
-→ get lineUserId, displayName
-→ supabaseAdmin: find/create user via admin.createUser (email = line_{lineUserId}@goodfill.local)
-→ upsert line_identities(user_id, line_user_id, channel='customer')
-→ admin.generateLink type=magiclink → return session token to client
-→ supabase.auth.setSession() → redirect /admin
+```css
+--color-primary: #142C25      /* deep emerald */
+--color-secondary: #0F4A38    /* forest */
+--color-background: #F0EDE9   /* warm cream */
+--color-card: #FAF7F2         /* ivory card */
+--color-accent: #988A71       /* muted gold */
+--color-border: #E4DED5       /* soft sand */
+--color-foreground: #142C25
+--color-muted-foreground: #6B6358
 ```
 
-**Settings ตั้งค่าได้จริง (P1):**
-- `app_settings` key/value JSONB → cached client-side via TanStack Query
-- Admin UI: form per key (brand_name, contact_phone, contact_email, default_meal_plan, business_hours_json, feature_flags_json)
-- Page รับค่าจาก `useAppSettings()` hook แทน hardcode
+แทนพาเลต ocean/emerald-deep/gold เดิม → ทุกหน้าจะดูคุมโทนเดียวกันอัตโนมัติ
 
-**Roles ที่จำเป็น:**
-- `admin` — full access
-- `staff` — bookings + reviews
-- `expert` — expert review board เท่านั้น
-- `partner` — partner board เท่านั้น (อาจไม่ต้องเข้า web)
-- `user` — default
+## Component refresh
+
+- **Card**: `bg-card rounded-3xl border border-border shadow-[0_8px_28px_-12px_rgba(20,44,37,0.12)]` — มน นุ่ม เงาบางๆ
+- **Pill button**: `rounded-full px-7 py-4 bg-primary text-card` หรือ outlined `border-2 border-primary text-primary`
+- **Bottom nav**: เหลือ 5 ไอคอน, สีพื้น cream, active = primary
+- **Typography**: heading = serif display (Cormorant), body = sans (Inter/Manrope) — เน้นช่องว่าง
+
+## งานต่อหน้า
+
+1. **Hero `/`** — keep host illustration; เปลี่ยน background gradient เป็น cream + emerald overlay; CTA pill emerald
+2. **`/quest` summary** — เพิ่ม section "ผลประเมินของคุณ" 4 การ์ด (ความเครียด / การนอน / อารมณ์ / เป้าหมาย) ก่อนไป /persona
+3. **`/persona`** — แยก 2 บล็อก: คำถาม "อยากให้ AI ช่วยเรื่องอะไร" + การ์ดผล AI crafting
+4. **`/programs/$id`** — โครงสร้าง: Overview → Meals preview → Activities → Benefits → Price → CTA "จองเลย"
+5. **`/meals/$id`** — แท็บวัน 1-7, แต่ละวันมี breakfast/lunch/dinner + activities + รูปจริง
+6. **`/channel`** — 3 การ์ดใหญ่: Samui Resort / Clinic / Online Support (พร้อมรูป)
+7. **`/expert`** — การ์ดผู้เชี่ยวชาญ 4 ประเภท: หมอ / นักโภชนาการ / โค้ช / นักจิตวิทยา
+8. **Booking flow** — package → room tier → date → summary → confirm
+9. **`/booking-success`** (ใหม่) — checkmark วงใหญ่ + ฉาก tropical + ปุ่ม "ดูแผนของฉัน"
+
+## รูปภาพ
+
+ใช้ภาพ Samui ที่มีอยู่ในโปรเจ็กต์ (`hero-samui`, `villa`, `yoga`, `spa`, `meditation`, `food`, `samui-aerial`, ฯลฯ) — ไม่ต้องสร้างใหม่ แต่กระจายให้ทุกหน้ามีรูปอย่างน้อย 1 ภาพ
+
+## QA ก่อนปิดงาน
+
+- เปิด preview มือถือ 390×844 ทุก route ตรวจว่า: ข้อความไม่ตกบรรทัด, ปุ่มไม่ทับการ์ด, host ไม่บังข้อความ, คอนทราสต์ผ่าน
+- คำไทยอ่านง่าย ไม่มี jargon
+
+## Scope ที่จะ **ไม่ทำ** ในรอบนี้
+
+- ไม่เปลี่ยน database/schema
+- ไม่ refactor server functions
+- ไม่แตะ auth / payment flow ที่ทำงานอยู่
+- ภาพใหม่ที่ generate ด้วย AI — รอรอบถัดไปถ้าต้องการ
 
 ---
 
-## ขอบเขตคำตอบครั้งนี้
-
-ลุย **Phase 1 ก่อนทั้งหมด** (Admin Dashboard + LINE Login + Settings + roles) ในการตอบครั้งเดียวนี้ จากนั้นค่อยรอ user verify แล้วลุย P2, P3, P4 ในรอบถัดไป
-
-Phase 1 deliverables:
-1. Migration: extend app_role enum, line_identities, app_settings, programs admin policies
-2. `/api/public/line-login` route — verify LIFF token + mint session
-3. `_authenticated/admin/` layout + 5 pages (bookings, programs, reviews, users, settings)
-4. `admin.functions.ts` — server fns with role gate
-5. `useAppSettings` hook + replace hardcoded values
-6. หน้า `/admin/login` ใช้ LIFF (fallback แสดง QR ให้สแกนเปิดใน LINE สำหรับ desktop)
-
-โอเคลุยตามนี้มั้ยครับ? ตอบ "ลุย P1" จะเริ่มทันที
+ยืนยันแผนนี้ไหมครับ? หรืออยากให้เริ่มจากบางหน้าก่อน (เช่น hero + booking success) แล้วค่อยทยอยทำหน้าอื่น?
