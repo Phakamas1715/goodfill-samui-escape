@@ -4,7 +4,7 @@ import { DashShell } from "@/components/DashShell";
 import { programs, personas } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 
-export const Route = createFileRoute("/programs")({
+export const Route = createFileRoute("/programs/")({
   head: () => ({
     meta: [
       { title: "Programs — Goodfill Care" },
