@@ -258,8 +258,10 @@ async function handleEvent(event: LineEvent) {
 
       if (specificCode) {
         query = query.eq("booking_code", specificCode);
-      } else {
+      } else if (customerUserId) {
         query = query.eq("customer_line_user_id", customerUserId);
+      } else {
+        return;
       }
 
       const { data: rows } = await query.limit(1);
