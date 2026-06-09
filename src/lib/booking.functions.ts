@@ -277,6 +277,8 @@ export const confirmBooking = createServerFn({ method: "POST" })
           status: "pending",
           customer_push: JSON.parse(JSON.stringify(customer)),
           partner_push: JSON.parse(JSON.stringify(partner)),
+          dietary_plan: data.dietaryPlan ?? null,
+          dietary_notes: data.dietaryNotes ?? null,
         })
         .select("id")
         .single();
