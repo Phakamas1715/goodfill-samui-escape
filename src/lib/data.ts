@@ -99,7 +99,7 @@ export interface ExpertInfo {
 export const t = (th: string, en: string): Bi => ({ th, en });
 
 // ============================================================================
-// Persona Data
+// Personas Data
 // ============================================================================
 
 export const personas: Record<PersonaId, Persona> = {
@@ -223,7 +223,7 @@ export const personas: Record<PersonaId, Persona> = {
 };
 
 // ============================================================================
-// Quest Data
+// Quest Data - ครบ 8 ข้อ
 // ============================================================================
 
 export interface QuestOption {
@@ -239,6 +239,7 @@ export interface QuestQuestion {
 }
 
 export const questions: QuestQuestion[] = [
+  // ข้อ 1
   {
     id: 1,
     emoji: "☀️",
@@ -265,6 +266,7 @@ export const questions: QuestQuestion[] = [
       },
     ],
   },
+  // ข้อ 2
   {
     id: 2,
     emoji: "🌊",
@@ -288,6 +290,7 @@ export const questions: QuestQuestion[] = [
       },
     ],
   },
+  // ข้อ 3
   {
     id: 3,
     emoji: "🌙",
@@ -311,6 +314,7 @@ export const questions: QuestQuestion[] = [
       },
     ],
   },
+  // ข้อ 4
   {
     id: 4,
     emoji: "🍵",
@@ -340,6 +344,7 @@ export const questions: QuestQuestion[] = [
       },
     ],
   },
+  // ข้อ 5
   {
     id: 5,
     emoji: "🥗",
@@ -363,6 +368,7 @@ export const questions: QuestQuestion[] = [
       },
     ],
   },
+  // ข้อ 6
   {
     id: 6,
     emoji: "💆",
@@ -386,6 +392,7 @@ export const questions: QuestQuestion[] = [
       },
     ],
   },
+  // ข้อ 7
   {
     id: 7,
     emoji: "🏝️",
@@ -412,6 +419,7 @@ export const questions: QuestQuestion[] = [
       },
     ],
   },
+  // ข้อ 8
   {
     id: 8,
     emoji: "✨",
