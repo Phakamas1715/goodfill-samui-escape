@@ -126,7 +126,10 @@ function ExpertPage() {
               </div>
             </div>
             <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs md:text-sm font-semibold ${statusMap[active.status].tone}`}>
-              {statusMap[active.status].icon && <statusMap[active.status].icon size={14} />}
+              {(() => {
+                const Icon = statusMap[active.status].icon;
+                return Icon ? <Icon size={14} /> : null;
+              })()}
               {statusMap[active.status].label}
             </span>
           </div>
