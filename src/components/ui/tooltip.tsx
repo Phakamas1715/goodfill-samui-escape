@@ -285,9 +285,4 @@ export {
   TooltipTrigger,
   TooltipContent,
   TooltipProvider,
-  TooltipWithIcon,
-  TruncatedTooltip,
-  InfoTooltip,
-  HelpTooltip,
-  PremiumTooltip,
 };
