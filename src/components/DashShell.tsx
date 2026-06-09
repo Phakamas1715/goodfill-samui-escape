@@ -52,7 +52,18 @@ export function DashShell({
   hostFloating = true,
 }: DashShellProps) {
   // Rotating background slideshow — keeps internal pages visually alive.
-  const slides = [bgs[bg], images.villa, images.spa, images.yoga, images.meditation, images.food];
+  const slides = [
+    bgs[bg],
+    images.samuiAerial,
+    images.villa,
+    images.samuiInfinity,
+    images.spa,
+    images.samuiLongtail,
+    images.yoga,
+    images.samuiSpaRitual,
+    images.meditation,
+    images.food,
+  ];
   const [slide, setSlide] = useState(0);
   useEffect(() => {
     const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 6000);

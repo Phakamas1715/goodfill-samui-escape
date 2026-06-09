@@ -6,6 +6,10 @@ import spa from "@/assets/spa-treatment.jpg";
 import food from "@/assets/wellness-food.jpg";
 import villa from "@/assets/villa-pool.jpg";
 import meditation from "@/assets/meditation.jpg";
+import samuiAerial from "@/assets/samui-aerial.jpg";
+import samuiInfinity from "@/assets/samui-infinity.jpg";
+import samuiLongtail from "@/assets/samui-longtail.jpg";
+import samuiSpaRitual from "@/assets/samui-spa-ritual.jpg";
 import programReset from "@/assets/program-reset.jpg";
 import programBalance from "@/assets/program-balance.jpg";
 import programTransform from "@/assets/program-transform.jpg";
@@ -15,6 +19,7 @@ import mealDinner from "@/assets/meal-dinner.jpg";
 
 export const images = {
   heroSamui, yoga, spa, food, villa, meditation,
+  samuiAerial, samuiInfinity, samuiLongtail, samuiSpaRitual,
   programReset, programBalance, programTransform,
   mealBreakfast, mealLunch, mealDinner,
 };

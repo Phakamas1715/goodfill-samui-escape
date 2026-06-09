@@ -30,9 +30,13 @@ export const Route = createFileRoute("/")({
 
 const slides = [
   images.heroSamui,
+  images.samuiAerial,
   images.villa,
+  images.samuiInfinity,
   images.yoga,
+  images.samuiLongtail,
   images.spa,
+  images.samuiSpaRitual,
   images.meditation,
   images.food,
 ];
@@ -143,13 +147,13 @@ function Landing() {
               <img
                 src={logo}
                 alt="Goodfill Care"
-                className="h-12 md:h-14 w-auto object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] text-8xl"
+                className="h-20 md:h-28 w-auto object-contain drop-shadow-[0_10px_36px_rgba(0,0,0,0.6)] rounded-2xl ring-1 ring-gold/30 bg-white/10 backdrop-blur-sm p-1.5"
               />
               <div className="flex flex-col leading-none">
-                <span className="font-display text-2xl md:text-3xl text-white drop-shadow-md">
+                <span className="font-display text-3xl md:text-5xl text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.7)] tracking-tight">
                   Goodfill <span className="text-gold italic">Care</span>
                 </span>
-                <span className="text-[10px] md:text-[11px] tracking-[0.32em] uppercase text-gold-soft/95 mt-1.5">
+                <span className="text-[11px] md:text-[13px] tracking-[0.4em] uppercase text-gold-soft mt-2 font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)]">
                   {t("hero.kicker")}
                 </span>
               </div>
@@ -366,11 +370,14 @@ function Landing() {
                   <p className="text-sm text-muted-foreground mt-2">{t("modal.personas.sub")}</p>
                   <div className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {Object.values(personas).map((p) => (
-                      <div key={p.id} className="card-soft p-4 rounded-2xl">
-                        <div className="text-[10px] tracking-widest uppercase text-emerald">{p.id}</div>
-                        <div className="font-display text-lg mt-1">{pick(p.name, lang)}</div>
-                        <div className="text-xs text-muted-foreground">{pick(p.thaiName, lang)}</div>
-                        <div className="text-xs mt-2 text-navy/70 line-clamp-2">{pick(p.tagline, lang)}</div>
+                      <div key={p.id} className={`relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br ${p.color} ring-1 ring-white/40 shadow-[0_8px_24px_-12px_rgba(12,35,64,0.35)]`}>
+                        <div className="absolute inset-0 bg-white/65 backdrop-blur-[2px]" />
+                        <div className="relative">
+                          <div className="text-[10px] tracking-widest uppercase text-emerald font-bold">{p.id}</div>
+                          <div className="font-display text-lg mt-1 text-navy">{pick(p.name, lang)}</div>
+                          <div className="text-xs text-emerald-deep/80 font-medium">{pick(p.thaiName, lang)}</div>
+                          <div className="text-xs mt-2 text-navy/85 line-clamp-2">{pick(p.tagline, lang)}</div>
+                        </div>
                       </div>
                     ))}
                   </div>
