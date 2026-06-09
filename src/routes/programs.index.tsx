@@ -1,136 +1,179 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, MapPin } from "lucide-react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
 import { DashShell } from "@/components/DashShell";
-import { programs, personas, pick } from "@/lib/data";
+import { questions, scorePersonaTop2, pick } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 import { useI18n } from "@/lib/i18n";
 
-export const Route = createFileRoute("/programs/")({
+export const Route = createFileRoute("/quest")({
   head: () => ({
     meta: [
-      { title: "Programs — Goodfill Care" },
-      { name: "description", content: "แพ็คเกจ Wellness ที่เกาะสมุย 3-7 วัน เลือกตามเป้าหมายของคุณ" },
+      { title: "Wellness Quest — Goodfill Care" },
+      {
+        name: "description",
+        content:
+          "ตอบ 8 ข้อสั้น ๆ เพื่อค้นพบ Wellness Persona ของคุณ — Sleep Seeker, Energy Rebuilder, Detox Reset หรือ Mindful Glow พร้อมรับ 300 Calm Credits ทันที",
+      },
+      { property: "og:title", content: "Wellness Quest — ค้นพบ Persona ของคุณใน 8 ข้อ" },
+      {
+        property: "og:description",
+        content: "แบบประเมินสั้น ๆ เพื่อจับคู่คุณกับโปรแกรม Wellness ที่เกาะสมุยที่เหมาะกับร่างกายและจิตใจคุณที่สุด",
+      },
+      { property: "og:url", content: "https://goodfillcare-samui.com/quest" },
     ],
+    links: [{ rel: "canonical", href: "https://goodfillcare-samui.com/quest" }],
   }),
-  component: ProgramsPage,
+  component: Quest,
 });
 
-function ProgramsPage() {
+function Quest() {
+  const navigate = useNavigate();
   const { t, lang } = useI18n();
-  const [state] = useAppState();
-  const persona = state.persona ? personas[state.persona] : null;
+  const [state, setState] = useAppState();
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<Record<number, number>>(state.questAnswers ?? {});
+
+  const q = questions[step];
+  const progress = ((step + (answers[q.id] != null ? 1 : 0)) / questions.length) * 100;
+  const selected = answers[q.id];
+
+  const [persona, secondaryPersona] = useMemo(() => scorePersonaTop2(answers), [answers]);
+  const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function finishWith(finalAnswers: Record<number, number>) {
+    const [p, sp] = scorePersonaTop2(finalAnswers);
+    setState((s) => ({
+      ...s,
+      questAnswers: finalAnswers,
+      persona: p,
+      secondaryPersona: sp,
+      credits: s.persona ? s.credits : s.credits + 300,
+    }));
+    navigate({ to: "/persona" });
+  }
+
+  function choose(idx: number) {
+    const nextAnswers = { ...answers, [q.id]: idx };
+    setAnswers(nextAnswers);
+    if (advanceTimer.current) clearTimeout(advanceTimer.current);
+    advanceTimer.current = setTimeout(() => {
+      if (step < questions.length - 1) {
+        setStep((s) => s + 1);
+      } else {
+        finishWith(nextAnswers);
+      }
+    }, 380);
+  }
+
+  function next() {
+    if (advanceTimer.current) clearTimeout(advanceTimer.current);
+    if (step < questions.length - 1) {
+      setStep((s) => s + 1);
+    } else {
+      finishWith(answers);
+    }
+  }
 
   return (
     <DashShell
-      bg="villa"
-      kicker={t("programs.kicker")}
-      title={t("programs.title")}
-      subtitle={persona ? `${t("programs.subtitleFor")} ${pick(persona.name, lang)}` : t("programs.subtitlePick")}
+      bg="yoga"
+      kicker={`Wellness Quest · ${step + 1}/${questions.length}`}
+      title={pick(q.question, lang)}
+      subtitle={t("quest.subtitle")}
     >
-      <div className="flex items-center justify-between mb-4">
-        <div className="text-xs md:text-sm tracking-[0.25em] uppercase gold-text font-semibold">
-          {t("common.swipeHint")}
-        </div>
-        <div className="text-xs md:text-sm text-white/70 font-medium">
-          {programs.length} {t("programs.count")}
-        </div>
-      </div>
-
-      <div className="-mx-5 md:-mx-8 px-5 md:px-8 overflow-x-auto snap-x snap-mandatory scrollbar-none [-webkit-overflow-scrolling:touch]">
-        <div className="flex gap-5 md:gap-7 pb-6 pt-3">
-          {programs.map((p, i) => (
-            <Link
-              key={p.id}
-              to="/programs/$id"
-              params={{ id: p.id }}
-              className="snap-center shrink-0 w-[88vw] sm:w-[65vw] md:w-[480px] lg:w-[520px] card-glass overflow-hidden group flex flex-col rounded-[2rem] md:rounded-[2.25rem] shadow-xl hover:shadow-2xl transition-all duration-300"
-            >
-              {/* Image Section — larger */}
-              <div className="p-3 md:p-4">
-                <div className="aspect-[16/10] overflow-hidden relative rounded-[1.5rem] md:rounded-[1.75rem] shadow-lg">
-                  <img
-                    src={p.image}
-                    alt={pick(p.name, lang)}
-                    loading="lazy"
-                    className="size-full object-cover group-hover:scale-110 transition duration-[1200ms] ease-out"
-                  />
-                  {/* Stronger gradient for text contrast over photo */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/95 via-emerald-deep/40 to-transparent" />
-
-                  {/* Duration badge — larger */}
-                  <div className="absolute top-4 left-4 chip-glass text-sm md:text-base px-3 py-1.5 rounded-full font-semibold backdrop-blur-md bg-black/30 text-white border border-white/30">
-                    {pick(p.duration, lang)}
-                  </div>
-
-                  {/* Program number badge — larger */}
-                  <div className="absolute top-4 right-4 size-10 md:size-12 grid place-items-center rounded-xl text-sm md:text-base font-bold text-emerald-deep shadow-lg bg-gradient-to-br from-gold-soft to-coral rotate-3">
-                    {i + 1}
-                  </div>
-
-                  {/* Title overlay — bigger text */}
-                  <div className="absolute inset-x-5 bottom-5 text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
-                    <div className="font-display text-2xl md:text-3xl lg:text-4xl leading-[1.15] line-clamp-2 tracking-tight font-semibold">
-                      {pick(p.name, lang)}
-                    </div>
-                    <div className="text-sm md:text-base text-white/95 line-clamp-2 mt-2 font-medium">
-                      {pick(p.tagline, lang)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Content Section — larger spacing and fonts */}
-              <div className="px-5 md:px-6 pb-6 md:pb-7 pt-2 flex-1 flex flex-col">
-                {/* Venue */}
-                <div className="flex items-center gap-2 text-sm md:text-base text-emerald-deep/90 font-medium">
-                  <MapPin size={16} className="text-gold" />
-                  <span className="line-clamp-1">{pick(p.venue, lang)}</span>
-                </div>
-
-                {/* Highlights — bigger text and spacing */}
-                <ul className="mt-4 space-y-2 flex-1">
-                  {p.highlights.slice(0, 3).map((h) => (
-                    <li key={h.th} className="flex items-start gap-2.5 text-sm md:text-base text-emerald-deep/90">
-                      <span className="mt-1.5 size-2 rounded-full bg-gradient-to-br from-gold to-coral shadow-[0_0_10px_rgba(244,166,74,0.6)] shrink-0" />
-                      <span className="line-clamp-2 leading-relaxed">{pick(h, lang)}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Price & CTA — bigger */}
-                <div className="mt-5 flex items-center justify-between pt-5 border-t border-mint/50">
-                  <div>
-                    <div className="text-[11px] md:text-xs uppercase tracking-[0.25em] text-white/70 font-semibold">
-                      {t("common.startFrom")}
-                    </div>
-                    <div className="font-display text-3xl md:text-4xl text-emerald-deep tracking-tight font-bold">
-                      ฿{p.price.toLocaleString()}
-                    </div>
-                  </div>
-                  <div className="btn-gold rounded-full px-5 py-2.5 md:px-6 md:py-3 text-sm md:text-base inline-flex items-center gap-2 font-semibold shadow-lg hover:shadow-xl transition-all">
-                    {t("common.viewDetail")} <ArrowRight size={16} strokeWidth={2} />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-          {/* trailing breathing space */}
-          <div className="shrink-0 w-3" />
-        </div>
-      </div>
-
-      {/* Dots indicator — larger */}
-      <div className="mt-5 flex items-center justify-center gap-2">
-        {programs.map((p, i) => (
-          <span
-            key={p.id}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              i === 0
-                ? "w-10 bg-gradient-to-r from-gold to-coral shadow-[0_0_12px_rgba(244,166,74,0.7)]"
-                : "w-2.5 bg-white/30"
-            }`}
+      <div className="max-w-3xl mx-auto w-full px-4 md:px-0">
+        {/* Progress Bar */}
+        <div className="h-2 bg-white/30 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-gradient-to-r from-emerald to-gold"
+            initial={false}
+            animate={{ width: `${progress}%` }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
           />
-        ))}
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={q.id}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.35 }}
+            className="mt-8"
+          >
+            {/* Emoji */}
+            <div className="text-6xl md:text-7xl mb-5 drop-shadow-lg">{q.emoji}</div>
+
+            {/* Question */}
+            <div className="text-white text-xl md:text-2xl font-medium mb-6 drop-shadow-md">
+              {pick(q.question, lang)}
+            </div>
+
+            {/* Option Cards */}
+            <div className="mt-2 grid gap-4">
+              {q.options.map((opt, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => choose(idx)}
+                  className={`group backdrop-blur-md border-2 rounded-2xl px-5 py-4 md:px-6 md:py-5 text-left flex items-center justify-between gap-4 transition-all duration-200 shadow-md ${
+                    selected === idx
+                      ? "border-emerald bg-gradient-to-r from-emerald to-emerald/90 text-white shadow-xl scale-[1.01]"
+                      : "bg-white/90 border-white/30 text-navy hover:bg-white/95 hover:border-emerald/40 hover:shadow-lg"
+                  }`}
+                >
+                  <span
+                    className={`text-base md:text-lg font-medium leading-relaxed break-words flex-1 min-w-0 ${
+                      selected === idx ? "text-white" : "text-navy"
+                    }`}
+                  >
+                    {pick(opt.label, lang)}
+                  </span>
+                  <span
+                    className={`size-7 md:size-8 rounded-full grid place-items-center transition-all duration-200 shrink-0 ${
+                      selected === idx
+                        ? "bg-gold text-emerald-deep scale-110 shadow-md"
+                        : "border-2 border-mint/50 text-transparent group-hover:border-emerald/60 group-hover:scale-105"
+                    }`}
+                  >
+                    <Check size={16} strokeWidth={2.5} />
+                  </span>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Navigation Buttons */}
+        <div className="mt-10 flex items-center justify-between">
+          <button
+            onClick={() => setStep((s) => Math.max(0, s - 1))}
+            disabled={step === 0}
+            className="text-sm md:text-base text-white/70 hover:text-white transition flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed font-medium"
+          >
+            <ArrowLeft size={18} /> {t("common.back")}
+          </button>
+          <button
+            onClick={next}
+            disabled={selected == null}
+            className={`rounded-full px-6 py-3 md:px-8 md:py-3.5 inline-flex items-center gap-2 text-sm md:text-base font-semibold transition-all duration-200 ${
+              selected == null
+                ? "bg-white/10 text-white/40 cursor-not-allowed backdrop-blur-sm"
+                : "btn-gold shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+            }`}
+          >
+            {step === questions.length - 1 ? t("common.viewResult") : t("common.next")}
+            <ArrowRight size={18} />
+          </button>
+        </div>
+
+        {/* Progress indicator text */}
+        <div className="mt-6 text-center">
+          <span className="text-white/50 text-xs tracking-wider">
+            {step + 1} / {questions.length}
+          </span>
+        </div>
       </div>
     </DashShell>
   );
