@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface InputProps extends React.ComponentProps<"input"> {
+interface InputProps extends Omit<React.ComponentProps<"input">, "size"> {
   variant?: "default" | "gold" | "emerald" | "glass";
   size?: "sm" | "default" | "lg";
   error?: boolean;
