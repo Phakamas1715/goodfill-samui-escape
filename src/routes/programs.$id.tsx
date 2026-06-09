@@ -3,6 +3,10 @@ import { ArrowLeft, ArrowRight, CalendarDays, MapPin } from "lucide-react";
 import { Shell, Section, Eyebrow } from "@/components/Shell";
 import { programs, images, type Program } from "@/lib/data";
 import { useAppState } from "@/lib/state";
+import { confirmBooking } from "@/lib/booking.functions";
+import { useServerFn } from "@tanstack/react-start";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/programs/$id")({
   head: ({ params }) => {
@@ -30,16 +34,49 @@ function ProgramDetail() {
   const [state, setState] = useAppState();
   const navigate = useNavigate();
   const isBooked = state.bookedProgramId === program.id;
+  const confirm = useServerFn(confirmBooking);
+  const [sending, setSending] = useState(false);
 
-  function book() {
+  async function book() {
+    if (sending) return;
+    setSending(true);
     const date = new Date();
     date.setDate(date.getDate() + 21);
-    setState((s) => ({
-      ...s,
-      bookedProgramId: program.id,
-      bookingDate: date.toISOString(),
-    }));
-    navigate({ to: "/journey" });
+    const bookingDate = date.toISOString();
+    const mealPlan = program.schedule.flatMap((d) =>
+      d.items.filter((i) => /อาหาร|มื้อ|meal|breakfast|lunch|dinner|juice|tea|smoothie/i.test(i))
+    );
+    toast.loading("กำลังส่งใบจองทาง LINE...", { id: "book" });
+    try {
+      const res = await confirm({
+        data: {
+          programId: program.id,
+          programName: program.name,
+          programDuration: program.duration,
+          programVenue: program.venue,
+          programPrice: program.price,
+          bookingDate,
+          mealPlan,
+        },
+      });
+      setState((s) => ({ ...s, bookedProgramId: program.id, bookingDate }));
+      if (res.customer.ok && res.partner.ok) {
+        toast.success(`ยืนยันการจอง ${res.bookingId} — ส่งใบจองทาง LINE แล้ว`, { id: "book" });
+      } else {
+        toast.warning("จองสำเร็จ แต่ส่ง LINE บางส่วนล้มเหลว", {
+          id: "book",
+          description: [
+            !res.customer.ok && `ลูกค้า: ${res.customer.error ?? ""}`,
+            !res.partner.ok && `พาร์ทเนอร์: ${res.partner.error ?? ""}`,
+          ].filter(Boolean).join(" | "),
+        });
+      }
+      navigate({ to: "/journey" });
+    } catch (e) {
+      toast.error("เกิดข้อผิดพลาด กรุณาลองใหม่", { id: "book", description: String(e).slice(0, 200) });
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -84,11 +121,11 @@ function ProgramDetail() {
               )}
               <button
                 onClick={book}
-                disabled={isBooked}
+                disabled={isBooked || sending}
                 className="btn-gold rounded-full w-full py-4 mt-6 inline-flex items-center justify-center gap-2 disabled:opacity-60"
               >
-                {isBooked ? "✓ จองแล้ว — ดู Journey" : "จองโปรแกรมนี้"}
-                {!isBooked && <ArrowRight size={16} />}
+                {isBooked ? "✓ จองแล้ว — ดู Journey" : sending ? "กำลังจอง..." : "ยืนยันการจอง & รับใบจอง LINE"}
+                {!isBooked && !sending && <ArrowRight size={16} />}
               </button>
               {isBooked && (
                 <Link to="/journey" className="block text-center text-sm text-gold mt-3">ไปที่ My Journey →</Link>
