@@ -13,6 +13,7 @@ import { Route as ReportRouteImport } from './routes/report'
 import { Route as QuestRouteImport } from './routes/quest'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as PersonaRouteImport } from './routes/persona'
+import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as ExpertRouteImport } from './routes/expert'
@@ -41,6 +42,11 @@ const ProgramsRoute = ProgramsRouteImport.update({
 const PersonaRoute = PersonaRouteImport.update({
   id: '/persona',
   path: '/persona',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnerRoute = PartnerRouteImport.update({
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
   '/partner': typeof PartnerRoute
+  '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/quest': typeof QuestRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
   '/partner': typeof PartnerRoute
+  '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/quest': typeof QuestRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
   '/partner': typeof PartnerRoute
+  '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/quest': typeof QuestRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/expert'
     | '/journey'
     | '/partner'
+    | '/partners'
     | '/persona'
     | '/programs'
     | '/quest'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/expert'
     | '/journey'
     | '/partner'
+    | '/partners'
     | '/persona'
     | '/programs'
     | '/quest'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/expert'
     | '/journey'
     | '/partner'
+    | '/partners'
     | '/persona'
     | '/programs'
     | '/quest'
@@ -192,6 +204,7 @@ export interface RootRouteChildren {
   ExpertRoute: typeof ExpertRoute
   JourneyRoute: typeof JourneyRoute
   PartnerRoute: typeof PartnerRoute
+  PartnersRoute: typeof PartnersRoute
   PersonaRoute: typeof PersonaRoute
   ProgramsRoute: typeof ProgramsRouteWithChildren
   QuestRoute: typeof QuestRoute
@@ -226,6 +239,13 @@ declare module '@tanstack/react-router' {
       path: '/persona'
       fullPath: '/persona'
       preLoaderRoute: typeof PersonaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partner': {
@@ -315,6 +335,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExpertRoute: ExpertRoute,
   JourneyRoute: JourneyRoute,
   PartnerRoute: PartnerRoute,
+  PartnersRoute: PartnersRoute,
   PersonaRoute: PersonaRoute,
   ProgramsRoute: ProgramsRouteWithChildren,
   QuestRoute: QuestRoute,
@@ -323,3 +344,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
