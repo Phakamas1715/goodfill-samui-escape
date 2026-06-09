@@ -1,0 +1,22 @@
+# Goodfill Care — Koh Samui Wellness
+
+> Luxury wellness journeys at Koh Samui — personalized programs covering detox, sleep recovery, mindfulness, and long-term habit care. Thai/English bilingual.
+
+Goodfill Care helps guests find the right wellness retreat in Koh Samui through an 8-question persona quest, then matches them with curated multi-day programs combining yoga, sound healing, signature Thai massage, expert-designed meal plans, and a 90-day care plan after they return home.
+
+## Pages
+
+- [Home](/): Landing page with the brand story and the five-phase wellness journey.
+- [Wellness Quest](/quest): 8-question assessment that reveals your Wellness Persona and rewards 300 Calm Credits.
+- [Wellness Personas](/persona): Sleep Seeker, Energy Rebuilder, Detox Reset, and Mindful Glow profiles.
+- [Programs](/programs): Personalized luxury wellness packages at Koh Samui (1-day to 7-day).
+- [My Journey](/journey): Day-by-day itinerary, daily check-ins, Service QR, and mood tracking for booked guests.
+- [Final Wellness Report](/report): Before/after metrics for sleep, energy, HRV, and stress with a 90-day continuation plan.
+- [Long-term Care](/care): 90-day habit tracker, Calm Credits, and alumni booking shortcuts.
+- [Partners](/partners): Curated villas, spas, and wellness providers across Koh Samui.
+- [Consent](/consent): Health-data consent and privacy practices for guests.
+
+## Optional
+
+- [Persona Picker](/persona): Browse the persona archetypes directly.
+- [Channel Login](/channel): Choose Customer or Partner LINE channel before sign-in.
