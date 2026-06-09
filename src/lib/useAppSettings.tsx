@@ -277,7 +277,7 @@ interface SettingGuardProps {
 
 export function SettingGuard({ setting, fallback, children }: SettingGuardProps) {
   const { data: settings } = useAppSettings();
-  const value = getSetting(settings, setting, fallback);
+  const value = getSetting(settings, setting, fallback ?? false);
 
   if (!value) return null;
   return <>{children}</>;
