@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ArrowRight, Sparkles, Compass, HeartPulse, Leaf, MoonStar, X, Building2, Phone, MapPin, ExternalLink, Handshake, ShieldCheck } from "lucide-react";
+import { ArrowRight, Sparkles, Compass, HeartPulse, Leaf, MoonStar, X, Building2, Phone, MapPin, ExternalLink, Handshake, ShieldCheck, Menu, Map as MapIcon, Users } from "lucide-react";
 import { Nav } from "@/components/Nav";
 import { images, personas } from "@/lib/data";
 import welcomeHost from "@/assets/welcome-host.png";
@@ -41,12 +41,46 @@ const phases = [
 function Landing() {
   const [slide, setSlide] = useState(0);
   const [modal, setModal] = useState<null | "journey" | "personas" | "samui" | "company">(null);
+  const [moreOpen, setMoreOpen] = useState(false);
   const { t } = useI18n();
 
   useEffect(() => {
     const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 4500);
     return () => clearInterval(t);
   }, []);
+
+  // Android back button → close popup instead of exiting app
+  useEffect(() => {
+    if (!modal && !moreOpen) return;
+    window.history.pushState({ gfModal: true }, "");
+    const onPop = () => {
+      setModal(null);
+      setMoreOpen(false);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      if (window.history.state && (window.history.state as { gfModal?: boolean }).gfModal) {
+        window.history.back();
+      }
+    };
+  }, [modal, moreOpen]);
+
+  // Esc to close
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setModal(null); setMoreOpen(false); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const moreItems = [
+    { key: "journey" as const, label: t("hero.btnJourney"), icon: Compass },
+    { key: "personas" as const, label: t("hero.btnPersonas"), icon: Users },
+    { key: "samui" as const, label: t("hero.btnSamui"), icon: MapIcon },
+    { key: "company" as const, label: t("hero.btnCompany"), icon: Building2 },
+  ];
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-navy text-ivory">
@@ -117,25 +151,24 @@ function Landing() {
               {t("hero.desc")}
             </p>
 
-            <div className="mt-6 md:mt-8 flex flex-wrap gap-2.5">
-              <Link to="/quest" className="btn-gold rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm shadow-xl">
-                {t("hero.ctaStart")} <ArrowRight size={16} />
+            {/* Primary CTA — dominant, the main funnel entry */}
+            <div className="mt-6 md:mt-8 flex items-center gap-3">
+              <Link
+                to="/quest"
+                className="btn-gold rounded-full px-8 py-5 md:px-10 md:py-6 inline-flex items-center gap-3 text-base md:text-lg font-semibold shadow-[0_18px_50px_-12px_rgba(201,168,76,0.55)] ring-1 ring-gold/30 hover:scale-[1.02] transition"
+              >
+                {t("hero.ctaStart")} <ArrowRight size={20} />
               </Link>
-              <button onClick={() => setModal("journey")} className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white">
-                {t("hero.btnJourney")}
+              <button
+                onClick={() => setMoreOpen(true)}
+                aria-label="More"
+                className="size-14 rounded-full bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white grid place-items-center shrink-0"
+              >
+                <Menu size={22} />
               </button>
-              <button onClick={() => setModal("personas")} className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white">
-                {t("hero.btnPersonas")}
-              </button>
-              <button onClick={() => setModal("samui")} className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white">
-                {t("hero.btnSamui")}
-              </button>
-              <button onClick={() => setModal("company")} className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white inline-flex items-center gap-1.5">
-                <Building2 size={14} /> {t("hero.btnCompany")}
-              </button>
-              <Link to="/partners" className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white inline-flex items-center gap-1.5">
-                <Handshake size={14} /> {t("hero.btnPartners")}
-              </Link>
+            </div>
+            <div className="mt-2 text-[11px] text-ivory/60 tracking-wide">
+              ใช้เวลา ~8 นาที · กดเมนูเพื่อดูข้อมูลเพิ่ม
             </div>
 
             <div className="mt-3 max-w-md flex items-start gap-2 text-[11px] text-ivory/70 leading-snug">
