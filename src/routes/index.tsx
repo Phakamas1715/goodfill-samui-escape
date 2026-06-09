@@ -353,6 +353,64 @@ function Landing() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* MORE MENU (progressive disclosure for secondary actions) */}
+      <AnimatePresence>
+        {moreOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] flex items-end md:items-center justify-center p-4 bg-navy/60 backdrop-blur-md"
+            onClick={() => setMoreOpen(false)}
+          >
+            <motion.div
+              initial={{ y: 60, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 40, opacity: 0 }}
+              transition={{ type: "spring", damping: 24 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-ivory text-navy rounded-[1.75rem] w-full max-w-md p-5 relative shadow-2xl"
+            >
+              <button
+                onClick={() => setMoreOpen(false)}
+                className="absolute top-3 right-3 size-12 rounded-full bg-cream hover:bg-mint/50 grid place-items-center shadow-md ring-1 ring-mint/40 active:scale-95 transition"
+                aria-label="ปิด"
+              >
+                <X size={22} />
+              </button>
+              <div className="text-[10px] tracking-[0.3em] uppercase text-gold">Goodfill Care</div>
+              <h3 className="font-display text-2xl mt-1">เมนูเพิ่มเติม</h3>
+              <div className="mt-4 grid grid-cols-1 gap-2">
+                {moreItems.map((m) => (
+                  <button
+                    key={m.key}
+                    onClick={() => { setMoreOpen(false); setModal(m.key); }}
+                    className="card-soft rounded-2xl p-4 flex items-center gap-3 text-left hover:bg-pale-mint/60 active:scale-[0.99] transition"
+                  >
+                    <span className="size-10 rounded-xl bg-pale-mint border border-mint/60 grid place-items-center text-emerald">
+                      <m.icon size={18} />
+                    </span>
+                    <span className="font-medium">{m.label}</span>
+                    <ArrowRight size={16} className="ml-auto text-emerald" />
+                  </button>
+                ))}
+                <Link
+                  to="/partners"
+                  onClick={() => setMoreOpen(false)}
+                  className="card-soft rounded-2xl p-4 flex items-center gap-3 hover:bg-pale-mint/60 active:scale-[0.99] transition"
+                >
+                  <span className="size-10 rounded-xl bg-pale-mint border border-mint/60 grid place-items-center text-emerald">
+                    <Handshake size={18} />
+                  </span>
+                  <span className="font-medium">{t("hero.btnPartners")}</span>
+                  <ArrowRight size={16} className="ml-auto text-emerald" />
+                </Link>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
