@@ -196,7 +196,7 @@ async function handleEvent(event: LineEvent) {
               channel: "customer",
               last_active_at: new Date().toISOString(),
               language_preference: "th",
-            },
+            } as never,
             { onConflict: "line_user_id" },
           );
         } catch (err) {
@@ -230,7 +230,7 @@ async function handleEvent(event: LineEvent) {
           .update({
             last_active_at: new Date().toISOString(),
             language_preference: lang,
-          })
+          } as never)
           .eq("line_user_id", customerUserId);
       } catch (err) {
         console.error("Failed to update last active:", err);
@@ -347,7 +347,7 @@ async function handleEvent(event: LineEvent) {
       if (customerUserId) {
         await supabaseAdmin
           .from("line_identities")
-          .update({ language_preference: "th" })
+          .update({ language_preference: "th" } as never)
           .eq("line_user_id", customerUserId);
       }
       if (event.replyToken) {
@@ -361,7 +361,7 @@ async function handleEvent(event: LineEvent) {
       if (customerUserId) {
         await supabaseAdmin
           .from("line_identities")
-          .update({ language_preference: "en" })
+          .update({ language_preference: "en" } as never)
           .eq("line_user_id", customerUserId);
       }
       if (event.replyToken) {
