@@ -125,7 +125,7 @@ const loggingMiddleware = createMiddleware().server(async ({ next, request }) =>
     const result = await next();
     const duration = Date.now() - startTime;
 
-    console.info(`[Start] ${method} ${url} → ${result?.status || "completed"} (${duration}ms)`);
+    console.info(`[Start] ${method} ${url} → ${(result as { status?: number })?.status || "completed"} (${duration}ms)`);
 
     return result;
   } catch (error) {
@@ -146,9 +146,10 @@ const requestIdMiddleware = createMiddleware().server(async ({ next, request }) 
 
   // Attach to response headers
   const response = await next();
+  const headers = (response as { headers?: Headers } | undefined)?.headers;
 
-  if (response && typeof response.headers?.set === "function") {
-    response.headers.set("x-request-id", requestId);
+  if (headers && typeof headers.set === "function") {
+    headers.set("x-request-id", requestId);
   }
 
   return response;
@@ -192,23 +193,15 @@ const envValidationMiddleware = createMiddleware().server(async ({ next }) => {
 // Middleware Chain Helper
 // ============================================================================
 
-function composeMiddlewares(...middlewares: ReturnType<typeof createMiddleware>[]) {
-  return middlewares;
-}
-
-// ============================================================================
-// Start Instance
-// ============================================================================
-
 export const startInstance = createStart(() => ({
   // Order matters: auth middleware first, then validation, then error handling
   functionMiddleware: [attachSupabaseAuth],
-  requestMiddleware: composeMiddlewares(
+  requestMiddleware: [
     requestIdMiddleware,
     envValidationMiddleware,
     loggingMiddleware,
-    errorMiddleware, // error middleware should be last to catch errors from others
-  ),
+    errorMiddleware,
+  ],
 }));
 
 // ============================================================================
