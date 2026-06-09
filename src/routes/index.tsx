@@ -6,6 +6,7 @@ import { Nav } from "@/components/Nav";
 import { images, personas, pick } from "@/lib/data";
 import welcomeHost from "@/assets/welcome-host.png";
 import logo from "@/assets/goodfill-logo.png";
+import heroSamuiUrl from "@/assets/hero-samui.jpg";
 import { useI18n, type TKey } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: "https://goodfillcare-samui.com/" },
+      { rel: "preload", as: "image", href: heroSamuiUrl, fetchpriority: "high" },
     ],
   }),
   component: Landing,
@@ -96,6 +98,10 @@ function Landing() {
             key={slide}
             src={slides[slide]}
             alt=""
+            width={1920}
+            height={1080}
+            fetchPriority={slide === 0 ? "high" : "auto"}
+            decoding="async"
             initial={{ opacity: 0, scale: 1.08 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
