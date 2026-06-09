@@ -44,7 +44,7 @@ function ExpertPage() {
       subtitle="ตรวจ meal plan · activity plan · อนุมัติเคส"
     >
       <div className="grid lg:grid-cols-[340px,1fr] gap-4 md:gap-5">
-        {/* Queue Section — larger */}
+        {/* Queue Section */}
         <DashCard className="p-0 overflow-hidden">
           <div className="bg-gradient-to-r from-emerald-deep/10 to-transparent px-4 py-3 border-b border-mint/30">
             <div className="flex items-center justify-between">
@@ -105,7 +105,7 @@ function ExpertPage() {
           </ul>
         </DashCard>
 
-        {/* Detail Section — larger */}
+        {/* Detail Section */}
         <DashCard className="p-5 md:p-6">
           {/* Header */}
           <div className="flex items-start justify-between flex-wrap gap-3 pb-4 border-b border-mint/30">
@@ -131,7 +131,7 @@ function ExpertPage() {
             </span>
           </div>
 
-          {/* Plans Grid — larger */}
+          {/* Plans Grid */}
           <div className="grid md:grid-cols-2 gap-4 mt-5">
             <Panel title="🍽️ Meal Plan · แผนอาหาร">
               <Row label="🌅 เช้า (Breakfast)" val="Detox green juice + chia bowl" />
@@ -148,7 +148,7 @@ function ExpertPage() {
             </Panel>
           </div>
 
-          {/* Expert Notes — larger */}
+          {/* Expert Notes */}
           <div className="mt-5 bg-gradient-to-r from-gold/5 to-transparent rounded-xl p-4 border-l-4 border-gold">
             <div className="flex items-center gap-2 mb-2">
               <Sparkles size={14} className="text-gold" />
@@ -161,7 +161,7 @@ function ExpertPage() {
             </p>
           </div>
 
-          {/* Action Buttons — larger */}
+          {/* Action Buttons */}
           <div className="flex flex-wrap gap-2 mt-6 pt-4 border-t border-mint/30">
             <button className="btn-emerald rounded-full px-5 py-2.5 text-sm md:text-base inline-flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition-all">
               <CheckCircle2 size={16} /> อนุมัติ
