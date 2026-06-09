@@ -74,10 +74,18 @@ export function DashShell({
             className="absolute inset-0 size-full object-cover"
           />
         </AnimatePresence>
-        {/* Magazine-style readability wash — bright page tone over imagery so
-            dark navy data cards pop with crisp contrast above it. */}
+        {/* Tropical readability wash — warm ivory page tone + ocean-mint and
+            sunset glow so glass program cards float over the imagery. */}
         <div className="absolute inset-0 bg-gradient-to-b from-ivory/70 via-ivory/80 to-ivory/95" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-sea/15 via-transparent to-mint/10 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-emerald/10 via-transparent to-mint/20 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_10%_-5%,rgba(244,166,74,0.28),transparent_65%),radial-gradient(ellipse_50%_40%_at_95%_100%,rgba(255,122,89,0.18),transparent_65%)] pointer-events-none" />
+        {/* Tropical leaf silhouettes — subtle corner accents */}
+        <svg className="absolute -top-10 -left-10 w-72 h-72 opacity-[0.10] text-emerald-deep pointer-events-none rotate-12" viewBox="0 0 100 100" fill="currentColor" aria-hidden>
+          <path d="M50 5 C60 25 80 35 95 40 C80 45 70 65 65 95 C60 75 40 65 5 60 C20 55 30 35 35 5 Z" />
+        </svg>
+        <svg className="absolute -bottom-8 -right-8 w-80 h-80 opacity-[0.10] text-sea pointer-events-none -rotate-12" viewBox="0 0 100 100" fill="currentColor" aria-hidden>
+          <path d="M50 5 C60 25 80 35 95 40 C80 45 70 65 65 95 C60 75 40 65 5 60 C20 55 30 35 35 5 Z" />
+        </svg>
         {/* Slide indicators */}
         <div className="absolute top-20 right-4 md:right-6 z-10 flex gap-1.5">
           {slides.map((_, i) => (
@@ -85,7 +93,7 @@ export function DashShell({
               key={i}
               onClick={() => setSlide(i)}
               aria-label={`Slide ${i + 1}`}
-              className={`h-1 rounded-full transition-all ${i === slide ? "w-6 bg-gold" : "w-2.5 bg-navy/25"}`}
+              className={`h-1.5 rounded-full transition-all ${i === slide ? "w-8 bg-gradient-to-r from-gold via-gold-soft to-coral shadow-[0_0_12px_rgba(244,166,74,0.6)]" : "w-2.5 bg-emerald-deep/25"}`}
             />
           ))}
         </div>
@@ -96,19 +104,19 @@ export function DashShell({
       <main className="relative h-full pt-20 md:pt-24 pb-20 md:pb-6 px-3 md:px-6 flex flex-col">
         <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col min-h-0">
           {/* HEADER — compact */}
-          <div className="flex items-end justify-between gap-3 mb-4 md:mb-5">
+          <div className="flex items-end justify-between gap-3 mb-5 md:mb-6 sun-glow">
             <div className="min-w-0">
               {kicker && (
-                <div className="text-[11px] md:text-[12px] tracking-[0.32em] uppercase text-sea font-semibold flex items-center gap-2">
-                  <span className="inline-block h-px w-6 bg-sea/60" />
+                <div className="text-[11px] md:text-[12px] tracking-[0.32em] uppercase font-semibold flex items-center gap-2 gold-text">
+                  <span className="inline-block h-px w-8 bg-gradient-to-r from-gold to-coral" />
                   {kicker}
                 </div>
               )}
-              <h1 className="font-display text-3xl md:text-5xl text-navy leading-[1.1] truncate mt-1">
+              <h1 className="font-display text-4xl md:text-6xl text-emerald-deep leading-[1.05] truncate mt-2 tracking-tight">
                 {title}
               </h1>
               {subtitle && (
-                <p className="text-sm md:text-base text-muted-foreground line-clamp-1 mt-1">
+                <p className="text-base md:text-lg text-muted-foreground line-clamp-1 mt-2">
                   {subtitle}
                 </p>
               )}
@@ -120,7 +128,7 @@ export function DashShell({
                 transition={{ duration: 0.6 }}
                 src={hosts[host]}
                 alt="host"
-                className="h-16 md:h-24 w-auto object-contain shrink-0 drop-shadow-[0_10px_22px_rgba(12,35,64,0.4)]"
+                className="h-16 md:h-24 w-auto object-contain shrink-0 drop-shadow-[0_10px_24px_rgba(6,78,59,0.4)]"
               />
             )}
           </div>
@@ -149,7 +157,7 @@ export function DashCard({
   const base =
     variant === "deep"
       ? "card-deep p-4 md:p-5"
-      : "bg-white rounded-2xl border border-[rgba(12,35,64,0.08)] shadow-[0_10px_30px_-16px_rgba(12,35,64,0.18)] p-4 md:p-5";
+      : "card-glass p-5 md:p-6";
   return (
     <div className={`${base} ${className}`}>{children}</div>
   );
