@@ -68,7 +68,8 @@ const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root
   ) => {
     const variantStyle = VARIANT_STYLES[variant];
     const sizeStyle = SIZE_STYLES[size];
-    const percentage = Math.min(100, Math.max(0, value));
+    const normalizedValue = value ?? 0;
+    const percentage = Math.min(100, Math.max(0, normalizedValue));
 
     return (
       <div className="w-full space-y-2">
@@ -76,7 +77,7 @@ const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root
           <div className="flex justify-between text-sm">
             {label && <span className="text-muted-foreground">{label}</span>}
             {(showValue || showPercentage) && (
-              <span className="font-medium text-navy">{showValue ? value : `${Math.round(percentage)}%`}</span>
+              <span className="font-medium text-navy">{showValue ? normalizedValue : `${Math.round(percentage)}%`}</span>
             )}
           </div>
         )}
@@ -114,7 +115,8 @@ interface CircularProgressProps extends Omit<ProgressProps, "size"> {
 
 const CircularProgress = React.forwardRef<HTMLDivElement, CircularProgressProps>(
   ({ value = 0, variant = "default", size = 48, strokeWidth = 4, animated = true, className, ...props }, ref) => {
-    const percentage = Math.min(100, Math.max(0, value));
+    const normalizedValue = value ?? 0;
+    const percentage = Math.min(100, Math.max(0, normalizedValue));
     const radius = (size - strokeWidth) / 2;
     const circumference = radius * 2 * Math.PI;
     const offset = circumference - (percentage / 100) * circumference;
