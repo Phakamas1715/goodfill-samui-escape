@@ -9,7 +9,13 @@ export const Route = createFileRoute("/report")({
   head: () => ({
     meta: [
       { title: "Final Wellness Report — Goodfill Care" },
-      { name: "description", content: "สรุปผล Before/After และแผน 90 วันต่อจากนี้" },
+      { name: "description", content: "สรุปผล Before/After ครบทั้งการนอน, พลังงาน, HRV และความเครียด พร้อมแผน Long-term Care 90 วันสำหรับต่อยอดผลลัพธ์ของทริป Wellness ที่เกาะสมุย" },
+      { property: "og:title", content: "Final Wellness Report — Before/After + แผน 90 วัน" },
+      { property: "og:description", content: "ผลลัพธ์ Wellness แบบเป็นตัวเลข พร้อม Calm Credits และเส้นทางต่อเนื่อง 90 วันหลังออกจากเกาะสมุย" },
+      { property: "og:url", content: "https://goodfillcare-samui.com/report" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://goodfillcare-samui.com/report" },
     ],
   }),
   component: ReportPage,
