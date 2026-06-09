@@ -155,16 +155,22 @@ export type Database = {
           created_at: string
           currency: string
           description: string | null
+          description_en: string | null
+          description_th: string | null
           duration: string
           id: string
           image_url: string | null
           images: Json
           is_published: boolean
           name: string
+          name_en: string | null
+          name_th: string | null
           price: number
           slug: string
           sort_order: number
           tagline: string | null
+          tagline_en: string | null
+          tagline_th: string | null
           updated_at: string
         }
         Insert: {
@@ -172,16 +178,22 @@ export type Database = {
           created_at?: string
           currency?: string
           description?: string | null
+          description_en?: string | null
+          description_th?: string | null
           duration?: string
           id?: string
           image_url?: string | null
           images?: Json
           is_published?: boolean
           name: string
+          name_en?: string | null
+          name_th?: string | null
           price?: number
           slug: string
           sort_order?: number
           tagline?: string | null
+          tagline_en?: string | null
+          tagline_th?: string | null
           updated_at?: string
         }
         Update: {
@@ -189,16 +201,22 @@ export type Database = {
           created_at?: string
           currency?: string
           description?: string | null
+          description_en?: string | null
+          description_th?: string | null
           duration?: string
           id?: string
           image_url?: string | null
           images?: Json
           is_published?: boolean
           name?: string
+          name_en?: string | null
+          name_th?: string | null
           price?: number
           slug?: string
           sort_order?: number
           tagline?: string | null
+          tagline_en?: string | null
+          tagline_th?: string | null
           updated_at?: string
         }
         Relationships: []
