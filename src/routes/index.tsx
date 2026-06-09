@@ -151,29 +151,30 @@ function Landing() {
               {t("hero.desc")}
             </p>
 
-            {/* Primary CTA — dominant, the main funnel entry */}
-            <div className="mt-6 md:mt-8 flex items-center gap-3">
-              <Link
-                to="/quest"
-                className="btn-gold rounded-full px-8 py-5 md:px-10 md:py-6 inline-flex items-center gap-3 text-base md:text-lg font-semibold shadow-[0_18px_50px_-12px_rgba(201,168,76,0.55)] ring-1 ring-gold/30 hover:scale-[1.02] transition"
-              >
-                {t("hero.ctaStart")} <ArrowRight size={20} />
-              </Link>
-              <button
-                onClick={() => setMoreOpen(true)}
-                aria-label="More"
-                className="size-14 rounded-full bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white grid place-items-center shrink-0"
-              >
-                <Menu size={22} />
-              </button>
-            </div>
-            <div className="mt-2 text-[11px] text-ivory/60 tracking-wide">
-              ใช้เวลา ~8 นาที · กดเมนูเพื่อดูข้อมูลเพิ่ม
-            </div>
-
-            <div className="mt-3 max-w-md flex items-start gap-2 text-[11px] text-ivory/70 leading-snug">
-              <ShieldCheck size={14} className="text-mint mt-0.5 shrink-0" />
-              <span>{t("hero.note")}</span>
+            {/* Action cluster — grouped in a single glass card for calm, premium feel */}
+            <div className="mt-7 md:mt-9 max-w-md">
+              <div className="rounded-[1.75rem] bg-white/8 backdrop-blur-xl border border-white/15 p-3 pl-5 md:p-4 md:pl-6 flex items-center gap-3 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.45)]">
+                <Link
+                  to="/quest"
+                  className="btn-gold flex-1 rounded-full px-6 py-4 md:px-7 md:py-5 inline-flex items-center justify-between gap-3 text-base md:text-lg font-semibold shadow-[0_14px_40px_-12px_rgba(201,168,76,0.6)] ring-1 ring-gold/30 hover:scale-[1.015] transition"
+                >
+                  <span>{t("hero.ctaStart")}</span>
+                  <ArrowRight size={20} />
+                </Link>
+                <button
+                  onClick={() => setMoreOpen(true)}
+                  aria-label="More"
+                  className="size-12 md:size-14 rounded-full bg-white/15 hover:bg-white/25 transition text-white grid place-items-center shrink-0 border border-white/20"
+                >
+                  <Menu size={20} />
+                </button>
+              </div>
+              <div className="mt-3 flex items-center justify-between gap-3 text-[11px] text-ivory/70 px-1">
+                <span className="tracking-wide">~8 นาที · เลือกตอบโดยไม่ต้องพิมพ์</span>
+                <span className="inline-flex items-center gap-1.5 text-ivory/80">
+                  <ShieldCheck size={12} className="text-mint" /> ไม่ใช่การวินิจฉัยทางการแพทย์
+                </span>
+              </div>
             </div>
 
             <div className="mt-6 md:mt-10 flex gap-5 md:gap-8 text-ivory">
