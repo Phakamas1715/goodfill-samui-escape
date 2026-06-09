@@ -73,7 +73,7 @@ function PersonaPage() {
   const recommended = programsForPersona(persona.id);
 
   return (
-    <DashShell bg="meditation" host="wai" highlight={pick(persona.tagline, lang)} kicker={t("persona.kicker")} title={pick(persona.name, lang)} subtitle={pick(persona.thaiName, lang)}>
+    <DashShell compact bg="meditation" host="wai" highlight={pick(persona.tagline, lang)} kicker={t("persona.kicker")} title={pick(persona.name, lang)} subtitle={pick(persona.thaiName, lang)}>
       <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <DashCard className={`card-glass p-5 md:p-6 bg-gradient-to-br from-violet-500/30 to-indigo-700/30 bg-orange-950 ${persona.color}`}>
           <p className="text-sm md:text-base text-navy text-gray-100">{pick(persona.tagline, lang)}</p>
