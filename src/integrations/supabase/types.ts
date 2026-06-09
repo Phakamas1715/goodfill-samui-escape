@@ -59,6 +59,7 @@ export type Database = {
           program_venue: string
           status: string
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           booking_code: string
@@ -83,6 +84,7 @@ export type Database = {
           program_venue: string
           status?: string
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           booking_code?: string
@@ -107,6 +109,7 @@ export type Database = {
           program_venue?: string
           status?: string
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
