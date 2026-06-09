@@ -65,13 +65,14 @@ async function lineApi(token: string, path: string, init: RequestInit & { body?:
 
 async function lineUploadRichMenuImage(token: string, richMenuId: string, image: Buffer) {
   // Image upload uses the data-api host
+  const body = new Uint8Array(image.buffer, image.byteOffset, image.byteLength);
   const res = await fetch(`https://api-data.line.me/v2/bot/richmenu/${richMenuId}/content`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "image/png",
     },
-    body: image,
+    body,
   });
   if (!res.ok) {
     const t = await res.text().catch(() => "");
