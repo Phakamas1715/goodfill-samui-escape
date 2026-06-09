@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import { Sparkles, Info, HelpCircle } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -10,8 +11,18 @@ import { cn } from "@/lib/utils";
 // ============================================================================
 
 interface TooltipContentProps extends React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> {
-  variant?: "default" | "gold" | "emerald" | "dark";
-  size?: "sm" | "md" | "lg";
+  variant?: "default" | "gold" | "emerald" | "dark" | "coral";
+  size?: "xs" | "sm" | "md" | "lg";
+  showArrow?: boolean;
+}
+
+interface TooltipWithIconProps {
+  content: string;
+  children: React.ReactNode;
+  side?: "top" | "right" | "bottom" | "left";
+  variant?: "default" | "gold" | "emerald" | "dark" | "coral";
+  delayDuration?: number;
+  icon?: React.ReactNode;
 }
 
 // ============================================================================
@@ -20,27 +31,33 @@ interface TooltipContentProps extends React.ComponentPropsWithoutRef<typeof Tool
 
 const VARIANT_STYLES = {
   default: {
-    container: "bg-navy text-ivory border border-mint/20",
+    container: "bg-navy text-ivory border border-mint/20 shadow-md",
     arrow: "fill-navy",
   },
   gold: {
-    container: "bg-gradient-to-r from-gold to-gold-soft text-emerald-deep font-medium border border-gold-soft/30",
+    container:
+      "bg-gradient-to-r from-gold to-gold-soft text-emerald-deep font-medium border border-gold-soft/30 shadow-lg",
     arrow: "fill-gold",
   },
   emerald: {
-    container: "bg-gradient-to-r from-emerald to-emerald-deep text-ivory border border-emerald-soft/30",
+    container: "bg-gradient-to-r from-emerald to-emerald-deep text-ivory border border-emerald-soft/30 shadow-lg",
     arrow: "fill-emerald",
   },
   dark: {
-    container: "bg-black/90 backdrop-blur-sm text-ivory border border-white/10",
+    container: "bg-black/90 backdrop-blur-sm text-ivory border border-white/10 shadow-xl",
     arrow: "fill-black/90",
+  },
+  coral: {
+    container: "bg-gradient-to-r from-coral to-coral-soft text-white border border-coral-soft/30 shadow-lg",
+    arrow: "fill-coral",
   },
 };
 
 const SIZE_STYLES = {
-  sm: "px-2 py-1 text-[10px]",
-  md: "px-3 py-1.5 text-xs",
-  lg: "px-4 py-2 text-sm",
+  xs: "px-1.5 py-0.5 text-[9px] rounded-md",
+  sm: "px-2 py-1 text-[10px] rounded-lg",
+  md: "px-3 py-1.5 text-xs rounded-lg",
+  lg: "px-4 py-2 text-sm rounded-xl",
 };
 
 // ============================================================================
@@ -54,7 +71,7 @@ const Tooltip = TooltipPrimitive.Root;
 const TooltipTrigger = TooltipPrimitive.Trigger;
 
 const TooltipContent = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Content>, TooltipContentProps>(
-  ({ className, sideOffset = 4, variant = "default", size = "md", children, ...props }, ref) => {
+  ({ className, sideOffset = 4, variant = "default", size = "md", showArrow = true, children, ...props }, ref) => {
     const variantStyle = VARIANT_STYLES[variant];
     const sizeStyle = SIZE_STYLES[size];
 
@@ -64,7 +81,7 @@ const TooltipContent = React.forwardRef<React.ElementRef<typeof TooltipPrimitive
           ref={ref}
           sideOffset={sideOffset}
           className={cn(
-            "z-50 overflow-hidden rounded-lg shadow-lg",
+            "z-50 overflow-hidden shadow-xl",
             "animate-in fade-in-0 zoom-in-95",
             "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
             "data-[side=bottom]:slide-in-from-top-2",
@@ -79,7 +96,7 @@ const TooltipContent = React.forwardRef<React.ElementRef<typeof TooltipPrimitive
           {...props}
         >
           {children}
-          <TooltipPrimitive.Arrow className={cn("size-3", variantStyle.arrow)} />
+          {showArrow && <TooltipPrimitive.Arrow className={cn("size-3", variantStyle.arrow)} />}
         </TooltipPrimitive.Content>
       </TooltipPrimitive.Portal>
     );
@@ -88,16 +105,8 @@ const TooltipContent = React.forwardRef<React.ElementRef<typeof TooltipPrimitive
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
 // ============================================================================
-// Additional Helper Components
+// Helper Components
 // ============================================================================
-
-interface TooltipWithIconProps {
-  content: string;
-  children: React.ReactNode;
-  side?: "top" | "right" | "bottom" | "left";
-  variant?: "default" | "gold" | "emerald" | "dark";
-  delayDuration?: number;
-}
 
 /**
  * Tooltip with icon wrapper for common use cases
@@ -113,14 +122,18 @@ export function TooltipWithIcon({
   side = "top",
   variant = "default",
   delayDuration = 200,
+  icon,
 }: TooltipWithIconProps) {
   return (
     <TooltipProvider delayDuration={delayDuration}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="inline-flex cursor-help">{children}</span>
+          <span className="inline-flex cursor-help items-center gap-1">
+            {icon && <span className="text-gold">{icon}</span>}
+            {children}
+          </span>
         </TooltipTrigger>
-        <TooltipContent side={side} variant={variant} size="sm">
+        <TooltipContent side={side} variant={variant} size="sm" showArrow>
           {content}
         </TooltipContent>
       </Tooltip>
@@ -140,10 +153,12 @@ export function TruncatedTooltip({
   text,
   children,
   side = "top",
+  variant = "default",
 }: {
   text: string;
   children: React.ReactNode;
   side?: "top" | "right" | "bottom" | "left";
+  variant?: "default" | "gold" | "emerald" | "dark" | "coral";
 }) {
   const [isTruncated, setIsTruncated] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
@@ -167,15 +182,13 @@ export function TruncatedTooltip({
             {children}
           </div>
         </TooltipTrigger>
-        <TooltipContent side={side}>{text}</TooltipContent>
+        <TooltipContent side={side} variant={variant}>
+          {text}
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );
 }
-
-// ============================================================================
-// Info Icon Helper
-// ============================================================================
 
 /**
  * Info icon with tooltip
@@ -187,10 +200,12 @@ export function InfoTooltip({
   content,
   side = "top",
   variant = "default",
+  size = "sm",
 }: {
   content: string;
   side?: "top" | "right" | "bottom" | "left";
-  variant?: "default" | "gold" | "emerald" | "dark";
+  variant?: "default" | "gold" | "emerald" | "dark" | "coral";
+  size?: "xs" | "sm" | "md" | "lg";
 }) {
   return (
     <TooltipProvider>
@@ -201,16 +216,10 @@ export function InfoTooltip({
             className="inline-flex size-4 items-center justify-center rounded-full text-muted-foreground hover:text-gold transition-colors focus:outline-none"
             aria-label="More information"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-3.5">
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <Info className="size-3.5" />
           </button>
         </TooltipTrigger>
-        <TooltipContent side={side} variant={variant} size="sm">
+        <TooltipContent side={side} variant={variant} size={size} showArrow>
           {content}
         </TooltipContent>
       </Tooltip>
@@ -218,8 +227,67 @@ export function InfoTooltip({
   );
 }
 
+/**
+ * Help icon with tooltip (question mark)
+ */
+export function HelpTooltip({
+  content,
+  side = "top",
+  variant = "default",
+}: {
+  content: string;
+  side?: "top" | "right" | "bottom" | "left";
+  variant?: "default" | "gold" | "emerald" | "dark" | "coral";
+}) {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            className="inline-flex size-4 items-center justify-center rounded-full text-muted-foreground hover:text-gold transition-colors focus:outline-none"
+            aria-label="Help"
+          >
+            <HelpCircle className="size-3.5" />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent side={side} variant={variant} size="sm" showArrow>
+          {content}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
+
+/**
+ * Premium tooltip with sparkle icon
+ */
+export function PremiumTooltip({
+  content,
+  side = "top",
+}: {
+  content: string;
+  side?: "top" | "right" | "bottom" | "left";
+}) {
+  return (
+    <TooltipWithIcon content={content} side={side} variant="gold" icon={<Sparkles className="size-3" />}>
+      <Sparkles className="size-4 text-gold" />
+    </TooltipWithIcon>
+  );
+}
+
 // ============================================================================
 // Default Export
 // ============================================================================
 
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };
+export {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+  TooltipWithIcon,
+  TruncatedTooltip,
+  InfoTooltip,
+  HelpTooltip,
+  PremiumTooltip,
+};
