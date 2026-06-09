@@ -165,6 +165,28 @@ function ProgramDetail() {
               </div>
             ))}
           </div>
+
+          <div className="mt-16 flex items-center gap-2 text-gold text-xs tracking-[0.25em] uppercase">
+            <ChefHat size={14} /> Expert Meal Plan
+          </div>
+          <h2 className="font-display text-3xl mt-3">แผนอาหารโดย {program.expert.name}</h2>
+          <p className="text-sm text-muted-foreground mt-1">{program.expert.role}</p>
+          <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {program.mealPlan.map((d) => (
+              <div key={d.day} className="card-deep rounded-2xl p-5">
+                <div className="text-[10px] tracking-[0.25em] uppercase text-gold">{d.day}</div>
+                <div className="mt-3 space-y-2 text-sm">
+                  <div><span className="text-gold/90 text-[10px] uppercase tracking-widest">เช้า · </span>{d.breakfast}</div>
+                  <div><span className="text-gold/90 text-[10px] uppercase tracking-widest">กลางวัน · </span>{d.lunch}</div>
+                  <div><span className="text-gold/90 text-[10px] uppercase tracking-widest">เย็น · </span>{d.dinner}</div>
+                </div>
+                {d.note && <div className="mt-3 text-[11px] text-ivory/75 italic">※ {d.note}</div>}
+              </div>
+            ))}
+          </div>
+          <Link to="/meals/$id" params={{ id: program.id }} className="mt-6 inline-flex items-center gap-2 text-gold text-sm hover:underline">
+            ดูแผนอาหารเต็มรูปแบบ <ArrowRight size={14} />
+          </Link>
         </div>
       </Section>
     </Shell>
