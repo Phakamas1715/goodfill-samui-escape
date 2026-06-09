@@ -109,7 +109,7 @@ export function DashShell({
 export function DashCard({
   children,
   className = "",
-  variant = "deep",
+  variant = "light",
 }: {
   children: ReactNode;
   className?: string;
