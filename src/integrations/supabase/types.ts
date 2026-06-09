@@ -152,6 +152,7 @@ export type Database = {
           duration: string
           id: string
           image_url: string | null
+          images: Json
           is_published: boolean
           name: string
           price: number
@@ -168,6 +169,7 @@ export type Database = {
           duration?: string
           id?: string
           image_url?: string | null
+          images?: Json
           is_published?: boolean
           name: string
           price?: number
@@ -184,6 +186,7 @@ export type Database = {
           duration?: string
           id?: string
           image_url?: string | null
+          images?: Json
           is_published?: boolean
           name?: string
           price?: number
