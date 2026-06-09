@@ -3,8 +3,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Camera, Smile, QrCode, ArrowRight } from "lucide-react";
 import { DashShell, DashCard } from "@/components/DashShell";
-import { programs } from "@/lib/data";
+import { programs, pick } from "@/lib/data";
 import { useAppState } from "@/lib/state";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/journey")({
   head: () => ({
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/journey")({
 });
 
 function JourneyPage() {
+  const { t, lang } = useI18n();
   const [state, setState] = useAppState();
   const program = programs.find((p) => p.id === state.bookedProgramId);
   const [mood, setMood] = useState<number | null>(null);
@@ -24,10 +26,10 @@ function JourneyPage() {
 
   if (!program) {
     return (
-      <DashShell bg="villa" host="welcome" kicker="My Journey" title="ยังไม่มีการจอง" subtitle="เลือกโปรแกรมก่อนเริ่ม Journey">
+      <DashShell bg="villa" host="welcome" kicker={t("journey.empty.kicker")} title={t("journey.empty.title")} subtitle={t("journey.empty.subtitle")}>
         <DashCard className="text-center">
           <Link to="/programs" className="btn-gold rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm">
-            ดูโปรแกรม <ArrowRight size={16} />
+            {t("common.seePrograms")} <ArrowRight size={16} />
           </Link>
         </DashCard>
       </DashShell>
@@ -53,16 +55,16 @@ function JourneyPage() {
     <DashShell
       bg="yoga"
       host="fitness"
-      kicker="Phase 3 · Partner Experience"
-      title="My Journey · วันนี้"
-      subtitle={`เช็คอิน ${arrival.toLocaleDateString("th-TH", { day: "numeric", month: "short" })} · ${program.name}`}
+      kicker={t("journey.kicker")}
+      title={t("journey.title")}
+      subtitle={`${t("journey.checkinAt")} ${arrival.toLocaleDateString(lang === "th" ? "th-TH" : "en-US", { day: "numeric", month: "short" })} · ${pick(program.name, lang)}`}
     >
       <div className="grid lg:grid-cols-3 gap-3">
         <DashCard className="lg:col-span-2">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xs tracking-widest text-gold uppercase">{program.name}</div>
-                <div className="font-display text-xl mt-1 text-navy">{today.day}</div>
+                <div className="text-xs tracking-widest text-gold uppercase">{pick(program.name, lang)}</div>
+                <div className="font-display text-xl mt-1 text-navy">{pick(today.day, lang)}</div>
               </div>
               <div className="size-10 rounded-full bg-pale-mint grid place-items-center text-gold">
                 ☀
@@ -70,9 +72,9 @@ function JourneyPage() {
             </div>
             <ul className="mt-3 space-y-1.5">
               {today.items.map((i, idx) => (
-                <li key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-pale-mint/40 transition">
+                <li key={i.th} className="flex items-start gap-3 p-2 rounded-xl hover:bg-pale-mint/40 transition">
                   <div className="size-6 rounded-full bg-pale-mint border border-mint grid place-items-center text-[10px] text-emerald mt-0.5 shrink-0">{idx + 1}</div>
-                  <div className="text-sm text-navy/90">{i}</div>
+                  <div className="text-sm text-navy/90">{pick(i, lang)}</div>
                 </li>
               ))}
             </ul>
@@ -81,11 +83,11 @@ function JourneyPage() {
         <div className="space-y-3">
           <DashCard>
             <div className="text-xs tracking-widest text-gold uppercase flex items-center gap-2">
-              <QrCode size={14} /> Service QR
+              <QrCode size={14} /> {t("journey.qrTitle")}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">แสดง QR ให้พาร์ทเนอร์</p>
+            <p className="text-xs text-muted-foreground mt-1">{t("journey.qrHint")}</p>
               {!showQr ? (
-                <button onClick={() => setShowQr(true)} className="btn-emerald rounded-full px-4 py-2 mt-3 text-xs w-full">เปิด QR</button>
+                <button onClick={() => setShowQr(true)} className="btn-emerald rounded-full px-4 py-2 mt-3 text-xs w-full">{t("journey.qrOpen")}</button>
               ) : (
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="mt-3 aspect-square rounded-xl bg-white p-3 grid place-items-center">
                   <div className="size-full grid grid-cols-8 grid-rows-8 gap-0.5">
@@ -99,9 +101,9 @@ function JourneyPage() {
 
           <DashCard>
             <div className="text-xs tracking-widest text-gold uppercase flex items-center gap-2">
-              <Smile size={14} /> Daily mood
+              <Smile size={14} /> {t("journey.moodTitle")}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">วันนี้รู้สึกอย่างไร? (+20)</p>
+            <p className="text-xs text-muted-foreground mt-1">{t("journey.moodHint")}</p>
             <div className="flex justify-between mt-3 gap-1">
                 {["😴", "😐", "🙂", "😊", "🤩"].map((e, i) => (
                   <button
@@ -111,15 +113,15 @@ function JourneyPage() {
                   >{e}</button>
                 ))}
               </div>
-            {mood && <p className="text-xs text-emerald mt-2">✓ +20 Calm Credits</p>}
+            {mood && <p className="text-xs text-emerald mt-2">{t("journey.moodLogged")}</p>}
           </DashCard>
         </div>
       </div>
 
       <div className="mt-3 flex justify-between items-center">
-        <div className="text-xs text-muted-foreground hidden sm:block"><Calendar size={12} className="inline mr-1" />เมื่อจบทริปแล้ว ดูสรุปผล</div>
+        <div className="text-xs text-muted-foreground hidden sm:block"><Calendar size={12} className="inline mr-1" />{t("journey.endTripHint")}</div>
         <Link to="/report" className="btn-gold rounded-full px-5 py-2.5 text-xs inline-flex items-center gap-2 ml-auto">
-            <Camera size={14} /> ดู Final Report
+            <Camera size={14} /> {t("journey.finalReport")}
           </Link>
       </div>
     </DashShell>
