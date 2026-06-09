@@ -42,7 +42,7 @@ function Landing() {
   const [slide, setSlide] = useState(0);
   const [modal, setModal] = useState<null | "journey" | "personas" | "samui" | "company">(null);
   const [moreOpen, setMoreOpen] = useState(false);
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
   useEffect(() => {
     const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 4500);
