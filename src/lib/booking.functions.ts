@@ -13,6 +13,8 @@ const BookingInput = z.object({
   expertName: z.string().min(1).max(200).optional(),
   customerUserId: z.string().min(1).max(64).optional(),
   partnerUserId: z.string().min(1).max(64).optional(),
+  dietaryPlan: z.enum(["Signature", "Plant-based", "High-Protein", "Detox Light"]).optional(),
+  dietaryNotes: z.string().max(1000).optional(),
 });
 
 async function linePush(token: string, to: string, messages: unknown[]) {
@@ -45,6 +47,8 @@ function receiptFlex(opts: {
   mealsUrl?: string;
   expertName?: string;
   partnerActions?: boolean;
+  dietaryPlan?: string;
+  dietaryNotes?: string;
 }) {
   return {
     type: "flex",
@@ -76,6 +80,14 @@ function receiptFlex(opts: {
           row("สถานที่", opts.programVenue),
           row("ราคา", `฿${opts.programPrice.toLocaleString()}`),
           ...(opts.expertName ? [row("ผู้เชี่ยวชาญ", opts.expertName)] : []),
+          ...(opts.dietaryPlan ? [row("แผนอาหาร", opts.dietaryPlan)] : []),
+          ...(opts.dietaryNotes
+            ? [
+                { type: "separator", margin: "md" },
+                { type: "text", text: "แพ้อาหาร / หมายเหตุ", size: "xs", color: "#B45309", weight: "bold", margin: "md" },
+                { type: "text", text: opts.dietaryNotes, size: "sm", color: "#0F3D2E", wrap: true },
+              ]
+            : []),
           ...(opts.qrUrl
             ? [
                 { type: "separator", margin: "md" },
@@ -176,6 +188,8 @@ export const confirmBooking = createServerFn({ method: "POST" })
       qrUrl,
       mealsUrl,
       expertName: data.expertName,
+      dietaryPlan: data.dietaryPlan,
+      dietaryNotes: data.dietaryNotes,
     });
 
     const partnerMsg = receiptFlex({
@@ -191,6 +205,8 @@ export const confirmBooking = createServerFn({ method: "POST" })
       mealsUrl,
       expertName: data.expertName,
       partnerActions: true,
+      dietaryPlan: data.dietaryPlan,
+      dietaryNotes: data.dietaryNotes,
     });
 
     const mealMsg = data.mealPlan && data.mealPlan.length
@@ -261,6 +277,8 @@ export const confirmBooking = createServerFn({ method: "POST" })
           status: "pending",
           customer_push: JSON.parse(JSON.stringify(customer)),
           partner_push: JSON.parse(JSON.stringify(partner)),
+          dietary_plan: data.dietaryPlan ?? null,
+          dietary_notes: data.dietaryNotes ?? null,
         })
         .select("id")
         .single();

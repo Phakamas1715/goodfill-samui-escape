@@ -42,6 +42,8 @@ export type Database = {
           created_at: string
           customer_line_user_id: string | null
           customer_push: Json
+          dietary_notes: string | null
+          dietary_plan: string | null
           expert_name: string | null
           id: string
           meal_plan: Json
@@ -64,6 +66,8 @@ export type Database = {
           created_at?: string
           customer_line_user_id?: string | null
           customer_push?: Json
+          dietary_notes?: string | null
+          dietary_plan?: string | null
           expert_name?: string | null
           id?: string
           meal_plan?: Json
@@ -86,6 +90,8 @@ export type Database = {
           created_at?: string
           customer_line_user_id?: string | null
           customer_push?: Json
+          dietary_notes?: string | null
+          dietary_plan?: string | null
           expert_name?: string | null
           id?: string
           meal_plan?: Json

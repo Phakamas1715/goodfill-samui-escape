@@ -38,6 +38,9 @@ function ProgramDetail() {
   const isBooked = state.bookedProgramId === program.id;
   const confirm = useServerFn(confirmBooking);
   const [sending, setSending] = useState(false);
+  const [dietaryPlan, setDietaryPlan] = useState<"Signature" | "Plant-based" | "High-Protein" | "Detox Light">("Signature");
+  const [allergies, setAllergies] = useState<{ nuts: boolean; seafood: boolean; dairy: boolean; gluten: boolean }>({ nuts: false, seafood: false, dairy: false, gluten: false });
+  const [allergyNote, setAllergyNote] = useState("");
 
   async function book() {
     if (sending) return;
@@ -53,6 +56,13 @@ function ProgramDetail() {
     const mealsUrl = typeof window !== "undefined"
       ? `${window.location.origin}/meals/${program.id}`
       : `/meals/${program.id}`;
+    const allergyLabels: string[] = [];
+    if (allergies.nuts) allergyLabels.push("ถั่ว");
+    if (allergies.seafood) allergyLabels.push("อาหารทะเล");
+    if (allergies.dairy) allergyLabels.push("นม");
+    if (allergies.gluten) allergyLabels.push("กลูเตน");
+    const extra = allergyNote.trim();
+    const dietaryNotes = [allergyLabels.length ? `แพ้: ${allergyLabels.join(", ")}` : "", extra].filter(Boolean).join(" · ") || undefined;
     toast.loading(t("programs.sending"), { id: "book" });
     try {
       const res = await confirm({
@@ -66,6 +76,8 @@ function ProgramDetail() {
           mealPlan,
           mealsUrl,
           expertName: pick(program.expert.name, lang),
+          dietaryPlan,
+          dietaryNotes,
         },
       });
       setState((s) => ({ ...s, bookedProgramId: program.id, bookingDate }));
@@ -126,6 +138,61 @@ function ProgramDetail() {
               {state.credits > 0 && (
                 <div className="mt-4 text-sm text-emerald flex items-center gap-2">
                   ✦ {t("programs.useCredits").replace("{n}", String(state.credits))}
+                </div>
+              )}
+              {!isBooked && (
+                <div className="mt-6 space-y-4 text-sm">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">เลือกแนวอาหาร / Meal direction</div>
+                    <div className="grid grid-cols-2 gap-2">
+                      {(["Signature", "Plant-based", "High-Protein", "Detox Light"] as const).map((opt) => (
+                        <label
+                          key={opt}
+                          className={`cursor-pointer rounded-2xl border px-3 py-2 text-center transition ${
+                            dietaryPlan === opt ? "border-gold bg-gold/10 text-foreground" : "border-border text-muted-foreground hover:border-gold/60"
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="dietary-plan"
+                            value={opt}
+                            checked={dietaryPlan === opt}
+                            onChange={() => setDietaryPlan(opt)}
+                            className="sr-only"
+                          />
+                          {opt}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">แพ้อาหาร / Allergies</div>
+                    <div className="grid grid-cols-2 gap-2">
+                      {([
+                        ["nuts", "ถั่ว"],
+                        ["seafood", "อาหารทะเล"],
+                        ["dairy", "นม"],
+                        ["gluten", "กลูเตน"],
+                      ] as const).map(([k, label]) => (
+                        <label key={k} className="flex items-center gap-2 rounded-xl border border-border px-3 py-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={allergies[k]}
+                            onChange={(e) => setAllergies((s) => ({ ...s, [k]: e.target.checked }))}
+                            className="accent-gold"
+                          />
+                          <span>{label}</span>
+                        </label>
+                      ))}
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="อื่นๆ / Other (เช่น ไข่, ถั่วเหลือง...)"
+                      value={allergyNote}
+                      onChange={(e) => setAllergyNote(e.target.value.slice(0, 300))}
+                      className="mt-2 w-full rounded-xl border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-gold"
+                    />
+                  </div>
                 </div>
               )}
               <button

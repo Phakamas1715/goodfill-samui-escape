@@ -98,6 +98,34 @@ async function handleEvent(event: LineEvent) {
     const text = event.message.text.trim();
     if (!text) return;
 
+    // Meal-plan edit command: "GF-XXXX meal: เปลี่ยน Day 2 dinner เป็น..."
+    const mealMatch = text.match(/^(GF-[A-Z0-9]+)\s+meal\s*[:：-]\s*(.+)$/i);
+    if (mealMatch) {
+      const code = mealMatch[1].toUpperCase();
+      const line = mealMatch[2].trim();
+      const { data: row } = await supabaseAdmin
+        .from("bookings")
+        .select("id, booking_code, meal_plan")
+        .eq("booking_code", code)
+        .maybeSingle();
+      if (!row) {
+        if (event.replyToken && partnerToken) {
+          await lineReply(partnerToken, event.replyToken, [{ type: "text", text: `ไม่พบการจอง ${code}` }]);
+        }
+        return;
+      }
+      const prev = Array.isArray(row.meal_plan) ? (row.meal_plan as string[]) : [];
+      const stamp = new Date().toLocaleString("th-TH", { dateStyle: "short", timeStyle: "short" });
+      const updated = [...prev, `[เชฟ ${stamp}] ${line}`];
+      await supabaseAdmin.from("bookings").update({ meal_plan: updated }).eq("id", row.id);
+      if (event.replyToken && partnerToken) {
+        await lineReply(partnerToken, event.replyToken, [
+          { type: "text", text: `อัปเดตแผนอาหารแล้ว: ${code}\n+ ${line}` },
+        ]);
+      }
+      return;
+    }
+
     // Optional: explicit booking ref like "GF-XXXX: note"
     const refMatch = text.match(/^(GF-[A-Z0-9]+)\s*[:：-]\s*(.+)$/i);
     let bookingCode: string | null = null;
