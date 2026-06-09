@@ -50,8 +50,11 @@ function LoginPage() {
           body: JSON.stringify({ id_token: idToken, channel_id: channelId, channel }),
         });
         if (!res.ok) throw new Error(await res.text());
-        const { email, password } = (await res.json()) as { email: string; password: string };
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { access_token, refresh_token } = (await res.json()) as {
+          access_token: string;
+          refresh_token: string;
+        };
+        const { error } = await supabase.auth.setSession({ access_token, refresh_token });
         if (error) throw error;
         if (cancelled) return;
         setState("done");
