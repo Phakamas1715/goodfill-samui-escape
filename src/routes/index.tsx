@@ -192,8 +192,8 @@ function Landing() {
               </span>
             </div>
 
-            {/* ลดขนาด heading ลงเพื่อไม่ให้ผู้ช่วยบัง */}
-            <h1 className="font-display font-normal text-[1.3rem] sm:text-[1.8rem] md:text-4xl lg:text-3.5rem leading-[1.2] mt-4 md:mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] lg:max-w-[540px]">
+            {/* แก้ไข heading: ใช้ขนาดมาตรฐาน */}
+            <h1 className="font-display font-normal text-[1.3rem] sm:text-[1.8rem] md:text-4xl lg:text-5xl leading-[1.2] mt-4 md:mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] lg:max-w-[540px]">
               {t("hero.title1")}
               <br />
               <em className="italic text-gold font-normal">{t("hero.title2")}</em>{" "}
