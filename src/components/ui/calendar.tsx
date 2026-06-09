@@ -225,14 +225,14 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
 /**
  * Calendar with gold theme for premium booking
  */
-function GoldCalendar(props: Omit<CalendarProps, "variant">) {
+function GoldCalendar(props: CalendarProps) {
   return <Calendar variant="gold" {...props} />;
 }
 
 /**
  * Calendar with emerald theme for wellness programs
  */
-function EmeraldCalendar(props: Omit<CalendarProps, "variant">) {
+function EmeraldCalendar(props: CalendarProps) {
   return <Calendar variant="emerald" {...props} />;
 }
 
