@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Shell, Section, Eyebrow } from "@/components/Shell";
+import { DashShell } from "@/components/DashShell";
 import { Shield, Lock, Heart } from "lucide-react";
 import { useState } from "react";
 
@@ -12,13 +12,9 @@ function ConsentPage() {
   const [ok, setOk] = useState({ data: false, health: false, marketing: false });
   const canContinue = ok.data && ok.health;
   return (
-    <Shell>
-      <Section className="max-w-2xl">
-        <Eyebrow>Step 2 of 3</Eyebrow>
-        <h1 className="font-display text-4xl mt-3">ความยินยอม · Consent</h1>
-        <p className="text-muted-foreground text-sm mt-2">เพื่อมอบประสบการณ์ wellness ที่เหมาะสมที่สุดสำหรับคุณ</p>
-
-        <div className="space-y-4 mt-8">
+    <DashShell bg="meditation" host="wai" kicker="Step 2 of 3" title="ความยินยอม · Consent" subtitle="เพื่อมอบประสบการณ์ wellness ที่เหมาะสมที่สุด">
+      <div className="max-w-2xl mx-auto w-full">
+        <div className="space-y-2">
           <Item icon={Shield} title="การเก็บข้อมูลส่วนตัว · Personal Data" required required2 checked={ok.data} onChange={(v) => setOk({ ...ok, data: v })}>
             อนุญาตให้ Goodfill Care เก็บข้อมูลพื้นฐาน เช่น ชื่อ อีเมล เบอร์โทร เพื่อใช้ในการให้บริการตาม PDPA
           </Item>
@@ -30,16 +26,16 @@ function ConsentPage() {
           </Item>
         </div>
 
-        <div className="mt-8 flex gap-3">
-          <Link to="/channel" className="card-cream rounded-full px-5 py-3 text-sm">ย้อนกลับ</Link>
+        <div className="mt-4 flex gap-2">
+          <Link to="/channel" className="card-cream rounded-full px-4 py-2.5 text-xs">ย้อนกลับ</Link>
           {canContinue ? (
-            <Link to="/quest" className="rounded-full px-7 py-3 text-sm btn-emerald">เริ่มแบบประเมิน</Link>
+            <Link to="/quest" className="rounded-full px-6 py-2.5 text-xs btn-emerald">เริ่มแบบประเมิน</Link>
           ) : (
-            <button disabled className="rounded-full px-7 py-3 text-sm bg-muted text-muted-foreground cursor-not-allowed">เริ่มแบบประเมิน</button>
+            <button disabled className="rounded-full px-6 py-2.5 text-xs bg-muted text-muted-foreground cursor-not-allowed">เริ่มแบบประเมิน</button>
           )}
         </div>
-      </Section>
-    </Shell>
+      </div>
+    </DashShell>
   );
 }
 
@@ -55,14 +51,14 @@ function Item({
   required2?: boolean;
 }) {
   return (
-    <label className={`card-soft p-5 flex gap-4 cursor-pointer transition ${checked ? "ring-2 ring-emerald" : ""}`}>
-      <div className="size-10 rounded-xl bg-pale-mint grid place-items-center text-emerald shrink-0"><Icon size={18} /></div>
+    <label className={`bg-white/85 backdrop-blur-md border border-white/60 rounded-2xl p-3 flex gap-3 cursor-pointer transition shadow-sm ${checked ? "ring-2 ring-emerald" : "hover:bg-white/95"}`}>
+      <div className="size-9 rounded-xl bg-pale-mint grid place-items-center text-emerald shrink-0"><Icon size={16} /></div>
       <div className="flex-1">
-        <div className="flex items-center gap-2">
-          <div className="font-medium text-navy">{title}</div>
-          {required && <span className="pill bg-cream text-gold text-[10px]">จำเป็น</span>}
+        <div className="flex items-center gap-1.5">
+          <div className="font-medium text-navy text-sm">{title}</div>
+          {required && <span className="pill bg-cream text-gold text-[9px]">จำเป็น</span>}
         </div>
-        <p className="text-xs text-muted-foreground mt-1">{children}</p>
+        <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">{children}</p>
       </div>
       <input
         type="checkbox"

@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Shell, Eyebrow } from "@/components/Shell";
+import { DashShell } from "@/components/DashShell";
 import { questions, scorePersona } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 
@@ -47,13 +47,15 @@ function Quest() {
   }
 
   return (
-    <Shell>
-      <div className="mx-auto max-w-3xl px-5 md:px-8 py-8 md:py-12">
-        <div className="flex items-center justify-between text-xs tracking-[0.25em] uppercase text-muted-foreground">
-          <span>Wellness Quest</span>
-          <span>{step + 1} / {questions.length}</span>
-        </div>
-        <div className="mt-3 h-[2px] bg-white/10 rounded-full overflow-hidden">
+    <DashShell
+      bg="yoga"
+      host="fitness"
+      kicker={`Wellness Quest · ${step + 1}/${questions.length}`}
+      title={q.question}
+      subtitle={`+300 Calm Credits เมื่อทำเสร็จ`}
+    >
+      <div className="max-w-2xl mx-auto w-full">
+        <div className="h-1 bg-white/60 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-emerald to-gold"
             initial={false}
@@ -65,34 +67,31 @@ function Quest() {
         <AnimatePresence mode="wait">
           <motion.div
             key={q.id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.35 }}
-            className="mt-12 md:mt-20"
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ duration: 0.3 }}
+            className="mt-4"
           >
-            <div className="text-6xl md:text-7xl">{q.emoji}</div>
-            <h1 className="font-display text-3xl md:text-4xl mt-6 leading-snug">
-              {q.question}
-            </h1>
-            <div className="mt-10 grid gap-3">
+            <div className="text-4xl md:text-5xl">{q.emoji}</div>
+            <div className="mt-3 grid gap-2">
               {q.options.map((opt, idx) => (
                 <button
                   key={idx}
                   onClick={() => choose(idx)}
-                  className={`glass rounded-2xl p-5 text-left flex items-center justify-between gap-4 transition group hover:bg-white/5 ${
-                    selected === idx ? "border-gold/60 bg-gold/5" : ""
+                  className={`bg-white/85 backdrop-blur-md border rounded-2xl p-3 md:p-4 text-left flex items-center justify-between gap-3 transition group shadow-sm ${
+                    selected === idx ? "border-gold ring-2 ring-gold/30 bg-gold/5" : "border-white/60 hover:bg-pale-mint/40"
                   }`}
                 >
-                  <span className="text-sm md:text-base">{opt.label}</span>
+                  <span className="text-sm text-navy">{opt.label}</span>
                   <span
-                    className={`size-7 rounded-full grid place-items-center transition ${
+                    className={`size-6 rounded-full grid place-items-center transition shrink-0 ${
                       selected === idx
                         ? "bg-gold text-emerald-deep"
-                        : "border border-white/20 text-transparent group-hover:border-white/40"
+                        : "border border-mint text-transparent group-hover:border-emerald/60"
                     }`}
                   >
-                    <Check size={14} />
+                    <Check size={12} />
                   </span>
                 </button>
               ))}
@@ -100,29 +99,24 @@ function Quest() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="mt-12 flex items-center justify-between">
+        <div className="mt-3 flex items-center justify-between">
           <button
             onClick={() => setStep((s) => Math.max(0, s - 1))}
             disabled={step === 0}
-            className="text-sm text-muted-foreground hover:text-foreground transition flex items-center gap-2 disabled:opacity-30"
+            className="text-xs text-muted-foreground hover:text-foreground transition flex items-center gap-1.5 disabled:opacity-30"
           >
-            <ArrowLeft size={16} /> ย้อนกลับ
+            <ArrowLeft size={14} /> ย้อนกลับ
           </button>
           <button
             onClick={next}
             disabled={selected == null}
-            className="btn-gold rounded-full px-7 py-3 inline-flex items-center gap-2 text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+            className="btn-gold rounded-full px-5 py-2.5 inline-flex items-center gap-1.5 text-xs disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {step === questions.length - 1 ? "ดูผลลัพธ์" : "ถัดไป"}
-            <ArrowRight size={16} />
+            <ArrowRight size={14} />
           </button>
         </div>
-
-        <div className="mt-16 text-center">
-          <Eyebrow>+300 Calm Credits</Eyebrow>
-          <p className="text-xs text-muted-foreground mt-3">รับฟรีเมื่อทำแบบประเมินเสร็จ · ใช้เป็นส่วนลดในการจองโปรแกรม</p>
-        </div>
       </div>
-    </Shell>
+    </DashShell>
   );
 }

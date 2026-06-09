@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Camera, Smile, QrCode, ArrowRight } from "lucide-react";
-import { Shell, Section, Eyebrow } from "@/components/Shell";
+import { DashShell, DashCard } from "@/components/DashShell";
 import { programs } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 
@@ -24,15 +24,13 @@ function JourneyPage() {
 
   if (!program) {
     return (
-      <Shell>
-        <Section className="text-center">
-          <Eyebrow>ยังไม่มีการจอง</Eyebrow>
-          <h1 className="font-display text-4xl mt-4">เลือกโปรแกรมก่อนเริ่ม Journey</h1>
-          <Link to="/programs" className="btn-gold rounded-full px-7 py-3 inline-flex items-center gap-2 mt-8">
+      <DashShell bg="villa" host="welcome" kicker="My Journey" title="ยังไม่มีการจอง" subtitle="เลือกโปรแกรมก่อนเริ่ม Journey">
+        <DashCard className="text-center">
+          <Link to="/programs" className="btn-gold rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm">
             ดูโปรแกรม <ArrowRight size={16} />
           </Link>
-        </Section>
-      </Shell>
+        </DashCard>
+      </DashShell>
     );
   }
 
@@ -52,49 +50,44 @@ function JourneyPage() {
   }
 
   return (
-    <Shell>
-      <Section>
-        <Eyebrow>Phase 3 · Partner Experience</Eyebrow>
-        <div className="flex flex-wrap items-end justify-between gap-4 mt-3">
-          <h1 className="font-display text-4xl md:text-5xl">
-            สวัสดีคุณ <em className="gold-text not-italic">guest</em>
-          </h1>
-          <div className="text-sm text-muted-foreground flex items-center gap-2">
-            <Calendar size={14} /> เช็คอิน {arrival.toLocaleDateString("th-TH", { day: "numeric", month: "long", year: "numeric" })}
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-5 mt-12">
-          <div className="lg:col-span-2 glass rounded-3xl p-7">
+    <DashShell
+      bg="yoga"
+      host="fitness"
+      kicker="Phase 3 · Partner Experience"
+      title="My Journey · วันนี้"
+      subtitle={`เช็คอิน ${arrival.toLocaleDateString("th-TH", { day: "numeric", month: "short" })} · ${program.name}`}
+    >
+      <div className="grid lg:grid-cols-3 gap-3">
+        <DashCard className="lg:col-span-2">
             <div className="flex items-center justify-between">
               <div>
                 <div className="text-xs tracking-widest text-gold uppercase">{program.name}</div>
-                <div className="font-display text-2xl mt-1">{today.day}</div>
+                <div className="font-display text-xl mt-1 text-navy">{today.day}</div>
               </div>
-              <div className="size-12 rounded-full bg-emerald/20 grid place-items-center text-gold">
+              <div className="size-10 rounded-full bg-pale-mint grid place-items-center text-gold">
                 ☀
               </div>
             </div>
-            <ul className="mt-6 space-y-3">
+            <ul className="mt-3 space-y-1.5">
               {today.items.map((i, idx) => (
-                <li key={i} className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition">
-                  <div className="size-7 rounded-full border border-gold/40 grid place-items-center text-xs text-gold mt-0.5">{idx + 1}</div>
-                  <div className="text-sm">{i}</div>
+                <li key={i} className="flex items-start gap-3 p-2 rounded-xl hover:bg-pale-mint/40 transition">
+                  <div className="size-6 rounded-full bg-pale-mint border border-mint grid place-items-center text-[10px] text-emerald mt-0.5 shrink-0">{idx + 1}</div>
+                  <div className="text-sm text-navy/90">{i}</div>
                 </li>
               ))}
             </ul>
-          </div>
+        </DashCard>
 
-          <div className="space-y-5">
-            <div className="glass rounded-3xl p-6">
-              <div className="text-xs tracking-widest text-gold uppercase flex items-center gap-2">
-                <QrCode size={14} /> Service QR
-              </div>
-              <p className="text-sm text-muted-foreground mt-2">แสดง QR ให้พาร์ทเนอร์เพื่อรับบริการ</p>
+        <div className="space-y-3">
+          <DashCard>
+            <div className="text-xs tracking-widest text-gold uppercase flex items-center gap-2">
+              <QrCode size={14} /> Service QR
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">แสดง QR ให้พาร์ทเนอร์</p>
               {!showQr ? (
-                <button onClick={() => setShowQr(true)} className="btn-emerald rounded-full px-5 py-2 mt-4 text-sm">เปิด QR</button>
+                <button onClick={() => setShowQr(true)} className="btn-emerald rounded-full px-4 py-2 mt-3 text-xs w-full">เปิด QR</button>
               ) : (
-                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="mt-4 aspect-square rounded-2xl bg-white p-4 grid place-items-center">
+                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="mt-3 aspect-square rounded-xl bg-white p-3 grid place-items-center">
                   <div className="size-full grid grid-cols-8 grid-rows-8 gap-0.5">
                     {Array.from({ length: 64 }).map((_, i) => (
                       <div key={i} className="bg-emerald-deep" style={{ opacity: ((i * 37) % 7 < 4) ? 1 : 0 }} />
@@ -102,34 +95,33 @@ function JourneyPage() {
                   </div>
                 </motion.div>
               )}
-            </div>
+          </DashCard>
 
-            <div className="glass rounded-3xl p-6">
-              <div className="text-xs tracking-widest text-gold uppercase flex items-center gap-2">
-                <Smile size={14} /> Daily mood
-              </div>
-              <p className="text-sm text-muted-foreground mt-2">วันนี้คุณรู้สึกอย่างไร? (+20 credits)</p>
-              <div className="flex justify-between mt-4 gap-1">
+          <DashCard>
+            <div className="text-xs tracking-widest text-gold uppercase flex items-center gap-2">
+              <Smile size={14} /> Daily mood
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">วันนี้รู้สึกอย่างไร? (+20)</p>
+            <div className="flex justify-between mt-3 gap-1">
                 {["😴", "😐", "🙂", "😊", "🤩"].map((e, i) => (
                   <button
                     key={i}
                     onClick={() => logCheckin(i + 1)}
-                    className={`flex-1 aspect-square rounded-xl text-2xl transition ${mood === i + 1 ? "bg-gold/20 border border-gold/60" : "hover:bg-white/5"}`}
+                    className={`flex-1 aspect-square rounded-xl text-xl transition ${mood === i + 1 ? "bg-gold/20 ring-2 ring-gold" : "bg-pale-mint/40 hover:bg-pale-mint"}`}
                   >{e}</button>
                 ))}
               </div>
-              {mood && <p className="text-sm text-emerald mt-3">✓ บันทึกแล้ว · +20 Calm Credits</p>}
-            </div>
-          </div>
+            {mood && <p className="text-xs text-emerald mt-2">✓ +20 Calm Credits</p>}
+          </DashCard>
         </div>
+      </div>
 
-        <div className="mt-10 flex justify-between items-center">
-          <div className="text-sm text-muted-foreground">เมื่อจบทริปแล้ว ดูสรุปผลของคุณ</div>
-          <Link to="/report" className="btn-gold rounded-full px-6 py-3 text-sm inline-flex items-center gap-2">
+      <div className="mt-3 flex justify-between items-center">
+        <div className="text-xs text-muted-foreground hidden sm:block"><Calendar size={12} className="inline mr-1" />เมื่อจบทริปแล้ว ดูสรุปผล</div>
+        <Link to="/report" className="btn-gold rounded-full px-5 py-2.5 text-xs inline-flex items-center gap-2 ml-auto">
             <Camera size={14} /> ดู Final Report
           </Link>
-        </div>
-      </Section>
-    </Shell>
+      </div>
+    </DashShell>
   );
 }
