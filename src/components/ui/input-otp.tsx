@@ -166,8 +166,8 @@ const InputOTPWithCustomSeparator = React.forwardRef<
   React.ElementRef<typeof OTPInput>,
   InputOTPWithCustomSeparatorProps
 >(({ separator = <Minus className="h-4 w-4" />, children, ...props }, ref) => (
-  <InputOTP ref={ref} {...props}>
-    {children}
+  <InputOTP ref={ref} {...(props as InputOTPProps)}>
+    {children as never}
   </InputOTP>
 ));
 InputOTPWithCustomSeparator.displayName = "InputOTPWithCustomSeparator";
