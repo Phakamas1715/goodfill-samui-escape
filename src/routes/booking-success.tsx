@@ -16,7 +16,10 @@ export const Route = createFileRoute("/booking-success")({
   head: () => ({
     meta: [
       { title: "ยืนยันการจอง — Goodfill Care" },
-      { name: "description", content: "การจองของคุณเสร็จสมบูรณ์ ทีม Goodfill Care กำลังเตรียมประสบการณ์เฉพาะคุณที่เกาะสมุย" },
+      {
+        name: "description",
+        content: "การจองของคุณเสร็จสมบูรณ์ ทีม Goodfill Care กำลังเตรียมประสบการณ์เฉพาะคุณที่เกาะสมุย",
+      },
       { property: "og:title", content: "Booking Confirmed — Goodfill Care" },
       { property: "og:description", content: "การจองเสร็จสมบูรณ์ พร้อมเริ่มทริป Wellness ที่เกาะสมุย" },
     ],
@@ -30,12 +33,7 @@ function BookingSuccessPage() {
     <div className="fixed inset-0 overflow-hidden bg-background text-foreground">
       {/* Tropical background */}
       <div className="absolute inset-0">
-        <img
-          src={images.samuiInfinity}
-          alt=""
-          className="absolute inset-0 size-full object-cover"
-          loading="eager"
-        />
+        <img src={images.samuiInfinity} alt="" className="absolute inset-0 size-full object-cover" loading="eager" />
         <div className="absolute inset-0 bg-gradient-to-b from-emerald-deep/55 via-emerald-deep/40 to-emerald-deep/75" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_30%,rgba(201,184,155,0.25),transparent_70%)]" />
       </div>
@@ -68,7 +66,8 @@ function BookingSuccessPage() {
           </h1>
           <p className="mt-3 text-cream/85 text-sm md:text-base leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.4)] px-2">
             ทีมผู้เชี่ยวชาญของเรากำลังเตรียมประสบการณ์เฉพาะคุณ
-            <br />คุณจะได้รับอีเมลยืนยันและรายละเอียดภายใน 24 ชั่วโมง
+            <br />
+            คุณจะได้รับอีเมลยืนยันและรายละเอียดภายใน 24 ชั่วโมง
           </p>
 
           {/* Detail card */}
