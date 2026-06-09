@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientConfig } from "@tanstack/react-query";
-import { createRouter, RouterConfig } from "@tanstack/react-router";
+import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
 // ============================================================================
@@ -22,13 +22,13 @@ const DEFAULT_QUERY_CONFIG: QueryClientConfig = {
   },
 };
 
-const DEFAULT_ROUTER_CONFIG: Partial<RouterConfig> = {
+const DEFAULT_ROUTER_CONFIG = {
   scrollRestoration: true,
   defaultPreloadStaleTime: 0,
   defaultPendingComponent: () => null,
   defaultErrorComponent: undefined,
   defaultNotFoundComponent: undefined,
-};
+} as const;
 
 // ============================================================================
 // Query Client Factory
@@ -78,7 +78,7 @@ export interface RouterContext {
  * @param options - Optional router configuration overrides
  * @returns TanStack Router instance
  */
-export function createAppRouter(options?: Partial<RouterConfig<RouterContext>>) {
+export function createAppRouter(options?: Record<string, unknown>) {
   const queryClient = getQueryClient();
 
   const router = createRouter({
@@ -112,10 +112,10 @@ export async function prefetchRoute(
   params?: Record<string, string>,
 ) {
   try {
-    await router.prefetchRoute({
+    await router.preloadRoute({
       to,
       params,
-    });
+    } as never);
     return true;
   } catch (error) {
     console.error(`[Router] Failed to prefetch route: ${to}`, error);
