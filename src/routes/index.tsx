@@ -151,7 +151,7 @@ function Landing() {
               </span>
             </div>
 
-          <h1 className="font-display font-normal text-[1.9rem] sm:text-[3rem] md:text-6xl lg:text-[5.5rem] leading-[1.05] mt-5 md:mt-6 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)] lg:max-w-[12ch]">
+          <h1 className="font-display font-normal text-[1.9rem] sm:text-[3rem] md:text-6xl lg:text-[4.5rem] leading-[1.08] mt-5 md:mt-6 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)] lg:max-w-[640px]">
               {t("hero.title1")}<br />
               <em className="italic text-gold font-normal">{t("hero.title2")}</em>{" "}
               <span className="block">{t("hero.title3")}</span>
