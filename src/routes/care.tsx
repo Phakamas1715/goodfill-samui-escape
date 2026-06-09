@@ -51,34 +51,34 @@ function CarePage() {
   return (
     <DashShell bg="meditation" host="gift" kicker="Phase 5 · Long-term Care" title="Care Plan ของคุณ" subtitle="ติดตามนิสัย · สะสม Calm Credits">
       <div className="grid grid-cols-3 gap-2 md:gap-3">
-        <DashCard className="bg-gradient-to-br from-gold/15 to-white/85">
+        <DashCard variant="deep">
           <Sparkles className="text-gold" size={18} />
-          <div className="font-display text-2xl md:text-3xl text-gold mt-1">{state.credits}</div>
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Calm Credits</div>
+          <div className="font-display text-3xl md:text-4xl text-gold mt-1 leading-none">{state.credits}</div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-ivory/70 mt-1">Calm Credits</div>
         </DashCard>
-        <DashCard>
-          <Flame className="text-gold" size={18} />
-          <div className="font-display text-2xl md:text-3xl text-navy mt-1">
+        <DashCard variant="deep">
+          <Flame className="text-mint" size={18} />
+          <div className="font-display text-3xl md:text-4xl text-ivory mt-1 leading-none">
             {Math.max(...state.habits.map((h) => h.days.length), 0)}
           </div>
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Streak (days)</div>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-ivory/70 mt-1">Streak (days)</div>
         </DashCard>
-        <DashCard>
+        <DashCard variant="deep">
           <Trophy className="text-gold" size={18} />
           {persona ? (
             <>
-              <div className="font-display text-base md:text-lg text-navy mt-1 line-clamp-1">{persona.name}</div>
-              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Your persona</div>
+              <div className="font-display text-lg md:text-xl text-ivory mt-1 line-clamp-1">{persona.name}</div>
+              <div className="text-[10px] uppercase tracking-[0.22em] text-ivory/70 mt-1">Your persona</div>
             </>
           ) : (
             <Link to="/quest" className="mt-1 flex items-center gap-2 group">
               <img
                 src={hosts.gift}
                 alt=""
-                className="h-12 md:h-14 w-auto object-contain shrink-0 drop-shadow-[0_4px_10px_rgba(11,86,79,0.35)]"
+                className="h-12 md:h-14 w-auto object-contain shrink-0 drop-shadow-[0_4px_10px_rgba(12,35,64,0.45)]"
               />
               <div className="min-w-0">
-                <div className="text-[11px] md:text-xs text-navy leading-snug line-clamp-2">
+                <div className="text-[11px] md:text-xs text-ivory leading-snug line-clamp-2">
                   พร้อมเริ่มสะสมพลังบวกหรือยังคะ?
                 </div>
                 <div className="text-[9px] uppercase tracking-widest text-gold group-hover:translate-x-0.5 transition-transform">เริ่มภารกิจแรก →</div>

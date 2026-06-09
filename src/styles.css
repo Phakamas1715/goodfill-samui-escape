@@ -11,7 +11,7 @@
 
 @theme {
   --font-display: "Cormorant Garamond", "Playfair Display", serif;
-  --font-sans: "Noto Sans Thai", "Sarabun", "Inter", system-ui, sans-serif;
+  --font-sans: "Karla", "Noto Sans Thai", "Sarabun", "Inter", system-ui, sans-serif;
 }
 
 @theme inline {
@@ -64,46 +64,50 @@
 
 :root {
   --radius: 1.25rem;
-  /* Tropical Wellness Teal — warm cream + deep teal + mint + gold trust */
-  --background: #F9F5EA;                          /* warm cream */
-  --foreground: #0B3B36;                          /* deep teal ink */
-  --card: #FFFFFF;
-  --card-foreground: #0B3B36;
+  /* Ocean Deep — light cool background + deep navy ink + teal/mint accents.
+     Data cards are intentionally darker than the page so info pops with high
+     contrast (white text on navy). */
+  --background: #F5F7FA;                          /* light cool grey-blue */
+  --foreground: #0c2340;                          /* deep navy ink */
+  --card: #0c2340;                                /* DARK navy card */
+  --card-foreground: #F5F7FA;                     /* crisp light text on cards */
   --popover: #FFFFFF;
-  --popover-foreground: #0B3B36;
-  --primary: #0B564F;                             /* Deep Teal Green — CTA */
-  --primary-foreground: #F9F5EA;
-  --secondary: #CCFBF1;                           /* mint light */
-  --secondary-foreground: #0B564F;
-  --muted: #FAF6EB;                               /* cream */
-  --muted-foreground: #5A6F6B;
-  --accent: #5EEAD4;                              /* mint */
-  --accent-foreground: #0B564F;
+  --popover-foreground: #0c2340;
+  --primary: #0c2340;                             /* deep navy CTA */
+  --primary-foreground: #F5F7FA;
+  --secondary: #E2ECF3;                           /* sky tint */
+  --secondary-foreground: #0c2340;
+  --muted: #ECF1F6;                               /* paper */
+  --muted-foreground: #4a5b76;                    /* slate */
+  --accent: #5cbdb9;                              /* mint */
+  --accent-foreground: #0c2340;
   --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;
-  --border: rgba(11, 86, 79, 0.10);
-  --input: rgba(11, 86, 79, 0.14);
-  --ring: #0B564F;
-  --chart-1: #0B564F;
-  --chart-2: #3CB496;
-  --chart-3: #D4A017;
-  --chart-4: #2E91A4;
-  --chart-5: #5EEAD4;
+  --border: rgba(12, 35, 64, 0.10);
+  --input: rgba(12, 35, 64, 0.14);
+  --ring: #2d8a9e;
+  --chart-1: #0c2340;
+  --chart-2: #1a4a6e;
+  --chart-3: #2d8a9e;
+  --chart-4: #5cbdb9;
+  --chart-5: #D4A017;
 
-  /* Brand tokens — Tropical Wellness Teal */
-  --ivory: #F9F5EA;        /* Warm Cream */
-  --cream: #FAF6EB;        /* Warm Cream alt */
-  --pale-mint: #CCFBF1;    /* Mint Light bg */
-  --mint: #5EEAD4;         /* Mint Light accent */
-  --primary-teal: #3CB496; /* Primary Teal — logo/icons */
-  --teal-accent: #2DB4A5;  /* Teal Accent — icons */
-  --emerald: #0B564F;      /* Deep Teal Green */
-  --emerald-deep: #073F39; /* darker for gradients */
-  --deep-teal: #0B564F;
-  --sea: #2E91A4;          /* Turquoise Sea */
-  --navy: #0B3B36;         /* dark teal ink (replaces navy) */
-  --gold: #D4A017;         /* Gold Trust */
-  --gold-soft: #E8C463;
+  /* Brand tokens — Ocean Deep palette.
+     Existing component class names (text-emerald, bg-navy, text-mint, …) keep
+     working — they now map to the Ocean Deep equivalents. */
+  --ivory: #F5F7FA;          /* cool light page */
+  --cream: #ECF1F6;          /* paper alt */
+  --pale-mint: #E2F4F2;      /* mint tint bg */
+  --mint: #5cbdb9;           /* mint accent */
+  --primary-teal: #2d8a9e;   /* teal accent */
+  --teal-accent: #2d8a9e;    /* teal */
+  --emerald: #1a4a6e;        /* mid navy (was deep teal) */
+  --emerald-deep: #0c2340;   /* deep navy */
+  --deep-teal: #0c2340;
+  --sea: #2d8a9e;            /* sea */
+  --navy: #0c2340;           /* deep navy */
+  --gold: #C9A84C;           /* refined gold accent */
+  --gold-soft: #E5C76B;
 }
 
 @layer base {
@@ -117,34 +121,46 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     background-image:
-      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(94, 234, 212, 0.30), transparent 60%),
-      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(212, 160, 23, 0.10), transparent 60%);
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(92, 189, 185, 0.18), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(45, 138, 158, 0.12), transparent 60%);
     background-attachment: fixed;
   }
 
-  h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+  h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.005em; font-weight: 600; }
 
-  ::selection { background: rgba(212, 160, 23, 0.35); color: var(--emerald); }
+  ::selection { background: rgba(45, 138, 158, 0.30); color: var(--navy); }
 }
 
 @utility glass {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 10px 40px -20px rgba(11, 86, 79, 0.20);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 40px -20px rgba(12, 35, 64, 0.22);
 }
 
 @utility card-soft {
   background: #FFFFFF;
   border-radius: 1.5rem;
-  box-shadow: 0 10px 30px -16px rgba(11, 86, 79, 0.18), 0 2px 6px -2px rgba(11, 86, 79, 0.06);
-  border: 1px solid rgba(11, 86, 79, 0.06);
+  box-shadow: 0 12px 32px -18px rgba(12, 35, 64, 0.20), 0 2px 6px -2px rgba(12, 35, 64, 0.06);
+  border: 1px solid rgba(12, 35, 64, 0.06);
 }
 
 @utility card-cream {
   background: var(--cream);
   border-radius: 1.5rem;
-  border: 1px solid rgba(212, 160, 23, 0.20);
+  border: 1px solid rgba(12, 35, 64, 0.08);
+}
+
+/* Dark navy data card — text reads white on deep navy with crisp contrast. */
+@utility card-deep {
+  background: linear-gradient(155deg, #0c2340 0%, #142a4a 60%, #1a4a6e 100%);
+  color: #F5F7FA;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(92, 189, 185, 0.22);
+  box-shadow:
+    0 18px 40px -22px rgba(12, 35, 64, 0.55),
+    0 2px 8px -3px rgba(12, 35, 64, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 @utility pill {
@@ -158,29 +174,30 @@
 }
 
 @utility gold-text {
-  background: linear-gradient(135deg, #E8C463, #D4A017);
+  background: linear-gradient(135deg, #E5C76B, #C9A84C);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 @utility btn-gold {
-  background: linear-gradient(135deg, #E8C463, #D4A017);
-  color: #0B564F;
+  background: linear-gradient(135deg, #E5C76B, #C9A84C);
+  color: #0c2340;
   font-weight: 600;
   letter-spacing: 0.02em;
-  box-shadow: 0 10px 30px -10px rgba(212, 160, 23, 0.55);
+  box-shadow: 0 10px 30px -10px rgba(201, 168, 76, 0.55);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  &:hover { transform: translateY(-1px); box-shadow: 0 14px 40px -10px rgba(212, 160, 23, 0.75); }
+  &:hover { transform: translateY(-1px); box-shadow: 0 14px 40px -10px rgba(201, 168, 76, 0.75); }
 }
 
 @utility btn-emerald {
-  background: linear-gradient(135deg, #0B564F, #073F39);
-  color: var(--ivory);
+  background: linear-gradient(135deg, #1a4a6e, #0c2340);
+  color: #F5F7FA;
   font-weight: 600;
-  box-shadow: 0 10px 30px -12px rgba(11, 86, 79, 0.55);
-  transition: transform 0.2s ease;
-  &:hover { transform: translateY(-1px); }
+  letter-spacing: 0.01em;
+  box-shadow: 0 10px 30px -12px rgba(12, 35, 64, 0.55);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  &:hover { transform: translateY(-1px); box-shadow: 0 14px 40px -12px rgba(12, 35, 64, 0.7); }
 }
 
 @utility scrollbar-none {

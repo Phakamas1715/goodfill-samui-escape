@@ -51,14 +51,14 @@ export function DashShell({
   hostFloating = true,
 }: DashShellProps) {
   return (
-    <div className="fixed inset-0 overflow-hidden bg-navy text-foreground">
+    <div className="fixed inset-0 overflow-hidden bg-background text-foreground">
       {/* SAMUI BACKGROUND */}
       <div className="absolute inset-0">
-        <img src={bgs[bg]} alt="" className="size-full object-cover" />
-        {/* Premium tonal contrast — image shows through, content stays legible via cards */}
-        <div className="absolute inset-0 bg-gradient-to-br from-ivory/55 via-ivory/35 to-ivory/15" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ivory/85 via-ivory/25 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-emerald-deep/25 via-transparent to-gold/10 mix-blend-multiply" />
+        <img src={bgs[bg]} alt="" className="size-full object-cover opacity-90" />
+        {/* Magazine-style readability wash — bright page tone over imagery so
+            dark navy data cards pop with crisp contrast above it. */}
+        <div className="absolute inset-0 bg-gradient-to-b from-ivory/75 via-ivory/85 to-ivory/95" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-sea/15 via-transparent to-mint/10 mix-blend-multiply" />
       </div>
 
       <Nav />
@@ -66,18 +66,19 @@ export function DashShell({
       <main className="relative h-full pt-20 md:pt-24 pb-24 md:pb-6 px-3 md:px-6 flex flex-col">
         <div className="max-w-6xl mx-auto w-full flex-1 flex flex-col min-h-0">
           {/* HEADER — compact */}
-          <div className="flex items-end justify-between gap-3 mb-3 md:mb-4">
+          <div className="flex items-end justify-between gap-3 mb-4 md:mb-5">
             <div className="min-w-0">
               {kicker && (
-                <div className="text-[10px] md:text-[11px] tracking-[0.28em] uppercase text-gold font-medium">
+                <div className="text-[10px] md:text-[11px] tracking-[0.32em] uppercase text-sea font-semibold flex items-center gap-2">
+                  <span className="inline-block h-px w-6 bg-sea/60" />
                   {kicker}
                 </div>
               )}
-              <h1 className="font-display text-2xl md:text-3xl text-navy leading-tight truncate">
+              <h1 className="font-display text-3xl md:text-4xl text-navy leading-[1.1] truncate mt-1">
                 {title}
               </h1>
               {subtitle && (
-                <p className="text-xs md:text-sm text-muted-foreground line-clamp-1">
+                <p className="text-xs md:text-sm text-muted-foreground line-clamp-1 mt-1">
                   {subtitle}
                 </p>
               )}
@@ -89,7 +90,7 @@ export function DashShell({
                 transition={{ duration: 0.6 }}
                 src={hosts[host]}
                 alt="host"
-                className="h-16 md:h-24 w-auto object-contain shrink-0 drop-shadow-[0_8px_18px_rgba(11,86,79,0.35)]"
+                className="h-16 md:h-24 w-auto object-contain shrink-0 drop-shadow-[0_10px_22px_rgba(12,35,64,0.4)]"
               />
             )}
           </div>
@@ -108,15 +109,18 @@ export function DashShell({
 export function DashCard({
   children,
   className = "",
+  variant = "light",
 }: {
   children: ReactNode;
   className?: string;
+  /** "deep" = dark navy card with light text (default). "light" = white card. */
+  variant?: "deep" | "light";
 }) {
+  const base =
+    variant === "deep"
+      ? "card-deep p-4 md:p-5"
+      : "bg-white rounded-2xl border border-[rgba(12,35,64,0.08)] shadow-[0_10px_30px_-16px_rgba(12,35,64,0.18)] p-4 md:p-5";
   return (
-    <div
-      className={`bg-white/85 backdrop-blur-md rounded-2xl border border-white/60 shadow-[0_8px_32px_rgba(8,42,67,0.08)] p-4 md:p-5 ${className}`}
-    >
-      {children}
-    </div>
+    <div className={`${base} ${className}`}>{children}</div>
   );
 }
