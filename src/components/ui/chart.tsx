@@ -460,7 +460,4 @@ export {
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
-  SimpleBarChart,
-  SimpleLineChart,
-  SimplePieChart,
 };
