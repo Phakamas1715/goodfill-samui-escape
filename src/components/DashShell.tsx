@@ -55,8 +55,10 @@ export function DashShell({
       {/* SAMUI BACKGROUND */}
       <div className="absolute inset-0">
         <img src={bgs[bg]} alt="" className="size-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-br from-ivory/95 via-ivory/85 to-ivory/75" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ivory via-ivory/40 to-transparent" />
+        {/* Premium tonal contrast — image shows through, content stays legible via cards */}
+        <div className="absolute inset-0 bg-gradient-to-br from-ivory/55 via-ivory/35 to-ivory/15" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ivory/85 via-ivory/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-emerald-deep/25 via-transparent to-gold/10 mix-blend-multiply" />
       </div>
 
       <Nav />
@@ -87,7 +89,7 @@ export function DashShell({
                 transition={{ duration: 0.6 }}
                 src={hosts[host]}
                 alt="host"
-                className="size-14 md:size-20 rounded-full object-cover object-top bg-white/80 ring-2 ring-mint/60 shadow-lg shrink-0"
+                className="h-16 md:h-24 w-auto object-contain shrink-0 drop-shadow-[0_8px_18px_rgba(11,86,79,0.35)]"
               />
             )}
           </div>

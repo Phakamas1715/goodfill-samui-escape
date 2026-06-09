@@ -68,14 +68,11 @@ function CarePage() {
             </>
           ) : (
             <div className="mt-1 flex items-center gap-2">
-              <div className="relative shrink-0">
-                <img
-                  src={hosts.gift}
-                  alt=""
-                  className="size-10 md:size-12 rounded-full object-cover object-top bg-white/80 ring-2 ring-gold/50 shadow"
-                />
-                <span className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full bg-gold ring-2 ring-white animate-pulse" />
-              </div>
+              <img
+                src={hosts.gift}
+                alt=""
+                className="h-12 md:h-14 w-auto object-contain shrink-0 drop-shadow-[0_4px_10px_rgba(11,86,79,0.35)]"
+              />
               <div className="min-w-0">
                 <div className="text-[11px] md:text-xs text-navy leading-snug line-clamp-2">
                   พร้อมเริ่มสะสมพลังบวกหรือยังคะ?
