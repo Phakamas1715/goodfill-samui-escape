@@ -6,6 +6,7 @@ const KEY = "goodfill-care-state-v1";
 export interface AppState {
   questAnswers: Record<number, number>;
   persona: PersonaId | null;
+  secondaryPersona: PersonaId | null;
   credits: number;
   bookedProgramId: string | null;
   bookingDate: string | null;
@@ -16,6 +17,7 @@ export interface AppState {
 const initial: AppState = {
   questAnswers: {},
   persona: null,
+  secondaryPersona: null,
   credits: 0,
   bookedProgramId: null,
   bookingDate: null,
