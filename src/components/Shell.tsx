@@ -30,9 +30,9 @@ export function Section({
   );
 }
 
-export function Eyebrow({ children }: { children: ReactNode }) {
+export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <span className="inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-gold">
+    <span className={`inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-gold ${className}`}>
       <span className="size-1 rounded-full bg-gold" />
       {children}
     </span>
