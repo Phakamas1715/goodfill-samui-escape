@@ -25,6 +25,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsIndexRouteImport } from './routes/programs.index'
 import { Route as ProgramsIdRouteImport } from './routes/programs.$id'
 import { Route as MealsIdRouteImport } from './routes/meals.$id'
+import { Route as LoginPartnerRouteImport } from './routes/login.partner'
+import { Route as LoginCustomerRouteImport } from './routes/login.customer'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as ApiPublicLineLoginRouteImport } from './routes/api/public/line-login'
@@ -115,6 +117,16 @@ const MealsIdRoute = MealsIdRouteImport.update({
   path: '/meals/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginPartnerRoute = LoginPartnerRouteImport.update({
+  id: '/partner',
+  path: '/partner',
+  getParentRoute: () => LoginRoute,
+} as any)
+const LoginCustomerRoute = LoginCustomerRouteImport.update({
+  id: '/customer',
+  path: '/customer',
+  getParentRoute: () => LoginRoute,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -179,13 +191,15 @@ export interface FileRoutesByFullPath {
   '/consent': typeof ConsentRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
-  '/login': typeof LoginRoute
+  '/login': typeof LoginRouteWithChildren
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/login/customer': typeof LoginCustomerRoute
+  '/login/partner': typeof LoginPartnerRoute
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
@@ -206,12 +220,14 @@ export interface FileRoutesByTo {
   '/consent': typeof ConsentRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
-  '/login': typeof LoginRoute
+  '/login': typeof LoginRouteWithChildren
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/login/customer': typeof LoginCustomerRoute
+  '/login/partner': typeof LoginPartnerRoute
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs': typeof ProgramsIndexRoute
@@ -234,13 +250,15 @@ export interface FileRoutesById {
   '/consent': typeof ConsentRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
-  '/login': typeof LoginRoute
+  '/login': typeof LoginRouteWithChildren
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
+  '/login/customer': typeof LoginCustomerRoute
+  '/login/partner': typeof LoginPartnerRoute
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
@@ -270,6 +288,8 @@ export interface FileRouteTypes {
     | '/quest'
     | '/report'
     | '/admin'
+    | '/login/customer'
+    | '/login/partner'
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
@@ -296,6 +316,8 @@ export interface FileRouteTypes {
     | '/persona'
     | '/quest'
     | '/report'
+    | '/login/customer'
+    | '/login/partner'
     | '/meals/$id'
     | '/programs/$id'
     | '/programs'
@@ -324,6 +346,8 @@ export interface FileRouteTypes {
     | '/quest'
     | '/report'
     | '/_authenticated/admin'
+    | '/login/customer'
+    | '/login/partner'
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
@@ -346,7 +370,7 @@ export interface RootRouteChildren {
   ConsentRoute: typeof ConsentRoute
   ExpertRoute: typeof ExpertRoute
   JourneyRoute: typeof JourneyRoute
-  LoginRoute: typeof LoginRoute
+  LoginRoute: typeof LoginRouteWithChildren
   PartnerRoute: typeof PartnerRoute
   PartnersRoute: typeof PartnersRoute
   PersonaRoute: typeof PersonaRoute
@@ -474,6 +498,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MealsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login/partner': {
+      id: '/login/partner'
+      path: '/partner'
+      fullPath: '/login/partner'
+      preLoaderRoute: typeof LoginPartnerRouteImport
+      parentRoute: typeof LoginRoute
+    }
+    '/login/customer': {
+      id: '/login/customer'
+      path: '/customer'
+      fullPath: '/login/customer'
+      preLoaderRoute: typeof LoginCustomerRouteImport
+      parentRoute: typeof LoginRoute
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -579,6 +617,18 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface LoginRouteChildren {
+  LoginCustomerRoute: typeof LoginCustomerRoute
+  LoginPartnerRoute: typeof LoginPartnerRoute
+}
+
+const LoginRouteChildren: LoginRouteChildren = {
+  LoginCustomerRoute: LoginCustomerRoute,
+  LoginPartnerRoute: LoginPartnerRoute,
+}
+
+const LoginRouteWithChildren = LoginRoute._addFileChildren(LoginRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -587,7 +637,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConsentRoute: ConsentRoute,
   ExpertRoute: ExpertRoute,
   JourneyRoute: JourneyRoute,
-  LoginRoute: LoginRoute,
+  LoginRoute: LoginRouteWithChildren,
   PartnerRoute: PartnerRoute,
   PartnersRoute: PartnersRoute,
   PersonaRoute: PersonaRoute,
@@ -603,13 +653,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
