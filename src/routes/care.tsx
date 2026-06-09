@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Flame, Sparkles, ArrowRight, Trophy } from "lucide-react";
+import { Flame, Sparkles, ArrowRight, Trophy, Clock } from "lucide-react";
 import { DashShell, DashCard } from "@/components/DashShell";
 import { personas, programs } from "@/lib/data";
 import { useAppState } from "@/lib/state";
@@ -21,7 +21,7 @@ function todayKey() {
 function CarePage() {
   const [state, setState] = useAppState();
   const persona = state.persona ? personas[state.persona] : null;
-  const recommended = programs[0];
+  const alumni = programs;
 
   function toggleHabit(name: string) {
     const k = todayKey();
@@ -93,17 +93,50 @@ function CarePage() {
         </div>
       </div>
 
-      <DashCard className="mt-3 flex items-center gap-3">
-        <img src={recommended.image} alt={recommended.name} loading="lazy" className="size-16 md:size-20 object-cover rounded-xl shrink-0" />
-        <div className="min-w-0 flex-1">
-          <div className="text-[10px] tracking-widest uppercase text-gold">Alumni · −15%</div>
-          <div className="font-display text-sm md:text-base text-navy line-clamp-1">{recommended.name}</div>
-          <div className="text-[10px] text-muted-foreground">{recommended.duration} · ฿{recommended.price.toLocaleString()}</div>
+      <div className="mt-3">
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-[11px] tracking-widest text-gold uppercase">Alumni · −15% · กลับมาอีกครั้ง</div>
+          <div className="text-[9px] tracking-widest uppercase text-muted-foreground hidden sm:block">ปัดซ้าย–ขวา</div>
         </div>
-        <Link to="/programs" className="btn-emerald rounded-full px-3 py-2 text-xs inline-flex items-center gap-1 shrink-0">
-          จองอีกครั้ง <ArrowRight size={12} />
-        </Link>
-      </DashCard>
+        <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-3 px-3 pb-1">
+          {alumni.map((p, i) => (
+            <div
+              key={p.id}
+              className="snap-start shrink-0 w-[78vw] sm:w-[58vw] md:w-[360px] relative rounded-2xl overflow-hidden border border-white/60 shadow-[0_10px_32px_rgba(8,42,67,0.18)]"
+            >
+              <img src={p.image} alt={p.name} loading="lazy" className="absolute inset-0 size-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/90 via-emerald-deep/40 to-black/20" />
+              <div className="relative z-10 flex flex-col justify-between p-3 md:p-4 min-h-[150px] md:min-h-[170px]">
+                <div className="flex items-start justify-between">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-black/35 backdrop-blur px-2 py-1 text-[10px] text-ivory ring-1 ring-white/20">
+                    <Clock size={11} /> {p.duration}
+                  </span>
+                  <span className="rounded-full bg-gold/95 text-emerald-deep text-[10px] font-medium px-2 py-1 shadow">
+                    #{i + 1}
+                  </span>
+                </div>
+                <div>
+                  <div className="font-display text-base md:text-lg text-ivory leading-tight line-clamp-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
+                    {p.name}
+                  </div>
+                  <div className="flex items-center justify-between mt-2 gap-2">
+                    <div className="text-ivory drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">
+                      <span className="text-[10px] uppercase tracking-widest text-ivory/75">Alumni</span>
+                      <div className="font-display text-sm md:text-base">฿{p.price.toLocaleString()}</div>
+                    </div>
+                    <Link
+                      to="/programs"
+                      className="rounded-full bg-gold text-emerald-deep px-3 py-1.5 text-[11px] font-medium inline-flex items-center gap-1 shadow hover:brightness-110"
+                    >
+                      จองอีกครั้ง <ArrowRight size={12} />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </DashShell>
   );
 }
