@@ -25,6 +25,10 @@ function CarePage() {
   const persona = state.persona ? personas[state.persona] : null;
   const alumni = programs;
   const [celebrate, setCelebrate] = useState<string | null>(null);
+  // Show a soft pulsing hint on the Daily Habits zone when no habit has been
+  // checked yet today — helps brand-new users find the first thing to tap.
+  const todayCheckedCount = state.habits.filter((h) => h.days.includes(todayKey())).length;
+  const showHabitHint = todayCheckedCount === 0;
 
   function toggleHabit(name: string) {
     const k = todayKey();
@@ -67,7 +71,7 @@ function CarePage() {
               <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Your persona</div>
             </>
           ) : (
-            <div className="mt-1 flex items-center gap-2">
+            <Link to="/quest" className="mt-1 flex items-center gap-2 group">
               <img
                 src={hosts.gift}
                 alt=""
@@ -77,15 +81,37 @@ function CarePage() {
                 <div className="text-[11px] md:text-xs text-navy leading-snug line-clamp-2">
                   พร้อมเริ่มสะสมพลังบวกหรือยังคะ?
                 </div>
-                <div className="text-[9px] uppercase tracking-widest text-gold">เริ่มภารกิจแรก →</div>
+                <div className="text-[9px] uppercase tracking-widest text-gold group-hover:translate-x-0.5 transition-transform">เริ่มภารกิจแรก →</div>
               </div>
-            </div>
+            </Link>
           )}
         </DashCard>
       </div>
 
-      <div className="mt-3">
-        <div className="text-[11px] tracking-widest text-gold uppercase mb-2">นิสัยวันนี้ · Daily Habits</div>
+      <div className="mt-3" style={{ touchAction: "pan-y" }}>
+        <div className="flex items-center gap-2 mb-2">
+          <div className="text-[11px] tracking-widest text-gold uppercase">นิสัยวันนี้ · Daily Habits</div>
+          {showHabitHint && (
+            <motion.span
+              aria-hidden
+              initial={{ opacity: 0.6 }}
+              animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.15, 1] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+              className="inline-flex items-center gap-1 rounded-full bg-gold/15 text-gold ring-1 ring-gold/40 px-2 py-0.5 text-[9px] font-medium"
+            >
+              <span className="size-1.5 rounded-full bg-gold" /> เริ่มเช็กอินตรงนี้
+            </motion.span>
+          )}
+        </div>
+        <motion.div
+          animate={
+            showHabitHint
+              ? { boxShadow: ["0 0 0 0 rgba(212,160,23,0)", "0 0 0 6px rgba(212,160,23,0.18)", "0 0 0 0 rgba(212,160,23,0)"] }
+              : { boxShadow: "0 0 0 0 rgba(212,160,23,0)" }
+          }
+          transition={{ duration: 1.8, repeat: showHabitHint ? Infinity : 0, ease: "easeInOut" }}
+          className="rounded-2xl"
+        >
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             {state.habits.map((h) => {
               const done = h.days.includes(todayKey());
@@ -146,14 +172,20 @@ function CarePage() {
               );
             })}
         </div>
+        </motion.div>
       </div>
 
-      <div className="mt-3">
+      {/* Visible separator + dedicated horizontal-swipe zone, so habit taps
+          don't get swallowed by the carousel and vice versa. */}
+      <div className="mt-5 pt-4 border-t border-white/40">
         <div className="flex items-center justify-between mb-2">
           <div className="text-[11px] tracking-widest text-gold uppercase">Alumni · −15% · กลับมาอีกครั้ง</div>
           <div className="text-[9px] tracking-widest uppercase text-muted-foreground hidden sm:block">ปัดซ้าย–ขวา</div>
         </div>
-        <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-3 px-3 pb-1">
+        <div
+          className="flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-3 px-3 pb-1 overscroll-x-contain"
+          style={{ touchAction: "pan-x" }}
+        >
           {alumni.map((p, i) => (
             <div
               key={p.id}
