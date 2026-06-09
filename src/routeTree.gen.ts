@@ -14,15 +14,18 @@ import { Route as QuestRouteImport } from './routes/quest'
 import { Route as PersonaRouteImport } from './routes/persona'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PartnerRouteImport } from './routes/partner'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as ExpertRouteImport } from './routes/expert'
 import { Route as ConsentRouteImport } from './routes/consent'
 import { Route as ChannelRouteImport } from './routes/channel'
 import { Route as CareRouteImport } from './routes/care'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsIndexRouteImport } from './routes/programs.index'
 import { Route as ProgramsIdRouteImport } from './routes/programs.$id'
 import { Route as MealsIdRouteImport } from './routes/meals.$id'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicLineLoginRouteImport } from './routes/api/public/line-login'
 import { Route as ApiPublicLinePartnerWebhookRouteImport } from './routes/api/public/line.partner-webhook'
 import { Route as ApiPublicLineCustomerWebhookRouteImport } from './routes/api/public/line.customer-webhook'
@@ -52,6 +55,11 @@ const PartnerRoute = PartnerRouteImport.update({
   path: '/partner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JourneyRoute = JourneyRouteImport.update({
   id: '/journey',
   path: '/journey',
@@ -77,6 +85,10 @@ const CareRoute = CareRouteImport.update({
   path: '/care',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -96,6 +108,11 @@ const MealsIdRoute = MealsIdRouteImport.update({
   id: '/meals/$id',
   path: '/meals/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiPublicLineLoginRoute = ApiPublicLineLoginRouteImport.update({
   id: '/api/public/line-login',
@@ -122,11 +139,13 @@ export interface FileRoutesByFullPath {
   '/consent': typeof ConsentRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
+  '/login': typeof LoginRoute
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
@@ -141,11 +160,13 @@ export interface FileRoutesByTo {
   '/consent': typeof ConsentRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
+  '/login': typeof LoginRoute
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs': typeof ProgramsIndexRoute
@@ -156,16 +177,19 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
+  '/login': typeof LoginRoute
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
@@ -182,11 +206,13 @@ export interface FileRouteTypes {
     | '/consent'
     | '/expert'
     | '/journey'
+    | '/login'
     | '/partner'
     | '/partners'
     | '/persona'
     | '/quest'
     | '/report'
+    | '/admin'
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
@@ -201,11 +227,13 @@ export interface FileRouteTypes {
     | '/consent'
     | '/expert'
     | '/journey'
+    | '/login'
     | '/partner'
     | '/partners'
     | '/persona'
     | '/quest'
     | '/report'
+    | '/admin'
     | '/meals/$id'
     | '/programs/$id'
     | '/programs'
@@ -215,16 +243,19 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/care'
     | '/channel'
     | '/consent'
     | '/expert'
     | '/journey'
+    | '/login'
     | '/partner'
     | '/partners'
     | '/persona'
     | '/quest'
     | '/report'
+    | '/_authenticated/admin'
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
@@ -235,11 +266,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   CareRoute: typeof CareRoute
   ChannelRoute: typeof ChannelRoute
   ConsentRoute: typeof ConsentRoute
   ExpertRoute: typeof ExpertRoute
   JourneyRoute: typeof JourneyRoute
+  LoginRoute: typeof LoginRoute
   PartnerRoute: typeof PartnerRoute
   PartnersRoute: typeof PartnersRoute
   PersonaRoute: typeof PersonaRoute
@@ -290,6 +323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/journey': {
       id: '/journey'
       path: '/journey'
@@ -325,6 +365,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -353,6 +400,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MealsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/public/line-login': {
       id: '/api/public/line-login'
       path: '/api/public/line-login'
@@ -377,13 +431,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   CareRoute: CareRoute,
   ChannelRoute: ChannelRoute,
   ConsentRoute: ConsentRoute,
   ExpertRoute: ExpertRoute,
   JourneyRoute: JourneyRoute,
+  LoginRoute: LoginRoute,
   PartnerRoute: PartnerRoute,
   PartnersRoute: PartnersRoute,
   PersonaRoute: PersonaRoute,
@@ -399,3 +466,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
