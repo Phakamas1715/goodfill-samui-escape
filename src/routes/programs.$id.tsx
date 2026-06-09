@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/programs/$id")({
   head: ({ params }) => {
@@ -92,6 +93,15 @@ function ProgramDetail() {
 
   async function book() {
     if (sending) return;
+    // Pre-check sign-in. confirmBooking enforces Supabase auth — without a session
+    // it returns "Unauthorized: No authorization header provided" which is bad UX.
+    const { data: userData } = await supabase.auth.getUser();
+    if (!userData?.user) {
+      toast.info("กรุณาเข้าสู่ระบบก่อนทำการจอง", { id: "book" });
+      setBookOpen(false);
+      navigate({ to: "/login", search: { redirect: `/programs/${program.id}` } });
+      return;
+    }
     setSending(true);
     const date = new Date();
     date.setDate(date.getDate() + 21);
