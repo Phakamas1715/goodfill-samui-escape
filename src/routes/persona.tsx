@@ -1,13 +1,15 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Sparkles, Wand2, Loader2 } from "lucide-react";
+import { ArrowRight, Sparkles, Wand2, Loader2, Send } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { DashShell, DashCard } from "@/components/DashShell";
 import { personas, programsForPersona, pick } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 import { useI18n } from "@/lib/i18n";
 import { getPersonaInsight } from "@/lib/ai-insights.functions";
+import { sendPersonaSummary } from "@/lib/handoff.functions";
 
 export const Route = createFileRoute("/persona")({
   head: () => ({
@@ -29,9 +31,12 @@ function PersonaPage() {
       : null;
 
   const fetchInsight = useServerFn(getPersonaInsight);
+  const sendToChat = useServerFn(sendPersonaSummary);
+  const navigate = useNavigate();
   const [insight, setInsight] = useState<any>(state.aiInsight ?? null);
   const [loadingAI, setLoadingAI] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const [sendingChat, setSendingChat] = useState(false);
   const calmingMessagesTh = [
     "หายใจเข้าลึกๆ ปล่อยลมหายใจช้าๆ…",
     "AI กำลังฟังเสียงภายในของคุณ…",
@@ -51,6 +56,85 @@ function PersonaPage() {
     const id = setInterval(() => setCalmingIdx((i) => i + 1), 2200);
     return () => clearInterval(id);
   }, [loadingAI]);
+
+  async function handleSendToChat() {
+    if (!persona) return;
+    setSendingChat(true);
+    try {
+      const rec = recommended[0];
+      const origin = typeof window !== "undefined" ? window.location.origin : "";
+      const result = await sendToChat({
+        data: {
+          personaId: persona.id,
+          personaName: pick(persona.name, lang),
+          personaThai: pick(persona.thaiName, lang),
+          tagline: pick(persona.tagline, lang),
+          pillars: persona.pillars.map((p) => pick(p, lang)),
+          summary: insight?.summary ?? "",
+          strengths: insight?.strengths ?? [],
+          focusAreas: insight?.focusAreas ?? [],
+          dailyRitual: insight?.dailyRitual ?? [],
+          avoid: insight?.avoid ?? [],
+          recommended: rec
+            ? {
+                id: rec.id,
+                name: pick(rec.name, lang),
+                price: rec.price,
+                url: `${origin}/programs/${rec.id}`,
+              }
+            : undefined,
+          lang,
+        },
+      });
+      if (result.anyOk) {
+        const channels = [
+          result.line.ok ? "LINE" : null,
+          result.telegram.ok ? "Telegram" : null,
+        ].filter(Boolean).join(" + ");
+        toast.success(
+          lang === "th"
+            ? `ส่งผลวิเคราะห์เข้า ${channels} ของคุณแล้ว ✓`
+            : `Sent to your ${channels} ✓`,
+          {
+            description:
+              lang === "th"
+                ? "เปิดแอปเพื่อคุยต่อกับผู้ช่วย Goodfill ได้ทันที"
+                : "Open the app to continue with the Goodfill assistant.",
+          },
+        );
+      } else {
+        toast.message(
+          lang === "th" ? "ยังไม่ได้เชื่อมบัญชีแชต" : "No chat account linked yet",
+          {
+            description:
+              lang === "th"
+                ? "เชื่อม LINE หรือ Telegram กับโปรไฟล์ของคุณก่อน เพื่อรับผลวิเคราะห์เข้าแชต"
+                : "Link your LINE or Telegram to receive the insight in chat.",
+          },
+        );
+      }
+    } catch (e: any) {
+      const msg = String(e?.message ?? e ?? "");
+      if (msg.includes("Unauthorized") || msg.includes("401")) {
+        toast.message(
+          lang === "th" ? "กรุณาเข้าสู่ระบบก่อน" : "Please sign in first",
+          {
+            description:
+              lang === "th"
+                ? "เข้าสู่ระบบด้วย LINE เพื่อส่งผลวิเคราะห์เข้าแชตของคุณ"
+                : "Sign in with LINE to send the insight to your chat.",
+          },
+        );
+        navigate({ to: "/login", search: { redirect: "/persona" } as any });
+      } else {
+        toast.error(lang === "th" ? "ส่งไม่สำเร็จ" : "Send failed", {
+          description: msg.slice(0, 200),
+        });
+      }
+    } finally {
+      setSendingChat(false);
+    }
+  }
 
   async function runAI() {
     if (!persona) return;
@@ -236,6 +320,16 @@ function PersonaPage() {
                   <ArrowRight size={14} />
                 </Link>
               )}
+              <button
+                onClick={handleSendToChat}
+                disabled={sendingChat}
+                className="mt-2 w-full rounded-full px-4 py-2.5 inline-flex items-center justify-center gap-2 text-xs font-semibold bg-white/10 hover:bg-white/15 ring-1 ring-white/25 text-ivory disabled:opacity-60 transition"
+              >
+                {sendingChat ? <Loader2 size={12} className="animate-spin" /> : <Send size={12} className="text-gold" />}
+                {sendingChat
+                  ? lang === "th" ? "กำลังส่ง…" : "Sending…"
+                  : lang === "th" ? "ส่งผลวิเคราะห์นี้เข้า LINE / Telegram ของฉัน" : "Send this insight to my LINE / Telegram"}
+              </button>
               <p className="mt-2 text-[10px] text-ivory/70 text-center">
                 {lang === "th"
                   ? "ระบบจะแนบโปรไฟล์ Persona + บทวิเคราะห์ AI ให้ผู้เชี่ยวชาญอัตโนมัติ"
