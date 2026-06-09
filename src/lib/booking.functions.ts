@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { tgSendMessage, tgEscape } from "@/lib/telegram.server";
 
 const BookingInput = z.object({
   programId: z.string().min(1).max(100),
@@ -15,6 +16,7 @@ const BookingInput = z.object({
   partnerUserId: z.string().min(1).max(64).optional(),
   dietaryPlan: z.enum(["Signature", "Plant-based", "High-Protein", "Detox Light"]).optional(),
   dietaryNotes: z.string().max(1000).optional(),
+  customerTelegramChatId: z.union([z.string(), z.number()]).optional(),
 });
 
 async function linePush(token: string, to: string, messages: unknown[]) {
@@ -254,6 +256,46 @@ export const confirmBooking = createServerFn({ method: "POST" })
       partner = { ok: false, error: "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing" };
     }
 
+    // Telegram: push receipt to customer if linked.
+    let telegram: PushResult = { ok: false, error: "no chat id" };
+    try {
+      let tgChatId: number | string | undefined = data.customerTelegramChatId;
+      // Fallback: look up most recent /start chat for this customer
+      if (!tgChatId) {
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { data: row } = await supabaseAdmin
+          .from("telegram_identities")
+          .select("chat_id")
+          .order("updated_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (row?.chat_id) tgChatId = row.chat_id as number;
+      }
+      if (tgChatId && process.env.TELEGRAM_API_KEY && process.env.LOVABLE_API_KEY) {
+        const dateLabel = new Date(data.bookingDate).toLocaleDateString("th-TH", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+        const msgText =
+          `🌿 <b>ยืนยันการจองสำเร็จ</b>\n\n` +
+          `<b>${tgEscape(data.programName)}</b>\n` +
+          `${tgEscape(data.programDuration)}\n\n` +
+          `📍 ${tgEscape(data.programVenue)}\n` +
+          `🗓 ${dateLabel}\n` +
+          `💰 ฿${data.programPrice.toLocaleString()}\n` +
+          `🎫 รหัสจอง: <code>${bookingId}</code>\n` +
+          (data.expertName ? `👨‍🍳 ${tgEscape(data.expertName)}\n` : "") +
+          (data.dietaryPlan ? `🥗 ${tgEscape(data.dietaryPlan)}\n` : "") +
+          (data.dietaryNotes ? `⚠️ ${tgEscape(data.dietaryNotes)}\n` : "") +
+          (mealsUrl ? `\n📋 แผนอาหาร: ${mealsUrl}` : "");
+        await tgSendMessage(tgChatId, msgText, { parse_mode: "HTML" });
+        telegram = { ok: true };
+      }
+    } catch (e) {
+      telegram = { ok: false, error: e instanceof Error ? e.message.slice(0, 300) : String(e) };
+    }
+
     // Persist to DB (best-effort, never blocks the receipt response)
     let dbId: string | null = null;
     let dbError: string | null = null;
@@ -275,7 +317,7 @@ export const confirmBooking = createServerFn({ method: "POST" })
           customer_line_user_id: customerTo,
           partner_line_user_id: partnerTo,
           status: "pending",
-          customer_push: JSON.parse(JSON.stringify(customer)),
+          customer_push: JSON.parse(JSON.stringify({ line: customer, telegram })),
           partner_push: JSON.parse(JSON.stringify(partner)),
           dietary_plan: data.dietaryPlan ?? null,
           dietary_notes: data.dietaryNotes ?? null,
@@ -288,5 +330,5 @@ export const confirmBooking = createServerFn({ method: "POST" })
       dbError = e instanceof Error ? e.message : String(e);
     }
 
-    return { bookingId, dbId, dbError, customer, partner };
+    return { bookingId, dbId, dbError, customer, partner, telegram };
   });

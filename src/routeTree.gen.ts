@@ -35,6 +35,7 @@ import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminReviewsRouteImport } from './routes/_authenticated/admin.reviews'
 import { Route as AuthenticatedAdminProgramsRouteImport } from './routes/_authenticated/admin.programs'
 import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
+import { Route as ApiPublicTelegramWebhookRouteImport } from './routes/api/public/telegram.webhook'
 import { Route as ApiPublicLinePartnerWebhookRouteImport } from './routes/api/public/line.partner-webhook'
 import { Route as ApiPublicLineCustomerWebhookRouteImport } from './routes/api/public/line.customer-webhook'
 
@@ -171,6 +172,12 @@ const AuthenticatedAdminBookingsRoute =
     path: '/bookings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const ApiPublicTelegramWebhookRoute =
+  ApiPublicTelegramWebhookRouteImport.update({
+    id: '/api/public/telegram/webhook',
+    path: '/api/public/telegram/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicLinePartnerWebhookRoute =
   ApiPublicLinePartnerWebhookRouteImport.update({
     id: '/api/public/line/partner-webhook',
@@ -212,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
+  '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -240,6 +248,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
+  '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -271,6 +280,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
+  '/api/public/telegram/webhook': typeof ApiPublicTelegramWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -302,6 +312,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
+    | '/api/public/telegram/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -330,6 +341,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
+    | '/api/public/telegram/webhook'
   id:
     | '__root__'
     | '/'
@@ -360,6 +372,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/'
     | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
+    | '/api/public/telegram/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -382,6 +395,7 @@ export interface RootRouteChildren {
   ApiPublicLineLoginRoute: typeof ApiPublicLineLoginRoute
   ApiPublicLineCustomerWebhookRoute: typeof ApiPublicLineCustomerWebhookRoute
   ApiPublicLinePartnerWebhookRoute: typeof ApiPublicLinePartnerWebhookRoute
+  ApiPublicTelegramWebhookRoute: typeof ApiPublicTelegramWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -568,6 +582,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminBookingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/api/public/telegram/webhook': {
+      id: '/api/public/telegram/webhook'
+      path: '/api/public/telegram/webhook'
+      fullPath: '/api/public/telegram/webhook'
+      preLoaderRoute: typeof ApiPublicTelegramWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/line/partner-webhook': {
       id: '/api/public/line/partner-webhook'
       path: '/api/public/line/partner-webhook'
@@ -649,6 +670,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicLineLoginRoute: ApiPublicLineLoginRoute,
   ApiPublicLineCustomerWebhookRoute: ApiPublicLineCustomerWebhookRoute,
   ApiPublicLinePartnerWebhookRoute: ApiPublicLinePartnerWebhookRoute,
+  ApiPublicTelegramWebhookRoute: ApiPublicTelegramWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
