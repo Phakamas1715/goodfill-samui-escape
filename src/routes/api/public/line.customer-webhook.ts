@@ -180,6 +180,8 @@ async function handleEvent(event: LineEvent) {
           await supabaseAdmin.from("line_identities").upsert(
             {
               line_user_id: customerUserId,
+              user_id: customerUserId,
+              channel: "customer",
               last_active_at: new Date().toISOString(),
               language_preference: "th", // Default to Thai
             },
