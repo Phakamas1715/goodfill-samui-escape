@@ -247,10 +247,10 @@ function Landing() {
             >
               <button
                 onClick={() => setModal(null)}
-                className="absolute top-4 right-4 size-9 rounded-full bg-cream hover:bg-mint/40 grid place-items-center"
+                className="absolute top-3 right-3 size-12 rounded-full bg-cream hover:bg-mint/50 grid place-items-center shadow-md ring-1 ring-mint/40 active:scale-95 transition"
                 aria-label="ปิด"
               >
-                <X size={18} />
+                <X size={22} />
               </button>
 
               {modal === "journey" && (
