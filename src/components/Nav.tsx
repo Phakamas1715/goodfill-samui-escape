@@ -35,19 +35,16 @@ export function Nav() {
     <>
     <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-navy/10 shadow-[0_2px_18px_-10px_rgba(12,35,64,0.25)]">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <div className="relative flex items-center justify-between py-3 md:py-3.5">
-          {/* Centered logo */}
-          <Link
-            to="/"
-            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2.5 group"
-          >
-            <img src={logo} alt="Goodfill Care" className="h-9 md:h-11 w-auto object-contain" />
-            <span className="hidden sm:flex flex-col leading-none">
-              <span className="font-display text-xl md:text-2xl text-navy">Goodfill <span className="text-emerald">Care</span></span>
-              <span className="text-[10px] tracking-[0.28em] uppercase text-emerald-deep/60 mt-0.5">Koh Samui</span>
+        <div className="flex items-center justify-between gap-4 py-3 md:py-3.5">
+          {/* Logo (left) */}
+          <Link to="/" className="flex items-center gap-2.5 group shrink-0 min-w-0">
+            <img src={logo} alt="Goodfill Care" className="h-9 md:h-11 w-auto object-contain shrink-0" />
+            <span className="hidden sm:flex flex-col leading-none min-w-0">
+              <span className="font-display text-xl md:text-2xl text-navy whitespace-nowrap">Goodfill <span className="text-emerald">Care</span></span>
+              <span className="text-[10px] tracking-[0.28em] uppercase text-emerald-deep/60 mt-0.5 whitespace-nowrap">Koh Samui</span>
             </span>
           </Link>
-          <nav className="hidden md:flex items-center gap-6 whitespace-nowrap">
+          <nav className="hidden lg:flex items-center gap-6 whitespace-nowrap">
             {linkDefs.map((l) => (
               <Link
                 key={l.to}
@@ -60,7 +57,7 @@ export function Nav() {
               </Link>
             ))}
           </nav>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <LangToggle />
             <Link
               to="/quest"
@@ -69,7 +66,7 @@ export function Nav() {
               {t("nav.cta")}
             </Link>
             <button
-              className="md:hidden text-emerald-deep grid place-items-center size-10 rounded-full bg-pale-mint border border-mint/40"
+              className="lg:hidden text-emerald-deep grid place-items-center size-10 rounded-full bg-pale-mint border border-mint/40"
               onClick={() => setOpen((o) => !o)}
               aria-label="Menu"
             >
@@ -78,7 +75,7 @@ export function Nav() {
           </div>
         </div>
         {open && (
-          <div className="md:hidden border-t border-navy/10 bg-white pb-3 pt-2 flex flex-col gap-1">
+          <div className="lg:hidden border-t border-navy/10 bg-white pb-3 pt-2 flex flex-col gap-1">
             {linkDefs.map((l) => (
               <Link
                 key={l.to}

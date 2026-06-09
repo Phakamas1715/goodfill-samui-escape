@@ -178,10 +178,10 @@ function Landing() {
             </div>
 
             {/* Action cluster — refined branded CTA */}
-            <div className="mt-7 md:mt-8 flex flex-col gap-3 max-w-[22rem]">
+            <div className="mt-7 md:mt-8 flex flex-col gap-4 max-w-[22rem]">
               <Link
                 to="/quest"
-                className="btn-gold group relative overflow-hidden rounded-2xl px-7 py-4 inline-flex items-center justify-center gap-2.5 text-base md:text-[17px] font-semibold tracking-wide shadow-[0_18px_50px_-14px_rgba(201,168,76,0.7)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
+                className="btn-gold group relative overflow-hidden rounded-2xl px-7 py-4 inline-flex items-center justify-center gap-2.5 text-base md:text-[17px] font-bold tracking-wide shadow-[0_18px_50px_-14px_rgba(201,168,76,0.7)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
               >
                 <Sparkles size={18} className="opacity-80" />
                 <span>{t("hero.ctaStart")}</span>
@@ -189,15 +189,15 @@ function Landing() {
               </Link>
               <button
                 onClick={() => setMoreOpen(true)}
-                className="rounded-2xl bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/20 text-white py-3 px-5 inline-flex items-center justify-center gap-2 text-sm font-medium transition"
+                className="rounded-2xl bg-white/15 hover:bg-white/25 backdrop-blur-xl border border-white/30 text-white py-3 px-5 inline-flex items-center justify-center gap-2 text-[15px] font-semibold transition"
               >
                 <Menu size={16} />
                 <span>สำรวจเพิ่มเติม</span>
               </button>
-              <div className="flex items-center justify-between gap-3 text-[12px] text-white/85 font-medium px-1 mt-1 drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]">
+              <div className="flex items-center justify-between gap-3 text-[13px] text-white font-semibold px-1 mt-1 drop-shadow-[0_1px_6px_rgba(0,0,0,0.75)]">
                 <span className="tracking-wide">~8 นาที · ตอบโดยไม่ต้องพิมพ์</span>
                 <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck size={13} className="text-mint" /> ปลอดภัย
+                  <ShieldCheck size={14} className="text-mint" /> ปลอดภัย
                 </span>
               </div>
             </div>
