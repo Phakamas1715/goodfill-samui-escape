@@ -271,13 +271,13 @@ export function useTypedAppSettings() {
 
 interface SettingGuardProps {
   setting: SettingKey;
-  fallback?: unknown;
+  fallback?: string | number | boolean;
   children: React.ReactNode;
 }
 
 export function SettingGuard({ setting, fallback, children }: SettingGuardProps) {
   const { data: settings } = useAppSettings();
-  const value = getSetting(settings, setting, fallback);
+  const value = getSetting(settings, setting, fallback ?? false);
 
   if (!value) return null;
   return <>{children}</>;
