@@ -15,7 +15,12 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "เริ่มจากแบบประเมิน 8 ข้อ ค้นพบโปรแกรมพักผ่อนแบบลักชัวรี่ที่เกาะสมุย เหมาะกับร่างกายและจิตใจของคุณ" },
       { property: "og:title", content: "Goodfill Care — Koh Samui Wellness" },
       { property: "og:description", content: "Pre-arrival Quest · Personalized Program · Final Report · Long-term Care" },
-      { property: "og:image", content: "/icon-512.png" },
+      { property: "og:image", content: "https://goodfillcare-samui.com/icon-512.png" },
+      { property: "og:url", content: "https://goodfillcare-samui.com/" },
+      { name: "twitter:image", content: "https://goodfillcare-samui.com/icon-512.png" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://goodfillcare-samui.com/" },
     ],
   }),
   component: Landing,
