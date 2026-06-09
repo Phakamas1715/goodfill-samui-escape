@@ -99,8 +99,9 @@ function Landing() {
           />
         </AnimatePresence>
         {/* readability overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/55 to-navy/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/85 via-navy/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep via-emerald-deep/65 to-emerald-deep/15" />
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/90 via-emerald-deep/40 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.18),transparent_55%)]" />
       </div>
 
       {/* Slide indicator */}
@@ -218,14 +219,14 @@ function Landing() {
             </motion.div>
           </motion.div>
 
-          {/* Mobile host - small floating */}
+          {/* Mobile host — bigger, transparent, sits behind content */}
           <motion.img
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+            initial={{ opacity: 0, x: 30, scale: 0.94 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden absolute right-0 bottom-24 h-[42vh] w-auto object-contain pointer-events-none drop-shadow-2xl opacity-95"
+            className="lg:hidden absolute -right-6 bottom-20 h-[58vh] max-h-[560px] w-auto object-contain pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.45)] z-0"
           />
         </div>
       </main>
