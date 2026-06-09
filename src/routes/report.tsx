@@ -75,7 +75,7 @@ function ReportPage() {
                       <div className="text-gold text-sm">→</div>
                       <div>
                         <div className="text-[9px] uppercase tracking-widest text-gold">{t("report.after")}</div>
-                        <div className="font-display text-xl text-emerald-deep">{m.after}{m.unit}</div>
+                        <div className="font-display text-xl gold-text">{m.after}{m.unit}</div>
                       </div>
                     </div>
                   </div>
