@@ -30,9 +30,13 @@ export const Route = createFileRoute("/")({
 
 const slides = [
   images.heroSamui,
+  images.samuiAerial,
   images.villa,
+  images.samuiInfinity,
   images.yoga,
+  images.samuiLongtail,
   images.spa,
+  images.samuiSpaRitual,
   images.meditation,
   images.food,
 ];
