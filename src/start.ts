@@ -122,10 +122,10 @@ const loggingMiddleware = createMiddleware().server(async ({ next, request }) =>
   const url = request.url;
 
   try {
-    const result = await next() as { status?: number };
+    const result = await next();
     const duration = Date.now() - startTime;
 
-    console.info(`[Start] ${method} ${url} → ${result?.status || "completed"} (${duration}ms)`);
+    console.info(`[Start] ${method} ${url} → ${(result as { status?: number })?.status || "completed"} (${duration}ms)`);
 
     return result;
   } catch (error) {
@@ -145,10 +145,11 @@ const requestIdMiddleware = createMiddleware().server(async ({ next, request }) 
   const requestId = existingId || `${Date.now()}-${Math.random().toString(36).substring(2, 10)}`;
 
   // Attach to response headers
-  const response = await next() as { headers?: Headers };
+  const response = await next();
+  const headers = (response as { headers?: Headers } | undefined)?.headers;
 
-  if (response && typeof response.headers?.set === "function") {
-    response.headers.set("x-request-id", requestId);
+  if (headers && typeof headers.set === "function") {
+    headers.set("x-request-id", requestId);
   }
 
   return response;
