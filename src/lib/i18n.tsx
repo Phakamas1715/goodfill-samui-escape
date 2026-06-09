@@ -228,6 +228,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     } catch {}
   }, []);
 
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.setAttribute("lang", lang);
+    }
+  }, [lang]);
+
   const setLang = (l: Lang) => {
     setLangState(l);
     try {
