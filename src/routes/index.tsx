@@ -224,7 +224,7 @@ function Landing() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.0, delay: 0.25 }}
-            className="relative z-10 hidden lg:block border-l border-white/15 pl-12 self-center"
+            className="relative z-20 hidden lg:block border-l border-white/15 pl-12 self-center text-white"
           >
             <div className="space-y-10 max-w-sm">
               <div>
