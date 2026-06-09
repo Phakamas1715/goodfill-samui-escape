@@ -82,6 +82,16 @@ const ProgramInput = z.object({
   image_url: z.string().max(2000).nullable().optional(),
   sort_order: z.number().int().default(0),
   is_published: z.boolean().default(true),
+  images: z
+    .array(
+      z.object({
+        path: z.string().min(1).max(500),
+        url: z.string().min(1).max(2000),
+        alt: z.string().max(300).optional().nullable(),
+      }),
+    )
+    .max(20)
+    .optional(),
 });
 
 export const upsertProgram = createServerFn({ method: "POST" })
