@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { ArrowRight, Sparkles, Compass, HeartPulse, Leaf, MoonStar, X, Building2, Phone, MapPin, ExternalLink } from "lucide-react";
+import { ArrowRight, Sparkles, Compass, HeartPulse, Leaf, MoonStar, X, Building2, Phone, MapPin, ExternalLink, Handshake, ShieldCheck } from "lucide-react";
 import { Nav } from "@/components/Nav";
 import { images, personas } from "@/lib/data";
 import welcomeHost from "@/assets/welcome-host.png";
@@ -133,6 +133,14 @@ function Landing() {
               <button onClick={() => setModal("company")} className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white inline-flex items-center gap-1.5">
                 <Building2 size={14} /> {t("hero.btnCompany")}
               </button>
+              <Link to="/partners" className="rounded-full px-5 py-3 text-sm bg-white/10 backdrop-blur border border-white/25 hover:bg-white/20 transition text-white inline-flex items-center gap-1.5">
+                <Handshake size={14} /> {t("hero.btnPartners")}
+              </Link>
+            </div>
+
+            <div className="mt-3 max-w-md flex items-start gap-2 text-[11px] text-ivory/70 leading-snug">
+              <ShieldCheck size={14} className="text-mint mt-0.5 shrink-0" />
+              <span>{t("hero.note")}</span>
             </div>
 
             <div className="mt-6 md:mt-10 flex gap-5 md:gap-8 text-ivory">
