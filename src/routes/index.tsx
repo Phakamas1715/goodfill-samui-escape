@@ -120,13 +120,13 @@ function Landing() {
 
       {/* MAIN CONTENT */}
       <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col">
-        <div className="flex-1 grid lg:grid-cols-[1.1fr,0.9fr] gap-4 items-center max-w-7xl mx-auto w-full px-[50px] my-[50px]">
+        <div className="flex-1 grid lg:grid-cols-[1.1fr,0.9fr] gap-4 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10"
+            className="relative z-10 max-w-[230px] sm:max-w-[380px] lg:max-w-none"
           >
             <div className="flex items-center gap-3">
               <div className="relative size-16 md:size-20 rounded-3xl bg-white grid place-items-center shadow-2xl ring-1 ring-white/60">
@@ -143,12 +143,12 @@ function Landing() {
               </div>
             </div>
 
-            <h1 className="font-display text-[2.6rem] sm:text-5xl md:text-6xl lg:text-7xl leading-[1.02] mt-6 md:mt-8 text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.4)]">
+          <h1 className="font-display font-semibold text-[1.7rem] sm:text-[3rem] md:text-6xl lg:text-7xl leading-[1.08] mt-5 md:mt-8 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)]">
               {t("hero.title1")}<br />
               <em className="not-italic text-gold">{t("hero.title2")}</em>{" "}
               <span className="block">{t("hero.title3")}</span>
             </h1>
-            <p className="mt-4 md:mt-6 max-w-md text-sm md:text-base text-ivory/85 leading-relaxed">
+          <p className="mt-4 md:mt-6 max-w-md text-[15px] md:text-lg text-white font-medium leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
               {t("hero.desc")}
             </p>
 
@@ -170,25 +170,25 @@ function Landing() {
                   <Menu size={20} />
                 </button>
               </div>
-              <div className="mt-3 flex items-center justify-between gap-3 text-[11px] text-ivory/70 px-1">
+              <div className="mt-3 flex items-center justify-between gap-3 text-[12px] md:text-[13px] text-white/90 font-medium px-1 drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]">
                 <span className="tracking-wide">~8 นาที · เลือกตอบโดยไม่ต้องพิมพ์</span>
-                <span className="inline-flex items-center gap-1.5 text-ivory/80">
-                  <ShieldCheck size={12} className="text-mint" /> ไม่ใช่การวินิจฉัยทางการแพทย์
+                <span className="inline-flex items-center gap-1.5">
+                  <ShieldCheck size={13} className="text-mint" /> ไม่ใช่การวินิจฉัยทางการแพทย์
                 </span>
               </div>
             </div>
 
-            <div className="mt-6 md:mt-8 flex items-center gap-5 md:gap-7 text-ivory">
+            <div className="mt-6 md:mt-8 flex items-center gap-5 md:gap-7 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
               {[
                 { v: "8", k: "hero.stat.min" as TKey },
                 { v: "6", k: "hero.stat.personas" as TKey },
                 { v: "12+", k: "hero.stat.partners" as TKey },
               ].map((s, i) => (
                 <div key={s.k} className="flex items-center gap-5 md:gap-7">
-                  {i > 0 && <span className="h-8 w-px bg-ivory/20" />}
+                  {i > 0 && <span className="h-8 w-px bg-white/30" />}
                   <div>
-                    <div className="font-display text-xl md:text-2xl text-gold">{s.v}</div>
-                    <div className="text-[9px] md:text-[10px] tracking-[0.22em] uppercase text-ivory/70 mt-0.5">{t(s.k)}</div>
+                    <div className="font-display text-2xl md:text-3xl font-semibold text-gold">{s.v}</div>
+                    <div className="text-[10px] md:text-[11px] tracking-[0.22em] uppercase text-white/85 font-medium mt-0.5">{t(s.k)}</div>
                   </div>
                 </div>
               ))}
@@ -200,19 +200,19 @@ function Landing() {
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.1, delay: 0.25 }}
-            className="relative hidden lg:flex items-end justify-center h-full"
+            className="relative hidden lg:flex items-end justify-center h-full -mb-[50px]"
           >
-            <div className="absolute bottom-10 size-[420px] rounded-full bg-gradient-radial from-gold/30 via-mint/15 to-transparent blur-2xl" />
+            <div className="absolute bottom-0 size-[460px] rounded-full bg-gradient-radial from-gold/30 via-mint/15 to-transparent blur-2xl" />
             <img
               src={welcomeHost}
               alt="Wellness host"
-              className="relative max-h-[78vh] w-auto object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)]"
+              className="relative max-h-[92vh] w-auto object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
             />
             {/* Floating greeting bubble */}
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-16 left-2 bg-white rounded-3xl px-5 py-3 text-navy text-sm max-w-[240px] shadow-xl ring-1 ring-mint/40"
+              className="absolute top-4 -right-2 bg-white rounded-3xl px-5 py-3 text-navy text-sm max-w-[230px] shadow-xl ring-1 ring-mint/40"
             >
               <div className="text-[10px] tracking-widest uppercase text-emerald">{t("hero.greeting1")}</div>
               <div className="mt-1">{t("hero.greeting2")}</div>
@@ -226,7 +226,7 @@ function Landing() {
             transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden absolute -right-6 bottom-20 h-[58vh] max-h-[560px] w-auto object-contain pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.45)] z-0"
+            className="lg:hidden absolute -right-6 bottom-[200px] h-[48vh] max-h-[440px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
           />
         </div>
       </main>
