@@ -190,4 +190,4 @@ export function SimpleAccordion({
 // Default Export
 // ============================================================================
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent, FaqAccordion, SimpleAccordion };
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };
