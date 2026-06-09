@@ -143,7 +143,7 @@ function Landing() {
               </div>
             </div>
 
-          <h1 className="font-display font-semibold text-[2rem] sm:text-[3.2rem] md:text-6xl lg:text-7xl leading-[1.05] mt-5 md:mt-8 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)]">
+          <h1 className="font-display font-semibold text-[1.7rem] sm:text-[3rem] md:text-6xl lg:text-7xl leading-[1.08] mt-5 md:mt-8 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)]">
               {t("hero.title1")}<br />
               <em className="not-italic text-gold">{t("hero.title2")}</em>{" "}
               <span className="block">{t("hero.title3")}</span>
