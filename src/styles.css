@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Goodfill Care — Premium Wellness (Koh Samui)
- * Ivory base · Emerald & deep teal · Mint accents · Soft gold highlights.
+ * Goodfill Care — Ocean Wellness (Koh Samui)
+ * Ivory base · Ocean blue & sea teal · Aqua mint accents · Soft sand highlights.
  */
 
 @theme {
@@ -65,52 +65,52 @@
 
 :root {
   --radius: 1.5rem;
-  /* Tropical Samui — luxury wellness resort.
-     Cream-ivory page, deep emerald ink, ocean teal + aqua mint accents,
-     sunset gold and coral highlights. */
-  --background: #F8FCFA;                          /* warm ivory-mint */
-  --foreground: #064E3B;                          /* deep emerald ink */
-  --card: #064E3B;                                /* deep emerald card */
-  --card-foreground: #F5FBF7;
+  /* Ocean Wellness — Koh Samui resort palette.
+     Ivory-cream page, ocean blue ink, aqua-mint + soft sky accents,
+     warm sand highlights. */
+  --background: #FFF8EC;                          /* warm ivory cream */
+  --foreground: #0C3B4A;                          /* deep ocean ink */
+  --card: #0C3B4A;                                /* deep ocean card */
+  --card-foreground: #F4FBFF;
   --popover: #FFFFFF;
-  --popover-foreground: #064E3B;
-  --primary: #0d7a5f;                             /* signature emerald */
-  --primary-foreground: #F8FCFA;
-  --secondary: #E6F7F1;                           /* mint paper */
-  --secondary-foreground: #064E3B;
-  --muted: #EEF7F3;                               /* mint mist */
-  --muted-foreground: #345e52;                    /* readable slate-emerald */
-  --accent: #2dd4a8;                              /* aqua mint */
-  --accent-foreground: #064E3B;
+  --popover-foreground: #0C3B4A;
+  --primary: #1E88A8;                             /* signature ocean blue */
+  --primary-foreground: #FFF8EC;
+  --secondary: #DDF6FF;                           /* soft sky */
+  --secondary-foreground: #0C3B4A;
+  --muted: #EAF6FB;                               /* sky mist */
+  --muted-foreground: #3D6B7C;                    /* readable slate-ocean */
+  --accent: #7FE3D0;                              /* aqua mint */
+  --accent-foreground: #0C3B4A;
   --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;
-  --border: rgba(6, 78, 59, 0.10);
-  --input: rgba(6, 78, 59, 0.14);
-  --ring: #2dd4a8;
-  --chart-1: #064E3B;
-  --chart-2: #0d7a5f;
-  --chart-3: #2dd4a8;
-  --chart-4: #f4a64a;
-  --chart-5: #ff7a59;
+  --border: rgba(12, 59, 74, 0.10);
+  --input: rgba(12, 59, 74, 0.14);
+  --ring: #7FE3D0;
+  --chart-1: #0C3B4A;
+  --chart-2: #1E88A8;
+  --chart-3: #7FE3D0;
+  --chart-4: #EFE3D0;
+  --chart-5: #2E8BC0;
 
-  /* Brand tokens — Tropical Samui.
+  /* Brand tokens — Ocean Wellness.
      Legacy class names (text-emerald, bg-navy, text-mint, text-gold, text-sea …)
-     continue to work; they now map to the tropical equivalents. */
-  --ivory: #F8FCFA;          /* page */
-  --cream: #FFFAEC;          /* warm cream */
-  --pale-mint: #E6F7F1;      /* mint tint */
-  --mint: #99f6e4;           /* aqua mint */
-  --primary-teal: #14b8a6;   /* ocean teal */
-  --teal-accent: #2dd4bf;    /* bright teal */
-  --emerald: #0d7a5f;        /* signature emerald */
-  --emerald-deep: #064E3B;   /* deep emerald */
-  --deep-teal: #115e59;      /* deep teal */
-  --sea: #2dd4bf;            /* sea teal */
-  --navy: #0c3b30;           /* very deep emerald (legacy "navy" slot) */
-  --gold: #f4a64a;           /* sunset gold */
-  --gold-soft: #fbbf60;
-  --coral: #ff7a59;          /* sunset coral highlight */
-  --coral-soft: #ffa48a;
+     continue to work; they now map to the ocean equivalents. */
+  --ivory: #FFF8EC;          /* page */
+  --cream: #FFF1C7;          /* warm champagne */
+  --pale-mint: #DDF6FF;      /* soft sky */
+  --mint: #7FE3D0;           /* aqua mint */
+  --primary-teal: #1E88A8;   /* ocean blue */
+  --teal-accent: #2E8BC0;    /* sea blue */
+  --emerald: #1E88A8;        /* legacy "emerald" → ocean blue */
+  --emerald-deep: #0C3B4A;   /* deep ocean (legacy emerald-deep) */
+  --deep-teal: #155A73;      /* deep teal */
+  --sea: #2E8BC0;            /* sea blue */
+  --navy: #0C3B4A;           /* deep ocean (legacy "navy" slot) */
+  --gold: #C9A24A;           /* warm sand-gold */
+  --gold-soft: #EFE3D0;      /* soft sand */
+  --coral: #E89A6B;          /* sunset peach */
+  --coral-soft: #F3C2A0;
 }
 
 @layer base {
@@ -126,14 +126,14 @@
     font-size: 18px;
     line-height: 1.65;
     background-image:
-      /* sunset gold glow top-left */
-      radial-gradient(ellipse 70% 55% at 8% -5%, rgba(244, 166, 74, 0.22), transparent 65%),
-      /* coral highlight upper-right */
-      radial-gradient(ellipse 55% 45% at 95% 5%, rgba(255, 122, 89, 0.16), transparent 65%),
+      /* soft sky glow top-left */
+      radial-gradient(ellipse 70% 55% at 8% -5%, rgba(221, 246, 255, 0.85), transparent 65%),
+      /* sand highlight upper-right */
+      radial-gradient(ellipse 55% 45% at 95% 5%, rgba(239, 227, 208, 0.55), transparent 65%),
       /* aqua-mint ocean wash bottom-left */
-      radial-gradient(ellipse 75% 60% at 10% 100%, rgba(45, 212, 168, 0.22), transparent 65%),
-      /* deep teal lower-right */
-      radial-gradient(ellipse 65% 55% at 100% 95%, rgba(20, 184, 166, 0.18), transparent 65%);
+      radial-gradient(ellipse 75% 60% at 10% 100%, rgba(127, 227, 208, 0.30), transparent 65%),
+      /* ocean blue lower-right */
+      radial-gradient(ellipse 65% 55% at 100% 95%, rgba(30, 136, 168, 0.18), transparent 65%);
     background-attachment: fixed;
   }
 
@@ -154,7 +154,7 @@
   :lang(th), [lang="th"] { font-family: var(--font-thai-display), var(--font-sans); }
   h1.font-display, h2.font-display { font-family: var(--font-thai-display), var(--font-display); font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; }
 
-  ::selection { background: rgba(45, 212, 168, 0.30); color: var(--emerald-deep); }
+  ::selection { background: rgba(127, 227, 208, 0.40); color: var(--emerald-deep); }
 }
 
 @utility glass {
@@ -162,18 +162,18 @@
   backdrop-filter: blur(22px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow:
-    0 24px 60px -24px rgba(6, 78, 59, 0.22),
+    0 24px 60px -24px rgba(12, 59, 74, 0.22),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 /* Tropical glass — for hero / premium cards. */
 @utility glass-tropical {
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.78) 0%, rgba(230, 247, 241, 0.55) 100%);
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.78) 0%, rgba(221, 246, 255, 0.55) 100%);
   backdrop-filter: blur(24px) saturate(150%);
   border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow:
-    0 32px 70px -20px rgba(6, 78, 59, 0.18),
-    0 6px 20px -10px rgba(20, 184, 166, 0.18),
+    0 32px 70px -20px rgba(12, 59, 74, 0.18),
+    0 6px 20px -10px rgba(30, 136, 168, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
@@ -181,16 +181,16 @@
   background: #FFFFFF;
   border-radius: 2rem;
   box-shadow:
-    0 24px 56px -24px rgba(6, 78, 59, 0.18),
-    0 4px 12px -4px rgba(6, 78, 59, 0.06);
-  border: 1px solid rgba(6, 78, 59, 0.06);
+    0 24px 56px -24px rgba(12, 59, 74, 0.18),
+    0 4px 12px -4px rgba(12, 59, 74, 0.06);
+  border: 1px solid rgba(12, 59, 74, 0.06);
 }
 
 @utility card-cream {
-  background: linear-gradient(150deg, #FFFAEC 0%, #FFF4DC 100%);
+  background: linear-gradient(150deg, #FFF8EC 0%, #FFF1C7 100%);
   border-radius: 2rem;
-  border: 1px solid rgba(244, 166, 74, 0.25);
-  box-shadow: 0 18px 40px -22px rgba(6, 78, 59, 0.22), 0 1px 3px rgba(6, 78, 59, 0.05);
+  border: 1px solid rgba(201, 162, 74, 0.25);
+  box-shadow: 0 18px 40px -22px rgba(12, 59, 74, 0.22), 0 1px 3px rgba(12, 59, 74, 0.05);
 }
 
 /* Premium glass program/feature card. */
@@ -200,28 +200,28 @@
   border-radius: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.78);
   box-shadow:
-    0 30px 64px -24px rgba(6, 78, 59, 0.22),
-    0 6px 18px -8px rgba(20, 184, 166, 0.18),
+    0 30px 64px -24px rgba(12, 59, 74, 0.22),
+    0 6px 18px -8px rgba(30, 136, 168, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.7);
   transition: transform 0.5s cubic-bezier(.2,.7,.2,1), box-shadow 0.5s ease;
   &:hover {
     transform: translateY(-6px);
     box-shadow:
-      0 40px 80px -24px rgba(6, 78, 59, 0.28),
-      0 10px 28px -8px rgba(244, 166, 74, 0.32),
+      0 40px 80px -24px rgba(12, 59, 74, 0.28),
+      0 10px 28px -8px rgba(127, 227, 208, 0.45),
       inset 0 1px 0 rgba(255, 255, 255, 0.75);
   }
 }
 
-/* Dark navy data card — text reads white on deep navy with crisp contrast. */
+/* Dark ocean data card — text reads white on deep ocean with crisp contrast. */
 @utility card-deep {
-  background: linear-gradient(155deg, #042f24 0%, #064E3B 55%, #0d7a5f 100%);
-  color: #F5FBF7;
+  background: linear-gradient(155deg, #062a36 0%, #0C3B4A 55%, #1E88A8 100%);
+  color: #F4FBFF;
   border-radius: 1.75rem;
-  border: 1px solid rgba(45, 212, 168, 0.35);
+  border: 1px solid rgba(127, 227, 208, 0.35);
   box-shadow:
-    0 28px 58px -22px rgba(4, 47, 36, 0.7),
-    0 6px 16px -4px rgba(6, 78, 59, 0.45),
+    0 28px 58px -22px rgba(6, 42, 54, 0.7),
+    0 6px 16px -4px rgba(12, 59, 74, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
@@ -236,44 +236,44 @@
 }
 
 @utility gold-text {
-  background: linear-gradient(135deg, #fbbf60, #f4a64a 55%, #ff7a59);
+  background: linear-gradient(135deg, #EFE3D0, #C9A24A 55%, #E89A6B);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 @utility btn-gold {
-  background: linear-gradient(135deg, #fbbf60 0%, #f4a64a 55%, #ff7a59 100%);
-  color: #064E3B;
+  background: linear-gradient(135deg, #FFF1C7 0%, #C9A24A 55%, #E89A6B 100%);
+  color: #0C3B4A;
   font-weight: 600;
   letter-spacing: 0.02em;
-  box-shadow: 0 14px 36px -10px rgba(244, 166, 74, 0.55), 0 6px 18px -8px rgba(255, 122, 89, 0.45);
+  box-shadow: 0 14px 36px -10px rgba(201, 162, 74, 0.55), 0 6px 18px -8px rgba(232, 154, 107, 0.45);
   transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 20px 48px -10px rgba(244, 166, 74, 0.7), 0 10px 28px -10px rgba(255, 122, 89, 0.55);
+    box-shadow: 0 20px 48px -10px rgba(201, 162, 74, 0.7), 0 10px 28px -10px rgba(232, 154, 107, 0.55);
     filter: brightness(1.04);
   }
 }
 
 @utility btn-emerald {
-  background: linear-gradient(135deg, #0d7a5f 0%, #064E3B 100%);
-  color: #F5FBF7;
+  background: linear-gradient(135deg, #1E88A8 0%, #0C3B4A 100%);
+  color: #F4FBFF;
   font-weight: 600;
   letter-spacing: 0.01em;
-  box-shadow: 0 14px 34px -12px rgba(6, 78, 59, 0.6);
+  box-shadow: 0 14px 34px -12px rgba(12, 59, 74, 0.6);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  &:hover { transform: translateY(-2px); box-shadow: 0 20px 46px -12px rgba(6, 78, 59, 0.75); }
+  &:hover { transform: translateY(-2px); box-shadow: 0 20px 46px -12px rgba(12, 59, 74, 0.75); }
 }
 
 @utility btn-coral {
-  background: linear-gradient(135deg, #ffa48a, #ff7a59 60%, #f4a64a);
-  color: #064E3B;
+  background: linear-gradient(135deg, #F3C2A0, #E89A6B 60%, #C9A24A);
+  color: #0C3B4A;
   font-weight: 600;
   letter-spacing: 0.02em;
-  box-shadow: 0 14px 34px -10px rgba(255, 122, 89, 0.55);
+  box-shadow: 0 14px 34px -10px rgba(232, 154, 107, 0.55);
   transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
-  &:hover { transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 20px 48px -10px rgba(255, 122, 89, 0.7); }
+  &:hover { transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 20px 48px -10px rgba(232, 154, 107, 0.7); }
 }
 
 /* Premium pill chip — frosted with emerald text. */
@@ -290,7 +290,7 @@
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  box-shadow: 0 6px 18px -8px rgba(6, 78, 59, 0.25);
+  box-shadow: 0 6px 18px -8px rgba(12, 59, 74, 0.25);
 }
 
 /* Slowly drifting sun-glow halo behind heroes. */
@@ -303,7 +303,7 @@
     inset: -20% -10% auto auto;
     width: 60%;
     aspect-ratio: 1;
-    background: radial-gradient(circle at 50% 50%, rgba(244, 166, 74, 0.55), rgba(255, 122, 89, 0.25) 40%, transparent 70%);
+    background: radial-gradient(circle at 50% 50%, rgba(221, 246, 255, 0.7), rgba(127, 227, 208, 0.35) 40%, transparent 70%);
     filter: blur(40px);
     z-index: -1;
     animation: sun-drift 18s ease-in-out infinite alternate;
