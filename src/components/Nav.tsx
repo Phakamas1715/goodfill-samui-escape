@@ -38,7 +38,7 @@ export function Nav() {
       <header className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-navy/10 shadow-[0_2px_18px_-10px_rgba(12,35,64,0.25)]">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <div className="flex items-center justify-between gap-4 py-3 md:py-3.5">
-            {/* Logo (left) - ปรับปรุงให้ใหญ่และชัดเจนขึ้น */}
+            {/* Logo (left) - ขนาดใหญ่ขึ้น */}
             <Link to="/" className="flex items-center gap-3 group shrink-0 min-w-0">
               <div className="relative">
                 {/* กล่องเรืองแสงรอบโลโก้ */}
@@ -46,7 +46,7 @@ export function Nav() {
                 <img
                   src={logo}
                   alt="Goodfill Care"
-                  className="h-11 md:h-14 w-auto object-contain shrink-0 drop-shadow-md relative z-10"
+                  className="h-14 md:h-18 w-auto object-contain shrink-0 drop-shadow-md relative z-10"
                 />
               </div>
               <span className="hidden sm:flex flex-col leading-none min-w-0">
@@ -165,7 +165,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-5 md:px-8 py-12">
         {/* Top Section - Logo + Description */}
         <div className="grid md:grid-cols-4 gap-8 pb-8 border-b border-mint/30">
-          {/* Brand Column */}
+          {/* Brand Column - โลโก้ใหญ่ขึ้น */}
           <div className="col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <div className="relative">
@@ -173,7 +173,7 @@ export function Footer() {
                 <img
                   src={logo}
                   alt="Goodfill Care"
-                  className="h-14 md:h-16 w-auto object-contain drop-shadow-md relative z-10"
+                  className="h-20 md:h-24 w-auto object-contain drop-shadow-md relative z-10"
                 />
               </div>
               <div className="flex flex-col">
