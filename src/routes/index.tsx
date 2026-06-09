@@ -120,13 +120,13 @@ function Landing() {
 
       {/* MAIN CONTENT */}
       <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col">
-        <div className="flex-1 grid lg:grid-cols-[1.1fr,0.9fr] gap-4 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px]">
+        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 max-w-[230px] sm:max-w-[380px] lg:max-w-none"
+            className="relative z-10 min-w-0 max-w-[230px] sm:max-w-[380px] lg:max-w-none"
           >
             <div className="flex items-center gap-3">
               <div className="relative size-16 md:size-20 rounded-3xl bg-white grid place-items-center shadow-2xl ring-1 ring-white/60">
@@ -143,17 +143,41 @@ function Landing() {
               </div>
             </div>
 
-          <h1 className="font-display font-semibold text-[1.7rem] sm:text-[3rem] md:text-6xl lg:text-7xl leading-[1.08] mt-5 md:mt-8 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)]">
+            {/* Editorial kicker rule */}
+            <div className="hidden lg:flex items-center gap-3 mt-8">
+              <span className="h-px w-12 bg-gold" />
+              <span className="text-gold text-[11px] tracking-[0.4em] uppercase font-medium">
+                Wellness Journey
+              </span>
+            </div>
+
+          <h1 className="font-display font-normal text-[1.9rem] sm:text-[3rem] md:text-6xl lg:text-[4.5rem] leading-[1.08] mt-5 md:mt-6 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)] lg:max-w-[640px]">
               {t("hero.title1")}<br />
-              <em className="not-italic text-gold">{t("hero.title2")}</em>{" "}
+              <em className="italic text-gold font-normal">{t("hero.title2")}</em>{" "}
               <span className="block">{t("hero.title3")}</span>
             </h1>
           <p className="mt-4 md:mt-6 max-w-md text-[15px] md:text-lg text-white font-medium leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
               {t("hero.desc")}
             </p>
 
+            {/* Editorial proof points — green dot bullets */}
+            <div className="hidden md:flex flex-wrap gap-x-7 gap-y-2 mt-6">
+              {[
+                "8 Wellness Quests",
+                "6 Distinct Personas",
+                "3 / 5 / 7 Day Programs",
+              ].map((label) => (
+                <div key={label} className="flex items-center gap-2">
+                  <span className="size-1.5 rounded-full bg-mint shadow-[0_0_8px_rgba(120,200,170,0.6)]" />
+                  <span className="text-white/70 text-[10px] tracking-[0.22em] uppercase font-medium">
+                    {label}
+                  </span>
+                </div>
+              ))}
+            </div>
+
             {/* Action cluster — grouped in a single glass card for calm, premium feel */}
-            <div className="mt-7 md:mt-9 max-w-md">
+            <div className="mt-7 md:mt-8 max-w-md">
               <div className="rounded-[1.75rem] bg-white/8 backdrop-blur-xl border border-white/15 p-3 pl-5 md:p-4 md:pl-6 flex items-center gap-3 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.45)]">
                 <Link
                   to="/quest"
@@ -178,7 +202,7 @@ function Landing() {
               </div>
             </div>
 
-            <div className="mt-6 md:mt-8 flex items-center gap-5 md:gap-7 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
+            <div className="mt-6 md:mt-8 flex md:hidden items-center gap-5 md:gap-7 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
               {[
                 { v: "8", k: "hero.stat.min" as TKey },
                 { v: "6", k: "hero.stat.personas" as TKey },
@@ -195,28 +219,73 @@ function Landing() {
             </div>
           </motion.div>
 
-          {/* RIGHT — Host character */}
+          {/* RIGHT — Editorial pull-quote sidebar (desktop) */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.0, delay: 0.25 }}
+            className="relative z-20 hidden lg:block border-l border-white/15 pl-12 self-center text-white"
+          >
+            <div className="space-y-10 max-w-sm">
+              <div>
+                <div className="text-gold text-[10px] tracking-[0.35em] uppercase font-bold">
+                  Refined Care
+                </div>
+                <p className="mt-3 text-white/65 text-sm font-light leading-relaxed">
+                  Curated specifically for global travelers seeking deep restoration in the heart of Thailand —
+                  ภายใต้การดูแลของผู้เชี่ยวชาญ Wellness และเชฟโภชนาการที่ออกแบบทุกขั้นตอนเฉพาะคุณ
+                </p>
+              </div>
+
+              <div className="relative">
+                <div
+                  className="absolute -top-10 -left-5 text-7xl text-gold/25 select-none pointer-events-none"
+                  aria-hidden
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  &ldquo;
+                </div>
+                <p className="relative font-display italic text-2xl leading-snug text-white/90">
+                  A sanctuary where every breath is intentional,
+                  and every moment is yours.
+                </p>
+                <div className="mt-4 flex items-center gap-3">
+                  <span className="h-px w-8 bg-gold/70" />
+                  <span className="text-[10px] tracking-[0.3em] uppercase text-white/50">
+                    Goodfill Promise
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-x-6 gap-y-4 pt-6 border-t border-white/10">
+                <div>
+                  <div className="font-display text-2xl text-gold">6</div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/55 mt-1">Personas</div>
+                </div>
+                <div>
+                  <div className="font-display text-2xl text-gold">3·5·7</div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/55 mt-1">Day Plans</div>
+                </div>
+                <div>
+                  <div className="font-display text-2xl text-gold">+300</div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/55 mt-1">Calm Credits</div>
+                </div>
+                <div>
+                  <div className="font-display text-2xl text-gold">12+</div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/55 mt-1">Partners</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Mobile host — bigger, transparent, sits behind content */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.1, delay: 0.25 }}
-            className="relative hidden lg:flex items-end justify-center h-full -mb-[50px]"
+            className="hidden"
           >
-            <div className="absolute bottom-0 size-[460px] rounded-full bg-gradient-radial from-gold/30 via-mint/15 to-transparent blur-2xl" />
-            <img
-              src={welcomeHost}
-              alt="Wellness host"
-              className="relative max-h-[92vh] w-auto object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
-            />
-            {/* Floating greeting bubble */}
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-4 -right-2 bg-white rounded-3xl px-5 py-3 text-navy text-sm max-w-[230px] shadow-xl ring-1 ring-mint/40"
-            >
-              <div className="text-[10px] tracking-widest uppercase text-emerald">{t("hero.greeting1")}</div>
-              <div className="mt-1">{t("hero.greeting2")}</div>
-            </motion.div>
+            {/* host hidden on desktop in editorial layout */}
           </motion.div>
 
           {/* Mobile host — bigger, transparent, sits behind content */}
