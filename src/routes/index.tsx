@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: "https://goodfillcare-samui.com/" },
-      { rel: "preload", as: "image", href: heroSamuiUrl, fetchpriority: "high" },
+      { rel: "preload", as: "image", href: heroSamuiUrl, fetchPriority: "high" },
     ],
   }),
   component: Landing,
