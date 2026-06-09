@@ -21,7 +21,7 @@ export const Route = createFileRoute("/persona")({
 
 function PersonaPage() {
   const { t, lang } = useI18n();
-  const [state] = useAppState();
+  const [state, setState] = useAppState();
   const persona = state.persona ? personas[state.persona] : null;
   const secondary =
     state.secondaryPersona && state.secondaryPersona !== state.persona
@@ -29,7 +29,7 @@ function PersonaPage() {
       : null;
 
   const fetchInsight = useServerFn(getPersonaInsight);
-  const [insight, setInsight] = useState<any>(null);
+  const [insight, setInsight] = useState<any>(state.aiInsight ?? null);
   const [loadingAI, setLoadingAI] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
 
@@ -51,6 +51,8 @@ function PersonaPage() {
         },
       });
       setInsight(result);
+      // Persist so booking can auto-attach it as a partner-facing note.
+      setState((s) => ({ ...s, aiInsight: result ?? null }));
     } catch (e: any) {
       setAiError(e?.message ?? "AI error");
     } finally {
