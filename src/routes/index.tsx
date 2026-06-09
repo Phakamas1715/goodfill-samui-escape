@@ -239,10 +239,10 @@ function Landing() {
           >
             <div className="space-y-10 max-w-sm">
               <div>
-                <div className="text-gold text-[10px] tracking-[0.35em] uppercase font-bold">
+                <div className="text-gold text-[11px] tracking-[0.35em] uppercase font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)]">
                   Refined Care
                 </div>
-                <p className="mt-3 text-white/65 text-sm font-light leading-relaxed">
+                <p className="mt-3 text-white text-[15px] font-medium leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
                   Curated specifically for global travelers seeking deep restoration in the heart of Thailand —
                   ภายใต้การดูแลของผู้เชี่ยวชาญ Wellness และเชฟโภชนาการที่ออกแบบทุกขั้นตอนเฉพาะคุณ
                 </p>
@@ -256,34 +256,34 @@ function Landing() {
                 >
                   &ldquo;
                 </div>
-                <p className="relative font-display italic text-2xl leading-snug text-white/90">
+                <p className="relative font-display italic text-2xl leading-snug text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.65)]">
                   A sanctuary where every breath is intentional,
                   and every moment is yours.
                 </p>
                 <div className="mt-4 flex items-center gap-3">
                   <span className="h-px w-8 bg-gold/70" />
-                  <span className="text-[10px] tracking-[0.3em] uppercase text-white/50">
+                  <span className="text-[10px] tracking-[0.3em] uppercase text-white/80 font-medium">
                     Goodfill Promise
                   </span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4 pt-6 border-t border-white/10">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-4 pt-6 border-t border-white/25">
                 <div>
                   <div className="font-display text-2xl text-gold">6</div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/55 mt-1">Personas</div>
+                  <div className="text-[11px] tracking-[0.25em] uppercase text-white/90 mt-1 font-medium">Personas</div>
                 </div>
                 <div>
                   <div className="font-display text-2xl text-gold">3·5·7</div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/55 mt-1">Day Plans</div>
+                  <div className="text-[11px] tracking-[0.25em] uppercase text-white/90 mt-1 font-medium">Day Plans</div>
                 </div>
                 <div>
                   <div className="font-display text-2xl text-gold">+300</div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/55 mt-1">Calm Credits</div>
+                  <div className="text-[11px] tracking-[0.25em] uppercase text-white/90 mt-1 font-medium">Calm Credits</div>
                 </div>
                 <div>
                   <div className="font-display text-2xl text-gold">12+</div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/55 mt-1">Partners</div>
+                  <div className="text-[11px] tracking-[0.25em] uppercase text-white/90 mt-1 font-medium">Partners</div>
                 </div>
               </div>
             </div>
