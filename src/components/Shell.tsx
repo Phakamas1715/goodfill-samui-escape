@@ -1,3 +1,4 @@
+import * as React from "react";
 import { type ReactNode } from "react";
 import { Nav, Footer } from "./Nav";
 
@@ -188,7 +189,7 @@ export function Container({
   children: ReactNode;
   className?: string;
   maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl" | "full";
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
 }) {
   const maxWidthClass = MAX_WIDTH_MAP[maxWidth];
 
