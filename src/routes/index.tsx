@@ -141,7 +141,7 @@ function Landing() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 min-w-0 max-w-[64%] sm:max-w-[62%] md:max-w-[60%] lg:max-w-none"
+            className="relative z-10 min-w-0 max-w-[72%] sm:max-w-[64%] md:max-w-[60%] lg:max-w-none"
           >
             <div className="flex items-center gap-3">
               <img
@@ -167,7 +167,7 @@ function Landing() {
               </span>
             </div>
 
-          <h1 className="font-display font-normal text-[1.9rem] sm:text-[3rem] md:text-6xl lg:text-[4.5rem] leading-[1.08] mt-5 md:mt-6 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)] lg:max-w-[640px]">
+          <h1 className="font-display font-normal text-[1.6rem] sm:text-[2.4rem] md:text-6xl lg:text-[4.5rem] leading-[1.1] mt-5 md:mt-6 text-white drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)] lg:max-w-[640px]">
               {t("hero.title1")}<br />
               <em className="italic text-gold font-normal">{t("hero.title2")}</em>{" "}
               <span className="block">{t("hero.title3")}</span>
@@ -311,8 +311,10 @@ function Landing() {
             transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden fixed right-0 bottom-16 md:bottom-4 h-[78vh] max-h-[720px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)] z-0"
+            className="lg:hidden fixed -right-[18%] sm:-right-[12%] bottom-16 md:bottom-4 h-[78vh] max-h-[720px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)] z-0"
           />
+          {/* Soft right-edge vignette so host blends behind text on mobile */}
+          <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-emerald-deep/55 via-emerald-deep/15 to-transparent z-[1]" />
         </div>
       </main>
 
