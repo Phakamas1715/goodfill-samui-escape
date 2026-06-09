@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Shell, Section, Eyebrow } from "@/components/Shell";
+import { DashShell, DashCard } from "@/components/DashShell";
 import { CheckCircle2, AlertCircle, Clock, FileQuestion, X } from "lucide-react";
 import { useState } from "react";
 
@@ -30,16 +30,11 @@ const statusMap: Record<string, { label: string; tone: string; icon: typeof Cloc
 function ExpertPage() {
   const [active, setActive] = useState(cases[0]);
   return (
-    <Shell>
-      <Section>
-        <Eyebrow>Expert Review Board</Eyebrow>
-        <h1 className="font-display text-4xl mt-3">บอร์ดรีวิวผู้เชี่ยวชาญ</h1>
-        <p className="text-muted-foreground text-sm mt-2">ตรวจ meal plan · activity plan · อนุมัติเคสและส่งกลับลูกค้า</p>
-
-        <div className="grid lg:grid-cols-[340px,1fr] gap-6 mt-8">
+    <DashShell bg="food" host="wai" kicker="Expert Review Board" title="บอร์ดรีวิวผู้เชี่ยวชาญ" subtitle="ตรวจ meal plan · activity plan · อนุมัติเคส">
+      <div className="grid lg:grid-cols-[300px,1fr] gap-3">
           {/* Queue */}
-          <div className="card-soft p-3">
-            <div className="px-3 py-2 text-xs tracking-widest uppercase text-muted-foreground">Review Queue · 4 cases</div>
+          <DashCard className="!p-2">
+            <div className="px-2 py-1 text-[10px] tracking-widest uppercase text-muted-foreground">Queue · 4</div>
             <ul className="space-y-1">
               {cases.map((c) => {
                 const s = statusMap[c.status];
@@ -48,44 +43,44 @@ function ExpertPage() {
                   <li key={c.id}>
                     <button
                       onClick={() => setActive(c)}
-                      className={`w-full text-left rounded-2xl p-3 transition ${isActive ? "bg-pale-mint" : "hover:bg-cream/60"}`}
+                      className={`w-full text-left rounded-xl p-2.5 transition ${isActive ? "bg-pale-mint ring-1 ring-emerald/30" : "hover:bg-cream/60"}`}
                     >
                       <div className="flex items-center justify-between">
-                        <div className="text-xs text-muted-foreground">{c.id}</div>
-                        <span className={`pill ${s.tone}`}><s.icon size={11} />{s.label}</span>
+                        <div className="text-[10px] text-muted-foreground">{c.id}</div>
+                        <span className={`pill ${s.tone} text-[9px]`}><s.icon size={9} />{s.label}</span>
                       </div>
-                      <div className="font-medium text-navy mt-1">{c.name}</div>
-                      <div className="text-xs text-emerald mt-0.5">{c.persona}</div>
-                      <div className="text-[11px] text-muted-foreground mt-1">{c.program} · {c.time}</div>
+                      <div className="font-medium text-navy mt-0.5 text-sm">{c.name}</div>
+                      <div className="text-[10px] text-emerald">{c.persona}</div>
+                      <div className="text-[10px] text-muted-foreground truncate">{c.program}</div>
                     </button>
                   </li>
                 );
               })}
             </ul>
-          </div>
+          </DashCard>
 
           {/* Detail */}
-          <div className="card-soft p-6">
+          <DashCard>
             <div className="flex items-start justify-between flex-wrap gap-3">
               <div>
-                <div className="text-xs text-muted-foreground">{active.id}</div>
-                <h2 className="font-display text-2xl text-navy mt-1">{active.name}</h2>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="pill bg-pale-mint text-emerald">{active.persona}</span>
-                  <span className="pill bg-cream text-gold">{active.program}</span>
+                <div className="text-[10px] text-muted-foreground">{active.id}</div>
+                <h2 className="font-display text-lg text-navy">{active.name}</h2>
+                <div className="flex flex-wrap gap-1.5 mt-1">
+                  <span className="pill bg-pale-mint text-emerald text-[10px]">{active.persona}</span>
+                  <span className="pill bg-cream text-gold text-[10px]">{active.program}</span>
                 </div>
               </div>
-              <span className={`pill ${statusMap[active.status].tone}`}>{statusMap[active.status].label}</span>
+              <span className={`pill ${statusMap[active.status].tone} text-[10px]`}>{statusMap[active.status].label}</span>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4 mt-6">
-              <Panel title="Meal Plan Review · แผนอาหาร">
+            <div className="grid md:grid-cols-2 gap-2 mt-3">
+              <Panel title="Meal Plan · แผนอาหาร">
                 <Row label="เช้า" val="Detox green juice + chia bowl" />
                 <Row label="กลางวัน" val="Steamed fish, quinoa, salad" />
                 <Row label="เย็น" val="Mushroom broth, brown rice" />
-                <Row label="แคลอรี่/วัน" val="~1,650 kcal" />
+                <Row label="kcal/day" val="~1,650" />
               </Panel>
-              <Panel title="Activity Plan Review · แผนกิจกรรม">
+              <Panel title="Activity Plan · กิจกรรม">
                 <Row label="เช้า" val="Sunrise yoga 60'" />
                 <Row label="สาย" val="Lymphatic massage 60'" />
                 <Row label="บ่าย" val="Forest bathing walk" />
@@ -93,47 +88,37 @@ function ExpertPage() {
               </Panel>
             </div>
 
-            <div className="card-cream mt-4 p-4">
-              <div className="text-xs tracking-widest uppercase text-emerald mb-2">Expert Notes</div>
-              <p className="text-sm text-navy/80">แนะนำเพิ่ม Breathwork ช่วงเย็นวันที่ 2 เพื่อช่วยเรื่องการนอน — และปรับปริมาณคาเฟอีนเหลือเช้าวันเดียว</p>
+            <div className="card-cream mt-2 p-3 rounded-xl">
+              <div className="text-[10px] tracking-widest uppercase text-emerald mb-1">Expert Notes</div>
+              <p className="text-xs text-navy/80">แนะนำเพิ่ม Breathwork วันที่ 2 ช่วยเรื่องการนอน · ลดคาเฟอีนเหลือเช้าวันเดียว</p>
             </div>
 
-            <div className="flex flex-wrap gap-2 mt-6">
-              <button className="btn-emerald rounded-full px-5 py-2.5 text-sm inline-flex items-center gap-2"><CheckCircle2 size={16} /> อนุมัติ · Approve</button>
-              <button className="card-cream rounded-full px-5 py-2.5 text-sm inline-flex items-center gap-2 text-gold"><AlertCircle size={16} /> ขอปรับ · Adjust</button>
-              <button className="rounded-full px-5 py-2.5 text-sm inline-flex items-center gap-2 bg-pale-mint text-emerald"><FileQuestion size={16} /> ขอข้อมูลเพิ่ม</button>
-              <button className="rounded-full px-5 py-2.5 text-sm inline-flex items-center gap-2 bg-red-50 text-red-700"><X size={16} /> ไม่แนะนำ</button>
+            <div className="flex flex-wrap gap-1.5 mt-3">
+              <button className="btn-emerald rounded-full px-3 py-2 text-xs inline-flex items-center gap-1"><CheckCircle2 size={12} /> อนุมัติ</button>
+              <button className="card-cream rounded-full px-3 py-2 text-xs inline-flex items-center gap-1 text-gold"><AlertCircle size={12} /> ขอปรับ</button>
+              <button className="rounded-full px-3 py-2 text-xs inline-flex items-center gap-1 bg-pale-mint text-emerald"><FileQuestion size={12} /> ขอข้อมูล</button>
+              <button className="rounded-full px-3 py-2 text-xs inline-flex items-center gap-1 bg-red-50 text-red-700"><X size={12} /> ไม่แนะนำ</button>
             </div>
-
-            <div className="mt-6">
-              <div className="text-xs tracking-widest uppercase text-muted-foreground mb-3">Decision History</div>
-              <ul className="space-y-2 text-sm">
-                <li className="flex gap-3"><span className="text-emerald">✓</span><span>2025-06-08 09:30 — Dr. Pim อนุมัติแผนเบื้องต้น</span></li>
-                <li className="flex gap-3"><span className="text-gold">!</span><span>2025-06-07 15:12 — Coach Tle ขอข้อมูล HRV</span></li>
-                <li className="flex gap-3 text-muted-foreground"><span>•</span><span>2025-06-06 11:00 — สร้างเคสจากแบบประเมิน</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </Section>
-    </Shell>
+          </DashCard>
+      </div>
+    </DashShell>
   );
 }
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="card-cream p-4">
-      <div className="text-xs tracking-widest uppercase text-emerald mb-3">{title}</div>
-      <ul className="space-y-2 text-sm">{children}</ul>
+    <div className="bg-pale-mint/30 rounded-xl p-3 border border-mint/40">
+      <div className="text-[10px] tracking-widest uppercase text-emerald mb-1.5">{title}</div>
+      <ul className="space-y-1 text-xs">{children}</ul>
     </div>
   );
 }
 
 function Row({ label, val }: { label: string; val: string }) {
   return (
-    <li className="flex justify-between gap-3">
+    <li className="flex justify-between gap-2">
       <span className="text-muted-foreground">{label}</span>
-      <span className="text-navy text-right">{val}</span>
+      <span className="text-navy text-right text-[11px]">{val}</span>
     </li>
   );
 }

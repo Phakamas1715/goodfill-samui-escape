@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Shell, Section, Eyebrow } from "@/components/Shell";
+import { DashShell, DashCard } from "@/components/DashShell";
 import { TrendingUp, Users, QrCode, AlertTriangle, Sparkles, Calendar, Smile, Coins } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
@@ -32,71 +32,61 @@ const bookings = [
 
 function AdminPage() {
   return (
-    <Shell>
-      <Section>
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <Eyebrow>Admin Dashboard</Eyebrow>
-            <h1 className="font-display text-4xl mt-3">ภาพรวมระบบ</h1>
-            <p className="text-muted-foreground text-sm mt-2">วันที่ 9 มิถุนายน 2026 · ทุกตัวเลขอัปเดตล่าสุดเมื่อ 2 นาทีที่แล้ว</p>
-          </div>
-          <div className="flex gap-2">
-            <button className="card-cream rounded-full px-4 py-2 text-sm">วันนี้</button>
-            <button className="rounded-full px-4 py-2 text-sm bg-pale-mint text-emerald">7 วัน</button>
-            <button className="rounded-full px-4 py-2 text-sm bg-cream/60 text-muted-foreground">30 วัน</button>
-          </div>
-        </div>
+    <DashShell bg="beach" host="welcome" kicker="Admin Dashboard" title="ภาพรวมระบบ" subtitle="9 มิ.ย. 2026 · อัปเดต 2 นาทีก่อน">
+      <div className="flex gap-1.5 mb-3">
+        <button className="card-cream rounded-full px-3 py-1.5 text-[11px]">วันนี้</button>
+        <button className="rounded-full px-3 py-1.5 text-[11px] bg-pale-mint text-emerald">7 วัน</button>
+        <button className="rounded-full px-3 py-1.5 text-[11px] bg-cream/60 text-muted-foreground">30 วัน</button>
+      </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3">
           {kpis.map((k) => (
-            <div key={k.label} className="card-soft p-5">
+            <DashCard key={k.label} className="!p-3">
               <div className="flex items-center justify-between">
-                <k.icon className={k.tone} size={22} />
-                <span className="text-[10px] tracking-widest uppercase text-muted-foreground">{k.sub}</span>
+                <k.icon className={k.tone} size={18} />
+                <span className="text-[9px] tracking-widest uppercase text-muted-foreground truncate ml-1">{k.sub}</span>
               </div>
-              <div className="font-display text-3xl mt-3 text-navy">{k.value}</div>
-              <div className="text-xs text-muted-foreground mt-1">{k.label}</div>
-            </div>
+              <div className="font-display text-xl md:text-2xl mt-1 text-navy">{k.value}</div>
+              <div className="text-[10px] text-muted-foreground">{k.label}</div>
+            </DashCard>
           ))}
-        </div>
+      </div>
 
-        <div className="grid lg:grid-cols-3 gap-6 mt-8">
-          <div className="lg:col-span-2 card-soft overflow-hidden">
-            <div className="px-5 py-4 bg-emerald text-ivory flex items-center justify-between">
-              <div className="font-medium">Booking ล่าสุด · Recent Bookings</div>
-              <button className="text-xs pill bg-mint/30 text-ivory">Export</button>
+      <div className="grid lg:grid-cols-3 gap-3 mt-3">
+          <DashCard className="lg:col-span-2 !p-0 overflow-hidden">
+            <div className="px-4 py-2.5 bg-emerald text-ivory flex items-center justify-between">
+              <div className="font-medium text-sm">Recent Bookings</div>
+              <button className="text-[10px] pill bg-mint/30 text-ivory">Export</button>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="text-left text-xs tracking-widest uppercase text-muted-foreground">
+              <table className="w-full text-xs">
+                <thead className="text-left text-[10px] tracking-widest uppercase text-muted-foreground bg-cream/30">
                   <tr>
-                    <th className="px-5 py-3 font-normal">Code</th>
-                    <th className="px-5 py-3 font-normal">ลูกค้า</th>
-                    <th className="px-5 py-3 font-normal">โปรแกรม</th>
-                    <th className="px-5 py-3 font-normal">วันที่</th>
-                    <th className="px-5 py-3 font-normal text-right">ยอดรวม</th>
-                    <th className="px-5 py-3 font-normal">สถานะ</th>
+                    <th className="px-3 py-2 font-normal">Code</th>
+                    <th className="px-3 py-2 font-normal">ลูกค้า</th>
+                    <th className="px-3 py-2 font-normal">โปรแกรม</th>
+                    <th className="px-3 py-2 font-normal text-right">ยอด</th>
+                    <th className="px-3 py-2 font-normal">สถานะ</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-mint/30">
                   {bookings.map((b) => (
                     <tr key={b.code} className="hover:bg-cream/40">
-                      <td className="px-5 py-3 text-emerald font-medium">{b.code}</td>
-                      <td className="px-5 py-3">{b.name}</td>
-                      <td className="px-5 py-3 text-muted-foreground">{b.program}</td>
-                      <td className="px-5 py-3 text-muted-foreground">{b.date}</td>
-                      <td className="px-5 py-3 text-right font-medium">{b.total}</td>
-                      <td className="px-5 py-3"><span className={`pill ${b.tone}`}>{b.status}</span></td>
+                      <td className="px-3 py-2 text-emerald font-medium">{b.code}</td>
+                      <td className="px-3 py-2">{b.name}</td>
+                      <td className="px-3 py-2 text-muted-foreground truncate max-w-[120px]">{b.program}</td>
+                      <td className="px-3 py-2 text-right font-medium">{b.total}</td>
+                      <td className="px-3 py-2"><span className={`pill ${b.tone} text-[9px]`}>{b.status}</span></td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </div>
+          </DashCard>
 
-          <div className="card-cream p-6">
-            <div className="text-xs tracking-widest uppercase text-emerald mb-3">Wellness Personas</div>
-            <ul className="space-y-3 text-sm">
+          <DashCard className="!p-3">
+            <div className="text-[10px] tracking-widest uppercase text-emerald mb-2">Wellness Personas</div>
+            <ul className="space-y-1.5 text-xs">
               {[
                 { name: "Sleep Seeker", pct: 28 },
                 { name: "Stress Calmer", pct: 22 },
@@ -106,19 +96,18 @@ function AdminPage() {
                 { name: "Body Reshape", pct: 8 },
               ].map((p) => (
                 <li key={p.name}>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-[11px]">
                     <span className="text-navy">{p.name}</span>
                     <span className="text-emerald">{p.pct}%</span>
                   </div>
-                  <div className="h-2 mt-1 rounded-full bg-white overflow-hidden">
+                  <div className="h-1.5 mt-0.5 rounded-full bg-pale-mint/40 overflow-hidden">
                     <div className="h-full bg-gradient-to-r from-emerald to-mint" style={{ width: `${p.pct * 3}%` }} />
                   </div>
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
-      </Section>
-    </Shell>
+          </DashCard>
+      </div>
+    </DashShell>
   );
 }
