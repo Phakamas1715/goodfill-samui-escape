@@ -96,10 +96,10 @@ function ProgramDetail() {
             <div className="aspect-[16/10] rounded-[2rem] overflow-hidden">
               <img src={program.image} alt={program.name} className="size-full object-cover" width={1280} height={800} />
             </div>
-            <div className="grid grid-cols-3 gap-3 mt-3">
-              <img src={images.spa} alt="spa" loading="lazy" className="aspect-square object-cover rounded-2xl" />
-              <img src={images.food} alt="food" loading="lazy" className="aspect-square object-cover rounded-2xl" />
-              <img src={images.meditation} alt="meditation" loading="lazy" className="aspect-square object-cover rounded-2xl" />
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mt-3">
+              {program.gallery.slice(1).map((src, i) => (
+                <img key={i} src={src} alt={`${program.name} ${i + 1}`} loading="lazy" width={400} height={400} className="aspect-square object-cover rounded-2xl" />
+              ))}
             </div>
           </div>
 
