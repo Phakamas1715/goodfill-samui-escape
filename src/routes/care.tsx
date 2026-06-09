@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Flame, Sparkles, ArrowRight, Trophy, Clock } from "lucide-react";
-import { DashShell, DashCard } from "@/components/DashShell";
+import { DashShell, DashCard, hosts } from "@/components/DashShell";
 import { personas, programs } from "@/lib/data";
 import { useAppState } from "@/lib/state";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 export const Route = createFileRoute("/care")({
   head: () => ({
@@ -22,9 +24,11 @@ function CarePage() {
   const [state, setState] = useAppState();
   const persona = state.persona ? personas[state.persona] : null;
   const alumni = programs;
+  const [celebrate, setCelebrate] = useState<string | null>(null);
 
   function toggleHabit(name: string) {
     const k = todayKey();
+    const wasDone = state.habits.find((h) => h.name === name)?.days.includes(k);
     setState((s) => ({
       ...s,
       habits: s.habits.map((h) =>
@@ -34,6 +38,10 @@ function CarePage() {
       ),
       credits: s.credits + (s.habits.find((h) => h.name === name)?.days.includes(k) ? 0 : 5),
     }));
+    if (!wasDone) {
+      setCelebrate(name);
+      window.setTimeout(() => setCelebrate((c) => (c === name ? null : c)), 900);
+    }
   }
 
   return (
@@ -53,8 +61,29 @@ function CarePage() {
         </DashCard>
         <DashCard>
           <Trophy className="text-gold" size={18} />
-          <div className="font-display text-base md:text-lg text-navy mt-1 line-clamp-1">{persona?.name ?? "Quest first"}</div>
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Your persona</div>
+          {persona ? (
+            <>
+              <div className="font-display text-base md:text-lg text-navy mt-1 line-clamp-1">{persona.name}</div>
+              <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Your persona</div>
+            </>
+          ) : (
+            <div className="mt-1 flex items-center gap-2">
+              <div className="relative shrink-0">
+                <img
+                  src={hosts.gift}
+                  alt=""
+                  className="size-10 md:size-12 rounded-full object-cover object-top bg-white/80 ring-2 ring-gold/50 shadow"
+                />
+                <span className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full bg-gold ring-2 ring-white animate-pulse" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-[11px] md:text-xs text-navy leading-snug line-clamp-2">
+                  พร้อมเริ่มสะสมพลังบวกหรือยังคะ?
+                </div>
+                <div className="text-[9px] uppercase tracking-widest text-gold">เริ่มภารกิจแรก →</div>
+              </div>
+            </div>
+          )}
         </DashCard>
       </div>
 
@@ -64,16 +93,23 @@ function CarePage() {
             {state.habits.map((h) => {
               const done = h.days.includes(todayKey());
               return (
-                <button
+                <motion.button
                   key={h.name}
                   onClick={() => toggleHabit(h.name)}
-                  className={`rounded-2xl p-3 text-left transition border shadow-sm ${done ? "border-gold/60 bg-gold/10" : "border-white/60 bg-white/85 hover:bg-pale-mint/40"}`}
+                  whileTap={{ scale: 0.97 }}
+                  animate={celebrate === h.name ? { scale: [1, 1.04, 1] } : { scale: 1 }}
+                  transition={{ duration: 0.45 }}
+                  className={`relative overflow-hidden rounded-2xl p-3 text-left transition border shadow-sm ${done ? "border-gold/60 bg-gold/10" : "border-white/60 bg-white/85 hover:bg-pale-mint/40"}`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-xs md:text-sm text-navy">{h.name}</span>
-                    <span className={`size-6 rounded-full grid place-items-center text-[10px] ${done ? "bg-gold text-emerald-deep" : "border border-mint text-muted-foreground"}`}>
+                    <motion.span
+                      animate={celebrate === h.name ? { rotate: [0, -10, 10, 0], scale: [1, 1.25, 1] } : {}}
+                      transition={{ duration: 0.5 }}
+                      className={`size-6 rounded-full grid place-items-center text-[10px] ${done ? "bg-gold text-emerald-deep shadow-[0_0_0_4px_rgba(212,175,55,0.18)]" : "border border-mint text-muted-foreground"}`}
+                    >
                       {done ? "✓" : ""}
-                    </span>
+                    </motion.span>
                   </div>
                   <div className="mt-2 flex gap-0.5">
                     {Array.from({ length: 7 }).map((_, i) => {
@@ -87,7 +123,29 @@ function CarePage() {
                     })}
                   </div>
                   <div className="text-[9px] uppercase tracking-widest text-muted-foreground mt-1">{h.days.length}d · +5/day</div>
-                </button>
+                  <AnimatePresence>
+                    {celebrate === h.name && (
+                      <>
+                        <motion.div
+                          initial={{ opacity: 0.55, scale: 0.6 }}
+                          animate={{ opacity: 0, scale: 1.6 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.8 }}
+                          className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-radial from-gold/40 to-transparent"
+                        />
+                        <motion.div
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: -4 }}
+                          exit={{ opacity: 0, y: -14 }}
+                          transition={{ duration: 0.7 }}
+                          className="pointer-events-none absolute top-2 right-8 text-[10px] font-medium text-gold drop-shadow"
+                        >
+                          +5 ✨
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
               );
             })}
         </div>
@@ -126,7 +184,7 @@ function CarePage() {
                     </div>
                     <Link
                       to="/programs"
-                      className="rounded-full bg-gold text-emerald-deep px-3 py-1.5 text-[11px] font-medium inline-flex items-center gap-1 shadow hover:brightness-110"
+                      className="rounded-full bg-white/10 backdrop-blur-sm text-ivory ring-1 ring-gold/70 px-3 py-1.5 text-[11px] font-medium inline-flex items-center gap-1 hover:bg-gold/15 hover:ring-gold transition"
                     >
                       จองอีกครั้ง <ArrowRight size={12} />
                     </Link>
