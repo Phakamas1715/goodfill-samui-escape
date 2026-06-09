@@ -5,7 +5,7 @@ import { ArrowRight, Sparkles, Compass, HeartPulse, Leaf, MoonStar, X, Building2
 import { Nav } from "@/components/Nav";
 import { images, personas, pick } from "@/lib/data";
 import welcomeHost from "@/assets/welcome-host.png";
-import logo from "@/assets/goodfill-logo.png";
+import logo from "@/assets/new-logo.jpg";
 import heroSamuiUrl from "@/assets/hero-samui.jpg";
 import { useI18n, type TKey } from "@/lib/i18n";
 
@@ -131,7 +131,7 @@ function Landing() {
 
       {/* MAIN CONTENT */}
       <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col">
-        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] pb-[50px]">
+        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] pb-[50px] pr-[50px] mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -143,7 +143,7 @@ function Landing() {
               <img
                 src={logo}
                 alt="Goodfill Care"
-                className="h-12 md:h-14 w-auto object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] text-7xl"
+                className="h-12 md:h-14 w-auto object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] text-8xl"
               />
               <div className="flex flex-col leading-none">
                 <span className="font-display text-2xl md:text-3xl text-white drop-shadow-md">
@@ -177,7 +177,7 @@ function Landing() {
               {[
                 "8 Wellness Quests",
                 "6 Distinct Personas",
-                "3 / 5 / 7 Day Programs",
+                "                 3 / 5 / 7 Day Programs",
               ].map((label) => (
                 <div key={label} className="flex items-center gap-2">
                   <span className="size-1.5 rounded-full bg-mint shadow-[0_0_8px_rgba(120,200,170,0.6)]" />
@@ -192,7 +192,7 @@ function Landing() {
             <div className="mt-7 md:mt-8 flex flex-col gap-4 max-w-[22rem]">
               <Link
                 to="/quest"
-                className="btn-gold group relative overflow-hidden rounded-2xl px-7 py-4 inline-flex items-center justify-center gap-2.5 text-base md:text-[17px] font-bold tracking-wide shadow-[0_18px_50px_-14px_rgba(201,168,76,0.7)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
+                className="btn-gold group relative overflow-hidden rounded-2xl px-7 py-4 inline-flex items-center justify-center gap-2.5 text-base md:text-[17px] font-bold tracking-wide shadow-[0_18px_50px_-14px_rgba(201,168,76,0.7)] ring-1 ring-gold/40 hover:scale-[1.02] transition mt-[5px]"
               >
                 <Sparkles size={18} className="opacity-80" />
                 <span>{t("hero.ctaStart")}</span>
