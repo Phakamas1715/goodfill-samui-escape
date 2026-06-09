@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, CalendarDays, MapPin } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ChefHat, MapPin } from "lucide-react";
 import { Shell, Section, Eyebrow } from "@/components/Shell";
-import { programs, images, type Program } from "@/lib/data";
+import { programs, type Program } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 import { confirmBooking } from "@/lib/booking.functions";
 import { useServerFn } from "@tanstack/react-start";
@@ -46,6 +46,9 @@ function ProgramDetail() {
     const mealPlan = program.schedule.flatMap((d) =>
       d.items.filter((i) => /อาหาร|มื้อ|meal|breakfast|lunch|dinner|juice|tea|smoothie/i.test(i))
     );
+    const mealsUrl = typeof window !== "undefined"
+      ? `${window.location.origin}/meals/${program.id}`
+      : `/meals/${program.id}`;
     toast.loading("กำลังส่งใบจองทาง LINE...", { id: "book" });
     try {
       const res = await confirm({
@@ -57,6 +60,8 @@ function ProgramDetail() {
           programPrice: program.price,
           bookingDate,
           mealPlan,
+          mealsUrl,
+          expertName: program.expert.name,
         },
       });
       setState((s) => ({ ...s, bookedProgramId: program.id, bookingDate }));
@@ -91,10 +96,10 @@ function ProgramDetail() {
             <div className="aspect-[16/10] rounded-[2rem] overflow-hidden">
               <img src={program.image} alt={program.name} className="size-full object-cover" width={1280} height={800} />
             </div>
-            <div className="grid grid-cols-3 gap-3 mt-3">
-              <img src={images.spa} alt="spa" loading="lazy" className="aspect-square object-cover rounded-2xl" />
-              <img src={images.food} alt="food" loading="lazy" className="aspect-square object-cover rounded-2xl" />
-              <img src={images.meditation} alt="meditation" loading="lazy" className="aspect-square object-cover rounded-2xl" />
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mt-3">
+              {program.gallery.slice(1).map((src, i) => (
+                <img key={i} src={src} alt={`${program.name} ${i + 1}`} loading="lazy" width={400} height={400} className="aspect-square object-cover rounded-2xl" />
+              ))}
             </div>
           </div>
 
@@ -160,6 +165,28 @@ function ProgramDetail() {
               </div>
             ))}
           </div>
+
+          <div className="mt-16 flex items-center gap-2 text-gold text-xs tracking-[0.25em] uppercase">
+            <ChefHat size={14} /> Expert Meal Plan
+          </div>
+          <h2 className="font-display text-3xl mt-3">แผนอาหารโดย {program.expert.name}</h2>
+          <p className="text-sm text-muted-foreground mt-1">{program.expert.role}</p>
+          <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {program.mealPlan.map((d) => (
+              <div key={d.day} className="card-deep rounded-2xl p-5">
+                <div className="text-[10px] tracking-[0.25em] uppercase text-gold">{d.day}</div>
+                <div className="mt-3 space-y-2 text-sm">
+                  <div><span className="text-gold/90 text-[10px] uppercase tracking-widest">เช้า · </span>{d.breakfast}</div>
+                  <div><span className="text-gold/90 text-[10px] uppercase tracking-widest">กลางวัน · </span>{d.lunch}</div>
+                  <div><span className="text-gold/90 text-[10px] uppercase tracking-widest">เย็น · </span>{d.dinner}</div>
+                </div>
+                {d.note && <div className="mt-3 text-[11px] text-ivory/75 italic">※ {d.note}</div>}
+              </div>
+            ))}
+          </div>
+          <Link to="/meals/$id" params={{ id: program.id }} className="mt-6 inline-flex items-center gap-2 text-gold text-sm hover:underline">
+            ดูแผนอาหารเต็มรูปแบบ <ArrowRight size={14} />
+          </Link>
         </div>
       </Section>
     </Shell>

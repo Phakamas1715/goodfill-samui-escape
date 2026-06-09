@@ -9,6 +9,8 @@ const BookingInput = z.object({
   programPrice: z.number().min(0).max(10_000_000),
   bookingDate: z.string().min(1).max(64),
   mealPlan: z.array(z.string().min(1).max(200)).max(20).optional().default([]),
+  mealsUrl: z.string().url().max(500).optional(),
+  expertName: z.string().min(1).max(200).optional(),
   customerUserId: z.string().min(1).max(64).optional(),
   partnerUserId: z.string().min(1).max(64).optional(),
 });
@@ -39,6 +41,9 @@ function receiptFlex(opts: {
   bookingDate: string;
   bookingId: string;
   accent: string;
+  qrUrl?: string;
+  mealsUrl?: string;
+  expertName?: string;
 }) {
   return {
     type: "flex",
@@ -69,6 +74,14 @@ function receiptFlex(opts: {
           row("วันที่", new Date(opts.bookingDate).toLocaleDateString("th-TH", { year: "numeric", month: "long", day: "numeric" })),
           row("สถานที่", opts.programVenue),
           row("ราคา", `฿${opts.programPrice.toLocaleString()}`),
+          ...(opts.expertName ? [row("ผู้เชี่ยวชาญ", opts.expertName)] : []),
+          ...(opts.qrUrl
+            ? [
+                { type: "separator", margin: "md" },
+                { type: "text", text: "QR Code รับมื้ออาหารตามแผน", size: "xs", color: "#6B7280", align: "center", margin: "md" },
+                { type: "image", url: opts.qrUrl, size: "full", aspectMode: "cover", aspectRatio: "1:1", margin: "md" },
+              ]
+            : []),
         ],
       },
       footer: {
@@ -76,7 +89,17 @@ function receiptFlex(opts: {
         layout: "vertical",
         spacing: "sm",
         contents: [
-          { type: "text", text: "แสดง QR Code นี้ที่หน้าเช็คอิน", size: "xs", color: "#6B7280", align: "center", wrap: true },
+          ...(opts.mealsUrl
+            ? [
+                {
+                  type: "button",
+                  style: "primary",
+                  color: "#0F3D2E",
+                  action: { type: "uri", label: "เปิดแผนอาหาร", uri: opts.mealsUrl },
+                },
+              ]
+            : []),
+          { type: "text", text: "แสดง QR หรือกดปุ่ม เพื่อดูแผนอาหารและรับมื้ออาหาร", size: "xs", color: "#6B7280", align: "center", wrap: true },
         ],
       },
     },
@@ -104,6 +127,10 @@ export const confirmBooking = createServerFn({ method: "POST" })
     const partnerTo = data.partnerUserId ?? process.env.LINE_PARTNER_USER_ID ?? "U9547059d3a571df2bd3b0980e9132297";
 
     const bookingId = `GF-${Date.now().toString(36).toUpperCase()}`;
+    const mealsUrl = data.mealsUrl;
+    const qrUrl = mealsUrl
+      ? `https://api.qrserver.com/v1/create-qr-code/?size=480x480&margin=12&data=${encodeURIComponent(mealsUrl)}`
+      : undefined;
 
     const customerMsg = receiptFlex({
       title: "ยืนยันการจองสำเร็จ ✓",
@@ -115,6 +142,9 @@ export const confirmBooking = createServerFn({ method: "POST" })
       bookingDate: data.bookingDate,
       bookingId,
       accent: "#0F3D2E",
+      qrUrl,
+      mealsUrl,
+      expertName: data.expertName,
     });
 
     const partnerMsg = receiptFlex({
@@ -127,6 +157,8 @@ export const confirmBooking = createServerFn({ method: "POST" })
       bookingDate: data.bookingDate,
       bookingId,
       accent: "#0B4A3F",
+      mealsUrl,
+      expertName: data.expertName,
     });
 
     const mealMsg = data.mealPlan && data.mealPlan.length
