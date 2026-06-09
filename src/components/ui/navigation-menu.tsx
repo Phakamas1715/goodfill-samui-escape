@@ -27,18 +27,27 @@ const VARIANT_STYLES = {
     trigger: "hover:bg-navy/5 data-[state=open]:bg-navy/5 data-[state=open]:text-navy",
     item: "focus:bg-navy/5 focus:text-navy",
     subTrigger: "focus:bg-navy/5 data-[state=open]:bg-navy/5",
+    text: "text-navy",
+    textMuted: "text-muted-foreground",
+    accent: "text-emerald",
   },
   gold: {
     root: "bg-gradient-to-br from-gold/10 to-gold-soft/20 border border-gold/40 shadow-md",
     trigger: "hover:bg-gold/10 data-[state=open]:bg-gold/10 data-[state=open]:text-emerald-deep",
     item: "focus:bg-gold/10 focus:text-emerald-deep",
     subTrigger: "focus:bg-gold/10 data-[state=open]:bg-gold/10",
+    text: "text-emerald-deep",
+    textMuted: "text-gold/70",
+    accent: "text-gold",
   },
   emerald: {
     root: "bg-gradient-to-br from-emerald/10 to-emerald-deep/20 border border-emerald/40 shadow-md",
     trigger: "hover:bg-emerald/10 data-[state=open]:bg-emerald/10 data-[state=open]:text-ivory",
     item: "focus:bg-emerald/10 focus:text-ivory",
     subTrigger: "focus:bg-emerald/10 data-[state=open]:bg-emerald/10",
+    text: "text-ivory",
+    textMuted: "text-emerald/70",
+    accent: "text-emerald",
   },
 } as const;
 
@@ -84,18 +93,24 @@ Menubar.displayName = MenubarPrimitive.Root.displayName;
 const MenubarTrigger = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <MenubarPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      "flex cursor-default select-none items-center rounded-lg px-4 py-2 text-base font-medium outline-none transition-colors",
-      "focus:bg-accent focus:text-accent-foreground",
-      "data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
-      className,
-    )}
-    {...props}
-  />
-));
+>(({ className, ...props }, ref) => {
+  const variant = "default";
+  const variantStyle = VARIANT_STYLES[variant];
+
+  return (
+    <MenubarPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "flex cursor-default select-none items-center rounded-lg px-4 py-2 text-base font-medium outline-none transition-colors",
+        "focus:bg-accent focus:text-accent-foreground",
+        "data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+        variantStyle.text,
+        className,
+      )}
+      {...props}
+    />
+  );
+});
 MenubarTrigger.displayName = MenubarPrimitive.Trigger.displayName;
 
 const MenubarSubTrigger = React.forwardRef<
@@ -103,21 +118,27 @@ const MenubarSubTrigger = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubTrigger> & {
     inset?: boolean;
   }
->(({ className, inset, children, ...props }, ref) => (
-  <MenubarPrimitive.SubTrigger
-    ref={ref}
-    className={cn(
-      "flex cursor-default select-none items-center rounded-lg px-4 py-2.5 text-base outline-none transition-colors",
-      "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
-      inset && "pl-8",
-      className,
-    )}
-    {...props}
-  >
-    {children}
-    <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground" />
-  </MenubarPrimitive.SubTrigger>
-));
+>(({ className, inset, children, ...props }, ref) => {
+  const variant = "default";
+  const variantStyle = VARIANT_STYLES[variant];
+
+  return (
+    <MenubarPrimitive.SubTrigger
+      ref={ref}
+      className={cn(
+        "flex cursor-default select-none items-center rounded-lg px-4 py-2.5 text-base outline-none transition-colors",
+        "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+        inset && "pl-8",
+        variantStyle.text,
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      <ChevronRight className={cn("ml-auto h-4 w-4", variantStyle.textMuted)} />
+    </MenubarPrimitive.SubTrigger>
+  );
+});
 MenubarSubTrigger.displayName = MenubarPrimitive.SubTrigger.displayName;
 
 const MenubarSubContent = React.forwardRef<
@@ -172,72 +193,90 @@ const MenubarContent = React.forwardRef<
 MenubarContent.displayName = MenubarPrimitive.Content.displayName;
 
 const MenubarItem = React.forwardRef<React.ElementRef<typeof MenubarPrimitive.Item>, MenubarItemProps>(
-  ({ className, inset, icon, children, ...props }, ref) => (
-    <MenubarPrimitive.Item
-      ref={ref}
-      className={cn(
-        "relative flex cursor-default select-none items-center gap-3 rounded-lg px-4 py-2.5 text-base outline-none transition-colors",
-        "focus:bg-accent focus:text-accent-foreground",
-        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-        inset && "pl-8",
-        className,
-      )}
-      {...props}
-    >
-      {icon && <span className="shrink-0 text-gold">{icon}</span>}
-      {children}
-    </MenubarPrimitive.Item>
-  ),
+  ({ className, inset, icon, children, ...props }, ref) => {
+    const variant = "default";
+    const variantStyle = VARIANT_STYLES[variant];
+
+    return (
+      <MenubarPrimitive.Item
+        ref={ref}
+        className={cn(
+          "relative flex cursor-default select-none items-center gap-3 rounded-lg px-4 py-2.5 text-base outline-none transition-colors",
+          "focus:bg-accent focus:text-accent-foreground",
+          "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+          inset && "pl-8",
+          variantStyle.text,
+          className,
+        )}
+        {...props}
+      >
+        {icon && <span className={cn("shrink-0", variantStyle.accent)}>{icon}</span>}
+        {children}
+      </MenubarPrimitive.Item>
+    );
+  },
 );
 MenubarItem.displayName = MenubarPrimitive.Item.displayName;
 
 const MenubarCheckboxItem = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.CheckboxItem>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.CheckboxItem>
->(({ className, children, checked, ...props }, ref) => (
-  <MenubarPrimitive.CheckboxItem
-    ref={ref}
-    className={cn(
-      "relative flex cursor-default select-none items-center rounded-lg py-2.5 pl-9 pr-4 text-base outline-none transition-colors",
-      "focus:bg-accent focus:text-accent-foreground",
-      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className,
-    )}
-    checked={checked}
-    {...props}
-  >
-    <span className="absolute left-3 flex h-5 w-5 items-center justify-center">
-      <MenubarPrimitive.ItemIndicator>
-        <Check className="h-4 w-4 text-emerald" />
-      </MenubarPrimitive.ItemIndicator>
-    </span>
-    {children}
-  </MenubarPrimitive.CheckboxItem>
-));
+>(({ className, children, checked, ...props }, ref) => {
+  const variant = "default";
+  const variantStyle = VARIANT_STYLES[variant];
+
+  return (
+    <MenubarPrimitive.CheckboxItem
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-lg py-2.5 pl-9 pr-4 text-base outline-none transition-colors",
+        "focus:bg-accent focus:text-accent-foreground",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        variantStyle.text,
+        className,
+      )}
+      checked={checked}
+      {...props}
+    >
+      <span className="absolute left-3 flex h-5 w-5 items-center justify-center">
+        <MenubarPrimitive.ItemIndicator>
+          <Check className={cn("h-4 w-4", variantStyle.accent)} />
+        </MenubarPrimitive.ItemIndicator>
+      </span>
+      {children}
+    </MenubarPrimitive.CheckboxItem>
+  );
+});
 MenubarCheckboxItem.displayName = MenubarPrimitive.CheckboxItem.displayName;
 
 const MenubarRadioItem = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.RadioItem>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.RadioItem>
->(({ className, children, ...props }, ref) => (
-  <MenubarPrimitive.RadioItem
-    ref={ref}
-    className={cn(
-      "relative flex cursor-default select-none items-center rounded-lg py-2.5 pl-9 pr-4 text-base outline-none transition-colors",
-      "focus:bg-accent focus:text-accent-foreground",
-      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className,
-    )}
-    {...props}
-  >
-    <span className="absolute left-3 flex h-5 w-5 items-center justify-center">
-      <MenubarPrimitive.ItemIndicator>
-        <Circle className="h-3.5 w-3.5 fill-current text-emerald" />
-      </MenubarPrimitive.ItemIndicator>
-    </span>
-    {children}
-  </MenubarPrimitive.RadioItem>
-));
+>(({ className, children, ...props }, ref) => {
+  const variant = "default";
+  const variantStyle = VARIANT_STYLES[variant];
+
+  return (
+    <MenubarPrimitive.RadioItem
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-lg py-2.5 pl-9 pr-4 text-base outline-none transition-colors",
+        "focus:bg-accent focus:text-accent-foreground",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        variantStyle.text,
+        className,
+      )}
+      {...props}
+    >
+      <span className="absolute left-3 flex h-5 w-5 items-center justify-center">
+        <MenubarPrimitive.ItemIndicator>
+          <Circle className={cn("h-3.5 w-3.5 fill-current", variantStyle.accent)} />
+        </MenubarPrimitive.ItemIndicator>
+      </span>
+      {children}
+    </MenubarPrimitive.RadioItem>
+  );
+});
 MenubarRadioItem.displayName = MenubarPrimitive.RadioItem.displayName;
 
 const MenubarLabel = React.forwardRef<
@@ -245,17 +284,23 @@ const MenubarLabel = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Label> & {
     inset?: boolean;
   }
->(({ className, inset, ...props }, ref) => (
-  <MenubarPrimitive.Label
-    ref={ref}
-    className={cn(
-      "px-4 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground",
-      inset && "pl-8",
-      className,
-    )}
-    {...props}
-  />
-));
+>(({ className, inset, ...props }, ref) => {
+  const variant = "default";
+  const variantStyle = VARIANT_STYLES[variant];
+
+  return (
+    <MenubarPrimitive.Label
+      ref={ref}
+      className={cn(
+        "px-4 py-2 text-xs font-semibold uppercase tracking-wider",
+        variantStyle.textMuted,
+        inset && "pl-8",
+        className,
+      )}
+      {...props}
+    />
+  );
+});
 MenubarLabel.displayName = MenubarPrimitive.Label.displayName;
 
 const MenubarSeparator = React.forwardRef<
@@ -267,8 +312,11 @@ const MenubarSeparator = React.forwardRef<
 MenubarSeparator.displayName = MenubarPrimitive.Separator.displayName;
 
 const MenubarShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
+  const variant = "default";
+  const variantStyle = VARIANT_STYLES[variant];
+
   return (
-    <span className={cn("ml-auto text-xs tracking-widest text-muted-foreground font-mono", className)} {...props} />
+    <span className={cn("ml-auto text-xs tracking-widest font-mono", variantStyle.textMuted, className)} {...props} />
   );
 };
 MenubarShortcut.displayName = "MenubarShortcut";
