@@ -1,12 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  Outlet,
-  Link,
-  createRootRouteWithContext,
-  useRouter,
-  HeadContent,
-  Scripts,
-} from "@tanstack/react-router";
+import { Outlet, Link, createRootRouteWithContext, useRouter, HeadContent, Scripts } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
@@ -46,9 +39,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">This page didn't load</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
@@ -88,8 +79,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Goodfill Care — Wellness Journey  Samui" },
       { name: "twitter:description", content: "Goodfill  Care   Wellness  Samui" },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/6Xf4sshoH2VuYEuQfnjq4Hf2dF62/social-images/social-1780986927804-S__40984587.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/6Xf4sshoH2VuYEuQfnjq4Hf2dF62/social-images/social-1780986927804-S__40984587.webp" },
+      {
+        property: "og:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/6Xf4sshoH2VuYEuQfnjq4Hf2dF62/social-images/social-1780986927804-S__40984587.webp",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://storage.googleapis.com/gpt-engineer-file-uploads/6Xf4sshoH2VuYEuQfnjq4Hf2dF62/social-images/social-1780986927804-S__40984587.webp",
+      },
       { name: "google-site-verification", content: "UNPWGVjT5m4JslinX6nZtPGEejd5UMk6de9Hf0nCeqc" },
     ],
     links: [
@@ -123,7 +122,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           name: "Goodfill Care",
           url: "https://goodfillcare-samui.com",
           logo: "https://goodfillcare-samui.com/icon-512.png",
-          description: "Luxury wellness journeys at Koh Samui — personalized programs covering detox, sleep recovery, mindfulness, and long-term habit care.",
+          description:
+            "Luxury wellness journeys at Koh Samui — personalized programs covering detox, sleep recovery, mindfulness, and long-term habit care.",
           areaServed: { "@type": "Place", name: "Koh Samui, Thailand" },
         }),
       },
