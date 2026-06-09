@@ -98,23 +98,23 @@ function Quest() {
             transition={{ duration: 0.3 }}
             className="mt-4"
           >
-            <div className="text-4xl md:text-5xl">{q.emoji}</div>
+            <div className="text-3xl md:text-4xl">{q.emoji}</div>
             <div className="mt-3 grid gap-2">
               {q.options.map((opt, idx) => (
                 <button
                   key={idx}
                   onClick={() => choose(idx)}
-                  className={`backdrop-blur-md border-2 rounded-2xl p-3 md:p-4 text-left flex items-center justify-between gap-3 transition-all duration-200 group shadow-sm ${
+                  className={`backdrop-blur-md border-2 rounded-2xl px-3 py-2.5 md:px-4 md:py-3 text-left flex items-center justify-between gap-3 transition-all duration-200 group shadow-sm ${
                     selected === idx
                       ? "border-emerald bg-emerald text-white shadow-md scale-[1.015]"
                       : "bg-white/85 border-white/60 text-navy hover:bg-pale-mint/40 hover:border-emerald/40"
                   }`}
                 >
-                  <span className={`text-sm font-medium ${selected === idx ? "text-white" : "text-navy"}`}>
+                  <span className={`text-[13px] md:text-sm font-medium leading-snug break-words flex-1 min-w-0 ${selected === idx ? "text-white" : "text-navy"}`}>
                     {pick(opt.label, lang)}
                   </span>
                   <span
-                    className={`size-6 rounded-full grid place-items-center transition shrink-0 ${
+                    className={`size-5 md:size-6 rounded-full grid place-items-center transition shrink-0 ${
                       selected === idx
                         ? "bg-gold text-emerald-deep scale-110"
                         : "border border-mint text-transparent group-hover:border-emerald/60"

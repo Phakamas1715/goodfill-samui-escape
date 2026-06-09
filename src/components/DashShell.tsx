@@ -141,7 +141,7 @@ export function DashShell({
                   {kicker}
                 </div>
               )}
-              <h1 className="font-display text-4xl md:text-6xl text-ivory leading-[1.05] truncate mt-2 tracking-tight drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)]">
+              <h1 className="font-display text-2xl md:text-4xl lg:text-5xl text-ivory leading-[1.1] mt-2 tracking-tight drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)] line-clamp-2">
                 {title}
               </h1>
               {highlight && (
