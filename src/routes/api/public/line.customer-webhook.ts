@@ -180,6 +180,8 @@ async function handleEvent(event: LineEvent) {
           await supabaseAdmin.from("line_identities").upsert(
             {
               line_user_id: customerUserId,
+              user_id: customerUserId,
+              channel: "customer",
               last_active_at: new Date().toISOString(),
               language_preference: "th", // Default to Thai
             },
@@ -256,8 +258,10 @@ async function handleEvent(event: LineEvent) {
 
       if (specificCode) {
         query = query.eq("booking_code", specificCode);
-      } else {
+      } else if (customerUserId) {
         query = query.eq("customer_line_user_id", customerUserId);
+      } else {
+        return;
       }
 
       const { data: rows } = await query.limit(1);
