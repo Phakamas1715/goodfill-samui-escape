@@ -196,7 +196,7 @@ function Landing() {
             <div className="mt-7 md:mt-8 flex flex-col gap-4 max-w-[22rem]">
               <Link
                 to="/quest"
-                className="btn-gold group relative overflow-hidden rounded-2xl px-7 py-4 inline-flex items-center justify-center gap-2.5 text-base md:text-[17px] font-bold tracking-wide shadow-[0_18px_50px_-14px_rgba(201,168,76,0.7)] ring-1 ring-gold/40 hover:scale-[1.02] transition mt-[5px]"
+                className="btn-gold group relative overflow-hidden rounded-2xl px-5 py-3.5 inline-flex items-center justify-center gap-2 text-sm md:text-[17px] font-bold tracking-wide whitespace-nowrap shadow-[0_18px_50px_-14px_rgba(201,168,76,0.7)] ring-1 ring-gold/40 hover:scale-[1.02] transition mt-[5px]"
               >
                 <Sparkles size={18} className="opacity-80" />
                 <span>{t("hero.ctaStart")}</span>
