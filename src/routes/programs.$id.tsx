@@ -38,6 +38,9 @@ function ProgramDetail() {
   const isBooked = state.bookedProgramId === program.id;
   const confirm = useServerFn(confirmBooking);
   const [sending, setSending] = useState(false);
+  const [dietaryPlan, setDietaryPlan] = useState<"Signature" | "Plant-based" | "High-Protein" | "Detox Light">("Signature");
+  const [allergies, setAllergies] = useState<{ nuts: boolean; seafood: boolean; dairy: boolean; gluten: boolean }>({ nuts: false, seafood: false, dairy: false, gluten: false });
+  const [allergyNote, setAllergyNote] = useState("");
 
   async function book() {
     if (sending) return;
@@ -53,6 +56,13 @@ function ProgramDetail() {
     const mealsUrl = typeof window !== "undefined"
       ? `${window.location.origin}/meals/${program.id}`
       : `/meals/${program.id}`;
+    const allergyLabels: string[] = [];
+    if (allergies.nuts) allergyLabels.push("ถั่ว");
+    if (allergies.seafood) allergyLabels.push("อาหารทะเล");
+    if (allergies.dairy) allergyLabels.push("นม");
+    if (allergies.gluten) allergyLabels.push("กลูเตน");
+    const extra = allergyNote.trim();
+    const dietaryNotes = [allergyLabels.length ? `แพ้: ${allergyLabels.join(", ")}` : "", extra].filter(Boolean).join(" · ") || undefined;
     toast.loading(t("programs.sending"), { id: "book" });
     try {
       const res = await confirm({
@@ -66,6 +76,8 @@ function ProgramDetail() {
           mealPlan,
           mealsUrl,
           expertName: pick(program.expert.name, lang),
+          dietaryPlan,
+          dietaryNotes,
         },
       });
       setState((s) => ({ ...s, bookedProgramId: program.id, bookingDate }));
