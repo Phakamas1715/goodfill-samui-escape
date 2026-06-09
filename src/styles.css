@@ -125,14 +125,14 @@
     font-size: 18px;
     line-height: 1.65;
     background-image:
-      /* soft sky glow top-left */
-      radial-gradient(ellipse 70% 55% at 8% -5%, rgba(221, 246, 255, 0.85), transparent 65%),
-      /* sand highlight upper-right */
-      radial-gradient(ellipse 55% 45% at 95% 5%, rgba(239, 227, 208, 0.55), transparent 65%),
-      /* aqua-mint ocean wash bottom-left */
-      radial-gradient(ellipse 75% 60% at 10% 100%, rgba(127, 227, 208, 0.30), transparent 65%),
-      /* ocean blue lower-right */
-      radial-gradient(ellipse 65% 55% at 100% 95%, rgba(30, 136, 168, 0.18), transparent 65%);
+      /* soft cream wash top-left */
+      radial-gradient(ellipse 70% 55% at 8% -5%, rgba(250, 247, 242, 0.95), transparent 65%),
+      /* muted gold highlight upper-right */
+      radial-gradient(ellipse 55% 45% at 95% 5%, rgba(201, 184, 155, 0.35), transparent 65%),
+      /* sage emerald wash bottom-left */
+      radial-gradient(ellipse 75% 60% at 10% 100%, rgba(143, 179, 155, 0.22), transparent 65%),
+      /* deep emerald lower-right */
+      radial-gradient(ellipse 65% 55% at 100% 95%, rgba(15, 74, 56, 0.14), transparent 65%);
     background-attachment: fixed;
   }
 
@@ -153,7 +153,7 @@
   :lang(th), [lang="th"] { font-family: var(--font-thai-display), var(--font-sans); }
   h1.font-display, h2.font-display { font-family: var(--font-thai-display), var(--font-display); font-weight: 600; letter-spacing: -0.015em; line-height: 1.1; }
 
-  ::selection { background: rgba(127, 227, 208, 0.40); color: var(--emerald-deep); }
+  ::selection { background: rgba(143, 179, 155, 0.45); color: var(--emerald-deep); }
 }
 
 @utility glass {
