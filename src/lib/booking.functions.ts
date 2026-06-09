@@ -280,7 +280,12 @@ export const confirmBooking = createServerFn({ method: "POST" })
       const partnerMessages = mealMsg ? [partnerMsg, mealMsg] : [partnerMsg];
       partner = await linePush(partnerToken, partnerTo, partnerMessages);
     } else {
-      partner = { ok: false, error: partnerToken ? "LINE_PARTNER_USER_ID missing" : "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing" };
+      partner = {
+        ok: false,
+        error: partnerToken
+          ? "No partner recipient linked (set LINE_PARTNER_USER_ID or link a partner in line_identities)"
+          : "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing",
+      };
     }
 
     // Telegram: push receipt to customer if linked.
