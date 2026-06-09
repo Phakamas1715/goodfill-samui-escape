@@ -139,10 +139,10 @@ function Landing() {
             className="absolute inset-0 size-full object-cover"
           />
         </AnimatePresence>
-        {/* SOFTENED readability overlays — less contrast, smoother blending */}
-        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/70 via-emerald-deep/40 to-emerald-deep/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/70 via-emerald-deep/20 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.08),transparent_55%)]" />
+        {/* เพิ่มความคมชัดของ Gradient เพื่อให้ข้อความอ่านง่ายขึ้น */}
+        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/85 via-emerald-deep/50 to-emerald-deep/15" />
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/85 via-emerald-deep/30 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.12),transparent_60%)]" />
       </div>
 
       {/* Slide indicator */}
@@ -152,7 +152,7 @@ function Landing() {
             key={i}
             onClick={() => setSlide(i)}
             aria-label={`Slide ${i + 1}`}
-            className={`h-1 rounded-full transition-all ${i === slide ? "w-7 bg-gold/80" : "w-3 bg-ivory/30"}`}
+            className={`h-1 rounded-full transition-all ${i === slide ? "w-7 bg-gold/90" : "w-3 bg-ivory/40"}`}
           />
         ))}
       </div>
@@ -169,17 +169,16 @@ function Landing() {
             transition={{ duration: 0.9 }}
             className="relative z-10 min-w-0 max-w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-none"
           >
+            {/* ปรับโลโก้: เพิ่ม contrast และลดขนาด */}
             <div className="flex items-center gap-3">
-              <img
-                src={logo}
-                alt="Goodfill Care"
-                className="h-16 md:h-24 w-auto object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.4)] rounded-2xl ring-1 ring-gold/20 bg-white/5 backdrop-blur-sm p-1.5"
-              />
+              <div className="bg-white/95 backdrop-blur-sm rounded-xl p-2 shadow-lg ring-1 ring-gold/30">
+                <img src={logo} alt="Goodfill Care" className="h-12 md:h-16 w-auto object-contain" />
+              </div>
               <div className="flex flex-col leading-none">
-                <span className="font-display text-2xl md:text-4xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] tracking-tight">
-                  Goodfill <span className="text-gold/90 italic">Care</span>
+                <span className="font-display text-xl md:text-3xl text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] tracking-tight font-bold">
+                  Goodfill <span className="text-gold italic">Care</span>
                 </span>
-                <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-gold-soft/80 mt-1 font-semibold">
+                <span className="text-[9px] md:text-[10px] tracking-[0.35em] uppercase text-gold-soft/90 mt-1 font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
                   {t("hero.kicker")}
                 </span>
               </div>
@@ -187,66 +186,75 @@ function Landing() {
 
             {/* Editorial kicker rule */}
             <div className="hidden lg:flex items-center gap-3 mt-6">
-              <span className="h-px w-10 bg-gold/60" />
-              <span className="text-gold/80 text-[10px] tracking-[0.4em] uppercase font-medium">Wellness Journey</span>
+              <span className="h-px w-10 bg-gold/70" />
+              <span className="text-gold/90 text-[10px] tracking-[0.4em] uppercase font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
+                Wellness Journey
+              </span>
             </div>
 
-            <h1 className="font-display font-normal text-[1.5rem] sm:text-[2rem] md:text-5xl lg:text-[3.8rem] leading-[1.15] mt-4 md:mt-5 text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.5)] lg:max-w-[580px]">
+            {/* ลดขนาด heading ลงเพื่อไม่ให้ผู้ช่วยบัง */}
+            <h1 className="font-display font-normal text-[1.3rem] sm:text-[1.8rem] md:text-4xl lg:text-3.5rem leading-[1.2] mt-4 md:mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] lg:max-w-[540px]">
               {t("hero.title1")}
               <br />
-              <em className="italic text-gold/95 font-normal">{t("hero.title2")}</em>{" "}
+              <em className="italic text-gold font-normal">{t("hero.title2")}</em>{" "}
               <span className="block">{t("hero.title3")}</span>
             </h1>
-            <p className="mt-3 md:mt-5 max-w-md text-[14px] md:text-base text-white/90 font-medium leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.4)]">
+            <p className="mt-3 md:mt-4 max-w-md text-[13px] md:text-[15px] text-white/95 font-medium leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
               {t("hero.desc")}
             </p>
 
-            {/* Editorial proof points — softer green dot bullets */}
+            {/* Editorial proof points */}
             <div className="hidden md:flex flex-wrap gap-x-6 gap-y-2 mt-5">
               {["8 Wellness Quests", "6 Distinct Personas", "3 / 5 / 7 Day Programs"].map((label) => (
                 <div key={label} className="flex items-center gap-2">
-                  <span className="size-1.5 rounded-full bg-mint/70 shadow-[0_0_4px_rgba(120,200,170,0.4)]" />
-                  <span className="text-white/60 text-[9px] tracking-[0.2em] uppercase font-medium">{label}</span>
+                  <span className="size-1.5 rounded-full bg-mint shadow-[0_0_6px_rgba(120,200,170,0.5)]" />
+                  <span className="text-white/70 text-[9px] tracking-[0.2em] uppercase font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
+                    {label}
+                  </span>
                 </div>
               ))}
             </div>
 
-            {/* Action cluster — refined branded CTA */}
-            <div className="mt-6 md:mt-7 flex flex-col gap-3 max-w-[20rem]">
+            {/* Action cluster */}
+            <div className="mt-5 md:mt-6 flex flex-col gap-3 max-w-[18rem]">
               <Link
                 to="/quest"
-                className="btn-gold group relative overflow-hidden rounded-xl px-5 py-3 inline-flex items-center justify-center gap-2 text-sm md:text-[15px] font-bold tracking-wide whitespace-nowrap shadow-[0_12px_32px_-12px_rgba(201,168,76,0.5)] ring-1 ring-gold/30 hover:scale-[1.02] transition"
+                className="btn-gold group relative overflow-hidden rounded-xl px-4 py-2.5 inline-flex items-center justify-center gap-2 text-sm md:text-[14px] font-bold tracking-wide whitespace-nowrap shadow-[0_12px_32px_-12px_rgba(201,168,76,0.6)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
               >
-                <Sparkles size={16} className="opacity-80" />
+                <Sparkles size={14} className="opacity-80" />
                 <span>{t("hero.ctaStart")}</span>
-                <ArrowRight size={16} className="transition group-hover:translate-x-0.5" />
+                <ArrowRight size={14} className="transition group-hover:translate-x-0.5" />
               </Link>
               <button
                 onClick={() => setMoreOpen(true)}
-                className="rounded-xl bg-white/10 hover:bg-white/20 backdrop-blur-lg border border-white/20 text-white/90 py-2.5 px-4 inline-flex items-center justify-center gap-2 text-[14px] font-semibold transition"
+                className="rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-lg border border-white/30 text-white/95 py-2 px-4 inline-flex items-center justify-center gap-2 text-[13px] font-semibold transition"
               >
-                <Menu size={15} />
+                <Menu size={14} />
                 <span>สำรวจเพิ่มเติม</span>
               </button>
-              <div className="flex items-center justify-between gap-3 text-[11px] text-white/80 font-semibold px-1 mt-1">
-                <span className="tracking-wide">~8 นาที · ตอบโดยไม่ต้องพิมพ์</span>
+              <div className="flex items-center justify-between gap-3 text-[10px] text-white/85 font-semibold px-1 mt-1">
+                <span className="tracking-wide drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+                  ~8 นาที · ตอบโดยไม่ต้องพิมพ์
+                </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck size={12} className="text-mint/80" /> ปลอดภัย
+                  <ShieldCheck size={11} className="text-mint" /> ปลอดภัย
                 </span>
               </div>
             </div>
 
-            <div className="mt-5 hidden md:flex items-center gap-5 text-white/80">
+            <div className="mt-4 hidden md:flex items-center gap-5 text-white/85">
               {[
                 { v: "8", k: "hero.stat.min" as TKey },
                 { v: "6", k: "hero.stat.personas" as TKey },
                 { v: "12+", k: "hero.stat.partners" as TKey },
               ].map((s, i) => (
                 <div key={s.k} className="flex items-center gap-5">
-                  {i > 0 && <span className="h-6 w-px bg-white/20" />}
+                  {i > 0 && <span className="h-6 w-px bg-white/25" />}
                   <div>
-                    <div className="font-display text-xl md:text-2xl font-semibold text-gold/90">{s.v}</div>
-                    <div className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-white/70 font-medium mt-0.5">
+                    <div className="font-display text-lg md:text-xl font-semibold text-gold drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
+                      {s.v}
+                    </div>
+                    <div className="text-[8px] md:text-[9px] tracking-[0.2em] uppercase text-white/75 font-medium mt-0.5">
                       {t(s.k)}
                     </div>
                   </div>
@@ -255,17 +263,19 @@ function Landing() {
             </div>
           </motion.div>
 
-          {/* RIGHT — Editorial pull-quote sidebar (desktop) — softer contrast */}
+          {/* RIGHT — Editorial pull-quote sidebar (desktop) */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.0, delay: 0.25 }}
-            className="relative z-20 hidden lg:block border-l border-white/10 pl-10 self-center text-white/90"
+            className="relative z-20 hidden lg:block border-l border-white/15 pl-10 self-center text-white/95"
           >
             <div className="space-y-8 max-w-sm">
               <div>
-                <div className="text-gold/80 text-[10px] tracking-[0.35em] uppercase font-bold">Refined Care</div>
-                <p className="mt-3 text-white/90 text-[14px] font-medium leading-relaxed">
+                <div className="text-gold/85 text-[10px] tracking-[0.35em] uppercase font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
+                  Refined Care
+                </div>
+                <p className="mt-3 text-white/95 text-[13px] font-medium leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
                   Curated specifically for global travelers seeking deep restoration in the heart of Thailand —
                   ภายใต้การดูแลของผู้เชี่ยวชาญ Wellness และเชฟโภชนาการที่ออกแบบทุกขั้นตอนเฉพาะคุณ
                 </p>
@@ -273,45 +283,45 @@ function Landing() {
 
               <div className="relative">
                 <div
-                  className="absolute -top-8 -left-4 text-6xl text-gold/15 select-none pointer-events-none"
+                  className="absolute -top-8 -left-4 text-6xl text-gold/20 select-none pointer-events-none"
                   aria-hidden
                   style={{ fontFamily: "'Cormorant Garamond', serif" }}
                 >
                   &ldquo;
                 </div>
-                <p className="relative font-display italic text-xl leading-snug text-white/95">
+                <p className="relative font-display italic text-lg leading-snug text-white/95 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
                   A sanctuary where every breath is intentional, and every moment is yours.
                 </p>
                 <div className="mt-3 flex items-center gap-3">
-                  <span className="h-px w-6 bg-gold/50" />
-                  <span className="text-[9px] tracking-[0.3em] uppercase text-white/70 font-medium">
+                  <span className="h-px w-6 bg-gold/60" />
+                  <span className="text-[9px] tracking-[0.3em] uppercase text-white/75 font-medium">
                     Goodfill Promise
                   </span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-5 gap-y-3 pt-5 border-t border-white/15">
+              <div className="grid grid-cols-2 gap-x-5 gap-y-3 pt-5 border-t border-white/20">
                 <div>
-                  <div className="font-display text-xl text-gold/90">6</div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                  <div className="font-display text-lg text-gold/90">6</div>
+                  <div className="text-[9px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
                     Personas
                   </div>
                 </div>
                 <div>
-                  <div className="font-display text-xl text-gold/90">3·5·7</div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                  <div className="font-display text-lg text-gold/90">3·5·7</div>
+                  <div className="text-[9px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
                     Day Plans
                   </div>
                 </div>
                 <div>
-                  <div className="font-display text-xl text-gold/90">+300</div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                  <div className="font-display text-lg text-gold/90">+300</div>
+                  <div className="text-[9px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
                     Calm Credits
                   </div>
                 </div>
                 <div>
-                  <div className="font-display text-xl text-gold/90">12+</div>
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                  <div className="font-display text-lg text-gold/90">12+</div>
+                  <div className="text-[9px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
                     Partners
                   </div>
                 </div>
@@ -319,21 +329,21 @@ function Landing() {
             </div>
           </motion.div>
 
-          {/* MOBILE HOST — pushed further right and bottom to avoid text clash */}
+          {/* MOBILE HOST — ขยับไปทางขวาและล่างมากขึ้น */}
           <motion.img
-            initial={{ opacity: 0, x: 40, scale: 0.94 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
+            initial={{ opacity: 0, x: 50, scale: 0.9 }}
+            animate={{ opacity: 0.7, x: 0, scale: 1 }}
             transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden fixed -right-[25%] sm:-right-[15%] bottom-8 md:bottom-2 h-[70vh] max-h-[680px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.4)] z-0 opacity-90"
+            className="lg:hidden fixed -right-[30%] sm:-right-[20%] bottom-4 md:bottom-0 h-[65vh] max-h-[600px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.3)] z-0 opacity-70"
           />
-          {/* Softer right-edge vignette for better text separation */}
-          <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-2/5 bg-gradient-to-l from-emerald-deep/40 via-emerald-deep/10 to-transparent z-[1]" />
+          {/* ขยายขอบเขต vignette เพื่อให้ข้อความอยู่ห่างจากผู้ช่วย */}
+          <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-emerald-deep/50 via-emerald-deep/20 to-transparent z-[1]" />
         </div>
       </main>
 
-      {/* MODAL POPUPS — unchanged for brevity, same as original except softened colors if desired */}
+      {/* MODAL POPUPS — same as before */}
       <AnimatePresence>
         {modal && (
           <motion.div
@@ -502,7 +512,7 @@ function Landing() {
         )}
       </AnimatePresence>
 
-      {/* MORE MENU — soft contrast */}
+      {/* MORE MENU */}
       <AnimatePresence>
         {moreOpen && (
           <motion.div
