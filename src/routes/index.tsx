@@ -370,11 +370,14 @@ function Landing() {
                   <p className="text-sm text-muted-foreground mt-2">{t("modal.personas.sub")}</p>
                   <div className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {Object.values(personas).map((p) => (
-                      <div key={p.id} className="card-soft p-4 rounded-2xl">
-                        <div className="text-[10px] tracking-widest uppercase text-emerald">{p.id}</div>
-                        <div className="font-display text-lg mt-1">{pick(p.name, lang)}</div>
-                        <div className="text-xs text-muted-foreground">{pick(p.thaiName, lang)}</div>
-                        <div className="text-xs mt-2 text-navy/70 line-clamp-2">{pick(p.tagline, lang)}</div>
+                      <div key={p.id} className={`relative overflow-hidden p-4 rounded-2xl bg-gradient-to-br ${p.color} ring-1 ring-white/40 shadow-[0_8px_24px_-12px_rgba(12,35,64,0.35)]`}>
+                        <div className="absolute inset-0 bg-white/65 backdrop-blur-[2px]" />
+                        <div className="relative">
+                          <div className="text-[10px] tracking-widest uppercase text-emerald font-bold">{p.id}</div>
+                          <div className="font-display text-lg mt-1 text-navy">{pick(p.name, lang)}</div>
+                          <div className="text-xs text-emerald-deep/80 font-medium">{pick(p.thaiName, lang)}</div>
+                          <div className="text-xs mt-2 text-navy/85 line-clamp-2">{pick(p.tagline, lang)}</div>
+                        </div>
                       </div>
                     ))}
                   </div>
