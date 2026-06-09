@@ -120,7 +120,7 @@ function Landing() {
 
       {/* MAIN CONTENT */}
       <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col">
-        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr),minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px]">
+        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
