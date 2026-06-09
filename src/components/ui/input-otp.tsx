@@ -64,7 +64,7 @@ const VARIANT_STYLES = {
 
 const InputOTP = React.forwardRef<React.ElementRef<typeof OTPInput>, InputOTPProps>(
   ({ className, containerClassName, variant = "default", size = "default", ...props }, ref) => {
-    const sizeStyle = SIZE_STYLES[size];
+    const sizeStyle = SIZE_STYLES[size as keyof typeof SIZE_STYLES];
 
     return (
       <OTPInput
@@ -157,9 +157,10 @@ const EmeraldInputOTP = (props: InputOTPProps) => <InputOTP variant="emerald" {.
 /**
  * Input OTP with custom separator
  */
-interface InputOTPWithCustomSeparatorProps extends InputOTPProps {
+type InputOTPWithCustomSeparatorProps = InputOTPProps & {
   separator?: React.ReactNode;
-}
+  children?: React.ReactNode;
+};
 
 const InputOTPWithCustomSeparator = React.forwardRef<
   React.ElementRef<typeof OTPInput>,
@@ -174,13 +175,13 @@ InputOTPWithCustomSeparator.displayName = "InputOTPWithCustomSeparator";
 /**
  * Helper to create OTP input with specific pattern
  */
-interface PatternOTPProps extends InputOTPProps {
+type PatternOTPProps = Omit<InputOTPProps, "pattern"> & {
   pattern?: "numeric" | "alphanumeric";
-}
+};
 
 const PatternOTP = React.forwardRef<React.ElementRef<typeof OTPInput>, PatternOTPProps>(
   ({ pattern = "numeric", ...props }, ref) => (
-    <InputOTP ref={ref} pattern={pattern === "numeric" ? "^[0-9]*$" : "^[A-Za-z0-9]*$"} {...props} />
+    <InputOTP ref={ref} pattern={pattern === "numeric" ? "^[0-9]*$" : "^[A-Za-z0-9]*$"} {...(props as InputOTPProps)} />
   ),
 );
 PatternOTP.displayName = "PatternOTP";
