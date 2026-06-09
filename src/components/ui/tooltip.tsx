@@ -222,4 +222,4 @@ export function InfoTooltip({
 // Default Export
 // ============================================================================
 
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider, TooltipWithIcon, TruncatedTooltip, InfoTooltip };
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };
