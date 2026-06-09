@@ -74,11 +74,12 @@ export function DashShell({
             className="absolute inset-0 size-full object-cover"
           />
         </AnimatePresence>
-        {/* Tropical readability wash — warm ivory page tone + ocean-mint and
-            sunset glow so glass program cards float over the imagery. */}
-        <div className="absolute inset-0 bg-gradient-to-b from-ivory/70 via-ivory/80 to-ivory/95" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-emerald/10 via-transparent to-mint/20 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_10%_-5%,rgba(244,166,74,0.28),transparent_65%),radial-gradient(ellipse_50%_40%_at_95%_100%,rgba(255,122,89,0.18),transparent_65%)] pointer-events-none" />
+        {/* Deep ocean readability wash — richer, more intense backdrop so
+            white glass cards pop with clear contrast over the imagery. */}
+        <div className="absolute inset-0 bg-gradient-to-b from-emerald-deep/55 via-emerald-deep/45 to-emerald-deep/70" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-ocean/35 via-transparent to-emerald-deep/40 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_10%_-5%,rgba(244,166,74,0.22),transparent_65%),radial-gradient(ellipse_50%_40%_at_95%_100%,rgba(30,136,168,0.35),transparent_65%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-black/15 pointer-events-none" />
         {/* Tropical leaf silhouettes — subtle corner accents */}
         <svg className="absolute -top-10 -left-10 w-72 h-72 opacity-[0.10] text-emerald-deep pointer-events-none rotate-12" viewBox="0 0 100 100" fill="currentColor" aria-hidden>
           <path d="M50 5 C60 25 80 35 95 40 C80 45 70 65 65 95 C60 75 40 65 5 60 C20 55 30 35 35 5 Z" />
