@@ -12,6 +12,13 @@ export interface AppState {
   bookingDate: string | null;
   checkins: { date: string; mood: number; note?: string }[];
   habits: { name: string; days: string[] }[];
+  aiInsight?: {
+    summary?: string;
+    strengths?: string[];
+    focusAreas?: string[];
+    dailyRitual?: string[];
+    avoid?: string[];
+  } | null;
 }
 
 const initial: AppState = {
@@ -27,6 +34,7 @@ const initial: AppState = {
     { name: "Hydration 2L", days: [] },
     { name: "No screen after 10pm", days: [] },
   ],
+  aiInsight: null,
 };
 
 function read(): AppState {

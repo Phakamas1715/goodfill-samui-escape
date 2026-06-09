@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate, notFound } from "@tanstack/react-ro
 import { ArrowLeft, ArrowRight, CalendarDays, ChefHat, MapPin, X, Sparkles } from "lucide-react";
 import { Shell, Section, Eyebrow } from "@/components/Shell";
 import { programs, pick, type Program } from "@/lib/data";
+import { personas } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 import { confirmBooking } from "@/lib/booking.functions";
 import { useServerFn } from "@tanstack/react-start";
@@ -121,6 +122,24 @@ function ProgramDetail() {
     if (allergies.gluten) allergyLabels.push("กลูเตน");
     const extra = allergyNote.trim();
     const dietaryNotes = [allergyLabels.length ? `แพ้: ${allergyLabels.join(", ")}` : "", extra].filter(Boolean).join(" · ") || undefined;
+
+    // Pre-fill a partner-facing persona note so experts see customer context without typing.
+    let personaNote: string | undefined;
+    if (state.persona) {
+      const p = personas[state.persona];
+      const sec = state.secondaryPersona && state.secondaryPersona !== state.persona ? personas[state.secondaryPersona] : null;
+      const parts: string[] = [];
+      parts.push(`Persona: ${pick(p.name, lang)} (${pick(p.thaiName, lang)})`);
+      if (sec) parts.push(`รอง: ${pick(sec.name, lang)}`);
+      parts.push(`คาแรกเตอร์: ${pick(p.tagline, lang)}`);
+      const pillars = p.pillars.slice(0, 4).map((x) => pick(x, lang)).join(" · ");
+      if (pillars) parts.push(`Pillars: ${pillars}`);
+      const ai = state.aiInsight;
+      if (ai?.focusAreas?.length) parts.push(`Focus: ${ai.focusAreas.slice(0, 3).join(" · ")}`);
+      if (ai?.avoid?.length) parts.push(`Avoid: ${ai.avoid.slice(0, 2).join(" · ")}`);
+      personaNote = parts.join("\n").slice(0, 1200);
+    }
+
     toast.loading(t("programs.sending"), { id: "book" });
     try {
       const res = await confirm({
@@ -136,6 +155,7 @@ function ProgramDetail() {
           expertName: pick(program.expert.name, lang),
           dietaryPlan,
           dietaryNotes,
+          personaNote,
         },
       });
       setState((s) => ({ ...s, bookedProgramId: program.id, bookingDate }));

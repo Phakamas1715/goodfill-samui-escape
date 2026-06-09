@@ -21,7 +21,7 @@ export const Route = createFileRoute("/persona")({
 
 function PersonaPage() {
   const { t, lang } = useI18n();
-  const [state] = useAppState();
+  const [state, setState] = useAppState();
   const persona = state.persona ? personas[state.persona] : null;
   const secondary =
     state.secondaryPersona && state.secondaryPersona !== state.persona
@@ -29,7 +29,7 @@ function PersonaPage() {
       : null;
 
   const fetchInsight = useServerFn(getPersonaInsight);
-  const [insight, setInsight] = useState<any>(null);
+  const [insight, setInsight] = useState<any>(state.aiInsight ?? null);
   const [loadingAI, setLoadingAI] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
 
@@ -51,6 +51,8 @@ function PersonaPage() {
         },
       });
       setInsight(result);
+      // Persist so booking can auto-attach it as a partner-facing note.
+      setState((s) => ({ ...s, aiInsight: result ?? null }));
     } catch (e: any) {
       setAiError(e?.message ?? "AI error");
     } finally {
@@ -164,6 +166,24 @@ function PersonaPage() {
                   </div>
                 )}
               </div>
+              {recommended[0] && (
+                <Link
+                  to="/programs/$id"
+                  params={{ id: recommended[0].id }}
+                  className="mt-4 btn-gold rounded-full w-full px-4 py-3 inline-flex items-center justify-center gap-2 text-sm font-bold shadow-[0_0_24px_rgba(244,166,74,0.45)] ring-1 ring-gold/60"
+                >
+                  <Sparkles size={14} />
+                  {lang === "th"
+                    ? `จองแพ็กเกจที่เหมาะกับคุณ · ${pick(recommended[0].name, lang)}`
+                    : `Book your matched package · ${pick(recommended[0].name, lang)}`}
+                  <ArrowRight size={14} />
+                </Link>
+              )}
+              <p className="mt-2 text-[10px] text-ivory/70 text-center">
+                {lang === "th"
+                  ? "ระบบจะแนบโปรไฟล์ Persona + บทวิเคราะห์ AI ให้ผู้เชี่ยวชาญอัตโนมัติ"
+                  : "We attach your persona + AI insight to the partner brief automatically."}
+              </p>
             </div>
           )}
           {!insight && !loadingAI && !aiError && (
