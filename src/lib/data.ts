@@ -247,7 +247,7 @@ export const programs: Program[] = [
     price: 38000,
     tagline: "Short escape สำหรับคน timeline แน่น",
     matches: ["calm", "sleep", "glow"],
-    image: villa,
+    image: programReset,
     venue: "Bo Phut Beach Villa",
     highlights: [
       "Welcome Sound Bath ริมหาด",
@@ -260,6 +260,13 @@ export const programs: Program[] = [
       { day: "Day 2 — Restore", items: ["Sunrise yoga", "Body composition scan", "Signature massage 90'", "Sound healing"] },
       { day: "Day 3 — Carry On", items: ["Sunrise meditation", "Wellness brunch", "Personal report consult", "Departure transfer"] },
     ],
+    gallery: [programReset, villa, spa, food, meditation, yoga],
+    expert: { name: "ดร. ภัทรา วงศ์สุข", role: "Wellness Physician & Sleep Specialist" },
+    mealPlan: [
+      { day: "Day 1 — Arrival", breakfast: "—", lunch: "Welcome herbal mocktail + light salad", dinner: "Healing dinner: ปลานึ่งมะนาว + ข้าวกล้อง + ผักย่าง", note: "งดคาเฟอีนหลัง 14:00 เพื่อเตรียม sleep cycle" },
+      { day: "Day 2 — Restore", breakfast: "Tropical smoothie bowl + chia + coconut yoghurt", lunch: "Buddha bowl ควินัว + อกไก่ + อะโวคาโด", dinner: "ต้มข่าเห็ด + ปลากระพงนึ่ง + ผักลวก", note: "ดื่มน้ำ 2.5L กระจายทั้งวัน" },
+      { day: "Day 3 — Carry On", breakfast: "Wellness brunch: ไข่ลวก + อะโวคาโดโทสต์", lunch: "Light bowl ก่อนเดินทาง", dinner: "—", note: "เตรียมรายการอาหารกลับบ้าน 7 วัน" },
+    ],
   },
   {
     id: "balance-5",
@@ -269,7 +276,7 @@ export const programs: Program[] = [
     price: 72000,
     tagline: "Sweet spot — เห็นผลจริง ไม่หักโหม",
     matches: ["sleep", "calm", "energy"],
-    image: meditation,
+    image: programBalance,
     venue: "Chaweng Noi Wellness Resort",
     highlights: [
       "1:1 Wellness Coach ทุกวัน",
@@ -284,6 +291,15 @@ export const programs: Program[] = [
       { day: "Day 4", items: ["Active flow yoga", "Signature treatment", "Sunset breathwork"] },
       { day: "Day 5", items: ["Final report", "Brunch", "Departure"] },
     ],
+    gallery: [programBalance, meditation, yoga, spa, food, villa],
+    expert: { name: "นพ. กฤษฎา ศิริชัย", role: "Functional Medicine Doctor" },
+    mealPlan: [
+      { day: "Day 1", breakfast: "—", lunch: "Welcome bowl: ปลาทูน่า + ผักสด", dinner: "Light dinner: ต้มยำกุ้ง clear soup + ข้าวกล้อง" },
+      { day: "Day 2", breakfast: "Acai bowl + เมล็ดแฟลกซ์", lunch: "Quinoa & roasted veggie bowl + ทาฮีนี", dinner: "ปลาย่างสมุนไพร + สลัดผักไทย", note: "เริ่ม intermittent 12:12" },
+      { day: "Day 3 — Juice Cleanse", breakfast: "Green juice (cucumber + apple + ginger)", lunch: "Beet & carrot juice + almond milk", dinner: "Bone broth + steamed greens", note: "วันล้างพิษ ดื่มน้ำเปล่า 3L" },
+      { day: "Day 4", breakfast: "Coconut yoghurt + berries + granola", lunch: "Salmon poke bowl + edamame", dinner: "อกไก่ย่าง + ผักรวมย่าง + quinoa" },
+      { day: "Day 5", breakfast: "Farewell brunch: omelette + อะโวคาโด + เห็ด", lunch: "—", dinner: "—" },
+    ],
   },
   {
     id: "transform-7",
@@ -293,7 +309,7 @@ export const programs: Program[] = [
     price: 128000,
     tagline: "Deep work — เปลี่ยนนิสัย เปลี่ยนชีวิต",
     matches: ["detox", "shape", "energy"],
-    image: yoga,
+    image: programTransform,
     venue: "Lamai Hilltop Sanctuary",
     highlights: [
       "ตรวจสุขภาพละเอียด + Metabolic test",
@@ -307,6 +323,17 @@ export const programs: Program[] = [
       { day: "Day 4-5", items: ["Active training", "Cold plunge", "Sound healing"] },
       { day: "Day 6", items: ["Integration day", "1:1 coaching"] },
       { day: "Day 7", items: ["Final report + 90-day plan", "Departure"] },
+    ],
+    gallery: [programTransform, yoga, spa, villa, food, meditation],
+    expert: { name: "ดร. ปริญญ์ ตั้งจิตร", role: "Performance Physician & Nutrition Coach" },
+    mealPlan: [
+      { day: "Day 1", breakfast: "—", lunch: "Intake — light bowl ปลานึ่ง + ผักสด", dinner: "Welcome dinner: salmon + roasted root veg" },
+      { day: "Day 2", breakfast: "Detox green smoothie + chia", lunch: "Buddha bowl ควินัว + อกไก่ย่าง", dinner: "Bone broth + steamed fish + ผักลวก", note: "เริ่ม detox protocol" },
+      { day: "Day 3", breakfast: "Coconut yoghurt + berries", lunch: "Light fish ceviche + avocado", dinner: "Veggie miso soup + tofu" },
+      { day: "Day 4", breakfast: "Tropical smoothie bowl", lunch: "Grilled salmon + quinoa + salad", dinner: "อกไก่อบสมุนไพร + sweet potato" },
+      { day: "Day 5", breakfast: "Egg white omelette + avocado", lunch: "Steak salad (grass-fed) + greens", dinner: "Light Thai clear soup + ปลาย่าง" },
+      { day: "Day 6", breakfast: "Overnight oats + almond butter", lunch: "Poke bowl + edamame", dinner: "Integration dinner: chef tasting menu (clean)" },
+      { day: "Day 7", breakfast: "Farewell brunch", lunch: "—", dinner: "—", note: "รับ 90-day meal blueprint กลับบ้าน" },
     ],
   },
 ];
