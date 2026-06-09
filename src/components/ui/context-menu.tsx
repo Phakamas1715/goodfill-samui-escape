@@ -27,14 +27,23 @@ const VARIANT_STYLES = {
   default: {
     item: "focus:bg-navy/10 focus:text-navy",
     subTrigger: "focus:bg-navy/10 focus:text-navy data-[state=open]:bg-navy/10",
+    text: "text-navy",
+    textMuted: "text-muted-foreground",
+    accent: "text-emerald",
   },
   gold: {
     item: "focus:bg-gold/20 focus:text-emerald-deep",
     subTrigger: "focus:bg-gold/20 focus:text-emerald-deep data-[state=open]:bg-gold/20",
+    text: "text-emerald-deep",
+    textMuted: "text-gold/70",
+    accent: "text-gold",
   },
   emerald: {
     item: "focus:bg-emerald/20 focus:text-ivory",
     subTrigger: "focus:bg-emerald/20 focus:text-ivory data-[state=open]:bg-emerald/20",
+    text: "text-ivory",
+    textMuted: "text-emerald/70",
+    accent: "text-emerald",
   },
 } as const;
 
@@ -66,13 +75,14 @@ const ContextMenuSubTrigger = React.forwardRef<
       className={cn(
         "flex cursor-default select-none items-center rounded-md px-3 py-2 text-sm outline-none transition-colors",
         variantStyle.subTrigger,
+        variantStyle.text,
         inset && "pl-8",
         className,
       )}
       {...props}
     >
       {children}
-      <ChevronRight className="ml-auto h-3.5 w-3.5 text-muted-foreground" />
+      <ChevronRight className={cn("ml-auto h-3.5 w-3.5", variantStyle.textMuted)} />
     </ContextMenuPrimitive.SubTrigger>
   );
 });
@@ -85,7 +95,7 @@ const ContextMenuSubContent = React.forwardRef<
   <ContextMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      "z-50 min-w-[12rem] overflow-hidden rounded-xl border border-mint/30 bg-white/95 backdrop-blur-sm p-1.5 text-popover-foreground shadow-xl",
+      "z-50 min-w-[12rem] overflow-hidden rounded-xl border border-mint/30 bg-white/95 backdrop-blur-sm p-1.5 shadow-xl",
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
       "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -137,12 +147,13 @@ const ContextMenuItem = React.forwardRef<React.ElementRef<typeof ContextMenuPrim
           "relative flex cursor-default select-none items-center rounded-md px-3 py-2 text-sm outline-none transition-colors",
           "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
           variantStyle.item,
+          variantStyle.text,
           inset && "pl-8",
           className,
         )}
         {...props}
       >
-        {icon && <span className="mr-2 text-gold">{icon}</span>}
+        {icon && <span className={cn("mr-2 shrink-0", variantStyle.accent)}>{icon}</span>}
         {children}
       </ContextMenuPrimitive.Item>
     );
@@ -160,6 +171,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
       "relative flex cursor-default select-none items-center rounded-md py-2 pl-8 pr-3 text-sm outline-none transition-colors",
       "focus:bg-navy/10 focus:text-navy",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "text-navy",
       className,
     )}
     checked={checked}
@@ -185,6 +197,7 @@ const ContextMenuRadioItem = React.forwardRef<
       "relative flex cursor-default select-none items-center rounded-md py-2 pl-8 pr-3 text-sm outline-none transition-colors",
       "focus:bg-navy/10 focus:text-navy",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "text-navy",
       className,
     )}
     {...props}
