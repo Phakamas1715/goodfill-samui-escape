@@ -1,11 +1,12 @@
 import { createFileRoute, Link, useNavigate, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, CalendarDays, ChefHat, MapPin } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ChefHat, MapPin, X, Sparkles } from "lucide-react";
 import { Shell, Section, Eyebrow } from "@/components/Shell";
 import { programs, pick, type Program } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 import { confirmBooking } from "@/lib/booking.functions";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
 
@@ -74,6 +75,20 @@ function ProgramDetail() {
   const [dietaryPlan, setDietaryPlan] = useState<"Signature" | "Plant-based" | "High-Protein" | "Detox Light">("Signature");
   const [allergies, setAllergies] = useState<{ nuts: boolean; seafood: boolean; dairy: boolean; gluten: boolean }>({ nuts: false, seafood: false, dairy: false, gluten: false });
   const [allergyNote, setAllergyNote] = useState("");
+  const [bookOpen, setBookOpen] = useState(false);
+
+  // Lock body scroll while the booking popup is open + close with Esc.
+  useEffect(() => {
+    if (!bookOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setBookOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [bookOpen]);
 
   async function book() {
     if (sending) return;
@@ -130,6 +145,7 @@ function ProgramDetail() {
       toast.error(t("programs.errorToast"), { id: "book", description: String(e).slice(0, 200) });
     } finally {
       setSending(false);
+      setBookOpen(false);
     }
   }
 
@@ -173,68 +189,13 @@ function ProgramDetail() {
                   ✦ {t("programs.useCredits").replace("{n}", String(state.credits))}
                 </div>
               )}
-              {!isBooked && (
-                <div className="mt-6 space-y-4 text-sm">
-                  <div>
-                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">เลือกแนวอาหาร / Meal direction</div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {(["Signature", "Plant-based", "High-Protein", "Detox Light"] as const).map((opt) => (
-                        <label
-                          key={opt}
-                          className={`cursor-pointer rounded-2xl border px-3 py-2 text-center transition ${
-                            dietaryPlan === opt ? "border-gold bg-gold/10 text-foreground" : "border-border text-muted-foreground hover:border-gold/60"
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            name="dietary-plan"
-                            value={opt}
-                            checked={dietaryPlan === opt}
-                            onChange={() => setDietaryPlan(opt)}
-                            className="sr-only"
-                          />
-                          {opt}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">แพ้อาหาร / Allergies</div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {([
-                        ["nuts", "ถั่ว"],
-                        ["seafood", "อาหารทะเล"],
-                        ["dairy", "นม"],
-                        ["gluten", "กลูเตน"],
-                      ] as const).map(([k, label]) => (
-                        <label key={k} className="flex items-center gap-2 rounded-xl border border-border px-3 py-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={allergies[k]}
-                            onChange={(e) => setAllergies((s) => ({ ...s, [k]: e.target.checked }))}
-                            className="accent-gold"
-                          />
-                          <span>{label}</span>
-                        </label>
-                      ))}
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="อื่นๆ / Other (เช่น ไข่, ถั่วเหลือง...)"
-                      value={allergyNote}
-                      onChange={(e) => setAllergyNote(e.target.value.slice(0, 300))}
-                      className="mt-2 w-full rounded-xl border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-gold"
-                    />
-                  </div>
-                </div>
-              )}
               <button
-                onClick={book}
+                onClick={() => (isBooked ? null : setBookOpen(true))}
                 disabled={isBooked || sending}
                 className="btn-gold rounded-full w-full py-4 mt-6 inline-flex items-center justify-center gap-2 disabled:opacity-60"
               >
-                {isBooked ? t("programs.booked") : sending ? t("programs.booking") : t("programs.confirmBook")}
-                {!isBooked && !sending && <ArrowRight size={16} />}
+                {isBooked ? t("programs.booked") : t("programs.confirmBook")}
+                {!isBooked && <ArrowRight size={16} />}
               </button>
               {isBooked && (
                 <Link to="/journey" className="block text-center text-sm text-gold mt-3">{t("programs.goJourney")}</Link>
@@ -293,6 +254,119 @@ function ProgramDetail() {
           </Link>
         </div>
       </Section>
+
+      {/* SINGLE-SCREEN BOOKING POPUP — fits one viewport, no scrolling required. */}
+      <AnimatePresence>
+        {bookOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/55 backdrop-blur-md"
+            onClick={() => !sending && setBookOpen(false)}
+          >
+            <motion.div
+              initial={{ y: 60, opacity: 0, scale: 0.96 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 60, opacity: 0, scale: 0.96 }}
+              transition={{ type: "spring", damping: 24, stiffness: 240 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full sm:max-w-md bg-ivory text-navy rounded-t-3xl sm:rounded-3xl shadow-2xl ring-1 ring-black/5 max-h-[100dvh] sm:max-h-[92vh] overflow-hidden flex flex-col"
+              role="dialog"
+              aria-modal="true"
+              aria-label={`ยืนยันการจอง ${pick(program.name, lang)}`}
+            >
+              {/* Compact header */}
+              <div className="px-5 pt-5 pb-3 flex items-start gap-3 border-b border-mint/40">
+                <div className="flex-1 min-w-0">
+                  <div className="text-[10px] tracking-[0.28em] uppercase text-gold font-bold">ยืนยันการจอง</div>
+                  <div className="font-display text-lg leading-tight mt-0.5 truncate">{pick(program.name, lang)}</div>
+                  <div className="text-[11px] text-muted-foreground mt-0.5">{pick(program.duration, lang)} · ฿{program.price.toLocaleString()}</div>
+                </div>
+                <button
+                  onClick={() => !sending && setBookOpen(false)}
+                  aria-label="ปิด"
+                  className="size-9 rounded-full bg-cream hover:bg-mint/40 grid place-items-center ring-1 ring-mint/40 active:scale-95 transition shrink-0"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Form body — uses internal scroll only if very small screens; sized to fit. */}
+              <div className="px-5 py-4 space-y-4 overflow-y-auto">
+                <div>
+                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5">แนวอาหาร / Meal direction</div>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {(["Signature", "Plant-based", "High-Protein", "Detox Light"] as const).map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => setDietaryPlan(opt)}
+                        className={`rounded-xl border px-2 py-2 text-xs font-medium text-center transition ${
+                          dietaryPlan === opt
+                            ? "border-gold bg-gold/15 text-navy"
+                            : "border-mint/50 text-muted-foreground hover:border-gold/60"
+                        }`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5">แพ้อาหาร / Allergies</div>
+                  <div className="grid grid-cols-4 gap-1.5">
+                    {([
+                      ["nuts", "ถั่ว"],
+                      ["seafood", "ทะเล"],
+                      ["dairy", "นม"],
+                      ["gluten", "กลูเตน"],
+                    ] as const).map(([k, label]) => (
+                      <button
+                        key={k}
+                        type="button"
+                        onClick={() => setAllergies((s) => ({ ...s, [k]: !s[k] }))}
+                        aria-pressed={allergies[k]}
+                        className={`rounded-xl border px-1 py-2 text-xs font-medium transition ${
+                          allergies[k]
+                            ? "border-coral/70 bg-coral/15 text-navy"
+                            : "border-mint/50 text-muted-foreground hover:border-coral/40"
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="อื่น ๆ / Other (เช่น ไข่, ถั่วเหลือง)"
+                    value={allergyNote}
+                    onChange={(e) => setAllergyNote(e.target.value.slice(0, 300))}
+                    className="mt-2 w-full rounded-xl border border-mint/50 bg-white/70 px-3 py-2 text-sm outline-none focus:border-gold"
+                  />
+                </div>
+              </div>
+
+              {/* Sticky footer CTA */}
+              <div className="px-5 pt-2 pb-[max(env(safe-area-inset-bottom),1rem)] border-t border-mint/40 bg-cream/60">
+                <button
+                  onClick={book}
+                  disabled={sending}
+                  className="btn-gold rounded-full w-full py-3.5 inline-flex items-center justify-center gap-2 text-sm font-bold disabled:opacity-60"
+                >
+                  <Sparkles size={16} />
+                  {sending ? t("programs.booking") : `${t("programs.confirmBook")} · ฿${program.price.toLocaleString()}`}
+                  {!sending && <ArrowRight size={16} />}
+                </button>
+                <div className="mt-1.5 text-center text-[10px] text-muted-foreground">
+                  ยืนยันแล้วระบบจะส่งใบเสร็จไป LINE/Telegram และแจ้งทีมพาร์ทเนอร์ทันที
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Shell>
   );
 }

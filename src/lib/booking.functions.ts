@@ -176,7 +176,20 @@ export const confirmBooking = createServerFn({ method: "POST" })
       .eq("channel", "customer")
       .maybeSingle();
     const customerTo = (lineRow?.line_user_id as string | undefined) ?? process.env.LINE_CUSTOMER_USER_ID ?? "";
-    const partnerTo = process.env.LINE_PARTNER_USER_ID ?? "";
+    // Partner recipient: prefer env (fixed venue OA), fall back to any partner-channel
+    // identity in line_identities so production keeps working even before LINE_PARTNER_USER_ID
+    // is configured per venue.
+    let partnerTo = process.env.LINE_PARTNER_USER_ID ?? "";
+    if (!partnerTo) {
+      const { data: partnerRow } = await supabaseAdmin
+        .from("line_identities")
+        .select("line_user_id")
+        .eq("channel", "partner")
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      partnerTo = (partnerRow?.line_user_id as string | undefined) ?? "";
+    }
     const { data: tgRow } = await supabaseAdmin
       .from("telegram_identities")
       .select("chat_id")
@@ -267,7 +280,12 @@ export const confirmBooking = createServerFn({ method: "POST" })
       const partnerMessages = mealMsg ? [partnerMsg, mealMsg] : [partnerMsg];
       partner = await linePush(partnerToken, partnerTo, partnerMessages);
     } else {
-      partner = { ok: false, error: partnerToken ? "LINE_PARTNER_USER_ID missing" : "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing" };
+      partner = {
+        ok: false,
+        error: partnerToken
+          ? "No partner recipient linked (set LINE_PARTNER_USER_ID or link a partner in line_identities)"
+          : "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing",
+      };
     }
 
     // Telegram: push receipt to customer if linked.
