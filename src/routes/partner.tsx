@@ -6,7 +6,10 @@ export const Route = createFileRoute("/partner")({
   head: () => ({
     meta: [
       { title: "Partner LIFF — Goodfill Care" },
-      { name: "description", content: "เมนูสำหรับพาร์ทเนอร์ — คิววันนี้ สแกน QR อาหาร กิจกรรม รีวิว และรายงาน" },
+      { name: "description", content: "ศูนย์ปฏิบัติการสำหรับพาร์ทเนอร์ Goodfill Care — คิววันนี้, สแกน QR ของแขก, ยืนยันอาหาร/บริการ, รีวิวลูกค้า และรายงานรายได้ ผ่าน LINE LIFF" },
+      { property: "og:title", content: "Partner LIFF — เครื่องมือพาร์ทเนอร์ Goodfill Care" },
+      { property: "og:description", content: "คิวบริการรายวัน, QR check-in, ยืนยันมื้ออาหาร และรายงาน — เปิดผ่าน LINE OA สำหรับวิลล่าและสปาพาร์ทเนอร์" },
+      { name: "robots", content: "noindex,nofollow" },
     ],
   }),
   component: PartnerPage,
