@@ -90,13 +90,13 @@ function PersonaPage() {
           </div>
         </DashCard>
 
-        {/* AI Insight — powered by Z.AI */}
+        {/* AI Insight — powered by AI */}
         <DashCard className="mt-3 bg-gradient-to-br from-emerald-deep/95 to-navy/95 text-ivory" variant="deep">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Wand2 size={14} className="text-gold" />
               <div className="text-[10px] tracking-[0.25em] uppercase text-gold font-semibold">
-                {lang === "th" ? "บทวิเคราะห์เชิงลึก · Z.AI" : "Deep Insight · Z.AI"}
+                {lang === "th" ? "บทวิเคราะห์เชิงลึก · AI" : "Deep Insight · AI"}
               </div>
             </div>
             <button
@@ -154,8 +154,8 @@ function PersonaPage() {
           {!insight && !loadingAI && !aiError && (
             <p className="text-[11px] text-ivory/70 mt-2 leading-relaxed">
               {lang === "th"
-                ? "กดวิเคราะห์เพื่อให้ Z.AI สรุปจุดแข็ง จุดโฟกัส และ ritual ประจำวันที่เหมาะกับคุณ — ผู้เชี่ยวชาญใช้ข้อมูลนี้วางแผนได้ทันที"
-                : "Tap analyze to let Z.AI summarise strengths, focus, and daily ritual matched to your persona — used by experts to fine-tune your plan."}
+                ? "กดวิเคราะห์เพื่อให้ AI สรุปจุดแข็ง จุดโฟกัส และ ritual ประจำวันที่เหมาะกับคุณ — ผู้เชี่ยวชาญใช้ข้อมูลนี้วางแผนได้ทันที"
+                : "Tap analyze to let AI summarise strengths, focus, and daily ritual matched to your persona — used by experts to fine-tune your plan."}
             </p>
           )}
         </DashCard>
