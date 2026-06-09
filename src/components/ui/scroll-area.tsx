@@ -1,3 +1,4 @@
+import * as React from "react";
 import { GripVertical, GripHorizontal } from "lucide-react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 
@@ -72,7 +73,7 @@ const ResizablePanel = Panel;
 
 const ResizableHandle = ({ withHandle, className, variant = "default", ...props }: ResizableHandleProps) => {
   const variantStyle = VARIANT_STYLES[variant];
-  const isVertical = props["data-panel-group-direction"] === "vertical";
+  const isVertical = (props as Record<string, unknown>)["data-panel-group-direction"] === "vertical";
 
   return (
     <Separator
@@ -146,7 +147,7 @@ const ResizableLayout = ({
   const panels = React.Children.toArray(children);
 
   return (
-    <ResizablePanelGroup direction={direction}>
+    <ResizablePanelGroup orientation={direction}>
       {panels.map((child, index) => (
         <ResizablePanel key={index} defaultSize={defaultSizes[index]} minSize={minSizes[index]}>
           {child}
@@ -175,7 +176,7 @@ const ThreeColumnLayout = ({
   variant?: "default" | "gold" | "emerald";
 }) => {
   return (
-    <ResizablePanelGroup direction="horizontal" variant={variant}>
+    <ResizablePanelGroup orientation="horizontal" variant={variant}>
       <ResizablePanel defaultSize={defaultSizes[0]} minSize={15}>
         {left}
       </ResizablePanel>
@@ -207,7 +208,7 @@ const SidebarLayout = ({
   variant?: "default" | "gold" | "emerald";
 }) => {
   return (
-    <ResizablePanelGroup direction="horizontal" variant={variant}>
+    <ResizablePanelGroup orientation="horizontal" variant={variant}>
       <ResizablePanel defaultSize={sidebarWidth} minSize={15}>
         {sidebar}
       </ResizablePanel>
