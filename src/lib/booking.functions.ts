@@ -44,6 +44,7 @@ function receiptFlex(opts: {
   qrUrl?: string;
   mealsUrl?: string;
   expertName?: string;
+  partnerActions?: boolean;
 }) {
   return {
     type: "flex",
@@ -89,6 +90,36 @@ function receiptFlex(opts: {
         layout: "vertical",
         spacing: "sm",
         contents: [
+          ...(opts.partnerActions
+            ? [
+                {
+                  type: "box",
+                  layout: "horizontal",
+                  spacing: "sm",
+                  contents: [
+                    {
+                      type: "button",
+                      style: "primary",
+                      color: "#0F3D2E",
+                      flex: 1,
+                      action: { type: "postback", label: "✓ รับงาน", data: `action=accept&id=${opts.bookingId}`, displayText: `รับงาน ${opts.bookingId}` },
+                    },
+                    {
+                      type: "button",
+                      style: "secondary",
+                      flex: 1,
+                      action: { type: "postback", label: "✗ ปฏิเสธ", data: `action=reject&id=${opts.bookingId}`, displayText: `ปฏิเสธ ${opts.bookingId}` },
+                    },
+                  ],
+                },
+                {
+                  type: "button",
+                  style: "link",
+                  action: { type: "postback", label: "เสร็จสิ้นงาน", data: `action=complete&id=${opts.bookingId}`, displayText: `เสร็จสิ้น ${opts.bookingId}` },
+                },
+                { type: "text", text: "พิมพ์ข้อความตอบกลับเพื่อบันทึกเป็นโน้ตของการจองนี้", size: "xxs", color: "#6B7280", wrap: true, align: "center" },
+              ]
+            : []),
           ...(opts.mealsUrl
             ? [
                 {
@@ -159,6 +190,7 @@ export const confirmBooking = createServerFn({ method: "POST" })
       accent: "#0B4A3F",
       mealsUrl,
       expertName: data.expertName,
+      partnerActions: true,
     });
 
     const mealMsg = data.mealPlan && data.mealPlan.length
@@ -206,5 +238,37 @@ export const confirmBooking = createServerFn({ method: "POST" })
       partner = { ok: false, error: "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing" };
     }
 
-    return { bookingId, customer, partner };
+    // Persist to DB (best-effort, never blocks the receipt response)
+    let dbId: string | null = null;
+    let dbError: string | null = null;
+    try {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { data: row, error } = await supabaseAdmin
+        .from("bookings")
+        .insert({
+          booking_code: bookingId,
+          program_id: data.programId,
+          program_name: data.programName,
+          program_duration: data.programDuration,
+          program_venue: data.programVenue,
+          program_price: data.programPrice,
+          booking_date: data.bookingDate,
+          meal_plan: data.mealPlan ?? [],
+          meals_url: data.mealsUrl ?? null,
+          expert_name: data.expertName ?? null,
+          customer_line_user_id: customerTo,
+          partner_line_user_id: partnerTo,
+          status: "pending",
+          customer_push: customer as unknown as Record<string, unknown>,
+          partner_push: partner as unknown as Record<string, unknown>,
+        })
+        .select("id")
+        .single();
+      if (error) dbError = error.message;
+      else dbId = row?.id ?? null;
+    } catch (e) {
+      dbError = e instanceof Error ? e.message : String(e);
+    }
+
+    return { bookingId, dbId, dbError, customer, partner };
   });
