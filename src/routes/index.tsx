@@ -217,7 +217,7 @@ function Landing() {
               </div>
             </div>
 
-            <div className="mt-6 md:mt-8 flex md:hidden items-center gap-5 md:gap-7 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
+            <div className="mt-6 hidden md:flex items-center gap-5 md:gap-7 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">
               {[
                 { v: "8", k: "hero.stat.min" as TKey },
                 { v: "6", k: "hero.stat.personas" as TKey },
