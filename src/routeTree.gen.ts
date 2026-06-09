@@ -19,11 +19,11 @@ import { Route as ExpertRouteImport } from './routes/expert'
 import { Route as ConsentRouteImport } from './routes/consent'
 import { Route as ChannelRouteImport } from './routes/channel'
 import { Route as CareRouteImport } from './routes/care'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsIndexRouteImport } from './routes/programs.index'
 import { Route as ProgramsIdRouteImport } from './routes/programs.$id'
 import { Route as MealsIdRouteImport } from './routes/meals.$id'
+import { Route as ApiPublicLineLoginRouteImport } from './routes/api/public/line-login'
 import { Route as ApiPublicLinePartnerWebhookRouteImport } from './routes/api/public/line.partner-webhook'
 import { Route as ApiPublicLineCustomerWebhookRouteImport } from './routes/api/public/line.customer-webhook'
 
@@ -77,11 +77,6 @@ const CareRoute = CareRouteImport.update({
   path: '/care',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -102,6 +97,11 @@ const MealsIdRoute = MealsIdRouteImport.update({
   path: '/meals/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicLineLoginRoute = ApiPublicLineLoginRouteImport.update({
+  id: '/api/public/line-login',
+  path: '/api/public/line-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicLinePartnerWebhookRoute =
   ApiPublicLinePartnerWebhookRouteImport.update({
     id: '/api/public/line/partner-webhook',
@@ -117,7 +117,6 @@ const ApiPublicLineCustomerWebhookRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
@@ -131,12 +130,12 @@ export interface FileRoutesByFullPath {
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
+  '/api/public/line-login': typeof ApiPublicLineLoginRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
@@ -150,13 +149,13 @@ export interface FileRoutesByTo {
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs': typeof ProgramsIndexRoute
+  '/api/public/line-login': typeof ApiPublicLineLoginRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
@@ -170,6 +169,7 @@ export interface FileRoutesById {
   '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
+  '/api/public/line-login': typeof ApiPublicLineLoginRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
   '/api/public/line/partner-webhook': typeof ApiPublicLinePartnerWebhookRoute
 }
@@ -177,7 +177,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
     | '/care'
     | '/channel'
     | '/consent'
@@ -191,12 +190,12 @@ export interface FileRouteTypes {
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
+    | '/api/public/line-login'
     | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/care'
     | '/channel'
     | '/consent'
@@ -210,12 +209,12 @@ export interface FileRouteTypes {
     | '/meals/$id'
     | '/programs/$id'
     | '/programs'
+    | '/api/public/line-login'
     | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
   id:
     | '__root__'
     | '/'
-    | '/admin'
     | '/care'
     | '/channel'
     | '/consent'
@@ -229,13 +228,13 @@ export interface FileRouteTypes {
     | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
+    | '/api/public/line-login'
     | '/api/public/line/customer-webhook'
     | '/api/public/line/partner-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRoute
   CareRoute: typeof CareRoute
   ChannelRoute: typeof ChannelRoute
   ConsentRoute: typeof ConsentRoute
@@ -249,6 +248,7 @@ export interface RootRouteChildren {
   MealsIdRoute: typeof MealsIdRoute
   ProgramsIdRoute: typeof ProgramsIdRoute
   ProgramsIndexRoute: typeof ProgramsIndexRoute
+  ApiPublicLineLoginRoute: typeof ApiPublicLineLoginRoute
   ApiPublicLineCustomerWebhookRoute: typeof ApiPublicLineCustomerWebhookRoute
   ApiPublicLinePartnerWebhookRoute: typeof ApiPublicLinePartnerWebhookRoute
 }
@@ -325,13 +325,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -360,6 +353,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MealsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/line-login': {
+      id: '/api/public/line-login'
+      path: '/api/public/line-login'
+      fullPath: '/api/public/line-login'
+      preLoaderRoute: typeof ApiPublicLineLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/line/partner-webhook': {
       id: '/api/public/line/partner-webhook'
       path: '/api/public/line/partner-webhook'
@@ -379,7 +379,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRoute,
   CareRoute: CareRoute,
   ChannelRoute: ChannelRoute,
   ConsentRoute: ConsentRoute,
@@ -393,6 +392,7 @@ const rootRouteChildren: RootRouteChildren = {
   MealsIdRoute: MealsIdRoute,
   ProgramsIdRoute: ProgramsIdRoute,
   ProgramsIndexRoute: ProgramsIndexRoute,
+  ApiPublicLineLoginRoute: ApiPublicLineLoginRoute,
   ApiPublicLineCustomerWebhookRoute: ApiPublicLineCustomerWebhookRoute,
   ApiPublicLinePartnerWebhookRoute: ApiPublicLinePartnerWebhookRoute,
 }
