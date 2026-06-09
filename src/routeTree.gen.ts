@@ -28,6 +28,7 @@ import { Route as MealsIdRouteImport } from './routes/meals.$id'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
 import { Route as ApiPublicLineLoginRouteImport } from './routes/api/public/line-login'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin.settings'
 import { Route as AuthenticatedAdminProgramsRouteImport } from './routes/_authenticated/admin.programs'
 import { Route as AuthenticatedAdminBookingsRouteImport } from './routes/_authenticated/admin.bookings'
@@ -128,6 +129,11 @@ const ApiPublicLineLoginRoute = ApiPublicLineLoginRouteImport.update({
   path: '/api/public/line-login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminSettingsRoute =
   AuthenticatedAdminSettingsRouteImport.update({
     id: '/settings',
@@ -179,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/programs': typeof AuthenticatedAdminProgramsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/line-login': typeof ApiPublicLineLoginRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
@@ -203,6 +210,7 @@ export interface FileRoutesByTo {
   '/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/admin/programs': typeof AuthenticatedAdminProgramsRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/line-login': typeof ApiPublicLineLoginRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
@@ -230,6 +238,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/bookings': typeof AuthenticatedAdminBookingsRoute
   '/_authenticated/admin/programs': typeof AuthenticatedAdminProgramsRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/api/public/line-login': typeof ApiPublicLineLoginRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/line/customer-webhook': typeof ApiPublicLineCustomerWebhookRoute
@@ -257,6 +266,7 @@ export interface FileRouteTypes {
     | '/admin/bookings'
     | '/admin/programs'
     | '/admin/settings'
+    | '/admin/users'
     | '/api/public/line-login'
     | '/admin/'
     | '/api/public/line/customer-webhook'
@@ -281,6 +291,7 @@ export interface FileRouteTypes {
     | '/admin/bookings'
     | '/admin/programs'
     | '/admin/settings'
+    | '/admin/users'
     | '/api/public/line-login'
     | '/admin'
     | '/api/public/line/customer-webhook'
@@ -307,6 +318,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/bookings'
     | '/_authenticated/admin/programs'
     | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/users'
     | '/api/public/line-login'
     | '/_authenticated/admin/'
     | '/api/public/line/customer-webhook'
@@ -470,6 +482,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicLineLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/settings': {
       id: '/_authenticated/admin/settings'
       path: '/settings'
@@ -512,6 +531,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminBookingsRoute: typeof AuthenticatedAdminBookingsRoute
   AuthenticatedAdminProgramsRoute: typeof AuthenticatedAdminProgramsRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
@@ -519,6 +539,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminBookingsRoute: AuthenticatedAdminBookingsRoute,
   AuthenticatedAdminProgramsRoute: AuthenticatedAdminProgramsRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
 
