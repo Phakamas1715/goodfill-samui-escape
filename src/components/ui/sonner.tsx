@@ -181,17 +181,18 @@ async function showPromise<T>(
     errorDescription?: string;
   },
 ): Promise<T> {
-  return toast.promise(promise, {
+  toast.promise(promise, {
     loading: messages.loading,
-    success: (data) => ({
-      title: messages.success,
+    success: () => ({
+      message: messages.success,
       description: options?.successDescription,
     }),
     error: (error) => ({
-      title: messages.error,
+      message: messages.error,
       description: options?.errorDescription || (error instanceof Error ? error.message : undefined),
     }),
   });
+  return promise;
 }
 
 // ============================================================================
