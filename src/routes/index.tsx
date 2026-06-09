@@ -134,14 +134,14 @@ function Landing() {
       <Nav />
 
       {/* MAIN CONTENT */}
-      <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col">
-        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] pb-[50px] pr-[50px] mt-[50px]">
+      <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col overflow-hidden">
+        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] pb-[50px] lg:pr-[50px] mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 min-w-0 max-w-[230px] sm:max-w-[380px] lg:max-w-none"
+            className="relative z-10 min-w-0 max-w-[58%] sm:max-w-[62%] md:max-w-[60%] lg:max-w-none"
           >
             <div className="flex items-center gap-3">
               <img
@@ -311,7 +311,7 @@ function Landing() {
             transition={{ delay: 0.3, duration: 0.9 }}
             src={welcomeHost}
             alt=""
-            className="lg:hidden fixed -right-4 bottom-0 h-[72vh] max-h-[640px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
+            className="lg:hidden absolute right-0 bottom-0 h-[64vh] max-h-[560px] w-auto max-w-[48%] object-contain object-bottom pointer-events-none drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] z-0"
           />
         </div>
       </main>
