@@ -137,7 +137,7 @@ export const validateBooking = createServerFn({ method: "POST" })
     }
 
     // Check program availability (simulated)
-    const isAvailable = await checkAvailability(data.programId, data.startDate);
+    const isAvailable = await checkAvailability(data.programId, startDate);
     if (!isAvailable) {
       errors.push("Program is not available for selected dates");
     }
