@@ -189,7 +189,7 @@ export function ToastAlert({
   message,
   duration = 5000,
   onDismiss,
-}: AlertBannerProps & { duration?: number }) {
+}: AlertBannerProps & { duration?: number; onDismiss?: () => void }) {
   React.useEffect(() => {
     if (duration > 0) {
       const timer = setTimeout(() => {
@@ -213,4 +213,4 @@ export function ToastAlert({
 // Default Export
 // ============================================================================
 
-export { Alert, AlertTitle, AlertDescription, AlertBanner, ToastAlert, alertVariants, type AlertVariant };
+export { Alert, AlertTitle, AlertDescription, alertVariants, type AlertVariant };
