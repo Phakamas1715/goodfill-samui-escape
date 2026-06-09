@@ -55,7 +55,6 @@ function getStatusText(status: string, lang: string): string {
 }
 
 function detectLanguage(text: string): string {
-  // Thai character range
   const hasThai = /[ก-๙]/.test(text);
   return hasThai ? "th" : "en";
 }
@@ -161,6 +160,20 @@ function formatBookingResponse(booking: any, lang: string): string {
   }
 }
 
+// Helper to get user language preference from DB
+async function getUserLanguage(supabaseAdmin: any, lineUserId: string): Promise<string> {
+  try {
+    const { data } = await supabaseAdmin
+      .from("line_identities")
+      .select("language_preference")
+      .eq("line_user_id", lineUserId)
+      .maybeSingle();
+    return data?.language_preference || "th";
+  } catch {
+    return "th";
+  }
+}
+
 async function handleEvent(event: LineEvent) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const token = process.env.LINE_CHANNEL_ACCESS_TOKEN!;
@@ -174,16 +187,13 @@ async function handleEvent(event: LineEvent) {
   // Follow / friend added → welcome
   if (event.type === "follow") {
     if (event.replyToken) {
-      // Store user identity
       if (customerUserId) {
         try {
           await supabaseAdmin.from("line_identities").upsert(
             {
               line_user_id: customerUserId,
-              user_id: customerUserId,
-              channel: "customer",
               last_active_at: new Date().toISOString(),
-              language_preference: "th", // Default to Thai
+              language_preference: "th",
             },
             { onConflict: "line_user_id" },
           );
@@ -199,14 +209,26 @@ async function handleEvent(event: LineEvent) {
   if (event.type === "message" && event.message?.type === "text" && event.message.text) {
     const text = event.message.text.trim();
     const lower = text.toLowerCase();
-    const lang = detectLanguage(text);
 
-    // Update last active timestamp
+    // Get user's saved language preference (if exists)
+    let savedLang = "th";
+    if (customerUserId) {
+      savedLang = await getUserLanguage(supabaseAdmin, customerUserId);
+    }
+
+    // Detect language from message, fallback to saved preference
+    const detectedLang = detectLanguage(text);
+    const lang = detectedLang !== "th" ? detectedLang : savedLang;
+
+    // Update last active timestamp and language preference
     if (customerUserId) {
       try {
         await supabaseAdmin
           .from("line_identities")
-          .update({ last_active_at: new Date().toISOString() })
+          .update({
+            last_active_at: new Date().toISOString(),
+            language_preference: lang,
+          })
           .eq("line_user_id", customerUserId);
       } catch (err) {
         console.error("Failed to update last active:", err);
@@ -258,10 +280,8 @@ async function handleEvent(event: LineEvent) {
 
       if (specificCode) {
         query = query.eq("booking_code", specificCode);
-      } else if (customerUserId) {
-        query = query.eq("customer_line_user_id", customerUserId);
       } else {
-        return;
+        query = query.eq("customer_line_user_id", customerUserId);
       }
 
       const { data: rows } = await query.limit(1);
@@ -283,7 +303,7 @@ async function handleEvent(event: LineEvent) {
       return;
     }
 
-    // Handle direct booking code input (without /status prefix)
+    // Handle direct booking code input
     const directCodeMatch = text.match(/^(GF-[A-Z0-9]+)$/i);
     if (directCodeMatch) {
       const code = directCodeMatch[1].toUpperCase();
@@ -302,6 +322,46 @@ async function handleEvent(event: LineEvent) {
             { type: "text", text: formatBookingResponse(row, lang), parseMode: "HTML" },
           ]);
         }
+      }
+      return;
+    }
+
+    // Handle language change command
+    if (text === "/language" || lower === "language" || lower === "ภาษา") {
+      if (event.replyToken) {
+        const langMsg =
+          lang === "th"
+            ? "🌐 เปลี่ยนภาษา:\n\n🇹🇭 พิมพ์ /th สำหรับภาษาไทย\n🇬🇧 พิมพ์ /en สำหรับ English"
+            : "🌐 Change language:\n\n🇹🇭 Type /th for Thai\n🇬🇧 Type /en for English";
+        await lineReply(token, event.replyToken, [{ type: "text", text: langMsg }]);
+      }
+      return;
+    }
+
+    // Handle /th command
+    if (text === "/th") {
+      if (customerUserId) {
+        await supabaseAdmin
+          .from("line_identities")
+          .update({ language_preference: "th" })
+          .eq("line_user_id", customerUserId);
+      }
+      if (event.replyToken) {
+        await lineReply(token, event.replyToken, [{ type: "text", text: "🇹🇭 เปลี่ยนภาษาเป็นไทยเรียบร้อยแล้ว" }]);
+      }
+      return;
+    }
+
+    // Handle /en command
+    if (text === "/en") {
+      if (customerUserId) {
+        await supabaseAdmin
+          .from("line_identities")
+          .update({ language_preference: "en" })
+          .eq("line_user_id", customerUserId);
+      }
+      if (event.replyToken) {
+        await lineReply(token, event.replyToken, [{ type: "text", text: "🇬🇧 Language changed to English" }]);
       }
       return;
     }
