@@ -181,12 +181,12 @@ export async function checkAdminClientHealth(): Promise<{ healthy: boolean; erro
   const startTime = Date.now();
 
   try {
-    const { data, error } = await supabaseAdmin.from("_health").select("1").limit(1).maybeSingle();
+    const { error } = await (supabaseAdmin as any).from("_health").select("1").limit(1).maybeSingle();
     const latencyMs = Date.now() - startTime;
 
     if (error) {
       // Table might not exist, try a different approach
-      const { error: versionError } = await supabaseAdmin.rpc("version").maybeSingle();
+      const { error: versionError } = await (supabaseAdmin as any).rpc("version").maybeSingle();
       if (versionError) {
         return { healthy: false, error: versionError.message, latencyMs };
       }
