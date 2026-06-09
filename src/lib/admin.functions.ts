@@ -189,7 +189,11 @@ export const assignRole = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data, context }) => {
-    await assertAdminOrStaff(context.supabase, context.userId);
+    const callerRoles = await assertAdminOrStaff(context.supabase, context.userId);
+    // Only admins can grant or revoke the admin role — staff cannot self-promote.
+    if (data.role === "admin" && !callerRoles.includes("admin")) {
+      throw new Error("forbidden: only admins can manage the admin role");
+    }
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     if (data.grant) {
       await supabaseAdmin
