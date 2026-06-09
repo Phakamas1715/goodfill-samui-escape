@@ -23,12 +23,12 @@ export function Nav() {
               <span className="text-[10px] tracking-[0.25em] text-muted-foreground uppercase -mt-0.5">Care · Koh Samui</span>
             </div>
           </Link>
-          <nav className="hidden md:flex items-center gap-7">
+          <nav className="hidden md:flex items-center gap-6 whitespace-nowrap">
             {links.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
                 activeProps={{ className: "text-gold" }}
                 activeOptions={{ exact: l.to === "/" }}
               >
@@ -38,7 +38,7 @@ export function Nav() {
           </nav>
           <Link
             to="/quest"
-            className="hidden md:inline-flex btn-gold rounded-full px-5 py-2 text-sm"
+            className="hidden md:inline-flex btn-gold rounded-full px-5 py-2 text-sm whitespace-nowrap"
           >
             เริ่มแบบประเมิน
           </Link>
