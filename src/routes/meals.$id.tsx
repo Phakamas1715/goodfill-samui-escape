@@ -34,7 +34,7 @@ function MealsPage() {
         <Link to="/journey" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-2">
           <ArrowLeft size={14} /> กลับ My Journey
         </Link>
-        <Eyebrow className="mt-6">Expert Meal Plan</Eyebrow>
+        <div className="mt-6"><Eyebrow>Expert Meal Plan</Eyebrow></div>
         <h1 className="font-display text-4xl md:text-5xl mt-2">{program.name}</h1>
         <p className="text-muted-foreground mt-2">วางแผนโดย {program.expert.name} — {program.expert.role}</p>
 
