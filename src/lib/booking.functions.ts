@@ -245,6 +245,7 @@ export const confirmBooking = createServerFn({ method: "POST" })
       partnerActions: true,
       dietaryPlan: data.dietaryPlan,
       dietaryNotes: data.dietaryNotes,
+      personaNote: data.personaNote,
     });
 
     const mealMsg = data.mealPlan && data.mealPlan.length
