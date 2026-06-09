@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { DashShell } from "@/components/DashShell";
 import { questions, scorePersonaTop2, pick } from "@/lib/data";
 import { useAppState } from "@/lib/state";
@@ -29,23 +29,39 @@ function Quest() {
   const selected = answers[q.id];
 
   const [persona, secondaryPersona] = useMemo(() => scorePersonaTop2(answers), [answers]);
+  const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function finishWith(finalAnswers: Record<number, number>) {
+    const [p, sp] = scorePersonaTop2(finalAnswers);
+    setState((s) => ({
+      ...s,
+      questAnswers: finalAnswers,
+      persona: p,
+      secondaryPersona: sp,
+      credits: s.persona ? s.credits : s.credits + 300,
+    }));
+    navigate({ to: "/persona" });
+  }
 
   function choose(idx: number) {
-    setAnswers((a) => ({ ...a, [q.id]: idx }));
+    const nextAnswers = { ...answers, [q.id]: idx };
+    setAnswers(nextAnswers);
+    if (advanceTimer.current) clearTimeout(advanceTimer.current);
+    advanceTimer.current = setTimeout(() => {
+      if (step < questions.length - 1) {
+        setStep((s) => s + 1);
+      } else {
+        finishWith(nextAnswers);
+      }
+    }, 380);
   }
 
   function next() {
+    if (advanceTimer.current) clearTimeout(advanceTimer.current);
     if (step < questions.length - 1) {
       setStep((s) => s + 1);
     } else {
-      setState((s) => ({
-        ...s,
-        questAnswers: answers,
-        persona,
-        secondaryPersona,
-        credits: s.persona ? s.credits : s.credits + 300,
-      }));
-      navigate({ to: "/persona" });
+      finishWith(answers);
     }
   }
 
@@ -82,15 +98,19 @@ function Quest() {
                 <button
                   key={idx}
                   onClick={() => choose(idx)}
-                  className={`bg-white/85 backdrop-blur-md border rounded-2xl p-3 md:p-4 text-left flex items-center justify-between gap-3 transition group shadow-sm ${
-                    selected === idx ? "border-gold ring-2 ring-gold/30 bg-gold/5" : "border-white/60 hover:bg-pale-mint/40"
+                  className={`backdrop-blur-md border-2 rounded-2xl p-3 md:p-4 text-left flex items-center justify-between gap-3 transition-all duration-200 group shadow-sm ${
+                    selected === idx
+                      ? "border-emerald bg-emerald text-white shadow-md scale-[1.015]"
+                      : "bg-white/85 border-white/60 text-navy hover:bg-pale-mint/40 hover:border-emerald/40"
                   }`}
                 >
-                  <span className="text-sm text-navy">{pick(opt.label, lang)}</span>
+                  <span className={`text-sm font-medium ${selected === idx ? "text-white" : "text-navy"}`}>
+                    {pick(opt.label, lang)}
+                  </span>
                   <span
                     className={`size-6 rounded-full grid place-items-center transition shrink-0 ${
                       selected === idx
-                        ? "bg-gold text-emerald-deep"
+                        ? "bg-gold text-emerald-deep scale-110"
                         : "border border-mint text-transparent group-hover:border-emerald/60"
                     }`}
                   >
@@ -113,7 +133,11 @@ function Quest() {
           <button
             onClick={next}
             disabled={selected == null}
-            className="btn-gold rounded-full px-5 py-2.5 inline-flex items-center gap-1.5 text-xs disabled:opacity-40 disabled:cursor-not-allowed"
+            className={`rounded-full px-5 py-2.5 inline-flex items-center gap-1.5 text-xs font-semibold transition-all ${
+              selected == null
+                ? "bg-muted text-muted-foreground/60 cursor-not-allowed"
+                : "btn-gold shadow-lg hover:scale-[1.03]"
+            }`}
           >
             {step === questions.length - 1 ? t("common.viewResult") : t("common.next")}
             <ArrowRight size={14} />
