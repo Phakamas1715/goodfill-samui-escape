@@ -12,11 +12,44 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/programs/$id")({
   head: ({ params }) => {
     const p = programs.find((x) => x.id === params.id);
+    const url = `https://goodfillcare-samui.com/programs/${params.id}`;
+    const image = p?.image ?? "https://goodfillcare-samui.com/icon-512.png";
     return {
       meta: [
         { title: p ? `${p.name.th} — Goodfill Care` : "Program — Goodfill Care" },
         { name: "description", content: p?.tagline.th ?? "Wellness program ที่เกาะสมุย" },
+        { property: "og:title", content: p ? `${p.name.th} — Goodfill Care` : "Program — Goodfill Care" },
+        { property: "og:description", content: p?.tagline.th ?? "Wellness program ที่เกาะสมุย" },
+        { property: "og:image", content: image },
+        { property: "og:url", content: url },
+        { property: "og:type", content: "product" },
+        { name: "twitter:image", content: image },
       ],
+      links: [
+        { rel: "canonical", href: url },
+      ],
+      scripts: p
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Product",
+                name: p.name.th,
+                description: p.tagline.th,
+                image: p.image,
+                brand: { "@type": "Brand", name: "Goodfill Care" },
+                offers: {
+                  "@type": "Offer",
+                  price: p.price,
+                  priceCurrency: "THB",
+                  availability: "https://schema.org/InStock",
+                  url,
+                },
+              }),
+            },
+          ]
+        : undefined,
     };
   },
   notFoundComponent: () => (
