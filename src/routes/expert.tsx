@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { DashShell, DashCard } from "@/components/DashShell";
-import { CheckCircle2, AlertCircle, Clock, FileQuestion, X } from "lucide-react";
+import { CheckCircle2, AlertCircle, Clock, FileQuestion, X, Sparkles, User, Calendar, ClipboardList } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -27,85 +27,172 @@ const cases = [
 ];
 
 const statusMap: Record<string, { label: string; tone: string; icon: typeof Clock }> = {
-  pending: { label: "รอตรวจสอบ", tone: "bg-cream text-gold", icon: Clock },
-  review: { label: "กำลังรีวิว", tone: "bg-pale-mint text-emerald", icon: FileQuestion },
-  approved: { label: "อนุมัติแล้ว", tone: "bg-pale-mint text-emerald", icon: CheckCircle2 },
-  adjust: { label: "ขอปรับ", tone: "bg-cream text-gold", icon: AlertCircle },
+  pending: { label: "รอตรวจสอบ", tone: "bg-amber-100 text-amber-700", icon: Clock },
+  review: { label: "กำลังรีวิว", tone: "bg-sky-100 text-sky-700", icon: FileQuestion },
+  approved: { label: "อนุมัติแล้ว", tone: "bg-emerald-100 text-emerald-700", icon: CheckCircle2 },
+  adjust: { label: "ขอปรับ", tone: "bg-orange-100 text-orange-700", icon: AlertCircle },
 };
 
 function ExpertPage() {
   const [active, setActive] = useState(cases[0]);
+  
   return (
-    <DashShell bg="food" host="wai" kicker="Expert Review Board" title="บอร์ดรีวิวผู้เชี่ยวชาญ" subtitle="ตรวจ meal plan · activity plan · อนุมัติเคส">
-      <div className="grid lg:grid-cols-[300px,1fr] gap-3">
-          {/* Queue */}
-          <DashCard className="!p-2">
-            <div className="px-2 py-1 text-[10px] tracking-widest uppercase text-muted-foreground">Queue · 4</div>
-            <ul className="space-y-1">
-              {cases.map((c) => {
-                const s = statusMap[c.status];
-                const isActive = c.id === active.id;
-                return (
-                  <li key={c.id}>
-                    <button
-                      onClick={() => setActive(c)}
-                      className={`w-full text-left rounded-xl p-2.5 transition ${isActive ? "bg-pale-mint ring-1 ring-emerald/30" : "hover:bg-cream/60"}`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="text-[10px] text-muted-foreground">{c.id}</div>
-                        <span className={`pill ${s.tone} text-[9px]`}><s.icon size={9} />{s.label}</span>
-                      </div>
-                      <div className="font-medium text-navy mt-0.5 text-sm">{c.name}</div>
-                      <div className="text-[10px] text-emerald">{c.persona}</div>
-                      <div className="text-[10px] text-muted-foreground truncate">{c.program}</div>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </DashCard>
-
-          {/* Detail */}
-          <DashCard>
-            <div className="flex items-start justify-between flex-wrap gap-3">
-              <div>
-                <div className="text-[10px] text-muted-foreground">{active.id}</div>
-                <h2 className="font-display text-lg text-navy">{active.name}</h2>
-                <div className="flex flex-wrap gap-1.5 mt-1">
-                  <span className="pill bg-pale-mint text-emerald text-[10px]">{active.persona}</span>
-                  <span className="pill bg-cream text-gold text-[10px]">{active.program}</span>
-                </div>
+    <DashShell 
+      bg="food" 
+      kicker="Expert Review Board" 
+      title="บอร์ดรีวิวผู้เชี่ยวชาญ" 
+      subtitle="ตรวจ meal plan · activity plan · อนุมัติเคส"
+    >
+      <div className="grid lg:grid-cols-[340px,1fr] gap-4 md:gap-5">
+        {/* Queue Section — larger */}
+        <DashCard className="p-0 overflow-hidden">
+          <div className="bg-gradient-to-r from-emerald-deep/10 to-transparent px-4 py-3 border-b border-mint/30">
+            <div className="flex items-center justify-between">
+              <div className="text-[11px] md:text-xs tracking-widest uppercase text-emerald font-semibold flex items-center gap-2">
+                <ClipboardList size={14} /> คิวรอตรวจสอบ
               </div>
-              <span className={`pill ${statusMap[active.status].tone} text-[10px]`}>{statusMap[active.status].label}</span>
+              <div className="bg-gold/20 text-gold text-xs font-bold px-2 py-0.5 rounded-full">
+                {cases.length} เคส
+              </div>
             </div>
+          </div>
+          
+          <ul className="divide-y divide-mint/20 max-h-[60vh] overflow-y-auto">
+            {cases.map((c) => {
+              const s = statusMap[c.status];
+              const isActive = c.id === active.id;
+              return (
+                <li key={c.id}>
+                  <button
+                    onClick={() => setActive(c)}
+                    className={`w-full text-left p-4 transition-all duration-200 ${
+                      isActive 
+                        ? "bg-pale-mint/60 ring-2 ring-emerald/40 shadow-md" 
+                        : "hover:bg-cream/40 hover:shadow-sm"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[11px] md:text-xs font-mono text-muted-foreground bg-white/50 px-2 py-0.5 rounded">
+                        {c.id}
+                      </span>
+                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${s.tone}`}>
+                        <s.icon size={10} />
+                        {s.label}
+                      </span>
+                    </div>
+                    
+                    <div className="font-semibold text-navy text-base md:text-lg mb-1">
+                      {c.name}
+                    </div>
+                    
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[11px] md:text-xs text-emerald font-medium bg-emerald/10 px-2 py-0.5 rounded-full">
+                        {c.persona}
+                      </span>
+                    </div>
+                    
+                    <div className="text-[11px] md:text-xs text-muted-foreground truncate">
+                      {c.program}
+                    </div>
+                    
+                    <div className="text-[10px] text-muted-foreground mt-2 flex items-center gap-1">
+                      <Clock size={10} /> {c.time}
+                    </div>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </DashCard>
 
-            <div className="grid md:grid-cols-2 gap-2 mt-3">
-              <Panel title="Meal Plan · แผนอาหาร">
-                <Row label="เช้า" val="Detox green juice + chia bowl" />
-                <Row label="กลางวัน" val="Steamed fish, quinoa, salad" />
-                <Row label="เย็น" val="Mushroom broth, brown rice" />
-                <Row label="kcal/day" val="~1,650" />
-              </Panel>
-              <Panel title="Activity Plan · กิจกรรม">
-                <Row label="เช้า" val="Sunrise yoga 60'" />
-                <Row label="สาย" val="Lymphatic massage 60'" />
-                <Row label="บ่าย" val="Forest bathing walk" />
-                <Row label="เย็น" val="Sound healing 45'" />
-              </Panel>
+        {/* Detail Section — larger */}
+        <DashCard className="p-5 md:p-6">
+          {/* Header */}
+          <div className="flex items-start justify-between flex-wrap gap-3 pb-4 border-b border-mint/30">
+            <div className="flex-1">
+              <div className="text-[11px] md:text-xs font-mono text-muted-foreground mb-1">
+                {active.id}
+              </div>
+              <h2 className="font-display text-2xl md:text-3xl text-navy leading-tight">
+                {active.name}
+              </h2>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald/10 text-emerald text-[11px] md:text-xs font-medium">
+                  <User size={12} /> {active.persona}
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gold/10 text-gold text-[11px] md:text-xs font-medium">
+                  <Calendar size={12} /> {active.program}
+                </span>
+              </div>
             </div>
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs md:text-sm font-semibold ${statusMap[active.status].tone}`}>
+              {statusMap[active.status].icon && <statusMap[active.status].icon size={14} />}
+              {statusMap[active.status].label}
+            </span>
+          </div>
 
-            <div className="card-cream mt-2 p-3 rounded-xl">
-              <div className="text-[10px] tracking-widest uppercase text-emerald mb-1">Expert Notes</div>
-              <p className="text-xs text-navy/80">แนะนำเพิ่ม Breathwork วันที่ 2 ช่วยเรื่องการนอน · ลดคาเฟอีนเหลือเช้าวันเดียว</p>
-            </div>
+          {/* Plans Grid — larger */}
+          <div className="grid md:grid-cols-2 gap-4 mt-5">
+            <Panel title="🍽️ Meal Plan · แผนอาหาร">
+              <Row label="🌅 เช้า (Breakfast)" val="Detox green juice + chia bowl" />
+              <Row label="☀️ กลางวัน (Lunch)" val="Steamed fish, quinoa, salad" />
+              <Row label="🌙 เย็น (Dinner)" val="Mushroom broth, brown rice" />
+              <Row label="🔥 kcal/day" val="~1,650" highlight />
+            </Panel>
+            
+            <Panel title="🧘 Activity Plan · กิจกรรม">
+              <Row label="🌅 เช้า" val="Sunrise yoga 60'" />
+              <Row label="💆 สาย" val="Lymphatic massage 60'" />
+              <Row label="🌳 บ่าย" val="Forest bathing walk" />
+              <Row label="🎵 เย็น" val="Sound healing 45'" />
+            </Panel>
+          </div>
 
-            <div className="flex flex-wrap gap-1.5 mt-3">
-              <button className="btn-emerald rounded-full px-3 py-2 text-xs inline-flex items-center gap-1"><CheckCircle2 size={12} /> อนุมัติ</button>
-              <button className="card-cream rounded-full px-3 py-2 text-xs inline-flex items-center gap-1 text-gold"><AlertCircle size={12} /> ขอปรับ</button>
-              <button className="rounded-full px-3 py-2 text-xs inline-flex items-center gap-1 bg-pale-mint text-emerald"><FileQuestion size={12} /> ขอข้อมูล</button>
-              <button className="rounded-full px-3 py-2 text-xs inline-flex items-center gap-1 bg-red-50 text-red-700"><X size={12} /> ไม่แนะนำ</button>
+          {/* Expert Notes — larger */}
+          <div className="mt-5 bg-gradient-to-r from-gold/5 to-transparent rounded-xl p-4 border-l-4 border-gold">
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles size={14} className="text-gold" />
+              <div className="text-[11px] md:text-xs tracking-widest uppercase text-gold font-semibold">
+                Expert Notes
+              </div>
             </div>
-          </DashCard>
+            <p className="text-sm md:text-base text-navy/85 leading-relaxed">
+              แนะนำเพิ่ม Breathwork วันที่ 2 ช่วยเรื่องการนอน · ลดคาเฟอีนเหลือเช้าวันเดียว
+            </p>
+          </div>
+
+          {/* Action Buttons — larger */}
+          <div className="flex flex-wrap gap-2 mt-6 pt-4 border-t border-mint/30">
+            <button className="btn-emerald rounded-full px-5 py-2.5 text-sm md:text-base inline-flex items-center gap-2 font-semibold shadow-md hover:shadow-lg transition-all">
+              <CheckCircle2 size={16} /> อนุมัติ
+            </button>
+            <button className="card-cream rounded-full px-5 py-2.5 text-sm md:text-base inline-flex items-center gap-2 text-gold font-semibold hover:shadow-md transition-all">
+              <AlertCircle size={16} /> ขอปรับ
+            </button>
+            <button className="rounded-full px-5 py-2.5 text-sm md:text-base inline-flex items-center gap-2 bg-sky-50 text-sky-700 font-semibold hover:bg-sky-100 transition-all">
+              <FileQuestion size={16} /> ขอข้อมูล
+            </button>
+            <button className="rounded-full px-5 py-2.5 text-sm md:text-base inline-flex items-center gap-2 bg-red-50 text-red-700 font-semibold hover:bg-red-100 transition-all">
+              <X size={16} /> ไม่แนะนำ
+            </button>
+          </div>
+          
+          {/* Quick Stats */}
+          <div className="mt-5 grid grid-cols-3 gap-3 pt-4 border-t border-mint/30">
+            <div className="text-center">
+              <div className="text-xs text-muted-foreground">รวมวัน</div>
+              <div className="font-display text-xl text-gold">5</div>
+            </div>
+            <div className="text-center">
+              <div className="text-xs text-muted-foreground">มื้ออาหาร</div>
+              <div className="font-display text-xl text-gold">15</div>
+            </div>
+            <div className="text-center">
+              <div className="text-xs text-muted-foreground">กิจกรรม</div>
+              <div className="font-display text-xl text-gold">12</div>
+            </div>
+          </div>
+        </DashCard>
       </div>
     </DashShell>
   );
@@ -113,18 +200,22 @@ function ExpertPage() {
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-pale-mint/30 rounded-xl p-3 border border-mint/40">
-      <div className="text-[10px] tracking-widest uppercase text-emerald mb-1.5">{title}</div>
-      <ul className="space-y-1 text-xs">{children}</ul>
+    <div className="bg-white/80 rounded-xl p-4 md:p-5 border border-mint/40 shadow-sm hover:shadow-md transition-all">
+      <div className="text-[11px] md:text-xs tracking-widest uppercase text-emerald font-semibold mb-3">
+        {title}
+      </div>
+      <ul className="space-y-2">{children}</ul>
     </div>
   );
 }
 
-function Row({ label, val }: { label: string; val: string }) {
+function Row({ label, val, highlight }: { label: string; val: string; highlight?: boolean }) {
   return (
-    <li className="flex justify-between gap-2">
-      <span className="text-muted-foreground">{label}</span>
-      <span className="text-navy text-right text-[11px]">{val}</span>
+    <li className="flex justify-between gap-3 py-1.5 border-b border-mint/20 last:border-0">
+      <span className="text-xs md:text-sm text-muted-foreground font-medium">{label}</span>
+      <span className={`text-xs md:text-sm text-right ${highlight ? "text-gold font-semibold" : "text-navy/80"}`}>
+        {val}
+      </span>
     </li>
   );
 }
