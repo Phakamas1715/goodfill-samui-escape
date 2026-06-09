@@ -55,7 +55,8 @@ function LoginPage() {
         if (error) throw error;
         if (cancelled) return;
         setState("done");
-        const target = search.redirect && search.redirect.startsWith("/") ? search.redirect : "/admin";
+        const fallback = channel === "partner" ? "/admin" : "/";
+        const target = search.redirect && search.redirect.startsWith("/") ? search.redirect : fallback;
         nav({ to: target });
       } catch (e) {
         if (cancelled) return;
