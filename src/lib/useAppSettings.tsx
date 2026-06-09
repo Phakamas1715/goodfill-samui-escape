@@ -271,7 +271,7 @@ export function useTypedAppSettings() {
 
 interface SettingGuardProps {
   setting: SettingKey;
-  fallback?: unknown;
+  fallback?: string | number | boolean;
   children: React.ReactNode;
 }
 
