@@ -33,27 +33,29 @@ export const Route = createFileRoute("/_authenticated")({
       </div>
     </div>
   ),
-  errorComponent: ({ error }) => {
-    const navigate = useNavigate();
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-ivory to-cream flex items-center justify-center p-4">
-        <div className="text-center max-w-md">
-          <div className="size-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
-            <AlertCircle size={32} className="text-red-500" />
-          </div>
-          <h1 className="font-display text-2xl text-navy mb-2">เกิดข้อผิดพลาด</h1>
-          <p className="text-sm text-muted-foreground mb-4">{error.message || "ไม่สามารถตรวจสอบสิทธิ์ผู้ใช้ได้"}</p>
-          <button
-            onClick={() => navigate({ to: "/login" })}
-            className="btn-emerald rounded-full px-6 py-2.5 text-sm font-medium"
-          >
-            กลับไปหน้าเข้าสู่ระบบ
-          </button>
-        </div>
-      </div>
-    );
-  },
+  errorComponent: AuthErrorComponent,
 });
+
+function AuthErrorComponent({ error }: { error: Error }) {
+  const navigate = useNavigate();
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-ivory to-cream flex items-center justify-center p-4">
+      <div className="text-center max-w-md">
+        <div className="size-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
+          <AlertCircle size={32} className="text-red-500" />
+        </div>
+        <h1 className="font-display text-2xl text-navy mb-2">เกิดข้อผิดพลาด</h1>
+        <p className="text-sm text-muted-foreground mb-4">{error.message || "ไม่สามารถตรวจสอบสิทธิ์ผู้ใช้ได้"}</p>
+        <button
+          onClick={() => navigate({ to: "/login" })}
+          className="btn-emerald rounded-full px-6 py-2.5 text-sm font-medium"
+        >
+          กลับไปหน้าเข้าสู่ระบบ
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function AuthenticatedLayout() {
   const { user } = Route.useRouteContext();
