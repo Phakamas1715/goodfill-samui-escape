@@ -41,9 +41,20 @@ function MealsPage() {
         <p className="text-muted-foreground mt-2">{t("meals.plannedBy")} {pick(program.expert.name, lang)} — {pick(program.expert.role, lang)}</p>
 
         <div className="grid grid-cols-3 gap-3 mt-8">
-          {tiles.map((src, i) => (
-            <img key={i} src={src} alt="meal" width={600} height={600} loading="lazy" className="aspect-square object-cover rounded-2xl" />
-          ))}
+          {tiles.map((src, i) => {
+            const labels = [t("meals.breakfast"), t("meals.lunch"), t("meals.dinner")];
+            return (
+              <img
+                key={i}
+                src={src}
+                alt={`${labels[i]} — ${pick(program.name, lang)} wellness meal at Koh Samui`}
+                width={600}
+                height={600}
+                loading="lazy"
+                className="aspect-square object-cover rounded-2xl"
+              />
+            );
+          })}
         </div>
 
         <div className="mt-10 space-y-4">

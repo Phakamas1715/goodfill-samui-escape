@@ -9,7 +9,13 @@ export const Route = createFileRoute("/report")({
   head: () => ({
     meta: [
       { title: "Final Wellness Report — Goodfill Care" },
-      { name: "description", content: "สรุปผล Before/After และแผน 90 วันต่อจากนี้" },
+      { name: "description", content: "สรุปผล Before/After ครบทั้งการนอน, พลังงาน, HRV และความเครียด พร้อมแผน Long-term Care 90 วันสำหรับต่อยอดผลลัพธ์ของทริป Wellness ที่เกาะสมุย" },
+      { property: "og:title", content: "Final Wellness Report — Before/After + แผน 90 วัน" },
+      { property: "og:description", content: "ผลลัพธ์ Wellness แบบเป็นตัวเลข พร้อม Calm Credits และเส้นทางต่อเนื่อง 90 วันหลังออกจากเกาะสมุย" },
+      { property: "og:url", content: "https://goodfillcare-samui.com/report" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://goodfillcare-samui.com/report" },
     ],
   }),
   component: ReportPage,
@@ -29,6 +35,7 @@ function ReportPage() {
 
   return (
     <DashShell bg="spa" host="wai" kicker={t("report.kicker")} title={t("report.title")} subtitle={t("report.subtitle")}>
+      <h2 className="sr-only">Before and after wellness metrics</h2>
       <DashCard className="relative overflow-hidden">
         <div className="absolute -top-16 -right-16 size-48 rounded-full bg-gold/15 blur-3xl pointer-events-none" />
         <div className="relative">
@@ -79,6 +86,7 @@ function ReportPage() {
       </DashCard>
 
       <div className="mt-3 grid grid-cols-3 gap-2">
+        <h2 className="sr-only">Trip totals — habits, credits, and days</h2>
         {[
           { label: t("report.statHabits"), v: state.checkins.length + 12 },
           { label: t("report.statCredits"), v: state.credits + 480 },
@@ -92,6 +100,7 @@ function ReportPage() {
       </div>
 
       <div className="mt-3 flex justify-end">
+        <h2 className="sr-only">Continue with the 90-day care plan</h2>
         <Link to="/care" className="btn-gold rounded-full px-5 py-2.5 text-xs inline-flex items-center gap-1.5">
           <Sparkles size={12} /> {t("report.startCare")}
         </Link>

@@ -127,7 +127,7 @@ export function DashShell({
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6 }}
                 src={hosts[host]}
-                alt="host"
+                alt="Goodfill Care wellness host illustration"
                 className="h-16 md:h-24 w-auto object-contain shrink-0 drop-shadow-[0_10px_24px_rgba(6,78,59,0.4)]"
               />
             )}

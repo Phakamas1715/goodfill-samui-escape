@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /api/
+Disallow: /login
+Disallow: /partner
+Disallow: /expert
+
+Sitemap: https://goodfillcare-samui.com/sitemap.xml

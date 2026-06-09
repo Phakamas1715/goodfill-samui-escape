@@ -11,7 +11,13 @@ export const Route = createFileRoute("/journey")({
   head: () => ({
     meta: [
       { title: "My Journey — Goodfill Care" },
-      { name: "description", content: "ตารางวันของคุณที่เกาะสมุย พร้อม daily check-in" },
+      { name: "description", content: "ตารางวันต่อวันของทริป Wellness ที่เกาะสมุย พร้อม daily check-in, Service QR, mood tracking และเชื่อมต่อกับ partner LINE สำหรับยืนยันบริการแบบเรียลไทม์" },
+      { property: "og:title", content: "My Journey — แผนการเดินทาง Wellness ที่เกาะสมุย" },
+      { property: "og:description", content: "ตารางวันต่อวัน, check-in รายวัน, Service QR และ mood log สำหรับแขก Goodfill Care ที่จองโปรแกรมที่เกาะสมุย" },
+      { property: "og:url", content: "https://goodfillcare-samui.com/journey" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://goodfillcare-samui.com/journey" },
     ],
   }),
   component: JourneyPage,

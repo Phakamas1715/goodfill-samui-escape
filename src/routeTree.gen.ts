@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReportRouteImport } from './routes/report'
 import { Route as QuestRouteImport } from './routes/quest'
 import { Route as PersonaRouteImport } from './routes/persona'
@@ -40,6 +41,11 @@ import { Route as ApiPublicTelegramWebhookRouteImport } from './routes/api/publi
 import { Route as ApiPublicLinePartnerWebhookRouteImport } from './routes/api/public/line.partner-webhook'
 import { Route as ApiPublicLineCustomerWebhookRouteImport } from './routes/api/public/line.customer-webhook'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportRoute = ReportRouteImport.update({
   id: '/report',
   path: '/report',
@@ -210,6 +216,7 @@ export interface FileRoutesByFullPath {
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/login/customer': typeof LoginCustomerRoute
   '/login/partner': typeof LoginPartnerRoute
@@ -241,6 +248,7 @@ export interface FileRoutesByTo {
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/login/customer': typeof LoginCustomerRoute
   '/login/partner': typeof LoginPartnerRoute
   '/meals/$id': typeof MealsIdRoute
@@ -273,6 +281,7 @@ export interface FileRoutesById {
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/login/customer': typeof LoginCustomerRoute
   '/login/partner': typeof LoginPartnerRoute
@@ -306,6 +315,7 @@ export interface FileRouteTypes {
     | '/persona'
     | '/quest'
     | '/report'
+    | '/sitemap.xml'
     | '/admin'
     | '/login/customer'
     | '/login/partner'
@@ -337,6 +347,7 @@ export interface FileRouteTypes {
     | '/persona'
     | '/quest'
     | '/report'
+    | '/sitemap.xml'
     | '/login/customer'
     | '/login/partner'
     | '/meals/$id'
@@ -368,6 +379,7 @@ export interface FileRouteTypes {
     | '/persona'
     | '/quest'
     | '/report'
+    | '/sitemap.xml'
     | '/_authenticated/admin'
     | '/login/customer'
     | '/login/partner'
@@ -401,6 +413,7 @@ export interface RootRouteChildren {
   PersonaRoute: typeof PersonaRoute
   QuestRoute: typeof QuestRoute
   ReportRoute: typeof ReportRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   MealsIdRoute: typeof MealsIdRoute
   ProgramsIdRoute: typeof ProgramsIdRoute
   ProgramsIndexRoute: typeof ProgramsIndexRoute
@@ -412,6 +425,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/report': {
       id: '/report'
       path: '/report'
@@ -685,6 +705,7 @@ const rootRouteChildren: RootRouteChildren = {
   PersonaRoute: PersonaRoute,
   QuestRoute: QuestRoute,
   ReportRoute: ReportRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   MealsIdRoute: MealsIdRoute,
   ProgramsIdRoute: ProgramsIdRoute,
   ProgramsIndexRoute: ProgramsIndexRoute,
