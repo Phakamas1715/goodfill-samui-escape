@@ -56,13 +56,16 @@ function setState(updater: (s: AppState) => AppState) {
 }
 
 export function useAppState(): [AppState, typeof setState] {
+  const [hydrated, setHydrated] = useState(false);
   const [, force] = useState(0);
   useEffect(() => {
     cached = read();
-    force((x) => x + 1);
+    setHydrated(true);
     const l = () => force((x) => x + 1);
     listeners.add(l);
     return () => { listeners.delete(l); };
   }, []);
-  return [getState(), setState];
+  // During SSR and the first client render, return the deterministic initial
+  // state so server and client output match (prevents hydration mismatch).
+  return [hydrated ? getState() : initial, setState];
 }
