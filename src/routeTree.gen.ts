@@ -18,6 +18,7 @@ import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as ExpertRouteImport } from './routes/expert'
+import { Route as DetoxRouteImport } from './routes/detox'
 import { Route as ConsentRouteImport } from './routes/consent'
 import { Route as ChannelRouteImport } from './routes/channel'
 import { Route as CareRouteImport } from './routes/care'
@@ -84,6 +85,11 @@ const JourneyRoute = JourneyRouteImport.update({
 const ExpertRoute = ExpertRouteImport.update({
   id: '/expert',
   path: '/expert',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DetoxRoute = DetoxRouteImport.update({
+  id: '/detox',
+  path: '/detox',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConsentRoute = ConsentRouteImport.update({
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
+  '/detox': typeof DetoxRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
   '/login': typeof LoginRouteWithChildren
@@ -240,6 +247,7 @@ export interface FileRoutesByTo {
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
+  '/detox': typeof DetoxRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
   '/login': typeof LoginRouteWithChildren
@@ -273,6 +281,7 @@ export interface FileRoutesById {
   '/care': typeof CareRoute
   '/channel': typeof ChannelRoute
   '/consent': typeof ConsentRoute
+  '/detox': typeof DetoxRoute
   '/expert': typeof ExpertRoute
   '/journey': typeof JourneyRoute
   '/login': typeof LoginRouteWithChildren
@@ -307,6 +316,7 @@ export interface FileRouteTypes {
     | '/care'
     | '/channel'
     | '/consent'
+    | '/detox'
     | '/expert'
     | '/journey'
     | '/login'
@@ -339,6 +349,7 @@ export interface FileRouteTypes {
     | '/care'
     | '/channel'
     | '/consent'
+    | '/detox'
     | '/expert'
     | '/journey'
     | '/login'
@@ -371,6 +382,7 @@ export interface FileRouteTypes {
     | '/care'
     | '/channel'
     | '/consent'
+    | '/detox'
     | '/expert'
     | '/journey'
     | '/login'
@@ -405,6 +417,7 @@ export interface RootRouteChildren {
   CareRoute: typeof CareRoute
   ChannelRoute: typeof ChannelRoute
   ConsentRoute: typeof ConsentRoute
+  DetoxRoute: typeof DetoxRoute
   ExpertRoute: typeof ExpertRoute
   JourneyRoute: typeof JourneyRoute
   LoginRoute: typeof LoginRouteWithChildren
@@ -486,6 +499,13 @@ declare module '@tanstack/react-router' {
       path: '/expert'
       fullPath: '/expert'
       preLoaderRoute: typeof ExpertRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/detox': {
+      id: '/detox'
+      path: '/detox'
+      fullPath: '/detox'
+      preLoaderRoute: typeof DetoxRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/consent': {
@@ -697,6 +717,7 @@ const rootRouteChildren: RootRouteChildren = {
   CareRoute: CareRoute,
   ChannelRoute: ChannelRoute,
   ConsentRoute: ConsentRoute,
+  DetoxRoute: DetoxRoute,
   ExpertRoute: ExpertRoute,
   JourneyRoute: JourneyRoute,
   LoginRoute: LoginRouteWithChildren,
