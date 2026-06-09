@@ -75,6 +75,20 @@ function ProgramDetail() {
   const [dietaryPlan, setDietaryPlan] = useState<"Signature" | "Plant-based" | "High-Protein" | "Detox Light">("Signature");
   const [allergies, setAllergies] = useState<{ nuts: boolean; seafood: boolean; dairy: boolean; gluten: boolean }>({ nuts: false, seafood: false, dairy: false, gluten: false });
   const [allergyNote, setAllergyNote] = useState("");
+  const [bookOpen, setBookOpen] = useState(false);
+
+  // Lock body scroll while the booking popup is open + close with Esc.
+  useEffect(() => {
+    if (!bookOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setBookOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [bookOpen]);
 
   async function book() {
     if (sending) return;
@@ -131,6 +145,7 @@ function ProgramDetail() {
       toast.error(t("programs.errorToast"), { id: "book", description: String(e).slice(0, 200) });
     } finally {
       setSending(false);
+      setBookOpen(false);
     }
   }
 
