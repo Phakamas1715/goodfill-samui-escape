@@ -65,52 +65,51 @@
 
 :root {
   --radius: 1.5rem;
-  /* Ocean Wellness — Koh Samui resort palette.
-     Ivory-cream page, ocean blue ink, aqua-mint + soft sky accents,
-     warm sand highlights. */
-  --background: #FFF8EC;                          /* warm ivory cream */
-  --foreground: #0C3B4A;                          /* deep ocean ink */
-  --card: #0C3B4A;                                /* deep ocean card */
-  --card-foreground: #F4FBFF;
-  --popover: #FFFFFF;
-  --popover-foreground: #0C3B4A;
-  --primary: #1E88A8;                             /* signature ocean blue */
-  --primary-foreground: #FFF8EC;
-  --secondary: #DDF6FF;                           /* soft sky */
-  --secondary-foreground: #0C3B4A;
-  --muted: #EAF6FB;                               /* sky mist */
-  --muted-foreground: #3D6B7C;                    /* readable slate-ocean */
-  --accent: #7FE3D0;                              /* aqua mint */
-  --accent-foreground: #0C3B4A;
-  --destructive: #DC2626;
-  --destructive-foreground: #FFFFFF;
-  --border: rgba(12, 59, 74, 0.10);
-  --input: rgba(12, 59, 74, 0.14);
-  --ring: #7FE3D0;
-  --chart-1: #0C3B4A;
-  --chart-2: #1E88A8;
-  --chart-3: #7FE3D0;
-  --chart-4: #EFE3D0;
-  --chart-5: #2E8BC0;
+  /* Luxury Tropical Wellness — emerald + warm cream + muted gold.
+     Calm, premium, warm, natural — AI-assisted wellness companion. */
+  --background: #F0EDE9;
+  --foreground: #142C25;
+  --card: #FAF7F2;
+  --card-foreground: #142C25;
+  --popover: #FAF7F2;
+  --popover-foreground: #142C25;
+  --primary: #142C25;
+  --primary-foreground: #FAF7F2;
+  --secondary: #0F4A38;
+  --secondary-foreground: #FAF7F2;
+  --muted: #E4DED5;
+  --muted-foreground: #6B6358;
+  --accent: #988A71;
+  --accent-foreground: #FAF7F2;
+  --destructive: #B4453A;
+  --destructive-foreground: #FAF7F2;
+  --border: rgba(20, 44, 37, 0.12);
+  --input: rgba(20, 44, 37, 0.16);
+  --ring: #988A71;
+  --chart-1: #142C25;
+  --chart-2: #0F4A38;
+  --chart-3: #988A71;
+  --chart-4: #C9B89B;
+  --chart-5: #6B8F7E;
 
-  /* Brand tokens — Ocean Wellness.
-     Legacy class names (text-emerald, bg-navy, text-mint, text-gold, text-sea …)
-     continue to work; they now map to the ocean equivalents. */
-  --ivory: #FFF8EC;          /* page */
-  --cream: #FFF1C7;          /* warm champagne */
-  --pale-mint: #DDF6FF;      /* soft sky */
-  --mint: #7FE3D0;           /* aqua mint */
-  --primary-teal: #1E88A8;   /* ocean blue */
-  --teal-accent: #2E8BC0;    /* sea blue */
-  --emerald: #1E88A8;        /* legacy "emerald" → ocean blue */
-  --emerald-deep: #0C3B4A;   /* deep ocean (legacy emerald-deep) */
-  --deep-teal: #155A73;      /* deep teal */
-  --sea: #2E8BC0;            /* sea blue */
-  --navy: #0C3B4A;           /* deep ocean (legacy "navy" slot) */
-  --gold: #C9A24A;           /* warm sand-gold */
-  --gold-soft: #EFE3D0;      /* soft sand */
-  --coral: #E89A6B;          /* sunset peach */
-  --coral-soft: #F3C2A0;
+  /* Legacy brand tokens remapped to the new emerald + gold palette
+     so existing classnames (text-emerald, bg-navy, text-mint, text-gold …)
+     keep working without rewriting every component. */
+  --ivory: #F0EDE9;
+  --cream: #FAF7F2;
+  --pale-mint: #E4EDE5;
+  --mint: #8FB39B;
+  --primary-teal: #0F4A38;
+  --teal-accent: #1F5C49;
+  --emerald: #0F4A38;
+  --emerald-deep: #142C25;
+  --deep-teal: #0A1E18;
+  --sea: #1F5C49;
+  --navy: #142C25;
+  --gold: #988A71;
+  --gold-soft: #C9B89B;
+  --coral: #B4806A;
+  --coral-soft: #D9B7A4;
 }
 
 @layer base {
