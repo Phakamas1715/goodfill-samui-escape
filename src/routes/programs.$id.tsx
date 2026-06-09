@@ -189,68 +189,13 @@ function ProgramDetail() {
                   ✦ {t("programs.useCredits").replace("{n}", String(state.credits))}
                 </div>
               )}
-              {!isBooked && (
-                <div className="mt-6 space-y-4 text-sm">
-                  <div>
-                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">เลือกแนวอาหาร / Meal direction</div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {(["Signature", "Plant-based", "High-Protein", "Detox Light"] as const).map((opt) => (
-                        <label
-                          key={opt}
-                          className={`cursor-pointer rounded-2xl border px-3 py-2 text-center transition ${
-                            dietaryPlan === opt ? "border-gold bg-gold/10 text-foreground" : "border-border text-muted-foreground hover:border-gold/60"
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            name="dietary-plan"
-                            value={opt}
-                            checked={dietaryPlan === opt}
-                            onChange={() => setDietaryPlan(opt)}
-                            className="sr-only"
-                          />
-                          {opt}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">แพ้อาหาร / Allergies</div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {([
-                        ["nuts", "ถั่ว"],
-                        ["seafood", "อาหารทะเล"],
-                        ["dairy", "นม"],
-                        ["gluten", "กลูเตน"],
-                      ] as const).map(([k, label]) => (
-                        <label key={k} className="flex items-center gap-2 rounded-xl border border-border px-3 py-2 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={allergies[k]}
-                            onChange={(e) => setAllergies((s) => ({ ...s, [k]: e.target.checked }))}
-                            className="accent-gold"
-                          />
-                          <span>{label}</span>
-                        </label>
-                      ))}
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="อื่นๆ / Other (เช่น ไข่, ถั่วเหลือง...)"
-                      value={allergyNote}
-                      onChange={(e) => setAllergyNote(e.target.value.slice(0, 300))}
-                      className="mt-2 w-full rounded-xl border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-gold"
-                    />
-                  </div>
-                </div>
-              )}
               <button
-                onClick={book}
+                onClick={() => (isBooked ? null : setBookOpen(true))}
                 disabled={isBooked || sending}
                 className="btn-gold rounded-full w-full py-4 mt-6 inline-flex items-center justify-center gap-2 disabled:opacity-60"
               >
-                {isBooked ? t("programs.booked") : sending ? t("programs.booking") : t("programs.confirmBook")}
-                {!isBooked && !sending && <ArrowRight size={16} />}
+                {isBooked ? t("programs.booked") : t("programs.confirmBook")}
+                {!isBooked && <ArrowRight size={16} />}
               </button>
               {isBooked && (
                 <Link to="/journey" className="block text-center text-sm text-gold mt-3">{t("programs.goJourney")}</Link>
