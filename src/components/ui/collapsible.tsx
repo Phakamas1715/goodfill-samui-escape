@@ -151,7 +151,7 @@ CollapsibleContent.displayName = CollapsiblePrimitive.CollapsibleContent.display
 /**
  * Collapsible section with header and content
  */
-interface CollapsibleSectionProps extends CollapsibleProps {
+interface CollapsibleSectionProps extends Omit<CollapsibleProps, "title"> {
   title: React.ReactNode;
   description?: React.ReactNode;
   defaultOpen?: boolean;
