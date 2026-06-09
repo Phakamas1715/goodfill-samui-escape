@@ -23,6 +23,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsIndexRouteImport } from './routes/programs.index'
 import { Route as ProgramsIdRouteImport } from './routes/programs.$id'
+import { Route as MealsIdRouteImport } from './routes/meals.$id'
 
 const ReportRoute = ReportRouteImport.update({
   id: '/report',
@@ -94,6 +95,11 @@ const ProgramsIdRoute = ProgramsIdRouteImport.update({
   path: '/programs/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MealsIdRoute = MealsIdRouteImport.update({
+  id: '/meals/$id',
+  path: '/meals/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
 }
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs': typeof ProgramsIndexRoute
 }
@@ -141,6 +149,7 @@ export interface FileRoutesById {
   '/persona': typeof PersonaRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
+  '/meals/$id': typeof MealsIdRoute
   '/programs/$id': typeof ProgramsIdRoute
   '/programs/': typeof ProgramsIndexRoute
 }
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/persona'
     | '/quest'
     | '/report'
+    | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
   fileRoutesByTo: FileRoutesByTo
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
     | '/persona'
     | '/quest'
     | '/report'
+    | '/meals/$id'
     | '/programs/$id'
     | '/programs'
   id:
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
     | '/persona'
     | '/quest'
     | '/report'
+    | '/meals/$id'
     | '/programs/$id'
     | '/programs/'
   fileRoutesById: FileRoutesById
@@ -208,6 +220,7 @@ export interface RootRouteChildren {
   PersonaRoute: typeof PersonaRoute
   QuestRoute: typeof QuestRoute
   ReportRoute: typeof ReportRoute
+  MealsIdRoute: typeof MealsIdRoute
   ProgramsIdRoute: typeof ProgramsIdRoute
   ProgramsIndexRoute: typeof ProgramsIndexRoute
 }
@@ -312,6 +325,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgramsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/meals/$id': {
+      id: '/meals/$id'
+      path: '/meals/$id'
+      fullPath: '/meals/$id'
+      preLoaderRoute: typeof MealsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -328,9 +348,20 @@ const rootRouteChildren: RootRouteChildren = {
   PersonaRoute: PersonaRoute,
   QuestRoute: QuestRoute,
   ReportRoute: ReportRoute,
+  MealsIdRoute: MealsIdRoute,
   ProgramsIdRoute: ProgramsIdRoute,
   ProgramsIndexRoute: ProgramsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
