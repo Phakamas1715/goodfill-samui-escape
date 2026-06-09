@@ -11,11 +11,11 @@ import { Button, buttonVariants } from "@/components/ui/button";
 // Types
 // ============================================================================
 
-interface CalendarProps extends React.ComponentProps<typeof DayPicker> {
+type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>["variant"];
   variant?: "default" | "gold" | "emerald";
   showWeekNumbers?: boolean;
-}
+};
 
 // ============================================================================
 // Constants
@@ -225,14 +225,14 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
 /**
  * Calendar with gold theme for premium booking
  */
-function GoldCalendar(props: Omit<CalendarProps, "variant">) {
+function GoldCalendar(props: CalendarProps) {
   return <Calendar variant="gold" {...props} />;
 }
 
 /**
  * Calendar with emerald theme for wellness programs
  */
-function EmeraldCalendar(props: Omit<CalendarProps, "variant">) {
+function EmeraldCalendar(props: CalendarProps) {
   return <Calendar variant="emerald" {...props} />;
 }
 
