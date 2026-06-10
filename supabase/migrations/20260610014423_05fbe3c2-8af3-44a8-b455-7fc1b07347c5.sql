@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS public.is_my_line_user(TEXT, TEXT);
