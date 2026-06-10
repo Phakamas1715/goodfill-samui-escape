@@ -157,14 +157,12 @@ function Landing() {
             exit={{ opacity: 0, x: "-8%" }}
             transition={{ duration: 1.6, ease: [0.4, 0, 0.2, 1] }}
             className="absolute inset-0 size-full object-cover will-change-transform"
-            style={{ filter: "saturate(1.25) contrast(1.12) brightness(0.92)" }}
           />
         </AnimatePresence>
-        {/* Overlay เข้มขึ้นเพื่อคอนทราสต์ตัวอักษรชัดเจน */}
-        <div className="absolute inset-0 bg-navy/35" />
-        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/90 via-emerald-deep/55 to-emerald-deep/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/80 via-emerald-deep/35 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.12),transparent_60%)]" />
+        {/* Gradient เบา ๆ ให้ภาพเด่น ไม่มืดทึบ */}
+        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/65 via-emerald-deep/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/55 via-emerald-deep/10 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.08),transparent_60%)]" />
       </div>
 
       {/* Slide indicator — desktop only เพื่อไม่ทับ kicker บนมือถือ */}
