@@ -105,8 +105,8 @@ export function DashShell({
           <path d="M50 5 C60 25 80 35 95 40 C80 45 70 65 65 95 C60 75 40 65 5 60 C20 55 30 35 35 5 Z" />
         </svg>
 
-        {/* Slide indicators */}
-        <div className="absolute top-20 right-4 md:right-6 z-10 flex gap-1.5">
+        {/* Slide indicators — desktop only เพื่อไม่บัง kicker บนมือถือ */}
+        <div className="hidden md:flex absolute top-20 right-6 z-10 gap-1.5">
           {slides.map((_, i) => (
             <button
               key={i}
@@ -121,10 +121,10 @@ export function DashShell({
           ))}
         </div>
 
-        {/* Pause button for slideshow */}
+        {/* Pause button — desktop only ไม่ทับ CTA บนมือถือ */}
         <button
           onClick={() => setIsPaused(!isPaused)}
-          className="absolute bottom-20 right-4 md:right-6 z-10 size-7 rounded-full bg-black/30 backdrop-blur-sm text-white/70 hover:text-white transition-colors flex items-center justify-center text-[10px]"
+          className="hidden md:flex absolute bottom-6 right-6 z-10 size-7 rounded-full bg-black/30 backdrop-blur-sm text-white/70 hover:text-white transition-colors items-center justify-center text-[10px]"
           aria-label={isPaused ? "Play slideshow" : "Pause slideshow"}
         >
           {isPaused ? "▶" : "⏸"}
