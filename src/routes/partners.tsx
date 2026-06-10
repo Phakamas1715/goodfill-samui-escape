@@ -55,13 +55,13 @@ function PartnersPage() {
           : "Prospect list — not yet signed partners"
       }
     >
-      <div className="grid lg:grid-cols-[220px,1fr] gap-3 h-full min-h-0">
-        {/* GROUP RAIL — buttons */}
-        <DashCard className="!p-2 overflow-y-auto">
-          <div className="text-[10px] tracking-[0.25em] uppercase text-gold px-2 py-1.5">
+      <div className="flex flex-col lg:grid lg:grid-cols-[220px,1fr] gap-3 lg:h-full lg:min-h-0">
+        {/* GROUP RAIL — chips on mobile, vertical list on desktop */}
+        <DashCard className="!p-2 lg:overflow-y-auto">
+          <div className="hidden lg:block text-[10px] tracking-[0.25em] uppercase text-gold px-2 py-1.5">
             Groups
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex lg:flex-col gap-1.5 lg:gap-1 overflow-x-auto lg:overflow-visible -mx-1 px-1 lg:mx-0 lg:px-0 scrollbar-thin">
             {partnerGroups.map((g) => {
               const Icon = groupIcon[g.id];
               const on = g.id === active;
@@ -69,7 +69,7 @@ function PartnersPage() {
                 <button
                   key={g.id}
                   onClick={() => setActive(g.id)}
-                  className={`flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-left transition ${
+                  className={`flex items-center gap-2 lg:gap-2.5 px-2.5 py-2 rounded-xl text-left transition shrink-0 lg:shrink ${
                     on ? "bg-emerald text-ivory shadow-md" : "hover:bg-pale-mint text-navy"
                   }`}
                 >
@@ -80,7 +80,7 @@ function PartnersPage() {
                   >
                     {g.id}
                   </span>
-                  <span className="flex-1 min-w-0">
+                  <span className="flex-1 min-w-0 hidden lg:block">
                     <span className="block text-xs font-medium leading-tight truncate">
                       {g.title[lang]}
                     </span>
@@ -90,7 +90,10 @@ function PartnersPage() {
                       {g.partners.length} prospects
                     </span>
                   </span>
-                  <Icon size={14} className={on ? "text-ivory/80" : "text-emerald/60"} />
+                  <span className="lg:hidden text-xs font-medium pr-1 whitespace-nowrap">
+                    {g.title[lang]}
+                  </span>
+                  <Icon size={14} className={`hidden lg:inline ${on ? "text-ivory/80" : "text-emerald/60"}`} />
                 </button>
               );
             })}
