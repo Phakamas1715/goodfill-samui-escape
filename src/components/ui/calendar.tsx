@@ -80,7 +80,10 @@ function Calendar({
         root: cn("w-fit", defaultClassNames.root),
         months: cn("relative flex flex-col gap-4 md:flex-row", defaultClassNames.months),
         month: cn("flex w-full flex-col gap-4", defaultClassNames.month),
-        nav: cn("absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1", defaultClassNames.nav),
+        nav: cn(
+          "absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1",
+          defaultClassNames.nav,
+        ),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
           "h-(--cell-size) w-(--cell-size) select-none p-0 rounded-full hover:scale-105 transition-transform",
@@ -119,7 +122,10 @@ function Calendar({
         ),
         week: cn("mt-2 flex w-full gap-1", defaultClassNames.week),
         week_number_header: cn("w-(--cell-size) select-none", defaultClassNames.week_number_header),
-        week_number: cn("text-muted-foreground select-none text-[0.8rem] font-medium", defaultClassNames.week_number),
+        week_number: cn(
+          "text-muted-foreground select-none text-[0.8rem] font-medium",
+          defaultClassNames.week_number,
+        ),
         day: cn(
           "group/day relative aspect-square h-full w-full select-none p-0 text-center",
           "first:[&[data-selected=true]_button]:rounded-l-md last:[&[data-selected=true]_button]:rounded-r-md",
@@ -129,8 +135,14 @@ function Calendar({
         range_middle: cn(`rounded-none ${variantStyle.range}`, defaultClassNames.range_middle),
         range_end: cn(`${variantStyle.range} rounded-r-md`, defaultClassNames.range_end),
         today: cn(`${variantStyle.today} rounded-md font-bold`, defaultClassNames.today),
-        outside: cn("text-muted-foreground/50 aria-selected:text-muted-foreground/50", defaultClassNames.outside),
-        disabled: cn("text-muted-foreground/30 opacity-50 cursor-not-allowed", defaultClassNames.disabled),
+        outside: cn(
+          "text-muted-foreground/50 aria-selected:text-muted-foreground/50",
+          defaultClassNames.outside,
+        ),
+        disabled: cn(
+          "text-muted-foreground/30 opacity-50 cursor-not-allowed",
+          defaultClassNames.disabled,
+        ),
         hidden: cn("invisible", defaultClassNames.hidden),
         ...classNames,
       }}
@@ -164,7 +176,12 @@ function Calendar({
   );
 }
 
-function CalendarDayButton({ className, day, modifiers, ...props }: React.ComponentProps<typeof DayButton>) {
+function CalendarDayButton({
+  className,
+  day,
+  modifiers,
+  ...props
+}: React.ComponentProps<typeof DayButton>) {
   const defaultClassNames = getDefaultClassNames();
   const ref = React.useRef<HTMLButtonElement>(null);
 
@@ -187,7 +204,10 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
       size="icon"
       data-day={day.date.toLocaleDateString()}
       data-selected-single={
-        modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle
+        modifiers.selected &&
+        !modifiers.range_start &&
+        !modifiers.range_end &&
+        !modifiers.range_middle
       }
       data-range-start={modifiers.range_start}
       data-range-end={modifiers.range_end}

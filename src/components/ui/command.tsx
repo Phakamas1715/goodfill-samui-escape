@@ -110,7 +110,11 @@ const CommandEmpty = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Empty>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
 >((props, ref) => (
-  <CommandPrimitive.Empty ref={ref} className="py-8 text-center text-sm text-muted-foreground" {...props} />
+  <CommandPrimitive.Empty
+    ref={ref}
+    className="py-8 text-center text-sm text-muted-foreground"
+    {...props}
+  />
 ));
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 
@@ -133,7 +137,11 @@ const CommandSeparator = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Separator>
 >(({ className, ...props }, ref) => (
-  <CommandPrimitive.Separator ref={ref} className={cn("-mx-1 my-1 h-px bg-mint/30", className)} {...props} />
+  <CommandPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-mint/30", className)}
+    {...props}
+  />
 ));
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
@@ -157,7 +165,10 @@ CommandItem.displayName = CommandPrimitive.Item.displayName;
 
 const CommandShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
-    <span className={cn("ml-auto text-xs tracking-widest text-muted-foreground font-mono", className)} {...props} />
+    <span
+      className={cn("ml-auto text-xs tracking-widest text-muted-foreground font-mono", className)}
+      {...props}
+    />
   );
 };
 CommandShortcut.displayName = "CommandShortcut";
@@ -169,7 +180,9 @@ CommandShortcut.displayName = "CommandShortcut";
 /**
  * Command item with icon and description
  */
-interface CommandItemWithDescriptionProps extends React.ComponentPropsWithoutRef<typeof CommandItem> {
+interface CommandItemWithDescriptionProps extends React.ComponentPropsWithoutRef<
+  typeof CommandItem
+> {
   icon?: React.ReactNode;
   description?: string;
   shortcut?: string;
@@ -205,7 +218,9 @@ const CommandGroupWithTitle = React.forwardRef<
   <CommandGroup ref={ref} {...props}>
     <div className="flex items-center gap-2 px-3 py-2">
       {icon && <span className="text-gold">{icon}</span>}
-      <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{title}</div>
+      <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        {title}
+      </div>
     </div>
     {children}
   </CommandGroup>

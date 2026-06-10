@@ -82,7 +82,11 @@ const Menubar = React.forwardRef<React.ElementRef<typeof MenubarPrimitive.Root>,
     return (
       <MenubarPrimitive.Root
         ref={ref}
-        className={cn("flex h-11 items-center gap-1.5 rounded-xl p-1 shadow-sm", variantStyle.root, className)}
+        className={cn(
+          "flex h-11 items-center gap-1.5 rounded-xl p-1 shadow-sm",
+          variantStyle.root,
+          className,
+        )}
         {...props}
       />
     );
@@ -192,30 +196,31 @@ const MenubarContent = React.forwardRef<
 ));
 MenubarContent.displayName = MenubarPrimitive.Content.displayName;
 
-const MenubarItem = React.forwardRef<React.ElementRef<typeof MenubarPrimitive.Item>, MenubarItemProps>(
-  ({ className, inset, icon, children, ...props }, ref) => {
-    const variant = "default";
-    const variantStyle = VARIANT_STYLES[variant];
+const MenubarItem = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Item>,
+  MenubarItemProps
+>(({ className, inset, icon, children, ...props }, ref) => {
+  const variant = "default";
+  const variantStyle = VARIANT_STYLES[variant];
 
-    return (
-      <MenubarPrimitive.Item
-        ref={ref}
-        className={cn(
-          "relative flex cursor-default select-none items-center gap-3 rounded-lg px-4 py-2.5 text-base outline-none transition-colors",
-          "focus:bg-accent focus:text-accent-foreground",
-          "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-          inset && "pl-8",
-          variantStyle.text,
-          className,
-        )}
-        {...props}
-      >
-        {icon && <span className={cn("shrink-0", variantStyle.accent)}>{icon}</span>}
-        {children}
-      </MenubarPrimitive.Item>
-    );
-  },
-);
+  return (
+    <MenubarPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center gap-3 rounded-lg px-4 py-2.5 text-base outline-none transition-colors",
+        "focus:bg-accent focus:text-accent-foreground",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        inset && "pl-8",
+        variantStyle.text,
+        className,
+      )}
+      {...props}
+    >
+      {icon && <span className={cn("shrink-0", variantStyle.accent)}>{icon}</span>}
+      {children}
+    </MenubarPrimitive.Item>
+  );
+});
 MenubarItem.displayName = MenubarPrimitive.Item.displayName;
 
 const MenubarCheckboxItem = React.forwardRef<
@@ -307,7 +312,11 @@ const MenubarSeparator = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Separator>
 >(({ className, ...props }, ref) => (
-  <MenubarPrimitive.Separator ref={ref} className={cn("-mx-1 my-1 h-px bg-mint/30", className)} {...props} />
+  <MenubarPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-mint/30", className)}
+    {...props}
+  />
 ));
 MenubarSeparator.displayName = MenubarPrimitive.Separator.displayName;
 
@@ -316,7 +325,10 @@ const MenubarShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanE
   const variantStyle = VARIANT_STYLES[variant];
 
   return (
-    <span className={cn("ml-auto text-xs tracking-widest font-mono", variantStyle.textMuted, className)} {...props} />
+    <span
+      className={cn("ml-auto text-xs tracking-widest font-mono", variantStyle.textMuted, className)}
+      {...props}
+    />
   );
 };
 MenubarShortcut.displayName = "MenubarShortcut";

@@ -8,11 +8,15 @@ import { buttonVariants } from "@/components/ui/button";
 // Types
 // ============================================================================
 
-interface AlertDialogContentProps extends React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content> {
+interface AlertDialogContentProps extends React.ComponentPropsWithoutRef<
+  typeof AlertDialogPrimitive.Content
+> {
   variant?: "default" | "gold" | "emerald" | "destructive";
 }
 
-interface AlertDialogActionProps extends React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action> {
+interface AlertDialogActionProps extends React.ComponentPropsWithoutRef<
+  typeof AlertDialogPrimitive.Action
+> {
   variant?: "default" | "destructive" | "gold";
 }
 
@@ -116,7 +120,10 @@ const AlertDialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDiv
 AlertDialogHeader.displayName = "AlertDialogHeader";
 
 const AlertDialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-3", className)} {...props} />
+  <div
+    className={cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-3", className)}
+    {...props}
+  />
 );
 AlertDialogFooter.displayName = "AlertDialogFooter";
 
@@ -148,7 +155,11 @@ const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
   AlertDialogActionProps
 >(({ className, variant = "default", ...props }, ref) => (
-  <AlertDialogPrimitive.Action ref={ref} className={cn(ACTION_VARIANTS[variant], className)} {...props} />
+  <AlertDialogPrimitive.Action
+    ref={ref}
+    className={cn(ACTION_VARIANTS[variant], className)}
+    {...props}
+  />
 ));
 AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName;
 
@@ -227,7 +238,10 @@ export function ConfirmDialog({
           <div className="flex items-center gap-3 mb-2">
             {icon && (
               <div
-                className={cn("size-10 rounded-full bg-current/10 flex items-center justify-center", variantStyle.icon)}
+                className={cn(
+                  "size-10 rounded-full bg-current/10 flex items-center justify-center",
+                  variantStyle.icon,
+                )}
               >
                 {icon}
               </div>
@@ -274,8 +288,18 @@ export function SuccessDialog({
         <AlertDialogHeader>
           <div className="flex items-center gap-3 mb-2">
             <div className="size-12 rounded-full bg-emerald/10 flex items-center justify-center">
-              <svg className="size-6 text-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <svg
+                className="size-6 text-emerald"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
             <AlertDialogTitle>{title}</AlertDialogTitle>

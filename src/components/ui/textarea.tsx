@@ -45,7 +45,8 @@ const VARIANT_STYLES = {
     error: "border-coral/50 bg-coral/5 focus:ring-coral/30",
   },
   glass: {
-    normal: "border-white/30 bg-white/20 backdrop-blur-sm text-white placeholder:text-white/50 focus:ring-white/40",
+    normal:
+      "border-white/30 bg-white/20 backdrop-blur-sm text-white placeholder:text-white/50 focus:ring-white/40",
     error: "border-coral/50 bg-coral/20 backdrop-blur-sm focus:ring-coral/30",
   },
 } as const;
@@ -98,7 +99,10 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           <div className="flex items-center justify-between">
             <label
               htmlFor={textareaId}
-              className={cn("text-sm font-medium transition-colors", error ? "text-coral" : "text-navy")}
+              className={cn(
+                "text-sm font-medium transition-colors",
+                error ? "text-coral" : "text-navy",
+              )}
             >
               {label}
             </label>
@@ -135,7 +139,11 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         {helper && !error && <p className="text-xs text-muted-foreground">{helper}</p>}
         {error && (
           <p className="text-xs text-coral animate-in fade-in-0 slide-in-from-top-1">
-            {error === true ? "This field is required" : typeof error === "string" ? error : "Invalid input"}
+            {error === true
+              ? "This field is required"
+              : typeof error === "string"
+                ? error
+                : "Invalid input"}
           </p>
         )}
       </div>

@@ -102,7 +102,9 @@ export function getServerConfig(): ServerConfig {
     nodeEnv,
     isProduction,
     isDevelopment,
-    appUrl: process.env.APP_URL || (isDevelopment ? "http://localhost:5173" : "https://goodfillcare-samui.com"),
+    appUrl:
+      process.env.APP_URL ||
+      (isDevelopment ? "http://localhost:5173" : "https://goodfillcare-samui.com"),
 
     // Supabase
     supabaseUrl: requireEnvVar("SUPABASE_URL"),
@@ -182,7 +184,9 @@ export function getServiceStatus() {
     },
     lineCustomer: {
       configured: !!config.lineChannelAccessToken && !!config.lineChannelSecret,
-      message: config.lineChannelAccessToken ? "LINE Customer OA configured" : "Missing LINE Customer OA credentials",
+      message: config.lineChannelAccessToken
+        ? "LINE Customer OA configured"
+        : "Missing LINE Customer OA credentials",
     },
     linePartner: {
       configured: !!config.partnerLineChannelAccessToken && !!config.partnerLineChannelSecret,
@@ -192,7 +196,9 @@ export function getServiceStatus() {
     },
     telegram: {
       configured: config.enableTelegram && !!config.telegramApiKey && !!config.lovableApiKey,
-      message: isTelegramEnabled() ? "Telegram bot configured" : "Telegram not configured or disabled",
+      message: isTelegramEnabled()
+        ? "Telegram bot configured"
+        : "Telegram not configured or disabled",
     },
     ai: {
       configured: config.enableAiFeatures && !!config.zAiApiKey,

@@ -39,14 +39,28 @@ const VARIANT_STYLES = {
 // ============================================================================
 
 const Table = React.forwardRef<HTMLTableElement, TableProps>(
-  ({ className, variant = "default", striped = false, hoverable = true, compact = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant = "default",
+      striped = false,
+      hoverable = true,
+      compact = false,
+      ...props
+    },
+    ref,
+  ) => {
     const variantStyle = VARIANT_STYLES[variant];
 
     return (
       <div className="relative w-full overflow-auto rounded-xl border border-mint/30 bg-white/50 backdrop-blur-sm">
         <table
           ref={ref}
-          className={cn("w-full caption-bottom text-sm", compact ? "text-xs" : "text-sm", className)}
+          className={cn(
+            "w-full caption-bottom text-sm",
+            compact ? "text-xs" : "text-sm",
+            className,
+          )}
           {...props}
         />
       </div>
@@ -65,11 +79,12 @@ const TableHeader = React.forwardRef<
 });
 TableHeader.displayName = "TableHeader";
 
-const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
-  ({ className, ...props }, ref) => (
-    <tbody ref={ref} className={cn("[&_tr:last-child]:border-0", className)} {...props} />
-  ),
-);
+const TableBody = React.forwardRef<
+  HTMLTableSectionElement,
+  React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+  <tbody ref={ref} className={cn("[&_tr:last-child]:border-0", className)} {...props} />
+));
 TableBody.displayName = "TableBody";
 
 const TableFooter = React.forwardRef<
@@ -78,13 +93,22 @@ const TableFooter = React.forwardRef<
 >(({ className, variant = "default", ...props }, ref) => {
   const variantStyle = VARIANT_STYLES[variant];
 
-  return <tfoot ref={ref} className={cn("border-t font-medium", variantStyle.footer, className)} {...props} />;
+  return (
+    <tfoot
+      ref={ref}
+      className={cn("border-t font-medium", variantStyle.footer, className)}
+      {...props}
+    />
+  );
 });
 TableFooter.displayName = "TableFooter";
 
 const TableRow = React.forwardRef<
   HTMLTableRowElement,
-  React.HTMLAttributes<HTMLTableRowElement> & { variant?: "default" | "gold" | "emerald"; striped?: boolean }
+  React.HTMLAttributes<HTMLTableRowElement> & {
+    variant?: "default" | "gold" | "emerald";
+    striped?: boolean;
+  }
 >(({ className, variant = "default", striped, ...props }, ref) => {
   const variantStyle = VARIANT_STYLES[variant];
 
@@ -122,7 +146,10 @@ const TableHead = React.forwardRef<
       {sortable && (
         <div className="flex flex-col">
           <svg
-            className={cn("h-2 w-2 transition-colors", sorted === "asc" ? "text-navy" : "text-muted-foreground")}
+            className={cn(
+              "h-2 w-2 transition-colors",
+              sorted === "asc" ? "text-navy" : "text-muted-foreground",
+            )}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -147,22 +174,28 @@ const TableHead = React.forwardRef<
 ));
 TableHead.displayName = "TableHead";
 
-const TableCell = React.forwardRef<HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>>(
-  ({ className, ...props }, ref) => (
-    <td
-      ref={ref}
-      className={cn("p-3 align-middle text-muted-foreground", "first:pl-4 last:pr-4", className)}
-      {...props}
-    />
-  ),
-);
+const TableCell = React.forwardRef<
+  HTMLTableCellElement,
+  React.TdHTMLAttributes<HTMLTableCellElement>
+>(({ className, ...props }, ref) => (
+  <td
+    ref={ref}
+    className={cn("p-3 align-middle text-muted-foreground", "first:pl-4 last:pr-4", className)}
+    {...props}
+  />
+));
 TableCell.displayName = "TableCell";
 
-const TableCaption = React.forwardRef<HTMLTableCaptionElement, React.HTMLAttributes<HTMLTableCaptionElement>>(
-  ({ className, ...props }, ref) => (
-    <caption ref={ref} className={cn("mt-3 text-xs text-muted-foreground text-center", className)} {...props} />
-  ),
-);
+const TableCaption = React.forwardRef<
+  HTMLTableCaptionElement,
+  React.HTMLAttributes<HTMLTableCaptionElement>
+>(({ className, ...props }, ref) => (
+  <caption
+    ref={ref}
+    className={cn("mt-3 text-xs text-muted-foreground text-center", className)}
+    {...props}
+  />
+));
 TableCaption.displayName = "TableCaption";
 
 // ============================================================================

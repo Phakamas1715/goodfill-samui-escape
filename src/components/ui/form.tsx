@@ -120,7 +120,11 @@ const FormItem = React.forwardRef<HTMLDivElement, FormItemProps>(
       <FormItemContext.Provider value={{ id }}>
         <div
           ref={ref}
-          className={cn("space-y-2 rounded-lg p-0.5 transition-all duration-200", variantStyle.label, className)}
+          className={cn(
+            "space-y-2 rounded-lg p-0.5 transition-all duration-200",
+            variantStyle.label,
+            className,
+          )}
           {...props}
         >
           {children}
@@ -148,60 +152,66 @@ const FormLabel = React.forwardRef<
 });
 FormLabel.displayName = "FormLabel";
 
-const FormControl = React.forwardRef<React.ElementRef<typeof Slot>, React.ComponentPropsWithoutRef<typeof Slot>>(
-  ({ ...props }, ref) => {
-    const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+const FormControl = React.forwardRef<
+  React.ElementRef<typeof Slot>,
+  React.ComponentPropsWithoutRef<typeof Slot>
+>(({ ...props }, ref) => {
+  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
 
-    return (
-      <Slot
-        ref={ref}
-        id={formItemId}
-        aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
-        aria-invalid={!!error}
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <Slot
+      ref={ref}
+      id={formItemId}
+      aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
+      aria-invalid={!!error}
+      {...props}
+    />
+  );
+});
 FormControl.displayName = "FormControl";
 
-const FormDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-  ({ className, ...props }, ref) => {
-    const { formDescriptionId } = useFormField();
+const FormDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => {
+  const { formDescriptionId } = useFormField();
 
-    return (
-      <p
-        ref={ref}
-        id={formDescriptionId}
-        className={cn("text-xs text-muted-foreground leading-relaxed", className)}
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <p
+      ref={ref}
+      id={formDescriptionId}
+      className={cn("text-xs text-muted-foreground leading-relaxed", className)}
+      {...props}
+    />
+  );
+});
 FormDescription.displayName = "FormDescription";
 
-const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-  ({ className, children, ...props }, ref) => {
-    const { error, formMessageId } = useFormField();
-    const body = error ? String(error?.message ?? "") : children;
+const FormMessage = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, children, ...props }, ref) => {
+  const { error, formMessageId } = useFormField();
+  const body = error ? String(error?.message ?? "") : children;
 
-    if (!body) {
-      return null;
-    }
+  if (!body) {
+    return null;
+  }
 
-    return (
-      <p
-        ref={ref}
-        id={formMessageId}
-        className={cn("text-xs font-medium text-coral animate-in fade-in-0 slide-in-from-top-1", className)}
-        {...props}
-      >
-        {body}
-      </p>
-    );
-  },
-);
+  return (
+    <p
+      ref={ref}
+      id={formMessageId}
+      className={cn(
+        "text-xs font-medium text-coral animate-in fade-in-0 slide-in-from-top-1",
+        className,
+      )}
+      {...props}
+    >
+      {body}
+    </p>
+  );
+});
 FormMessage.displayName = "FormMessage";
 
 // ============================================================================
@@ -236,7 +246,11 @@ FormSection.displayName = "FormSection";
  */
 const FormRow = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, children, ...props }, ref) => (
-    <div ref={ref} className={cn("grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6", className)} {...props}>
+    <div
+      ref={ref}
+      className={cn("grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6", className)}
+      {...props}
+    >
       {children}
     </div>
   ),
@@ -261,7 +275,11 @@ const FormActions = React.forwardRef<HTMLDivElement, FormActionsProps>(
     return (
       <div
         ref={ref}
-        className={cn("mt-6 flex flex-wrap gap-3 pt-4 border-t border-mint/30", alignClasses[align], className)}
+        className={cn(
+          "mt-6 flex flex-wrap gap-3 pt-4 border-t border-mint/30",
+          alignClasses[align],
+          className,
+        )}
         {...props}
       >
         {children}

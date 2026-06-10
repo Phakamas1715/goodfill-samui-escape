@@ -387,7 +387,9 @@ export const outreachOrder = [
 ];
 
 // Get all partners from all groups
-export function getAllPartners(): Array<Partner & { groupId: string; groupTitle: { th: string; en: string } }> {
+export function getAllPartners(): Array<
+  Partner & { groupId: string; groupTitle: { th: string; en: string } }
+> {
   const all: Array<Partner & { groupId: string; groupTitle: { th: string; en: string } }> = [];
 
   for (const group of partnerGroups) {
@@ -474,7 +476,9 @@ export function getAllTags(): string[] {
 }
 
 // Get partners by priority
-export function getPartnersByPriority(maxPriority: number = 2): Array<Partner & { groupId: string }> {
+export function getPartnersByPriority(
+  maxPriority: number = 2,
+): Array<Partner & { groupId: string }> {
   const results: Array<Partner & { groupId: string }> = [];
 
   for (const group of partnerGroups) {
@@ -489,7 +493,11 @@ export function getPartnersByPriority(maxPriority: number = 2): Array<Partner & 
 }
 
 // Get outreach priority list with metadata
-export function getOutreachPriorityList(): Array<{ name: string; groups: string[]; priority: number }> {
+export function getOutreachPriorityList(): Array<{
+  name: string;
+  groups: string[];
+  priority: number;
+}> {
   return [
     { name: "Celes Samui + BDMS Wellness Clinic", groups: ["A", "B", "E"], priority: 1 },
     { name: "Vikasa Life Cafe / Vikasa Yoga Retreat", groups: ["C", "D"], priority: 1 },
@@ -497,7 +505,11 @@ export function getOutreachPriorityList(): Array<{ name: string; groups: string[
     { name: "The Spa Resorts Samui", groups: ["B"], priority: 2 },
     { name: "Wild Tribe Superfood Cafe / The Hub Samui", groups: ["C"], priority: 2 },
     { name: "Bangkok Hospital Samui", groups: ["E"], priority: 3 },
-    { name: "Six Senses / Kamalaya / Ritz-Carlton / Four Seasons", groups: ["A", "B", "D"], priority: 3 },
+    {
+      name: "Six Senses / Kamalaya / Ritz-Carlton / Four Seasons",
+      groups: ["A", "B", "D"],
+      priority: 3,
+    },
   ];
 }
 

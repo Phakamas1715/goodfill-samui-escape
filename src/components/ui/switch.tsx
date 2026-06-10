@@ -96,7 +96,10 @@ const Switch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, 
         {switchElement}
         <div className="flex flex-col">
           {label && (
-            <label htmlFor={switchId} className="text-sm font-medium cursor-pointer transition-colors hover:opacity-80">
+            <label
+              htmlFor={switchId}
+              className="text-sm font-medium cursor-pointer transition-colors hover:opacity-80"
+            >
               {label}
             </label>
           )}
@@ -131,16 +134,17 @@ interface ConfirmSwitchProps extends SwitchProps {
   confirmDescription?: string;
 }
 
-const ConfirmSwitch = React.forwardRef<React.ElementRef<typeof SwitchPrimitives.Root>, ConfirmSwitchProps>(
-  ({ onConfirmChange, confirmTitle, confirmDescription, ...props }, ref) => {
-    const handleChange = async (checked: boolean) => {
-      // You can integrate with a confirmation dialog here
-      onConfirmChange(checked);
-    };
+const ConfirmSwitch = React.forwardRef<
+  React.ElementRef<typeof SwitchPrimitives.Root>,
+  ConfirmSwitchProps
+>(({ onConfirmChange, confirmTitle, confirmDescription, ...props }, ref) => {
+  const handleChange = async (checked: boolean) => {
+    // You can integrate with a confirmation dialog here
+    onConfirmChange(checked);
+  };
 
-    return <Switch ref={ref} onCheckedChange={handleChange} {...props} />;
-  },
-);
+  return <Switch ref={ref} onCheckedChange={handleChange} {...props} />;
+});
 ConfirmSwitch.displayName = "ConfirmSwitch";
 
 /**

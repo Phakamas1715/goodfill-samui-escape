@@ -1,6 +1,15 @@
 import { createFileRoute, Link, useSearch } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { CheckCircle2, Calendar, MapPin, ArrowRight, Sparkles, Gift, Mail, Clock } from "lucide-react";
+import {
+  CheckCircle2,
+  Calendar,
+  MapPin,
+  ArrowRight,
+  Sparkles,
+  Gift,
+  Mail,
+  Clock,
+} from "lucide-react";
 import { z } from "zod";
 import { images } from "@/lib/data";
 
@@ -18,10 +27,14 @@ export const Route = createFileRoute("/booking-success")({
       { title: "ยืนยันการจอง — Goodfill Care" },
       {
         name: "description",
-        content: "การจองของคุณเสร็จสมบูรณ์ ทีม Goodfill Care กำลังเตรียมประสบการณ์เฉพาะคุณที่เกาะสมุย",
+        content:
+          "การจองของคุณเสร็จสมบูรณ์ ทีม Goodfill Care กำลังเตรียมประสบการณ์เฉพาะคุณที่เกาะสมุย",
       },
       { property: "og:title", content: "Booking Confirmed — Goodfill Care" },
-      { property: "og:description", content: "การจองเสร็จสมบูรณ์ พร้อมเริ่มทริป Wellness ที่เกาะสมุย" },
+      {
+        property: "og:description",
+        content: "การจองเสร็จสมบูรณ์ พร้อมเริ่มทริป Wellness ที่เกาะสมุย",
+      },
     ],
   }),
   component: BookingSuccessPage,
@@ -43,7 +56,12 @@ function BookingSuccessPage() {
     <div className="fixed inset-0 overflow-hidden bg-background text-foreground">
       {/* Tropical background */}
       <div className="absolute inset-0">
-        <img src={images.samuiInfinity} alt="" className="absolute inset-0 size-full object-cover" loading="eager" />
+        <img
+          src={images.samuiInfinity}
+          alt=""
+          className="absolute inset-0 size-full object-cover"
+          loading="eager"
+        />
         {/* เพิ่ม Gradient ให้คมชัดขึ้น */}
         <div className="absolute inset-0 bg-gradient-to-b from-emerald-deep/70 via-emerald-deep/50 to-emerald-deep/85" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_30%,rgba(201,184,155,0.3),transparent_70%)]" />
@@ -93,7 +111,9 @@ function BookingSuccessPage() {
           {/* What happens next - new section */}
           <div className="mt-6 p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
             <div className="text-center">
-              <div className="text-[10px] md:text-[11px] uppercase tracking-wider text-gold mb-2">ขั้นตอนต่อไป</div>
+              <div className="text-[10px] md:text-[11px] uppercase tracking-wider text-gold mb-2">
+                ขั้นตอนต่อไป
+              </div>
               <div className="flex flex-col gap-2 text-[11px] md:text-xs text-cream/85">
                 <div className="flex items-center gap-2 justify-center">
                   <Mail size={14} className="text-gold" />
@@ -140,7 +160,9 @@ function BookingSuccessPage() {
                     <div className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
                       วันที่
                     </div>
-                    <div className="text-sm md:text-base text-navy mt-0.5 font-medium">{formattedDate}</div>
+                    <div className="text-sm md:text-base text-navy mt-0.5 font-medium">
+                      {formattedDate}
+                    </div>
                   </div>
                 </div>
               )}
@@ -154,7 +176,9 @@ function BookingSuccessPage() {
                     <div className="text-[10px] md:text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">
                       สถานที่
                     </div>
-                    <div className="text-sm md:text-base text-navy mt-0.5 font-medium">{search.location}</div>
+                    <div className="text-sm md:text-base text-navy mt-0.5 font-medium">
+                      {search.location}
+                    </div>
                   </div>
                 </div>
               )}

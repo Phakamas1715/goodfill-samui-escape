@@ -153,7 +153,10 @@ function showPremium(title: string, options?: Partial<ToastOptions>) {
 /**
  * Show a custom toast
  */
-function showCustom(title: string, options?: Partial<ToastOptions> & { variant?: "default" | "premium" }) {
+function showCustom(
+  title: string,
+  options?: Partial<ToastOptions> & { variant?: "default" | "premium" },
+) {
   const variant = options?.variant || "default";
   const isPremium = variant === "premium";
 
@@ -162,7 +165,9 @@ function showCustom(title: string, options?: Partial<ToastOptions> & { variant?:
     description: options?.description,
     duration: options?.duration,
     action: options?.action,
-    className: isPremium ? "border-gold/50 bg-gradient-to-r from-gold/10 to-gold-soft/20" : undefined,
+    className: isPremium
+      ? "border-gold/50 bg-gradient-to-r from-gold/10 to-gold-soft/20"
+      : undefined,
   });
 }
 
@@ -189,7 +194,8 @@ async function showPromise<T>(
     }),
     error: (error) => ({
       message: messages.error,
-      description: options?.errorDescription || (error instanceof Error ? error.message : undefined),
+      description:
+        options?.errorDescription || (error instanceof Error ? error.message : undefined),
     }),
   });
   return promise;
@@ -199,7 +205,17 @@ async function showPromise<T>(
 // Default Export
 // ============================================================================
 
-export { Toaster, showSuccess, showError, showWarning, showInfo, showLoading, showPremium, showCustom, showPromise };
+export {
+  Toaster,
+  showSuccess,
+  showError,
+  showWarning,
+  showInfo,
+  showLoading,
+  showPremium,
+  showCustom,
+  showPromise,
+};
 
 // Re-export toast from sonner for direct usage
 export { toast };

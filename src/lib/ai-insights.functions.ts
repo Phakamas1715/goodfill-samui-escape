@@ -17,7 +17,9 @@ const MealPlanInput = z.object({
   personaName: z.string().min(1),
   days: z.number().int().min(1).max(14).default(3),
   dietaryNotes: z.string().max(500).optional(),
-  restrictions: z.array(z.enum(["vegetarian", "vegan", "pescatarian", "gluten-free", "dairy-free"])).optional(),
+  restrictions: z
+    .array(z.enum(["vegetarian", "vegan", "pescatarian", "gluten-free", "dairy-free"]))
+    .optional(),
   allergies: z.array(z.enum(["nuts", "seafood", "dairy", "eggs", "soy", "wheat"])).optional(),
   lang: z.enum(["th", "en"]).default("th"),
 });
@@ -181,7 +183,11 @@ Provide a personalised wellness insight for an expert to fine-tune their care pl
 
       // Validate response structure
       const validated = PersonaInsightResponse.parse(result.data);
-      logAICall("getPersonaInsight", { personaId: data.personaId, lang: data.lang }, Date.now() - startTime);
+      logAICall(
+        "getPersonaInsight",
+        { personaId: data.personaId, lang: data.lang },
+        Date.now() - startTime,
+      );
 
       return validated;
     } catch (error) {
@@ -198,7 +204,8 @@ Provide a personalised wellness insight for an expert to fine-tune their care pl
               avoid: ["อาหารแปรรูป", "นอนดึก", "เครียดสะสม"],
             }
           : {
-              summary: "You have a good wellness foundation but may need more balance in daily life",
+              summary:
+                "You have a good wellness foundation but may need more balance in daily life",
               strengths: ["Good intention", "Open to change", "Health conscious"],
               focusAreas: ["Sleep quality", "Stress management", "Nutrition"],
               dailyRitual: ["Warm water in morning", "15 min walk", "Deep breathing before bed"],
@@ -249,7 +256,11 @@ Create a ${data.days}-day meal plan that supports this person's wellness journey
       ]);
 
       const validated = MealPlanResponse.parse(result.data);
-      logAICall("getMealPlan", { personaId: data.personaId, days: data.days, lang: data.lang }, Date.now() - startTime);
+      logAICall(
+        "getMealPlan",
+        { personaId: data.personaId, days: data.days, lang: data.lang },
+        Date.now() - startTime,
+      );
 
       return validated;
     } catch (error) {
@@ -259,8 +270,12 @@ Create a ${data.days}-day meal plan that supports this person's wellness journey
       const fallbackDays = Array.from({ length: data.days }, (_, i) => ({
         day: i + 1,
         breakfast: data.lang === "th" ? "สมูทตี้ผลไม้ + ข้าวโอ๊ต" : "Fruit smoothie + oatmeal",
-        lunch: data.lang === "th" ? "สลัดผัก + ปลาย่าง + ข้าวกล้อง" : "Garden salad + grilled fish + brown rice",
-        dinner: data.lang === "th" ? "ซุปผัก + ไก่ย่างสมุนไพร" : "Vegetable soup + herb-grilled chicken",
+        lunch:
+          data.lang === "th"
+            ? "สลัดผัก + ปลาย่าง + ข้าวกล้อง"
+            : "Garden salad + grilled fish + brown rice",
+        dinner:
+          data.lang === "th" ? "ซุปผัก + ไก่ย่างสมุนไพร" : "Vegetable soup + herb-grilled chicken",
         snack: data.lang === "th" ? "ผลไม้สด" : "Fresh fruits",
         hydration: data.lang === "th" ? "น้ำมะพร้าว + ชาสมุนไพร" : "Coconut water + herbal tea",
       }));
@@ -303,9 +318,16 @@ Provide ${data.count} daily wellness tips for someone with this persona.`;
       const fallbackTips =
         data.lang === "th"
           ? ["ดื่มน้ำทันทีที่ตื่นนอน", "ยืดเส้นยืดสายทุกชั่วโมง", "หายใจลึก 5 ครั้งก่อนนอน"]
-          : ["Drink water immediately upon waking", "Stretch every hour", "Take 5 deep breaths before sleep"];
+          : [
+              "Drink water immediately upon waking",
+              "Stretch every hour",
+              "Take 5 deep breaths before sleep",
+            ];
 
-      return { tips: fallbackTips.slice(0, data.count), count: Math.min(fallbackTips.length, data.count) };
+      return {
+        tips: fallbackTips.slice(0, data.count),
+        count: Math.min(fallbackTips.length, data.count),
+      };
     }
   });
 
@@ -349,7 +371,10 @@ Create a ${data.days}-day activity plan combining rest and wellness activities.`
 
       return {
         days: fallbackDays,
-        notes: data.lang === "th" ? "ปรับตามพลังงานของคุณในแต่ละวัน" : "Adjust based on your daily energy",
+        notes:
+          data.lang === "th"
+            ? "ปรับตามพลังงานของคุณในแต่ละวัน"
+            : "Adjust based on your daily energy",
       };
     }
   });

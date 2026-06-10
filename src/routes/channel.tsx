@@ -6,7 +6,10 @@ export const Route = createFileRoute("/channel")({
   head: () => ({
     meta: [
       { title: "เลือกช่องทาง · Channel — Goodfill Care" },
-      { name: "description", content: "เลือกช่องทางการติดต่อที่สะดวกสำหรับคุณ — LINE, Telegram หรือใช้งานแบบ Guest" },
+      {
+        name: "description",
+        content: "เลือกช่องทางการติดต่อที่สะดวกสำหรับคุณ — LINE, Telegram หรือใช้งานแบบ Guest",
+      },
     ],
   }),
   component: ChannelPage,
@@ -77,7 +80,9 @@ function ChannelPage() {
                   <c.icon size={24} className="text-white" />
                 </div>
                 {c.badge && (
-                  <span className="text-[10px] font-bold text-white bg-white/20 px-2 py-1 rounded-full">{c.badge}</span>
+                  <span className="text-[10px] font-bold text-white bg-white/20 px-2 py-1 rounded-full">
+                    {c.badge}
+                  </span>
                 )}
               </div>
 
@@ -90,12 +95,17 @@ function ChannelPage() {
                     className="text-muted-foreground group-hover:text-gold group-hover:translate-x-1 transition-all"
                   />
                 </div>
-                <div className={`text-xs md:text-sm font-medium ${c.textTone} mt-0.5`}>{c.desc}</div>
+                <div className={`text-xs md:text-sm font-medium ${c.textTone} mt-0.5`}>
+                  {c.desc}
+                </div>
 
                 {/* Features list */}
                 <ul className="mt-4 space-y-1.5">
                   {c.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2 text-[11px] md:text-xs text-navy/70">
+                    <li
+                      key={i}
+                      className="flex items-center gap-2 text-[11px] md:text-xs text-navy/70"
+                    >
                       <CheckCircle2 size={12} className="text-emerald shrink-0" />
                       <span>{feature}</span>
                     </li>
@@ -104,7 +114,9 @@ function ChannelPage() {
 
                 {/* Note divider */}
                 <div className="mt-4 pt-3 border-t border-mint/30">
-                  <p className="text-[10px] md:text-[11px] text-muted-foreground italic">💡 {c.note}</p>
+                  <p className="text-[10px] md:text-[11px] text-muted-foreground italic">
+                    💡 {c.note}
+                  </p>
                 </div>
               </div>
             </Link>
@@ -115,7 +127,9 @@ function ChannelPage() {
         <div className="mt-8 text-center p-4 bg-pale-mint/30 rounded-xl border border-mint/40">
           <div className="flex items-center justify-center gap-2 text-xs md:text-sm text-navy/70">
             <Sparkles size={14} className="text-gold" />
-            <span>ทุกช่องทางได้รับประสบการณ์ wellness เดียวกัน — เลือกช่องทางที่สะดวกที่สุดสำหรับคุณ</span>
+            <span>
+              ทุกช่องทางได้รับประสบการณ์ wellness เดียวกัน — เลือกช่องทางที่สะดวกที่สุดสำหรับคุณ
+            </span>
           </div>
         </div>
 

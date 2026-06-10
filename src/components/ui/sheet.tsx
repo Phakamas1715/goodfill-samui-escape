@@ -12,7 +12,9 @@ import { cn } from "@/lib/utils";
 // ============================================================================
 
 interface SheetContentProps
-  extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>, VariantProps<typeof sheetVariants> {
+  extends
+    React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
+    VariantProps<typeof sheetVariants> {
   variant?: "default" | "gold" | "emerald";
   showClose?: boolean;
   onClose?: () => void;
@@ -100,9 +102,21 @@ const SheetOverlay = React.forwardRef<
 ));
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
-const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
+const SheetContent = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Content>,
+  SheetContentProps
+>(
   (
-    { side = "right", size = "default", variant = "default", showClose = true, onClose, className, children, ...props },
+    {
+      side = "right",
+      size = "default",
+      variant = "default",
+      showClose = true,
+      onClose,
+      className,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const variantStyle = VARIANT_STYLES[variant];
@@ -112,7 +126,12 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
         <SheetOverlay onClick={onClose} />
         <SheetPrimitive.Content
           ref={ref}
-          className={cn(sheetVariants({ side, size }), "rounded-xl backdrop-blur-sm", variantStyle.content, className)}
+          className={cn(
+            sheetVariants({ side, size }),
+            "rounded-xl backdrop-blur-sm",
+            variantStyle.content,
+            className,
+          )}
           {...props}
         >
           {showClose && (
@@ -144,7 +163,10 @@ const SheetHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElemen
 SheetHeader.displayName = "SheetHeader";
 
 const SheetFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3", className)} {...props} />
+  <div
+    className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3", className)}
+    {...props}
+  />
 );
 SheetFooter.displayName = "SheetFooter";
 
@@ -154,7 +176,10 @@ const SheetTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Title
     ref={ref}
-    className={cn("font-display text-xl font-semibold leading-tight tracking-tight text-navy", className)}
+    className={cn(
+      "font-display text-xl font-semibold leading-tight tracking-tight text-navy",
+      className,
+    )}
     {...props}
   />
 ));
@@ -195,22 +220,25 @@ interface SheetWithIconProps extends SheetContentProps {
   description?: string;
 }
 
-const SheetWithIcon = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetWithIconProps>(
-  ({ icon, title, description, children, ...props }, ref) => (
-    <SheetContent ref={ref} {...props}>
-      <SheetHeader>
-        <div className="flex items-center gap-3">
-          {icon && (
-            <div className="flex size-10 items-center justify-center rounded-full bg-gold/10 text-gold">{icon}</div>
-          )}
-          <SheetTitle>{title}</SheetTitle>
-        </div>
-        {description && <SheetDescription>{description}</SheetDescription>}
-      </SheetHeader>
-      {children}
-    </SheetContent>
-  ),
-);
+const SheetWithIcon = React.forwardRef<
+  React.ElementRef<typeof SheetPrimitive.Content>,
+  SheetWithIconProps
+>(({ icon, title, description, children, ...props }, ref) => (
+  <SheetContent ref={ref} {...props}>
+    <SheetHeader>
+      <div className="flex items-center gap-3">
+        {icon && (
+          <div className="flex size-10 items-center justify-center rounded-full bg-gold/10 text-gold">
+            {icon}
+          </div>
+        )}
+        <SheetTitle>{title}</SheetTitle>
+      </div>
+      {description && <SheetDescription>{description}</SheetDescription>}
+    </SheetHeader>
+    {children}
+  </SheetContent>
+));
 SheetWithIcon.displayName = "SheetWithIcon";
 
 // ============================================================================

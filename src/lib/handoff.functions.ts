@@ -155,7 +155,14 @@ function personaFlex(data: HandoffData): any {
   const isThai = data.lang === "th";
 
   const bodyContents: any[] = [
-    { type: "text", text: data.personaName, weight: "bold", size: "xl", wrap: true, color: "#0F3D2E" },
+    {
+      type: "text",
+      text: data.personaName,
+      weight: "bold",
+      size: "xl",
+      wrap: true,
+      color: "#0F3D2E",
+    },
   ];
 
   if (data.personaThai) {
@@ -275,7 +282,9 @@ function buildTelegramText(data: HandoffData): string {
 
   // Header
   lines.push(`🌿 <b>${labels.headerTitle}</b>`);
-  lines.push(`<b>${tgEscape(data.personaName)}</b>${data.personaThai ? ` · ${tgEscape(data.personaThai)}` : ""}`);
+  lines.push(
+    `<b>${tgEscape(data.personaName)}</b>${data.personaThai ? ` · ${tgEscape(data.personaThai)}` : ""}`,
+  );
 
   if (data.tagline) {
     lines.push(`<i>${tgEscape(data.tagline)}</i>`);
@@ -352,7 +361,11 @@ export const sendPersonaSummary = createServerFn({ method: "POST" })
         lineResultPush = await linePush(lineToken, lineTo, [personaFlex(data)]);
         logHandoffAction("line", context.userId, { ok: lineResultPush.ok, to: lineTo });
       } catch (error) {
-        lineResultPush = { ok: false, error: error instanceof Error ? error.message : String(error), channel: "line" };
+        lineResultPush = {
+          ok: false,
+          error: error instanceof Error ? error.message : String(error),
+          channel: "line",
+        };
         logHandoffError("line", context.userId, error);
       }
     } else if (!lineToken) {

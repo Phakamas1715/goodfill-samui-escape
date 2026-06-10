@@ -10,7 +10,10 @@ export type ChartConfig = {
   [k in string]: {
     label?: React.ReactNode;
     icon?: React.ComponentType;
-  } & ({ color?: string; theme?: never } | { color?: never; theme: Record<keyof typeof THEMES, string> });
+  } & (
+    | { color?: string; theme?: never }
+    | { color?: never; theme: Record<keyof typeof THEMES, string> }
+  );
 };
 
 type ChartContextProps = {
@@ -44,7 +47,10 @@ const ChartContainer = React.forwardRef<
       <div
         data-chart={chartId}
         ref={ref}
-        className={cn("w-full rounded-2xl bg-white/50 backdrop-blur-sm p-4 shadow-md border border-mint/30", className)}
+        className={cn(
+          "w-full rounded-2xl bg-white/50 backdrop-blur-sm p-4 shadow-md border border-mint/30",
+          className,
+        )}
         {...props}
       >
         {(title || description) && (
@@ -104,7 +110,13 @@ const ChartTooltipContent = React.forwardRef<
       indicator?: "line" | "dot" | "dashed";
       nameKey?: string;
       labelKey?: string;
-      formatter?: (value: number, name: string, item: any, index: number, payload: any) => React.ReactNode;
+      formatter?: (
+        value: number,
+        name: string,
+        item: any,
+        index: number,
+        payload: any,
+      ) => React.ReactNode;
     }
 >(
   (
@@ -141,7 +153,11 @@ const ChartTooltipContent = React.forwardRef<
           : itemConfig?.label;
 
       if (labelFormatter) {
-        return <div className={cn("font-medium text-navy", labelClassName)}>{labelFormatter(value, payload)}</div>;
+        return (
+          <div className={cn("font-medium text-navy", labelClassName)}>
+            {labelFormatter(value, payload)}
+          </div>
+        );
       }
 
       if (!value) {
@@ -191,12 +207,16 @@ const ChartTooltipContent = React.forwardRef<
                       ) : (
                         !hideIndicator && (
                           <div
-                            className={cn("shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)", {
-                              "h-2.5 w-2.5": indicator === "dot",
-                              "w-1": indicator === "line",
-                              "w-0 border-[1.5px] border-dashed bg-transparent": indicator === "dashed",
-                              "my-0.5": nestLabel && indicator === "dashed",
-                            })}
+                            className={cn(
+                              "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
+                              {
+                                "h-2.5 w-2.5": indicator === "dot",
+                                "w-1": indicator === "line",
+                                "w-0 border-[1.5px] border-dashed bg-transparent":
+                                  indicator === "dashed",
+                                "my-0.5": nestLabel && indicator === "dashed",
+                              },
+                            )}
                             style={
                               {
                                 "--color-bg": indicatorColor,
@@ -214,11 +234,15 @@ const ChartTooltipContent = React.forwardRef<
                       >
                         <div className="grid gap-1.5">
                           {nestLabel ? tooltipLabel : null}
-                          <span className="text-muted-foreground text-xs">{itemConfig?.label || item.name}</span>
+                          <span className="text-muted-foreground text-xs">
+                            {itemConfig?.label || item.name}
+                          </span>
                         </div>
                         {item.value !== undefined && item.value !== null && (
                           <span className="font-mono font-semibold tabular-nums text-navy">
-                            {typeof item.value === "number" ? item.value.toLocaleString() : item.value}
+                            {typeof item.value === "number"
+                              ? item.value.toLocaleString()
+                              : item.value}
                           </span>
                         )}
                       </div>
@@ -354,7 +378,12 @@ export function SimpleBarChart({
         />
         <ChartTooltip content={<ChartTooltipContent />} />
         {keys.map((key) => (
-          <RechartsPrimitive.Bar key={key} dataKey={key} fill={`var(--color-${key})`} radius={[4, 4, 0, 0]} />
+          <RechartsPrimitive.Bar
+            key={key}
+            dataKey={key}
+            fill={`var(--color-${key})`}
+            radius={[4, 4, 0, 0]}
+          />
         ))}
       </RechartsPrimitive.BarChart>
     </ChartContainer>

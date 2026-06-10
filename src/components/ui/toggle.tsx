@@ -9,7 +9,9 @@ import { cn } from "@/lib/utils";
 // ============================================================================
 
 interface ToggleProps
-  extends React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root>, VariantProps<typeof toggleVariants> {
+  extends
+    React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root>,
+    VariantProps<typeof toggleVariants> {
   icon?: React.ReactNode;
   label?: string;
   isLoading?: boolean;
@@ -75,19 +77,38 @@ const toggleVariants = cva(
 // ============================================================================
 
 const Toggle = React.forwardRef<React.ElementRef<typeof TogglePrimitive.Root>, ToggleProps>(
-  ({ className, variant, size, fullWidth, icon, label, isLoading, children, disabled, ...props }, ref) => {
+  (
+    { className, variant, size, fullWidth, icon, label, isLoading, children, disabled, ...props },
+    ref,
+  ) => {
     const isDisabled = disabled || isLoading;
 
     return (
       <TogglePrimitive.Root
         ref={ref}
-        className={cn(toggleVariants({ variant, size, fullWidth }), isLoading && "cursor-wait", className)}
+        className={cn(
+          toggleVariants({ variant, size, fullWidth }),
+          isLoading && "cursor-wait",
+          className,
+        )}
         disabled={isDisabled}
         {...props}
       >
         {isLoading && (
-          <svg className="size-3.5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <svg
+            className="size-3.5 animate-spin"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
             <path
               className="opacity-75"
               fill="currentColor"
@@ -151,7 +172,11 @@ interface ToggleGroupProps {
 }
 
 const ToggleGroup = ({ children, className, orientation = "horizontal" }: ToggleGroupProps) => (
-  <div className={cn("flex gap-1", orientation === "vertical" ? "flex-col" : "flex-row", className)}>{children}</div>
+  <div
+    className={cn("flex gap-1", orientation === "vertical" ? "flex-col" : "flex-row", className)}
+  >
+    {children}
+  </div>
 );
 ToggleGroup.displayName = "ToggleGroup";
 

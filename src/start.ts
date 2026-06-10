@@ -48,7 +48,10 @@ function getStatusCode(error: unknown): number {
 
 function isRedirectError(error: unknown): boolean {
   if (error && typeof error === "object") {
-    return "redirect" in error || ("statusCode" in error && (error.statusCode === 301 || error.statusCode === 302));
+    return (
+      "redirect" in error ||
+      ("statusCode" in error && (error.statusCode === 301 || error.statusCode === 302))
+    );
   }
   return false;
 }
@@ -125,7 +128,9 @@ const loggingMiddleware = createMiddleware().server(async ({ next, request }) =>
     const result = await next();
     const duration = Date.now() - startTime;
 
-    console.info(`[Start] ${method} ${url} → ${(result as { status?: number })?.status || "completed"} (${duration}ms)`);
+    console.info(
+      `[Start] ${method} ${url} → ${(result as { status?: number })?.status || "completed"} (${duration}ms)`,
+    );
 
     return result;
   } catch (error) {

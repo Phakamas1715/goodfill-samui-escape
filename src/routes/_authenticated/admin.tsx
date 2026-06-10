@@ -120,7 +120,9 @@ function AdminLayout() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-xs font-medium truncate">{userEmail || "Admin"}</div>
-              <div className="text-[10px] opacity-70">{roles.map((r: string) => roleLabels[r] || r).join(", ")}</div>
+              <div className="text-[10px] opacity-70">
+                {roles.map((r: string) => roleLabels[r] || r).join(", ")}
+              </div>
             </div>
           </div>
           <button

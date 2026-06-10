@@ -11,8 +11,16 @@ type LovableErrorOptions = {
 };
 
 type LovableEvents = {
-  captureException?: (error: unknown, context?: Record<string, unknown>, options?: LovableErrorOptions) => void;
-  captureMessage?: (message: string, context?: Record<string, unknown>, options?: LovableErrorOptions) => void;
+  captureException?: (
+    error: unknown,
+    context?: Record<string, unknown>,
+    options?: LovableErrorOptions,
+  ) => void;
+  captureMessage?: (
+    message: string,
+    context?: Record<string, unknown>,
+    options?: LovableErrorOptions,
+  ) => void;
   setUser?: (user: { id?: string; email?: string; username?: string }) => void;
 };
 
@@ -87,7 +95,8 @@ function getEnvironmentInfo(): Record<string, unknown> {
     userAgent: typeof navigator !== "undefined" ? navigator.userAgent : undefined,
     language: typeof navigator !== "undefined" ? navigator.language : undefined,
     platform: typeof navigator !== "undefined" ? (navigator as any).platform : undefined,
-    viewport: typeof window !== "undefined" ? `${window.innerWidth}x${window.innerHeight}` : undefined,
+    viewport:
+      typeof window !== "undefined" ? `${window.innerWidth}x${window.innerHeight}` : undefined,
     timestamp: new Date().toISOString(),
     url: typeof window !== "undefined" ? window.location.href : undefined,
     referrer: typeof document !== "undefined" ? document.referrer : undefined,
@@ -223,7 +232,10 @@ export function createErrorHandler(componentName: string, context?: Record<strin
 // Wrapper for Async Functions
 // ============================================================================
 
-export function withErrorReporting<T extends (...args: any[]) => any>(fn: T, context?: Record<string, unknown>): T {
+export function withErrorReporting<T extends (...args: any[]) => any>(
+  fn: T,
+  context?: Record<string, unknown>,
+): T {
   return (async (...args: any[]) => {
     try {
       return await fn(...args);

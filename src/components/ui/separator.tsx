@@ -29,7 +29,10 @@ const VARIANT_STYLES = {
 // Components
 // ============================================================================
 
-const Separator = React.forwardRef<React.ElementRef<typeof SeparatorPrimitive.Root>, SeparatorProps>(
+const Separator = React.forwardRef<
+  React.ElementRef<typeof SeparatorPrimitive.Root>,
+  SeparatorProps
+>(
   (
     {
       className,
@@ -50,7 +53,8 @@ const Separator = React.forwardRef<React.ElementRef<typeof SeparatorPrimitive.Ro
       dashed && orientation === "horizontal" ? "bg-none border-t-2 border-dashed" : "",
       dashed && orientation === "vertical" ? "bg-none border-l-2 border-dashed" : "",
       !dashed && variantStyle,
-      dashed && `border-${variant === "gold" ? "gold" : variant === "emerald" ? "emerald" : "navy"}/30`,
+      dashed &&
+        `border-${variant === "gold" ? "gold" : variant === "emerald" ? "emerald" : "navy"}/30`,
       orientation === "horizontal" ? (dashed ? "border-t" : "h-px") : dashed ? "border-l" : "w-px",
       className,
     );
@@ -71,7 +75,11 @@ const Separator = React.forwardRef<React.ElementRef<typeof SeparatorPrimitive.Ro
     // With label
     const labelClasses = cn(
       "text-xs font-medium whitespace-nowrap",
-      variant === "gold" ? "text-gold" : variant === "emerald" ? "text-emerald" : "text-muted-foreground",
+      variant === "gold"
+        ? "text-gold"
+        : variant === "emerald"
+          ? "text-emerald"
+          : "text-muted-foreground",
     );
 
     const getPositionClasses = () => {
@@ -141,10 +149,19 @@ const TextSeparator = ({ text, ...props }: SeparatorProps & { text: string }) =>
 /**
  * Vertical separator for side-by-side content
  */
-const VerticalSeparator = (props: SeparatorProps) => <Separator orientation="vertical" {...props} />;
+const VerticalSeparator = (props: SeparatorProps) => (
+  <Separator orientation="vertical" {...props} />
+);
 
 // ============================================================================
 // Default Export
 // ============================================================================
 
-export { Separator, GoldSeparator, EmeraldSeparator, DashedSeparator, TextSeparator, VerticalSeparator };
+export {
+  Separator,
+  GoldSeparator,
+  EmeraldSeparator,
+  DashedSeparator,
+  TextSeparator,
+  VerticalSeparator,
+};

@@ -66,7 +66,9 @@ async function refreshTokenIfNeeded(): Promise<string | null> {
 
     return null;
   } catch (error) {
-    logAuthEvent("refresh-error", { error: error instanceof Error ? error.message : String(error) });
+    logAuthEvent("refresh-error", {
+      error: error instanceof Error ? error.message : String(error),
+    });
     return null;
   }
 }
@@ -82,51 +84,53 @@ async function refreshTokenIfNeeded(): Promise<string | null> {
  * Must be registered as a global `functionMiddleware` in `src/start.ts`.
  * This ensures the browser attaches the bearer token to serverFn RPCs.
  */
-export const attachSupabaseAuth = createMiddleware({ type: "function" }).client(async ({ next }) => {
-  const startTime = Date.now();
+export const attachSupabaseAuth = createMiddleware({ type: "function" }).client(
+  async ({ next }) => {
+    const startTime = Date.now();
 
-  try {
-    // Get current session
-    const {
-      data: { session },
-      error: sessionError,
-    } = await supabase.auth.getSession();
+    try {
+      // Get current session
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
 
-    if (sessionError) {
-      logAuthEvent("session-error", { error: sessionError.message });
+      if (sessionError) {
+        logAuthEvent("session-error", { error: sessionError.message });
+        return next({ headers: {} });
+      }
+
+      let token = session?.access_token;
+
+      // Check if token needs refresh
+      if (token && isTokenExpired(token)) {
+        logAuthEvent("token-expired", { willRefresh: true });
+        const newToken = await refreshTokenIfNeeded();
+        if (newToken) {
+          token = newToken;
+        }
+      }
+
+      const duration = Date.now() - startTime;
+      const hasToken = !!token;
+
+      logAuthEvent("middleware", { hasToken, durationMs: duration });
+
+      // Attach token to request headers
+      const headers: Record<string, string> = {};
+      if (token) headers[AUTHORIZATION_HEADER] = `${BEARER_PREFIX}${token}`;
+
+      return next({ headers });
+    } catch (error) {
+      logAuthEvent("unexpected-error", {
+        error: error instanceof Error ? error.message : String(error),
+      });
+
+      // Fall through without auth on error
       return next({ headers: {} });
     }
-
-    let token = session?.access_token;
-
-    // Check if token needs refresh
-    if (token && isTokenExpired(token)) {
-      logAuthEvent("token-expired", { willRefresh: true });
-      const newToken = await refreshTokenIfNeeded();
-      if (newToken) {
-        token = newToken;
-      }
-    }
-
-    const duration = Date.now() - startTime;
-    const hasToken = !!token;
-
-    logAuthEvent("middleware", { hasToken, durationMs: duration });
-
-    // Attach token to request headers
-    const headers: Record<string, string> = {};
-    if (token) headers[AUTHORIZATION_HEADER] = `${BEARER_PREFIX}${token}`;
-
-    return next({ headers });
-  } catch (error) {
-    logAuthEvent("unexpected-error", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-
-    // Fall through without auth on error
-    return next({ headers: {} });
-  }
-});
+  },
+);
 
 // ============================================================================
 // Server-side Helper
@@ -144,18 +148,22 @@ export const attachSupabaseAuth = createMiddleware({ type: "function" }).client(
  *     // ...
  *   });
  */
-export const attachSupabaseAuthServer = createMiddleware({ type: "function" }).server(async ({ next }) => {
-  const { getRequest } = await import("@tanstack/react-start/server");
-  const request = getRequest();
-  const authHeader = request.headers.get(AUTHORIZATION_HEADER);
-  const token = authHeader?.startsWith(BEARER_PREFIX) ? authHeader.slice(BEARER_PREFIX.length) : null;
+export const attachSupabaseAuthServer = createMiddleware({ type: "function" }).server(
+  async ({ next }) => {
+    const { getRequest } = await import("@tanstack/react-start/server");
+    const request = getRequest();
+    const authHeader = request.headers.get(AUTHORIZATION_HEADER);
+    const token = authHeader?.startsWith(BEARER_PREFIX)
+      ? authHeader.slice(BEARER_PREFIX.length)
+      : null;
 
-  logAuthEvent("server-middleware", { hasToken: !!token });
+    logAuthEvent("server-middleware", { hasToken: !!token });
 
-  return next({
-    context: { token },
-  });
-});
+    return next({
+      context: { token },
+    });
+  },
+);
 
 // ============================================================================
 // Helper to get user from context

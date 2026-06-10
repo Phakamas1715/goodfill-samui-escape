@@ -10,18 +10,24 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface DropdownMenuSubTriggerProps extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> {
+interface DropdownMenuSubTriggerProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.SubTrigger
+> {
   inset?: boolean;
   variant?: "default" | "gold" | "emerald";
 }
 
-interface DropdownMenuItemProps extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> {
+interface DropdownMenuItemProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.Item
+> {
   inset?: boolean;
   variant?: "default" | "gold" | "emerald";
   icon?: React.ReactNode;
 }
 
-interface DropdownMenuContentProps extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> {
+interface DropdownMenuContentProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.Content
+> {
   variant?: "default" | "gold" | "emerald";
 }
 
@@ -141,28 +147,29 @@ const DropdownMenuContent = React.forwardRef<
 });
 DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
 
-const DropdownMenuItem = React.forwardRef<React.ElementRef<typeof DropdownMenuPrimitive.Item>, DropdownMenuItemProps>(
-  ({ className, inset, variant = "default", icon, children, ...props }, ref) => {
-    const variantStyle = VARIANT_STYLES[variant];
+const DropdownMenuItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
+  DropdownMenuItemProps
+>(({ className, inset, variant = "default", icon, children, ...props }, ref) => {
+  const variantStyle = VARIANT_STYLES[variant];
 
-    return (
-      <DropdownMenuPrimitive.Item
-        ref={ref}
-        className={cn(
-          "relative flex cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-sm outline-none transition-colors",
-          "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-          variantStyle.item,
-          inset && "pl-8",
-          className,
-        )}
-        {...props}
-      >
-        {icon && <span className="text-gold">{icon}</span>}
-        {children}
-      </DropdownMenuPrimitive.Item>
-    );
-  },
-);
+  return (
+    <DropdownMenuPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center gap-2 rounded-lg px-3 py-2 text-sm outline-none transition-colors",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        variantStyle.item,
+        inset && "pl-8",
+        className,
+      )}
+      {...props}
+    >
+      {icon && <span className="text-gold">{icon}</span>}
+      {children}
+    </DropdownMenuPrimitive.Item>
+  );
+});
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
 const DropdownMenuCheckboxItem = React.forwardRef<
@@ -236,13 +243,20 @@ const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
 >(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator ref={ref} className={cn("-mx-1 my-1 h-px bg-mint/30", className)} {...props} />
+  <DropdownMenuPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-mint/30", className)}
+    {...props}
+  />
 ));
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 
 const DropdownMenuShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
-    <span className={cn("ml-auto text-xs tracking-widest text-muted-foreground font-mono", className)} {...props} />
+    <span
+      className={cn("ml-auto text-xs tracking-widest text-muted-foreground font-mono", className)}
+      {...props}
+    />
   );
 };
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
@@ -254,12 +268,16 @@ DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
 /**
  * Dropdown menu with gold variant for premium content
  */
-const GoldDropdownMenu = (props: DropdownMenuContentProps) => <DropdownMenuContent variant="gold" {...props} />;
+const GoldDropdownMenu = (props: DropdownMenuContentProps) => (
+  <DropdownMenuContent variant="gold" {...props} />
+);
 
 /**
  * Dropdown menu with emerald variant for wellness content
  */
-const EmeraldDropdownMenu = (props: DropdownMenuContentProps) => <DropdownMenuContent variant="emerald" {...props} />;
+const EmeraldDropdownMenu = (props: DropdownMenuContentProps) => (
+  <DropdownMenuContent variant="emerald" {...props} />
+);
 
 /**
  * Dropdown menu item with destructive style
@@ -268,7 +286,11 @@ const DropdownMenuDestructiveItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   DropdownMenuItemProps
 >(({ className, ...props }, ref) => (
-  <DropdownMenuItem ref={ref} className={cn("focus:bg-coral/10 focus:text-coral text-coral", className)} {...props} />
+  <DropdownMenuItem
+    ref={ref}
+    className={cn("focus:bg-coral/10 focus:text-coral text-coral", className)}
+    {...props}
+  />
 ));
 DropdownMenuDestructiveItem.displayName = "DropdownMenuDestructiveItem";
 

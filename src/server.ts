@@ -80,12 +80,17 @@ let serverEntryLoadTime: number | undefined;
 async function getServerEntry(): Promise<ServerEntry> {
   if (!serverEntryPromise) {
     serverEntryLoadTime = Date.now();
-    serverEntryPromise = import("@tanstack/react-start/server-entry").then((m) => (m.default ?? m) as ServerEntry);
+    serverEntryPromise = import("@tanstack/react-start/server-entry").then(
+      (m) => (m.default ?? m) as ServerEntry,
+    );
   }
   return serverEntryPromise;
 }
 
-async function normalizeCatastrophicSsrResponse(response: Response, context: RequestContext): Promise<Response> {
+async function normalizeCatastrophicSsrResponse(
+  response: Response,
+  context: RequestContext,
+): Promise<Response> {
   const isCatastrophic = await isCatastrophicErrorResponse(response);
 
   if (!isCatastrophic) return response;

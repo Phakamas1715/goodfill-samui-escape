@@ -19,7 +19,8 @@ export const Route = createFileRoute("/programs/")({
       { property: "og:title", content: "Wellness Quest — ค้นพบ Persona ของคุณใน 8 ข้อ" },
       {
         property: "og:description",
-        content: "แบบประเมินสั้น ๆ เพื่อจับคู่คุณกับโปรแกรม Wellness ที่เกาะสมุยที่เหมาะกับร่างกายและจิตใจคุณที่สุด",
+        content:
+          "แบบประเมินสั้น ๆ เพื่อจับคู่คุณกับโปรแกรม Wellness ที่เกาะสมุยที่เหมาะกับร่างกายและจิตใจคุณที่สุด",
       },
       { property: "og:url", content: "https://goodfillcare-samui.com/quest" },
     ],

@@ -138,7 +138,9 @@ export function DashShell({
       >
         <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col min-h-0">
           {/* HEADER */}
-          <div className={`flex items-end justify-between gap-3 ${compact ? "mb-2 md:mb-3" : "mb-5 md:mb-6"} sun-glow`}>
+          <div
+            className={`flex items-end justify-between gap-3 ${compact ? "mb-2 md:mb-3" : "mb-5 md:mb-6"} sun-glow`}
+          >
             <div className="min-w-0 w-full">
               {kicker && (
                 <motion.div
@@ -209,16 +211,28 @@ interface DashCardProps {
   onClick?: () => void;
 }
 
-export function DashCard({ children, className = "", variant = "deep", hover = false, onClick }: DashCardProps) {
-  const baseClasses = variant === "deep" ? "card-deep p-4 md:p-5 rounded-2xl" : "card-glass p-5 md:p-6 rounded-2xl";
+export function DashCard({
+  children,
+  className = "",
+  variant = "deep",
+  hover = false,
+  onClick,
+}: DashCardProps) {
+  const baseClasses =
+    variant === "deep" ? "card-deep p-4 md:p-5 rounded-2xl" : "card-glass p-5 md:p-6 rounded-2xl";
 
-  const hoverClasses = hover ? "transition-all duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer" : "";
+  const hoverClasses = hover
+    ? "transition-all duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer"
+    : "";
   const clickableClasses = onClick ? "cursor-pointer" : "";
 
   const Component = onClick ? "button" : "div";
 
   return (
-    <Component className={`${baseClasses} ${hoverClasses} ${clickableClasses} ${className}`} onClick={onClick}>
+    <Component
+      className={`${baseClasses} ${hoverClasses} ${clickableClasses} ${className}`}
+      onClick={onClick}
+    >
       {children}
     </Component>
   );
@@ -250,7 +264,9 @@ export function StatsCard({
       <div className="font-display text-3xl md:text-4xl text-navy font-bold">{value}</div>
       <div className="text-xs text-muted-foreground mt-1">{label}</div>
       {trend && (
-        <div className={`text-[10px] mt-1 ${trend.direction === "up" ? "text-emerald" : "text-coral"}`}>
+        <div
+          className={`text-[10px] mt-1 ${trend.direction === "up" ? "text-emerald" : "text-coral"}`}
+        >
           {trend.direction === "up" ? "↑" : "↓"} {Math.abs(trend.value)}%
         </div>
       )}

@@ -45,7 +45,9 @@ function AuthErrorComponent({ error }: { error: Error }) {
           <AlertCircle size={32} className="text-red-500" />
         </div>
         <h1 className="font-display text-2xl text-navy mb-2">เกิดข้อผิดพลาด</h1>
-        <p className="text-sm text-muted-foreground mb-4">{error.message || "ไม่สามารถตรวจสอบสิทธิ์ผู้ใช้ได้"}</p>
+        <p className="text-sm text-muted-foreground mb-4">
+          {error.message || "ไม่สามารถตรวจสอบสิทธิ์ผู้ใช้ได้"}
+        </p>
         <button
           onClick={() => navigate({ to: "/login" })}
           className="btn-emerald rounded-full px-6 py-2.5 text-sm font-medium"

@@ -50,7 +50,10 @@ const VARIANT_STYLES = {
 // ============================================================================
 
 const Checkbox = React.forwardRef<React.ElementRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(
-  ({ className, variant = "default", size = "default", label, description, error, id, ...props }, ref) => {
+  (
+    { className, variant = "default", size = "default", label, description, error, id, ...props },
+    ref,
+  ) => {
     const generatedId = React.useId();
     const checkboxId = id || generatedId;
     const variantStyle = VARIANT_STYLES[variant];

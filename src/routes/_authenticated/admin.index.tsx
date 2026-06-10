@@ -20,7 +20,10 @@ import { useState, useMemo } from "react";
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboard,
   head: () => ({
-    meta: [{ title: "Admin Dashboard | Goodfill Care" }, { name: "description", content: "ภาพรวมระบบ Goodfill Care" }],
+    meta: [
+      { title: "Admin Dashboard | Goodfill Care" },
+      { name: "description", content: "ภาพรวมระบบ Goodfill Care" },
+    ],
   }),
 });
 
@@ -128,7 +131,10 @@ function AdminDashboard() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {kpis.map((k) => (
-          <div key={k.label} className={`${k.bg} rounded-2xl p-4 shadow-sm hover:shadow-md transition`}>
+          <div
+            key={k.label}
+            className={`${k.bg} rounded-2xl p-4 shadow-sm hover:shadow-md transition`}
+          >
             <div className="flex items-center justify-between">
               <k.icon className={`${k.color}`} size={22} />
               {k.trend !== undefined && k.trend > 0 && (
@@ -137,7 +143,9 @@ function AdminDashboard() {
                 </span>
               )}
             </div>
-            <div className="font-display text-2xl md:text-3xl text-navy mt-2 font-bold">{k.value}</div>
+            <div className="font-display text-2xl md:text-3xl text-navy mt-2 font-bold">
+              {k.value}
+            </div>
             <div className="text-xs text-muted-foreground mt-1">{k.label}</div>
             <div className="text-[10px] text-navy/60 mt-1">{k.sub}</div>
           </div>
@@ -173,7 +181,9 @@ function AdminDashboard() {
         <div className="flex flex-wrap gap-3">
           {Object.entries(statusDistribution).map(([status, count]) => (
             <div key={status} className="flex items-center gap-2">
-              <span className={`pill text-[10px] font-medium ${STATUS_LABELS[status]?.color || "bg-gray-100"}`}>
+              <span
+                className={`pill text-[10px] font-medium ${STATUS_LABELS[status]?.color || "bg-gray-100"}`}
+              >
                 {STATUS_LABELS[status]?.th || status}
               </span>
               <span className="text-sm font-semibold text-navy">{count}</span>
@@ -192,7 +202,10 @@ function AdminDashboard() {
             <Clock size={16} />
             <span className="font-medium text-sm">การจองล่าสุด</span>
           </div>
-          <Link to="/admin/bookings" className="text-[11px] text-white/80 hover:text-white transition">
+          <Link
+            to="/admin/bookings"
+            className="text-[11px] text-white/80 hover:text-white transition"
+          >
             ดูทั้งหมด →
           </Link>
         </div>
@@ -212,11 +225,15 @@ function AdminDashboard() {
             <tbody className="divide-y divide-mint/20">
               {recentBookings.map((b: any) => (
                 <tr key={b.id} className="hover:bg-cream/30 transition">
-                  <td className="px-4 py-2.5 font-mono text-[11px] font-semibold text-emerald">{b.booking_code}</td>
+                  <td className="px-4 py-2.5 font-mono text-[11px] font-semibold text-emerald">
+                    {b.booking_code}
+                  </td>
                   <td className="px-4 py-2.5 max-w-[180px] truncate text-navy">{b.program_name}</td>
                   <td className="px-4 py-2.5">
                     <div className="font-medium text-navy">{b.customer_name || "-"}</div>
-                    <div className="text-[10px] text-muted-foreground">{b.customer_email || "-"}</div>
+                    <div className="text-[10px] text-muted-foreground">
+                      {b.customer_email || "-"}
+                    </div>
                   </td>
                   <td className="px-4 py-2.5 text-muted-foreground text-[11px]">
                     {b.booking_date ? new Date(b.booking_date).toLocaleDateString("th-TH") : "-"}

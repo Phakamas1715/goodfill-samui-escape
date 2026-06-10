@@ -59,7 +59,9 @@ function validateEnvironmentVariables(): void {
 
   // Service role key is optional for auth middleware, but warn if missing
   if (!SUPABASE_SERVICE_ROLE_KEY && process.env.NODE_ENV === "production") {
-    console.warn("[SupabaseAuth] SUPABASE_SERVICE_ROLE_KEY not set - some admin operations may fail");
+    console.warn(
+      "[SupabaseAuth] SUPABASE_SERVICE_ROLE_KEY not set - some admin operations may fail",
+    );
   }
 
   if (missing.length > 0) {
@@ -131,137 +133,139 @@ function getTokenExpiryMessage(claims: TokenClaims): string {
  *     // Use authenticated client
  *   });
  */
-export const requireSupabaseAuth = createMiddleware({ type: "function" }).server(async ({ next }) => {
-  const startTime = Date.now();
+export const requireSupabaseAuth = createMiddleware({ type: "function" }).server(
+  async ({ next }) => {
+    const startTime = Date.now();
 
-  // 1. Validate environment
-  validateEnvironmentVariables();
+    // 1. Validate environment
+    validateEnvironmentVariables();
 
-  const SUPABASE_URL = process.env.SUPABASE_URL!;
-  const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY!;
+    const SUPABASE_URL = process.env.SUPABASE_URL!;
+    const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY!;
 
-  // 2. Get request object
-  let request: Request;
-  try {
-    request = getRequest();
-  } catch (error) {
-    logAuthError("get-request", error);
-    throw new Error("Unauthorized: Unable to access request context");
-  }
-
-  if (!request?.headers) {
-    throw new Error("Unauthorized: No request headers available");
-  }
-
-  // 3. Extract and validate token
-  const token = extractTokenFromRequest(request);
-  if (!token) {
-    throw new Error("Unauthorized: No valid authorization token provided");
-  }
-
-  // 4. Create Supabase client with token
-  const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-    global: {
-      headers: {
-        Authorization: `${BEARER_PREFIX}${token}`,
-      },
-    },
-    auth: {
-      storage: undefined,
-      persistSession: false,
-      autoRefreshToken: false,
-      detectSessionInUrl: false,
-    },
-  });
-
-  // 5. Verify token and get claims
-  let claims: TokenClaims | null = null;
-  let userId: string | null = null;
-
-  try {
-    const { data, error } = await supabase.auth.getUser(token);
-
-    if (error) {
-      logAuthError("get-user", error);
-      throw new Error(`Unauthorized: ${error.message}`);
-    }
-
-    if (!data?.user) {
-      throw new Error("Unauthorized: No user data returned");
-    }
-
-    userId = data.user.id;
-    claims = {
-      sub: data.user.id,
-      email: data.user.email,
-      aud: data.user.app_metadata?.provider_id,
-    };
-
-    logAuthEvent("token-verified", {
-      userId: userId.slice(0, 8),
-      email: data.user.email,
-    });
-  } catch (error) {
-    // Try alternative method with getClaims
+    // 2. Get request object
+    let request: Request;
     try {
-      const { data, error } = await supabase.auth.getClaims(token);
-
-      if (error || !data?.claims) {
-        throw new Error("Invalid token");
-      }
-
-      claims = data.claims as TokenClaims;
-      userId = claims.sub;
-
-      if (!userId) {
-        throw new Error("No user ID found in token");
-      }
-
-      logAuthEvent("token-claims-verified", {
-        userId: userId.slice(0, 8),
-        expiry: getTokenExpiryMessage(claims),
-      });
-    } catch (claimsError) {
-      logAuthError("token-validation", claimsError);
-      throw new Error("Unauthorized: Invalid or expired token");
+      request = getRequest();
+    } catch (error) {
+      logAuthError("get-request", error);
+      throw new Error("Unauthorized: Unable to access request context");
     }
-  }
 
-  // 6. Check token expiry
-  if (claims && isTokenExpired(claims)) {
-    logAuthEvent("token-expired", { userId: userId?.slice(0, 8) });
-    throw new Error("Unauthorized: Token has expired");
-  }
+    if (!request?.headers) {
+      throw new Error("Unauthorized: No request headers available");
+    }
 
-  // 7. Create authenticated client for the request
-  const authClient = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-    global: {
-      headers: {
-        Authorization: `${BEARER_PREFIX}${token}`,
+    // 3. Extract and validate token
+    const token = extractTokenFromRequest(request);
+    if (!token) {
+      throw new Error("Unauthorized: No valid authorization token provided");
+    }
+
+    // 4. Create Supabase client with token
+    const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+      global: {
+        headers: {
+          Authorization: `${BEARER_PREFIX}${token}`,
+        },
       },
-    },
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  });
+      auth: {
+        storage: undefined,
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
+      },
+    });
 
-  const duration = Date.now() - startTime;
-  logAuthEvent("authenticated", {
-    userId: userId?.slice(0, 8),
-    durationMs: duration,
-  });
+    // 5. Verify token and get claims
+    let claims: TokenClaims | null = null;
+    let userId: string | null = null;
 
-  // 8. Return context with authenticated client
-  return next({
-    context: {
-      supabase: authClient,
-      userId: userId!,
-      claims: claims || {},
-      email: claims?.email,
-    } as AuthContext,
-  });
-});
+    try {
+      const { data, error } = await supabase.auth.getUser(token);
+
+      if (error) {
+        logAuthError("get-user", error);
+        throw new Error(`Unauthorized: ${error.message}`);
+      }
+
+      if (!data?.user) {
+        throw new Error("Unauthorized: No user data returned");
+      }
+
+      userId = data.user.id;
+      claims = {
+        sub: data.user.id,
+        email: data.user.email,
+        aud: data.user.app_metadata?.provider_id,
+      };
+
+      logAuthEvent("token-verified", {
+        userId: userId.slice(0, 8),
+        email: data.user.email,
+      });
+    } catch (error) {
+      // Try alternative method with getClaims
+      try {
+        const { data, error } = await supabase.auth.getClaims(token);
+
+        if (error || !data?.claims) {
+          throw new Error("Invalid token");
+        }
+
+        claims = data.claims as TokenClaims;
+        userId = claims.sub;
+
+        if (!userId) {
+          throw new Error("No user ID found in token");
+        }
+
+        logAuthEvent("token-claims-verified", {
+          userId: userId.slice(0, 8),
+          expiry: getTokenExpiryMessage(claims),
+        });
+      } catch (claimsError) {
+        logAuthError("token-validation", claimsError);
+        throw new Error("Unauthorized: Invalid or expired token");
+      }
+    }
+
+    // 6. Check token expiry
+    if (claims && isTokenExpired(claims)) {
+      logAuthEvent("token-expired", { userId: userId?.slice(0, 8) });
+      throw new Error("Unauthorized: Token has expired");
+    }
+
+    // 7. Create authenticated client for the request
+    const authClient = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+      global: {
+        headers: {
+          Authorization: `${BEARER_PREFIX}${token}`,
+        },
+      },
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+    });
+
+    const duration = Date.now() - startTime;
+    logAuthEvent("authenticated", {
+      userId: userId?.slice(0, 8),
+      durationMs: duration,
+    });
+
+    // 8. Return context with authenticated client
+    return next({
+      context: {
+        supabase: authClient,
+        userId: userId!,
+        claims: claims || {},
+        email: claims?.email,
+      } as AuthContext,
+    });
+  },
+);
 
 // ============================================================================
 // Optional: Require Admin Role Middleware
@@ -276,7 +280,11 @@ export const requireAdminAuth = createMiddleware({ type: "function" })
   .server(async ({ next, context }) => {
     const { supabase, userId } = context as AuthContext;
 
-    const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId).maybeSingle();
+    const { data, error } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .maybeSingle();
 
     if (error) {
       throw new Error(`Unauthorized: Unable to verify admin status - ${error.message}`);
@@ -293,7 +301,9 @@ export const requireAdminAuth = createMiddleware({ type: "function" })
 // Helper: Get user from context
 // ============================================================================
 
-export function getUserFromAuthContext(context: unknown): { userId: string; email?: string } | null {
+export function getUserFromAuthContext(
+  context: unknown,
+): { userId: string; email?: string } | null {
   const ctx = context as AuthContext;
   if (!ctx?.userId) return null;
   return { userId: ctx.userId, email: ctx.email };

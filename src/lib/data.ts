@@ -43,10 +43,11 @@ export const images = {
 export type Lang = "th" | "en";
 export type Bi<T = string> = { th: T; en: T };
 
-export const pick = <T,>(b: Bi<T> | T, lang: Lang): T =>
+export const pick = <T>(b: Bi<T> | T, lang: Lang): T =>
   typeof b === "object" && b !== null && "th" in b && "en" in b ? b[lang] : (b as T);
 
-export const pickList = <T,>(arr: (Bi<T> | T)[], lang: Lang): T[] => arr.map((item) => pick(item, lang));
+export const pickList = <T>(arr: (Bi<T> | T)[], lang: Lang): T[] =>
+  arr.map((item) => pick(item, lang));
 
 export type PersonaId = "warrior" | "thinker" | "comfort" | "feeler" | "performer" | "explorer";
 
@@ -129,7 +130,10 @@ export const personas: Record<PersonaId, Persona> = {
     id: "thinker",
     name: t("The Midnight Thinker", "The Midnight Thinker"),
     thaiName: t("นกฮูกคิดมาก", "Midnight Owl"),
-    tagline: t("คนคิดลึก วางแผนเก่ง ละเอียดรอบคอบ", "Deep thinker, strong planner, detail-oriented."),
+    tagline: t(
+      "คนคิดลึก วางแผนเก่ง ละเอียดรอบคอบ",
+      "Deep thinker, strong planner, detail-oriented.",
+    ),
     description: t(
       "คุณเป็นคนคิดลึก วางแผนเก่ง และละเอียดรอบคอบ แต่สมองที่ไม่ค่อยได้พัก อาจส่งผลต่อการนอนและความสดชื่นในแต่ละวัน",
       "You think deeply and plan carefully, but a mind that never rests can affect your sleep and daily energy.",
@@ -205,7 +209,10 @@ export const personas: Record<PersonaId, Persona> = {
     id: "explorer",
     name: t("The Wellness Explorer", "The Wellness Explorer"),
     thaiName: t("นักสำรวจสุขภาพ", "Wellness Explorer"),
-    tagline: t("ระบบช่วยจัดลำดับว่าควรเริ่มจากอะไร", "A system that helps you decide where to begin."),
+    tagline: t(
+      "ระบบช่วยจัดลำดับว่าควรเริ่มจากอะไร",
+      "A system that helps you decide where to begin.",
+    ),
     description: t(
       "คุณพร้อมเริ่มดูแลตัวเองและเปิดรับสิ่งใหม่ ต้องการระบบที่ช่วยจัดลำดับให้ชัดว่าควรเริ่มจากอะไรก่อน",
       "You're ready to take better care of yourself and open to new things — you need a system that orders the first steps clearly.",
@@ -253,7 +260,10 @@ export const questions: QuestQuestion[] = [
         weights: { performer: 2, warrior: 2, comfort: 1 },
       },
       {
-        label: t("เริ่มวันได้ดี แต่พลังงานตกเร็วช่วงบ่าย", "Start well, but energy drops in the afternoon."),
+        label: t(
+          "เริ่มวันได้ดี แต่พลังงานตกเร็วช่วงบ่าย",
+          "Start well, but energy drops in the afternoon.",
+        ),
         weights: { performer: 2, thinker: 2 },
       },
       {
@@ -270,14 +280,23 @@ export const questions: QuestQuestion[] = [
   {
     id: 2,
     emoji: "🌊",
-    question: t("ช่วงนี้ความเครียดของคุณมักแสดงออกแบบไหน?", "How does your stress usually show up lately?"),
+    question: t(
+      "ช่วงนี้ความเครียดของคุณมักแสดงออกแบบไหน?",
+      "How does your stress usually show up lately?",
+    ),
     options: [
       {
-        label: t("รู้สึกแน่นในใจ หรือคิดเรื่องเดิมซ้ำ ๆ", "Tight chest, or replaying the same thoughts."),
+        label: t(
+          "รู้สึกแน่นในใจ หรือคิดเรื่องเดิมซ้ำ ๆ",
+          "Tight chest, or replaying the same thoughts.",
+        ),
         weights: { thinker: 3, feeler: 1 },
       },
       {
-        label: t("หงุดหงิดง่าย หรือรู้สึกต้องรีบจัดการทุกอย่าง", "Easily irritated, rushing to fix everything."),
+        label: t(
+          "หงุดหงิดง่าย หรือรู้สึกต้องรีบจัดการทุกอย่าง",
+          "Easily irritated, rushing to fix everything.",
+        ),
         weights: { performer: 2, warrior: 2 },
       },
       {
@@ -285,7 +304,10 @@ export const questions: QuestQuestion[] = [
         weights: { feeler: 3 },
       },
       {
-        label: t("ยังรับมือได้ แต่รู้ว่าตัวเองต้องการพักบ้าง", "Still coping, but I know I need a break."),
+        label: t(
+          "ยังรับมือได้ แต่รู้ว่าตัวเองต้องการพักบ้าง",
+          "Still coping, but I know I need a break.",
+        ),
         weights: { explorer: 2, warrior: 1 },
       },
     ],
@@ -294,14 +316,23 @@ export const questions: QuestQuestion[] = [
   {
     id: 3,
     emoji: "🌙",
-    question: t("การนอนของคุณในช่วง 2 สัปดาห์ที่ผ่านมาเป็นอย่างไร?", "How has your sleep been the last two weeks?"),
+    question: t(
+      "การนอนของคุณในช่วง 2 สัปดาห์ที่ผ่านมาเป็นอย่างไร?",
+      "How has your sleep been the last two weeks?",
+    ),
     options: [
       {
-        label: t("หลับยาก เพราะสมองยังคิดเรื่องงานหรือชีวิต", "Hard to fall asleep — mind still on work or life."),
+        label: t(
+          "หลับยาก เพราะสมองยังคิดเรื่องงานหรือชีวิต",
+          "Hard to fall asleep — mind still on work or life.",
+        ),
         weights: { thinker: 3 },
       },
       {
-        label: t("หลับได้ แต่ตื่นกลางดึก หรือตื่นมาไม่สดชื่น", "Sleep, but wake at night or wake unrefreshed."),
+        label: t(
+          "หลับได้ แต่ตื่นกลางดึก หรือตื่นมาไม่สดชื่น",
+          "Sleep, but wake at night or wake unrefreshed.",
+        ),
         weights: { warrior: 2, thinker: 1 },
       },
       {
@@ -331,7 +362,10 @@ export const questions: QuestQuestion[] = [
         weights: { comfort: 3 },
       },
       {
-        label: t("เลื่อนมือถือ ดูคลิป หาสิ่งเบี่ยงเบนความคิด", "Scroll the phone, watch clips, distract myself."),
+        label: t(
+          "เลื่อนมือถือ ดูคลิป หาสิ่งเบี่ยงเบนความคิด",
+          "Scroll the phone, watch clips, distract myself.",
+        ),
         weights: { comfort: 1, thinker: 2 },
       },
       {
@@ -348,10 +382,16 @@ export const questions: QuestQuestion[] = [
   {
     id: 5,
     emoji: "🥗",
-    question: t("อาหารในชีวิตประจำวันของคุณใกล้เคียงข้อไหนที่สุด?", "Which best describes your daily eating?"),
+    question: t(
+      "อาหารในชีวิตประจำวันของคุณใกล้เคียงข้อไหนที่สุด?",
+      "Which best describes your daily eating?",
+    ),
     options: [
       {
-        label: t("กินไม่เป็นเวลา บางมื้อข้าม บางมื้อกินหนัก", "Eat irregularly — skip meals, then eat heavy."),
+        label: t(
+          "กินไม่เป็นเวลา บางมื้อข้าม บางมื้อกินหนัก",
+          "Eat irregularly — skip meals, then eat heavy.",
+        ),
         weights: { warrior: 2, performer: 2 },
       },
       {
@@ -359,11 +399,17 @@ export const questions: QuestQuestion[] = [
         weights: { comfort: 3 },
       },
       {
-        label: t("พยายามเลือกอาหารดีขึ้น แต่ยังทำต่อเนื่องยาก", "Trying to eat better, but hard to stay consistent."),
+        label: t(
+          "พยายามเลือกอาหารดีขึ้น แต่ยังทำต่อเนื่องยาก",
+          "Trying to eat better, but hard to stay consistent.",
+        ),
         weights: { explorer: 2, comfort: 1 },
       },
       {
-        label: t("ค่อนข้างใส่ใจอาหาร แต่อยากได้แผนเฉพาะตัว", "Quite mindful, but I want a personal plan."),
+        label: t(
+          "ค่อนข้างใส่ใจอาหาร แต่อยากได้แผนเฉพาะตัว",
+          "Quite mindful, but I want a personal plan.",
+        ),
         weights: { explorer: 2, performer: 2 },
       },
     ],
@@ -375,7 +421,10 @@ export const questions: QuestQuestion[] = [
     question: t("ร่างกายของคุณส่งสัญญาณอะไรบ่อยที่สุด?", "What does your body signal most often?"),
     options: [
       {
-        label: t("ปวดคอ บ่า ไหล่ หรือหลังจากการนั่งนาน", "Neck, shoulder, or back pain from sitting."),
+        label: t(
+          "ปวดคอ บ่า ไหล่ หรือหลังจากการนั่งนาน",
+          "Neck, shoulder, or back pain from sitting.",
+        ),
         weights: { warrior: 2, performer: 2 },
       },
       {
@@ -383,11 +432,17 @@ export const questions: QuestQuestion[] = [
         weights: { thinker: 2, performer: 1 },
       },
       {
-        label: t("ท้องอืด แน่นท้อง ระบบย่อยไม่ค่อยสบาย", "Bloating, heavy stomach, digestion issues."),
+        label: t(
+          "ท้องอืด แน่นท้อง ระบบย่อยไม่ค่อยสบาย",
+          "Bloating, heavy stomach, digestion issues.",
+        ),
         weights: { comfort: 3 },
       },
       {
-        label: t("ไม่มีอาการชัด แต่ไม่สดชื่นเหมือนเดิม", "No clear symptoms — just not as fresh as before."),
+        label: t(
+          "ไม่มีอาการชัด แต่ไม่สดชื่นเหมือนเดิม",
+          "No clear symptoms — just not as fresh as before.",
+        ),
         weights: { explorer: 2, feeler: 1 },
       },
     ],
@@ -402,19 +457,31 @@ export const questions: QuestQuestion[] = [
     ),
     options: [
       {
-        label: t("ได้พักจริง ๆ ปิดเสียงรบกวน นอนให้เต็มอิ่ม", "Real rest — silence, deep sleep, full reset."),
+        label: t(
+          "ได้พักจริง ๆ ปิดเสียงรบกวน นอนให้เต็มอิ่ม",
+          "Real rest — silence, deep sleep, full reset.",
+        ),
         weights: { warrior: 2, thinker: 2 },
       },
       {
-        label: t("ให้ร่างกายฟื้นจากความล้าและอาการปวดเมื่อย", "Body recovery from fatigue and aches."),
+        label: t(
+          "ให้ร่างกายฟื้นจากความล้าและอาการปวดเมื่อย",
+          "Body recovery from fatigue and aches.",
+        ),
         weights: { warrior: 2, performer: 2 },
       },
       {
-        label: t("ให้ใจสงบ ลดความคิดมาก และรู้สึกเบาขึ้น", "A calm mind, less overthinking, lighter feeling."),
+        label: t(
+          "ให้ใจสงบ ลดความคิดมาก และรู้สึกเบาขึ้น",
+          "A calm mind, less overthinking, lighter feeling.",
+        ),
         weights: { feeler: 2, thinker: 1 },
       },
       {
-        label: t("กลับไปพร้อมพลังงานใหม่และแรงบันดาลใจ", "Return with fresh energy and inspiration."),
+        label: t(
+          "กลับไปพร้อมพลังงานใหม่และแรงบันดาลใจ",
+          "Return with fresh energy and inspiration.",
+        ),
         weights: { performer: 2, explorer: 1 },
       },
     ],
@@ -436,15 +503,24 @@ export const questions: QuestQuestion[] = [
         weights: { thinker: 3, warrior: 1 },
       },
       {
-        label: t("Stress Reset — ลดความเครียดและคืนความสงบให้ใจ", "Stress Reset — lower stress, restore calm."),
+        label: t(
+          "Stress Reset — ลดความเครียดและคืนความสงบให้ใจ",
+          "Stress Reset — lower stress, restore calm.",
+        ),
         weights: { feeler: 3 },
       },
       {
-        label: t("Body Balance — ลดปวดเมื่อยและดูแลร่างกายให้สมดุล", "Body Balance — relieve aches, restore balance."),
+        label: t(
+          "Body Balance — ลดปวดเมื่อยและดูแลร่างกายให้สมดุล",
+          "Body Balance — relieve aches, restore balance.",
+        ),
         weights: { warrior: 2, comfort: 1 },
       },
       {
-        label: t("Energy Restore — เพิ่มพลังงานและความสดชื่น", "Energy Restore — boost energy and freshness."),
+        label: t(
+          "Energy Restore — เพิ่มพลังงานและความสดชื่น",
+          "Energy Restore — boost energy and freshness.",
+        ),
         weights: { performer: 3, explorer: 1 },
       },
     ],
@@ -507,7 +583,10 @@ export const programs: Program[] = [
     duration: t("3 วัน 2 คืน", "3 days · 2 nights"),
     nights: 2,
     price: 12545,
-    tagline: t("แพ็กเกจฟื้นฟูครบวงจร · ตรวจสุขภาพ · บำบัด · โภชนาการ", "Full recharge — check-up, therapy, nutrition."),
+    tagline: t(
+      "แพ็กเกจฟื้นฟูครบวงจร · ตรวจสุขภาพ · บำบัด · โภชนาการ",
+      "Full recharge — check-up, therapy, nutrition.",
+    ),
     matches: ["feeler", "comfort", "thinker"],
     image: samuiSpaRitual,
     venue: t("Hug Samui × Royal Muang Samui", "Hug Samui × Royal Muang Samui"),
@@ -543,7 +622,10 @@ export const programs: Program[] = [
         day: t("Day 3 — Consult & Depart", "Day 3 — Consult & Depart"),
         items: [
           t("Sunrise meditation", "Sunrise meditation"),
-          t("Wellness consultation · สรุปผลและคำแนะนำ", "Wellness consultation · summary & guidance"),
+          t(
+            "Wellness consultation · สรุปผลและคำแนะนำ",
+            "Wellness consultation · summary & guidance",
+          ),
           t("Brunch + departure", "Brunch + departure"),
         ],
       },
@@ -635,19 +717,37 @@ export const programs: Program[] = [
         t("Day 1", "Day 1"),
         t("—", "—"),
         t("Welcome herbal mocktail + light salad", "Welcome herbal mocktail + light salad"),
-        t("ปลานึ่งมะนาว + ข้าวกล้อง + ผักย่าง", "Healing dinner: steamed lime fish + brown rice + grilled veg"),
-        t("งดคาเฟอีนหลัง 14:00 เพื่อเตรียม sleep cycle", "No caffeine after 14:00 to prep your sleep cycle"),
+        t(
+          "ปลานึ่งมะนาว + ข้าวกล้อง + ผักย่าง",
+          "Healing dinner: steamed lime fish + brown rice + grilled veg",
+        ),
+        t(
+          "งดคาเฟอีนหลัง 14:00 เพื่อเตรียม sleep cycle",
+          "No caffeine after 14:00 to prep your sleep cycle",
+        ),
       ),
       meal(
         t("Day 2", "Day 2"),
-        t("Tropical smoothie bowl + chia + coconut yoghurt", "Tropical smoothie bowl + chia + coconut yoghurt"),
-        t("Buddha bowl ควินัว + อกไก่ + อะโวคาโด", "Buddha bowl: quinoa + chicken breast + avocado"),
-        t("ต้มข่าเห็ด + ปลากระพงนึ่ง + ผักลวก", "Tom kha mushroom + steamed sea bass + blanched greens"),
+        t(
+          "Tropical smoothie bowl + chia + coconut yoghurt",
+          "Tropical smoothie bowl + chia + coconut yoghurt",
+        ),
+        t(
+          "Buddha bowl ควินัว + อกไก่ + อะโวคาโด",
+          "Buddha bowl: quinoa + chicken breast + avocado",
+        ),
+        t(
+          "ต้มข่าเห็ด + ปลากระพงนึ่ง + ผักลวก",
+          "Tom kha mushroom + steamed sea bass + blanched greens",
+        ),
         t("ดื่มน้ำ 2.5L กระจายทั้งวัน", "Drink 2.5L water spread across the day"),
       ),
       meal(
         t("Day 3", "Day 3"),
-        t("Wellness brunch: ไข่ลวก + อะโวคาโดโทสต์", "Wellness brunch: soft-boiled eggs + avocado toast"),
+        t(
+          "Wellness brunch: ไข่ลวก + อะโวคาโดโทสต์",
+          "Wellness brunch: soft-boiled eggs + avocado toast",
+        ),
         t("Light bowl ก่อนเดินทาง", "Light bowl before travel"),
         t("—", "—"),
         t("เตรียมรายการอาหารกลับบ้าน 7 วัน", "Prep a 7-day home meal list"),
@@ -706,7 +806,11 @@ export const programs: Program[] = [
       },
       {
         day: t("Day 5", "Day 5"),
-        items: [t("Final report", "Final report"), t("Brunch", "Brunch"), t("Departure", "Departure")],
+        items: [
+          t("Final report", "Final report"),
+          t("Brunch", "Brunch"),
+          t("Departure", "Departure"),
+        ],
       },
     ],
     gallery: [programBalance, meditation, yoga, spa, food, villa],
@@ -719,7 +823,10 @@ export const programs: Program[] = [
         t("Day 1", "Day 1"),
         t("—", "—"),
         t("Welcome bowl: ปลาทูน่า + ผักสด", "Welcome bowl: tuna + fresh greens"),
-        t("Light dinner: ต้มยำกุ้ง clear soup + ข้าวกล้อง", "Light dinner: clear tom yum kung + brown rice"),
+        t(
+          "Light dinner: ต้มยำกุ้ง clear soup + ข้าวกล้อง",
+          "Light dinner: clear tom yum kung + brown rice",
+        ),
       ),
       meal(
         t("Day 2", "Day 2"),
@@ -743,7 +850,10 @@ export const programs: Program[] = [
       ),
       meal(
         t("Day 5", "Day 5"),
-        t("Farewell brunch: omelette + อะโวคาโด + เห็ด", "Farewell brunch: omelette + avocado + mushroom"),
+        t(
+          "Farewell brunch: omelette + อะโวคาโด + เห็ด",
+          "Farewell brunch: omelette + avocado + mushroom",
+        ),
         t("—", "—"),
         t("—", "—"),
       ),
@@ -768,7 +878,10 @@ export const programs: Program[] = [
     schedule: [
       {
         day: t("Day 1", "Day 1"),
-        items: [t("Intake + full assessment", "Intake + full assessment"), t("Welcome dinner", "Welcome dinner")],
+        items: [
+          t("Intake + full assessment", "Intake + full assessment"),
+          t("Welcome dinner", "Welcome dinner"),
+        ],
       },
       {
         day: t("Day 2-3", "Day 2-3"),
@@ -792,7 +905,10 @@ export const programs: Program[] = [
       },
       {
         day: t("Day 7", "Day 7"),
-        items: [t("Final report + 90-day plan", "Final report + 90-day plan"), t("Departure", "Departure")],
+        items: [
+          t("Final report + 90-day plan", "Final report + 90-day plan"),
+          t("Departure", "Departure"),
+        ],
       },
     ],
     gallery: [programTransform, yoga, spa, villa, food, meditation],
@@ -836,7 +952,10 @@ export const programs: Program[] = [
         t("Day 6", "Day 6"),
         t("Overnight oats + almond butter", "Overnight oats + almond butter"),
         t("Poke bowl + edamame", "Poke bowl + edamame"),
-        t("Integration dinner: chef tasting menu (clean)", "Integration dinner: chef tasting menu (clean)"),
+        t(
+          "Integration dinner: chef tasting menu (clean)",
+          "Integration dinner: chef tasting menu (clean)",
+        ),
       ),
       meal(
         t("Day 7", "Day 7"),

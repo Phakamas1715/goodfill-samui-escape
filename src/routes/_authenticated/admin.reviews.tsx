@@ -1,5 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Star, MessageCircle, Calendar, Clock, Sparkles, Shield, Users, ThumbsUp, Award } from "lucide-react";
+import {
+  Star,
+  MessageCircle,
+  Calendar,
+  Clock,
+  Sparkles,
+  Shield,
+  Users,
+  ThumbsUp,
+  Award,
+} from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/admin/reviews")({
@@ -63,7 +73,9 @@ function ReviewsPage() {
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
           <h1 className="font-display text-3xl md:text-4xl text-navy">จัดการรีวิว</h1>
-          <p className="text-sm text-muted-foreground mt-1">ระบบรีวิวและคำนิยมจากลูกค้าและผู้เชี่ยวชาญ</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            ระบบรีวิวและคำนิยมจากลูกค้าและผู้เชี่ยวชาญ
+          </p>
         </div>
         <div className="flex gap-2">
           <div className="bg-cream/50 rounded-xl px-3 py-1.5 text-center">
@@ -142,7 +154,10 @@ function ReviewsPage() {
         {showRoadmap && (
           <div className="grid sm:grid-cols-2 gap-3">
             {features.map((feature) => (
-              <div key={feature.title} className="bg-white rounded-xl p-4 border border-mint/30 shadow-sm">
+              <div
+                key={feature.title}
+                className="bg-white rounded-xl p-4 border border-mint/30 shadow-sm"
+              >
                 <div className="flex items-start gap-3">
                   <div className="size-9 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
                     <feature.icon size={16} className="text-gold" />

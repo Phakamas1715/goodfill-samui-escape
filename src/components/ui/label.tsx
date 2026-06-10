@@ -11,7 +11,9 @@ import { cn } from "@/lib/utils";
 // ============================================================================
 
 interface LabelProps
-  extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>, VariantProps<typeof labelVariants> {
+  extends
+    React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,
+    VariantProps<typeof labelVariants> {
   required?: boolean;
   optional?: boolean;
   icon?: React.ReactNode;
@@ -51,12 +53,18 @@ const labelVariants = cva(
 const Label = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
   ({ className, variant, size, required, optional, icon, children, ...props }, ref) => {
     return (
-      <LabelPrimitive.Root ref={ref} className={cn(labelVariants({ variant, size }), className)} {...props}>
+      <LabelPrimitive.Root
+        ref={ref}
+        className={cn(labelVariants({ variant, size }), className)}
+        {...props}
+      >
         <div className="flex items-center gap-1.5">
           {icon && <span className="shrink-0">{icon}</span>}
           <span>{children}</span>
           {required && <span className="text-coral text-xs font-medium ml-0.5">*</span>}
-          {optional && <span className="text-muted-foreground text-xs font-normal ml-1">(optional)</span>}
+          {optional && (
+            <span className="text-muted-foreground text-xs font-normal ml-1">(optional)</span>
+          )}
         </div>
       </LabelPrimitive.Root>
     );
@@ -71,17 +79,17 @@ Label.displayName = LabelPrimitive.Root.displayName;
 /**
  * Gold label for premium sections
  */
-const GoldLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>((props, ref) => (
-  <Label ref={ref} variant="gold" {...props} />
-));
+const GoldLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
+  (props, ref) => <Label ref={ref} variant="gold" {...props} />,
+);
 GoldLabel.displayName = "GoldLabel";
 
 /**
  * Emerald label for wellness sections
  */
-const EmeraldLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>((props, ref) => (
-  <Label ref={ref} variant="emerald" {...props} />
-));
+const EmeraldLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
+  (props, ref) => <Label ref={ref} variant="emerald" {...props} />,
+);
 EmeraldLabel.displayName = "EmeraldLabel";
 
 /**
@@ -92,39 +100,52 @@ interface LabelWithHelperProps extends LabelProps {
   helperPosition?: "top" | "bottom";
 }
 
-const LabelWithHelper = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelWithHelperProps>(
-  ({ helper, helperPosition = "bottom", children, ...props }, ref) => {
-    return (
-      <div className="space-y-1">
-        <Label ref={ref} {...props}>
-          {children}
-        </Label>
-        {helperPosition === "top" && helper && <p className="text-xs text-muted-foreground">{helper}</p>}
-        {helperPosition === "bottom" && helper && <p className="text-xs text-muted-foreground mt-1">{helper}</p>}
-      </div>
-    );
-  },
-);
+const LabelWithHelper = React.forwardRef<
+  React.ElementRef<typeof LabelPrimitive.Root>,
+  LabelWithHelperProps
+>(({ helper, helperPosition = "bottom", children, ...props }, ref) => {
+  return (
+    <div className="space-y-1">
+      <Label ref={ref} {...props}>
+        {children}
+      </Label>
+      {helperPosition === "top" && helper && (
+        <p className="text-xs text-muted-foreground">{helper}</p>
+      )}
+      {helperPosition === "bottom" && helper && (
+        <p className="text-xs text-muted-foreground mt-1">{helper}</p>
+      )}
+    </div>
+  );
+});
 LabelWithHelper.displayName = "LabelWithHelper";
 
 /**
  * Required label indicator
  */
-const RequiredLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>((props, ref) => (
-  <Label ref={ref} required {...props} />
-));
+const RequiredLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
+  (props, ref) => <Label ref={ref} required {...props} />,
+);
 RequiredLabel.displayName = "RequiredLabel";
 
 /**
  * Optional label indicator
  */
-const OptionalLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>((props, ref) => (
-  <Label ref={ref} optional {...props} />
-));
+const OptionalLabel = React.forwardRef<React.ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
+  (props, ref) => <Label ref={ref} optional {...props} />,
+);
 OptionalLabel.displayName = "OptionalLabel";
 
 // ============================================================================
 // Default Export
 // ============================================================================
 
-export { Label, GoldLabel, EmeraldLabel, LabelWithHelper, RequiredLabel, OptionalLabel, labelVariants };
+export {
+  Label,
+  GoldLabel,
+  EmeraldLabel,
+  LabelWithHelper,
+  RequiredLabel,
+  OptionalLabel,
+  labelVariants,
+};

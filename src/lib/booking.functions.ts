@@ -150,7 +150,14 @@ function receiptFlex(opts: {
         align: "center",
         margin: "md",
       },
-      { type: "image", url: opts.qrUrl, size: "full", aspectMode: "cover", aspectRatio: "1:1", margin: "md" },
+      {
+        type: "image",
+        url: opts.qrUrl,
+        size: "full",
+        aspectMode: "cover",
+        aspectRatio: "1:1",
+        margin: "md",
+      },
     );
   }
 
@@ -214,7 +221,11 @@ function receiptFlex(opts: {
       type: "button",
       style: "primary",
       color: "#0F3D2E",
-      action: { type: "uri", label: isThai ? "เปิดแผนอาหาร" : "View Meal Plan", uri: opts.mealsUrl },
+      action: {
+        type: "uri",
+        label: isThai ? "เปิดแผนอาหาร" : "View Meal Plan",
+        uri: opts.mealsUrl,
+      },
     });
   }
 
@@ -240,8 +251,22 @@ function receiptFlex(opts: {
         paddingAll: "20px",
         contents: [
           { type: "text", text: "GOODFILL CARE", size: "xs", color: "#F4E4BC", weight: "bold" },
-          { type: "text", text: opts.title, size: "xl", color: "#FFFFFF", weight: "bold", margin: "sm" },
-          { type: "text", text: opts.subtitle, size: "sm", color: "#E6F4EA", margin: "sm", wrap: true },
+          {
+            type: "text",
+            text: opts.title,
+            size: "xl",
+            color: "#FFFFFF",
+            weight: "bold",
+            margin: "sm",
+          },
+          {
+            type: "text",
+            text: opts.subtitle,
+            size: "sm",
+            color: "#E6F4EA",
+            margin: "sm",
+            wrap: true,
+          },
         ],
       },
       body: {
@@ -249,7 +274,14 @@ function receiptFlex(opts: {
         layout: "vertical",
         spacing: "md",
         contents: [
-          { type: "text", text: opts.programName, weight: "bold", size: "lg", wrap: true, color: "#0F3D2E" },
+          {
+            type: "text",
+            text: opts.programName,
+            weight: "bold",
+            size: "lg",
+            wrap: true,
+            color: "#0F3D2E",
+          },
           { type: "text", text: opts.programDuration, size: "sm", color: "#6B7280" },
           { type: "separator", margin: "md" },
           ...rows,
@@ -273,7 +305,15 @@ function row(label: string, value: string) {
     spacing: "sm",
     contents: [
       { type: "text", text: label, size: "sm", color: "#6B7280", flex: 2 },
-      { type: "text", text: value, size: "sm", color: "#0F3D2E", flex: 4, weight: "bold", wrap: true },
+      {
+        type: "text",
+        text: value,
+        size: "sm",
+        color: "#0F3D2E",
+        flex: 4,
+        weight: "bold",
+        wrap: true,
+      },
     ],
   };
 }
@@ -302,7 +342,8 @@ export const confirmBooking = createServerFn({ method: "POST" })
       .eq("user_id", context.userId)
       .eq("channel", "customer")
       .maybeSingle();
-    const customerTo = (lineRow?.line_user_id as string | undefined) ?? process.env.LINE_CUSTOMER_USER_ID ?? "";
+    const customerTo =
+      (lineRow?.line_user_id as string | undefined) ?? process.env.LINE_CUSTOMER_USER_ID ?? "";
 
     // Get partner LINE ID
     let partnerTo = process.env.LINE_PARTNER_USER_ID ?? "";
@@ -358,7 +399,9 @@ export const confirmBooking = createServerFn({ method: "POST" })
     // Partner message
     const partnerMsg = receiptFlex({
       title: isThai ? "มีการจองใหม่ 🔔" : "New Booking 🔔",
-      subtitle: isThai ? "กรุณาเตรียมห้องพักและทีมงานสำหรับลูกค้า" : "Please prepare rooms and team for the customer",
+      subtitle: isThai
+        ? "กรุณาเตรียมห้องพักและทีมงานสำหรับลูกค้า"
+        : "Please prepare rooms and team for the customer",
       programName: data.programName,
       programDuration: data.programDuration,
       programVenue: data.programVenue,
@@ -380,7 +423,9 @@ export const confirmBooking = createServerFn({ method: "POST" })
       data.mealPlan && data.mealPlan.length
         ? {
             type: "flex",
-            altText: isThai ? `แผนอาหารสำหรับ ${data.programName}` : `Meal plan for ${data.programName}`,
+            altText: isThai
+              ? `แผนอาหารสำหรับ ${data.programName}`
+              : `Meal plan for ${data.programName}`,
             contents: {
               type: "bubble",
               header: {
@@ -431,7 +476,10 @@ export const confirmBooking = createServerFn({ method: "POST" })
       customer = await linePush(customerToken, customerTo, [customerMsg]);
       logBookingAction("line_customer", bookingId, { ok: customer.ok, to: customerTo });
     } else {
-      customer = { ok: false, error: customerToken ? "No customer LINE ID" : "LINE_CHANNEL_ACCESS_TOKEN missing" };
+      customer = {
+        ok: false,
+        error: customerToken ? "No customer LINE ID" : "LINE_CHANNEL_ACCESS_TOKEN missing",
+      };
       logBookingError("line_customer", bookingId, customer);
     }
 
@@ -440,7 +488,10 @@ export const confirmBooking = createServerFn({ method: "POST" })
       partner = await linePush(partnerToken, partnerTo, partnerMessages);
       logBookingAction("line_partner", bookingId, { ok: partner.ok, to: partnerTo });
     } else {
-      partner = { ok: false, error: partnerToken ? "No partner LINE ID" : "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing" };
+      partner = {
+        ok: false,
+        error: partnerToken ? "No partner LINE ID" : "PARTNER_LINE_CHANNEL_ACCESS_TOKEN missing",
+      };
       logBookingError("line_partner", bookingId, partner);
     }
 
@@ -449,11 +500,14 @@ export const confirmBooking = createServerFn({ method: "POST" })
     try {
       const tgChatId = tgRow?.chat_id as number | undefined;
       if (tgChatId && process.env.TELEGRAM_API_KEY && process.env.LOVABLE_API_KEY) {
-        const dateLabel = new Date(data.bookingDate).toLocaleDateString(isThai ? "th-TH" : "en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
+        const dateLabel = new Date(data.bookingDate).toLocaleDateString(
+          isThai ? "th-TH" : "en-US",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          },
+        );
 
         const msgText = isThai
           ? `🌿 <b>ยืนยันการจองสำเร็จ</b>\n\n` +

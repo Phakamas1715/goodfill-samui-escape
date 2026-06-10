@@ -75,7 +75,8 @@ function SettingsPage() {
   });
 
   const save = useMutation({
-    mutationFn: (input: { key: string; value: unknown; description?: string }) => saveFn({ data: input }),
+    mutationFn: (input: { key: string; value: unknown; description?: string }) =>
+      saveFn({ data: input }),
     onSuccess: (_, variables) => {
       toast.success(`บันทึก "${variables.key}" สำเร็จ`);
       qc.invalidateQueries({ queryKey: ["admin", "settings"] });
@@ -130,7 +131,9 @@ function SettingsPage() {
     if (!searchQuery.trim()) return settings;
     const query = searchQuery.toLowerCase();
     return settings.filter(
-      (s: any) => s.key.toLowerCase().includes(query) || (s.description && s.description.toLowerCase().includes(query)),
+      (s: any) =>
+        s.key.toLowerCase().includes(query) ||
+        (s.description && s.description.toLowerCase().includes(query)),
     );
   }, [q.data, searchQuery]);
 
@@ -155,7 +158,9 @@ function SettingsPage() {
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div>
           <h1 className="font-display text-3xl md:text-4xl text-navy">ตั้งค่าระบบ</h1>
-          <p className="text-sm text-muted-foreground mt-1">จัดการการตั้งค่าทั้งหมด มีผลทันทีหลังบันทึก</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            จัดการการตั้งค่าทั้งหมด มีผลทันทีหลังบันทึก
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <div className="bg-cream/50 rounded-xl px-3 py-1.5 text-center">
@@ -211,7 +216,10 @@ function SettingsPage() {
           <Settings size={48} className="mx-auto text-muted-foreground/30 mb-3" />
           <p className="text-muted-foreground">ไม่พบการตั้งค่าที่ค้นหา</p>
           {searchQuery && (
-            <button onClick={() => setSearchQuery("")} className="mt-2 text-sm text-emerald hover:underline">
+            <button
+              onClick={() => setSearchQuery("")}
+              className="mt-2 text-sm text-emerald hover:underline"
+            >
               ล้างการค้นหา
             </button>
           )}
@@ -240,7 +248,8 @@ function SettingsPage() {
                   const isString = typeof s.value === "string";
                   const draftValue = drafts[s.key] ?? "";
                   const isModified =
-                    draftValue !== (typeof s.value === "string" ? s.value : JSON.stringify(s.value, null, 2));
+                    draftValue !==
+                    (typeof s.value === "string" ? s.value : JSON.stringify(s.value, null, 2));
                   const isJustSaved = savedKeys.has(s.key);
 
                   return (
@@ -266,7 +275,9 @@ function SettingsPage() {
                             )}
                           </div>
                           {s.description && (
-                            <div className="text-[11px] text-muted-foreground mt-1">{s.description}</div>
+                            <div className="text-[11px] text-muted-foreground mt-1">
+                              {s.description}
+                            </div>
                           )}
                         </div>
                         <div className="flex items-center gap-2">

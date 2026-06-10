@@ -21,7 +21,10 @@ export const Route = createFileRoute("/programs/$id")({
       meta: [
         { title: p ? `${p.name.th} — Goodfill Care` : "Program — Goodfill Care" },
         { name: "description", content: p?.tagline.th ?? "Wellness program ที่เกาะสมุย" },
-        { property: "og:title", content: p ? `${p.name.th} — Goodfill Care` : "Program — Goodfill Care" },
+        {
+          property: "og:title",
+          content: p ? `${p.name.th} — Goodfill Care` : "Program — Goodfill Care",
+        },
         { property: "og:description", content: p?.tagline.th ?? "Wellness program ที่เกาะสมุย" },
         { property: "og:image", content: image },
         { property: "og:url", content: url },
@@ -79,10 +82,15 @@ function ProgramDetail() {
   const isBooked = state.bookedProgramId === program.id;
   const confirm = useServerFn(confirmBooking);
   const [sending, setSending] = useState(false);
-  const [dietaryPlan, setDietaryPlan] = useState<"Signature" | "Plant-based" | "High-Protein" | "Detox Light">(
-    "Signature",
-  );
-  const [allergies, setAllergies] = useState<{ nuts: boolean; seafood: boolean; dairy: boolean; gluten: boolean }>({
+  const [dietaryPlan, setDietaryPlan] = useState<
+    "Signature" | "Plant-based" | "High-Protein" | "Detox Light"
+  >("Signature");
+  const [allergies, setAllergies] = useState<{
+    nuts: boolean;
+    seafood: boolean;
+    dairy: boolean;
+    gluten: boolean;
+  }>({
     nuts: false,
     seafood: false,
     dairy: false,
@@ -127,7 +135,9 @@ function ProgramDetail() {
         .filter((i) => /อาหาร|มื้อ|meal|breakfast|lunch|dinner|juice|tea|smoothie/i.test(i)),
     );
     const mealsUrl =
-      typeof window !== "undefined" ? `${window.location.origin}/meals/${program.id}` : `/meals/${program.id}`;
+      typeof window !== "undefined"
+        ? `${window.location.origin}/meals/${program.id}`
+        : `/meals/${program.id}`;
     const allergyLabels: string[] = [];
     if (allergies.nuts) allergyLabels.push("ถั่ว");
     if (allergies.seafood) allergyLabels.push("อาหารทะเล");
@@ -135,14 +145,18 @@ function ProgramDetail() {
     if (allergies.gluten) allergyLabels.push("กลูเตน");
     const extra = allergyNote.trim();
     const dietaryNotes =
-      [allergyLabels.length ? `แพ้: ${allergyLabels.join(", ")}` : "", extra].filter(Boolean).join(" · ") || undefined;
+      [allergyLabels.length ? `แพ้: ${allergyLabels.join(", ")}` : "", extra]
+        .filter(Boolean)
+        .join(" · ") || undefined;
 
     // Pre-fill a partner-facing persona note so experts see customer context without typing.
     let personaNote: string | undefined;
     if (state.persona) {
       const p = personas[state.persona];
       const sec =
-        state.secondaryPersona && state.secondaryPersona !== state.persona ? personas[state.secondaryPersona] : null;
+        state.secondaryPersona && state.secondaryPersona !== state.persona
+          ? personas[state.secondaryPersona]
+          : null;
       const parts: string[] = [];
       parts.push(`Persona: ${pick(p.name, lang)} (${pick(p.thaiName, lang)})`);
       if (sec) parts.push(`รอง: ${pick(sec.name, lang)}`);
@@ -268,13 +282,16 @@ function ProgramDetail() {
                   <div className="font-display text-4xl md:text-5xl gold-text font-bold mt-1">
                     ฿{program.price.toLocaleString()}
                   </div>
-                  <div className="text-xs md:text-sm text-muted-foreground mt-2">{t("programs.priceIncludes")}</div>
+                  <div className="text-xs md:text-sm text-muted-foreground mt-2">
+                    {t("programs.priceIncludes")}
+                  </div>
                 </div>
               </div>
 
               {state.credits > 0 && (
                 <div className="mt-5 text-sm md:text-base text-emerald flex items-center gap-2 p-3 bg-emerald/10 rounded-xl">
-                  <Sparkles size={16} /> ✦ {t("programs.useCredits").replace("{n}", String(state.credits))}
+                  <Sparkles size={16} /> ✦{" "}
+                  {t("programs.useCredits").replace("{n}", String(state.credits))}
                 </div>
               )}
 
@@ -319,12 +336,19 @@ function ProgramDetail() {
           <div className="flex items-center gap-2 text-gold text-xs md:text-sm tracking-[0.25em] uppercase font-semibold">
             <CalendarDays size={16} /> {t("programs.itineraryKicker")}
           </div>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl mt-3">{t("programs.itineraryTitle")}</h2>
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl mt-3">
+            {t("programs.itineraryTitle")}
+          </h2>
 
           <div className="mt-8 grid md:grid-cols-2 gap-5 md:gap-6">
             {program.schedule.map((d) => (
-              <div key={d.day.th} className="glass rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition">
-                <div className="font-display text-xl md:text-2xl text-gold font-semibold">{pick(d.day, lang)}</div>
+              <div
+                key={d.day.th}
+                className="glass rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition"
+              >
+                <div className="font-display text-xl md:text-2xl text-gold font-semibold">
+                  {pick(d.day, lang)}
+                </div>
                 <ul className="mt-4 space-y-2.5 text-sm md:text-base text-muted-foreground">
                   {d.items.map((i) => (
                     <li key={i.th} className="leading-relaxed">
@@ -345,11 +369,16 @@ function ProgramDetail() {
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl mt-3">
             {t("programs.mealTitleBy")} {pick(program.expert.name, lang)}
           </h2>
-          <p className="text-sm md:text-base text-muted-foreground mt-2">{pick(program.expert.role, lang)}</p>
+          <p className="text-sm md:text-base text-muted-foreground mt-2">
+            {pick(program.expert.role, lang)}
+          </p>
 
           <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {program.mealPlan.map((d) => (
-              <div key={d.day.th} className="card-deep rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
+              <div
+                key={d.day.th}
+                className="card-deep rounded-2xl p-6 shadow-lg hover:shadow-xl transition"
+              >
                 <div className="text-[11px] md:text-xs tracking-[0.25em] uppercase text-gold font-semibold">
                   {pick(d.day, lang)}
                 </div>
@@ -416,7 +445,9 @@ function ProgramDetail() {
               {/* Header — larger */}
               <div className="px-6 pt-6 pb-4 flex items-start gap-3 border-b border-mint/40">
                 <div className="flex-1 min-w-0">
-                  <div className="text-[11px] tracking-[0.28em] uppercase text-gold font-bold">ยืนยันการจอง</div>
+                  <div className="text-[11px] tracking-[0.28em] uppercase text-gold font-bold">
+                    ยืนยันการจอง
+                  </div>
                   <div className="font-display text-xl md:text-2xl leading-tight mt-1 truncate">
                     {pick(program.name, lang)}
                   </div>
@@ -440,20 +471,22 @@ function ProgramDetail() {
                     แนวอาหาร / Meal direction
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    {(["Signature", "Plant-based", "High-Protein", "Detox Light"] as const).map((opt) => (
-                      <button
-                        key={opt}
-                        type="button"
-                        onClick={() => setDietaryPlan(opt)}
-                        className={`rounded-xl border px-3 py-2.5 text-sm font-medium text-center transition ${
-                          dietaryPlan === opt
-                            ? "border-gold bg-gold/15 text-navy shadow-sm"
-                            : "border-mint/50 text-muted-foreground hover:border-gold/60"
-                        }`}
-                      >
-                        {opt}
-                      </button>
-                    ))}
+                    {(["Signature", "Plant-based", "High-Protein", "Detox Light"] as const).map(
+                      (opt) => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => setDietaryPlan(opt)}
+                          className={`rounded-xl border px-3 py-2.5 text-sm font-medium text-center transition ${
+                            dietaryPlan === opt
+                              ? "border-gold bg-gold/15 text-navy shadow-sm"
+                              : "border-mint/50 text-muted-foreground hover:border-gold/60"
+                          }`}
+                        >
+                          {opt}
+                        </button>
+                      ),
+                    )}
                   </div>
                 </div>
 

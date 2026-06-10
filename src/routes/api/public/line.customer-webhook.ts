@@ -32,7 +32,11 @@ async function lineReply(token: string, replyToken: string, messages: unknown[])
       body: JSON.stringify({ replyToken, messages }),
     });
     if (!res.ok) {
-      console.error("[customer-webhook] reply failed", res.status, await res.text().catch(() => ""));
+      console.error(
+        "[customer-webhook] reply failed",
+        res.status,
+        await res.text().catch(() => ""),
+      );
     }
   } catch (err) {
     console.error("[customer-webhook] reply error:", err);
@@ -43,8 +47,14 @@ async function lineReply(token: string, replyToken: string, messages: unknown[])
 const STATUS_LABEL: Record<string, { th: string; en: string }> = {
   pending: { th: "⏳ รอยืนยันจากผู้ดูแล", en: "⏳ Pending confirmation" },
   accepted: { th: "✅ ยืนยันแล้ว ทีมงานกำลังเตรียมการ", en: "✅ Confirmed - Team is preparing" },
-  rejected: { th: "❌ ขออภัย ไม่สามารถรับงานช่วงนี้ได้", en: "❌ Sorry, unable to accept at this time" },
-  completed: { th: "🎉 เสร็จสิ้นการดูแล ขอบคุณที่ใช้บริการ", en: "🎉 Completed - Thank you for choosing us" },
+  rejected: {
+    th: "❌ ขออภัย ไม่สามารถรับงานช่วงนี้ได้",
+    en: "❌ Sorry, unable to accept at this time",
+  },
+  completed: {
+    th: "🎉 เสร็จสิ้นการดูแล ขอบคุณที่ใช้บริการ",
+    en: "🎉 Completed - Thank you for choosing us",
+  },
   cancelled: { th: "🚫 ยกเลิกการจองแล้ว", en: "🚫 Booking cancelled" },
 };
 
@@ -351,7 +361,9 @@ async function handleEvent(event: LineEvent) {
           .eq("line_user_id", customerUserId);
       }
       if (event.replyToken) {
-        await lineReply(token, event.replyToken, [{ type: "text", text: "🇹🇭 เปลี่ยนภาษาเป็นไทยเรียบร้อยแล้ว" }]);
+        await lineReply(token, event.replyToken, [
+          { type: "text", text: "🇹🇭 เปลี่ยนภาษาเป็นไทยเรียบร้อยแล้ว" },
+        ]);
       }
       return;
     }
@@ -365,7 +377,9 @@ async function handleEvent(event: LineEvent) {
           .eq("line_user_id", customerUserId);
       }
       if (event.replyToken) {
-        await lineReply(token, event.replyToken, [{ type: "text", text: "🇬🇧 Language changed to English" }]);
+        await lineReply(token, event.replyToken, [
+          { type: "text", text: "🇬🇧 Language changed to English" },
+        ]);
       }
       return;
     }

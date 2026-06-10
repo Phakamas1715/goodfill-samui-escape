@@ -50,7 +50,10 @@ export function cx(...inputs: ClassValue[]): string {
  * button({ variant: "primary", size: "lg", disabled: true })
  * // Returns: "btn btn-primary btn-lg opacity-50 cursor-not-allowed"
  */
-export function createClassHelper(baseClass: string, variants: Record<string, Record<string, string> | string> = {}) {
+export function createClassHelper(
+  baseClass: string,
+  variants: Record<string, Record<string, string> | string> = {},
+) {
   return (options: Record<string, any> = {}): string => {
     const classes: string[] = [baseClass];
 
@@ -149,7 +152,9 @@ export function classNames(classes: Record<string, boolean>): string {
  *   { "hover-class": isHovered }
  * )
  */
-export function combineClasses(...inputs: (string | false | null | undefined | Record<string, boolean>)[]): string {
+export function combineClasses(
+  ...inputs: (string | false | null | undefined | Record<string, boolean>)[]
+): string {
   return cn(...inputs);
 }
 

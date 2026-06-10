@@ -103,7 +103,9 @@ function validateImageSize(width: number, height: number, bytes: number): void {
     throw new Error(`Image width must be between ${MIN_WIDTH} and ${MAX_WIDTH}px, got ${width}px`);
   }
   if (height < MIN_HEIGHT || height > MAX_HEIGHT) {
-    throw new Error(`Image height must be between ${MIN_HEIGHT} and ${MAX_HEIGHT}px, got ${height}px`);
+    throw new Error(
+      `Image height must be between ${MIN_HEIGHT} and ${MAX_HEIGHT}px, got ${height}px`,
+    );
   }
   if (bytes > MAX_IMAGE_SIZE) {
     throw new Error(`Image too large: ${bytes} bytes (max ${MAX_IMAGE_SIZE / 1024}KB)`);
@@ -114,7 +116,11 @@ function validateImageSize(width: number, height: number, bytes: number): void {
 // LINE API Helpers
 // ============================================================================
 
-async function lineApi(token: string, path: string, init: RequestInit & { body?: any } = {}): Promise<any> {
+async function lineApi(
+  token: string,
+  path: string,
+  init: RequestInit & { body?: any } = {},
+): Promise<any> {
   const res = await fetch(`https://api.line.me${path}`, {
     ...init,
     headers: {
@@ -132,8 +138,15 @@ async function lineApi(token: string, path: string, init: RequestInit & { body?:
   return text ? JSON.parse(text) : {};
 }
 
-async function lineUploadRichMenuImage(token: string, richMenuId: string, image: Buffer): Promise<void> {
-  const arr = image.buffer.slice(image.byteOffset, image.byteOffset + image.byteLength) as ArrayBuffer;
+async function lineUploadRichMenuImage(
+  token: string,
+  richMenuId: string,
+  image: Buffer,
+): Promise<void> {
+  const arr = image.buffer.slice(
+    image.byteOffset,
+    image.byteOffset + image.byteLength,
+  ) as ArrayBuffer;
   const body = new Blob([arr], { type: "image/png" });
 
   const res = await fetch(`https://api-data.line.me/v2/bot/richmenu/${richMenuId}/content`, {
@@ -168,7 +181,8 @@ async function aiGenerateImage(prompt: string, lang: "th" | "en" = "en"): Promis
     throw new Error("LOVABLE_API_KEY not configured");
   }
 
-  const selectedPrompt = lang === "th" ? prompt : PROMPTS[prompt as keyof typeof PROMPTS]?.en || prompt;
+  const selectedPrompt =
+    lang === "th" ? prompt : PROMPTS[prompt as keyof typeof PROMPTS]?.en || prompt;
 
   const res = await fetch("https://ai.gateway.lovable.dev/v1/images/generations", {
     method: "POST",
@@ -221,7 +235,11 @@ function buildRichMenuPayload(
       areas: [
         {
           bounds: { x: 0, y: 0, width: colW, height },
-          action: { type: "uri", label: isThai ? "งานวันนี้" : "Today's Tasks", uri: `${SITE}/admin/bookings` },
+          action: {
+            type: "uri",
+            label: isThai ? "งานวันนี้" : "Today's Tasks",
+            uri: `${SITE}/admin/bookings`,
+          },
         },
         {
           bounds: { x: colW, y: 0, width: colW, height },
@@ -229,7 +247,11 @@ function buildRichMenuPayload(
         },
         {
           bounds: { x: colW * 2, y: 0, width: width - colW * 2, height },
-          action: { type: "message", label: isThai ? "ช่วยเหลือ" : "Help", text: isThai ? "ช่วยเหลือ" : "help" },
+          action: {
+            type: "message",
+            label: isThai ? "ช่วยเหลือ" : "Help",
+            text: isThai ? "ช่วยเหลือ" : "help",
+          },
         },
       ],
     };
@@ -252,7 +274,11 @@ function buildRichMenuPayload(
       },
       {
         bounds: { x: colW * 2, y: 0, width: width - colW * 2, height },
-        action: { type: "message", label: isThai ? "สถานะ" : "Status", text: isThai ? "สถานะ" : "status" },
+        action: {
+          type: "message",
+          label: isThai ? "สถานะ" : "Status",
+          text: isThai ? "สถานะ" : "status",
+        },
       },
     ],
   };
@@ -294,7 +320,9 @@ export const setupLineRichMenu = createServerFn({ method: "POST" })
       logRichMenuAction("image_generated", data.channel, { bytes: image.length });
     } catch (error) {
       logRichMenuError("image_generation", data.channel, error);
-      throw new Error(`Failed to generate image: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to generate image: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
 
     // 2. Validate image
@@ -315,7 +343,9 @@ export const setupLineRichMenu = createServerFn({ method: "POST" })
       logRichMenuAction("menu_created", data.channel, { richMenuId });
     } catch (error) {
       logRichMenuError("menu_creation", data.channel, error);
-      throw new Error(`Failed to create rich menu: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to create rich menu: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
 
     // 4. Upload image
@@ -326,7 +356,9 @@ export const setupLineRichMenu = createServerFn({ method: "POST" })
       logRichMenuError("image_upload", data.channel, error);
       // Try to cleanup the created menu
       await lineApi(token, `/v2/bot/richmenu/${richMenuId}`, { method: "DELETE" }).catch(() => {});
-      throw new Error(`Failed to upload image: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to upload image: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
 
     // 5. Set as default
@@ -377,7 +409,9 @@ export const listLineRichMenus = createServerFn({ method: "POST" })
       return menus;
     } catch (error) {
       logRichMenuError("list", data.channel, error);
-      throw new Error(`Failed to list rich menus: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to list rich menus: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   });
 
@@ -411,6 +445,8 @@ export const deleteLineRichMenu = createServerFn({ method: "POST" })
       return { ok: true };
     } catch (error) {
       logRichMenuError("delete", data.channel, error);
-      throw new Error(`Failed to delete rich menu: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to delete rich menu: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   });
