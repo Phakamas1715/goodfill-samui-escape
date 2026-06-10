@@ -181,7 +181,7 @@ function Landing() {
       <Nav />
 
       {/* MAIN CONTENT */}
-      <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col overflow-y-auto">
+      <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col overflow-y-auto z-[60]">
         <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] pb-[50px] lg:pr-[50px] mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
@@ -359,18 +359,18 @@ function Landing() {
         </div>
       </main>
 
-      {/* MOBILE HOST — อยู่หน้าสุด ไม่ถูกบัง (z-index สูงสุด) */}
+      {/* MOBILE HOST — อยู่ด้านหลังการ์ดข้อความ (decorative) */}
       <motion.img
         initial={{ opacity: 0, x: 60, scale: 0.85 }}
-        animate={{ opacity: 1, x: 0, scale: 1 }}
+        animate={{ opacity: 0.65, x: 0, scale: 1 }}
         transition={{ delay: 0.3, duration: 0.9 }}
         src={welcomeHost}
         alt="Goodfill Care wellness host"
-        className="lg:hidden fixed -right-[15%] bottom-0 h-[75vh] max-h-[650px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] z-50 opacity-95"
+        className="lg:hidden fixed -right-[20%] bottom-0 h-[65vh] max-h-[550px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] z-[5]"
       />
 
       {/* Soft vignette — อยู่ใต้ host แต่เหนือพื้นหลัง */}
-      <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-2/5 bg-gradient-to-l from-emerald-deep/50 via-emerald-deep/20 to-transparent z-[45]" />
+      <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-2/5 bg-gradient-to-l from-emerald-deep/50 via-emerald-deep/20 to-transparent z-[4]" />
 
       {/* MODAL POPUPS — same as before */}
       <AnimatePresence>
