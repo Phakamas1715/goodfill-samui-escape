@@ -181,14 +181,14 @@ function Landing() {
       <Nav />
 
       {/* MAIN CONTENT */}
-      <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col overflow-y-auto z-[60]">
-        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] pb-[50px] lg:pr-[50px] mt-[50px]">
+      <main className="absolute inset-0 pt-20 md:pt-28 pb-6 md:pb-10 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]">
+        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] lg:pb-[50px] lg:pr-[50px] lg:mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 min-w-0 max-w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-none"
+            className="relative z-10 min-w-0 max-w-[64%] sm:max-w-[60%] md:max-w-[55%] lg:max-w-none"
           >
             {/* ปรับโลโก้: เพิ่ม contrast และลดขนาด */}
             <div className="flex items-center gap-3">
@@ -359,18 +359,16 @@ function Landing() {
         </div>
       </main>
 
-      {/* MOBILE HOST — อยู่ด้านหลังการ์ดข้อความ (decorative) */}
+      {/* MOBILE HOST — ด้านขวา ไม่ทับการ์ดข้อความ คมชัด ไม่ลดคอนทราสต์ */}
       <motion.img
-        initial={{ opacity: 0, x: 60, scale: 0.85 }}
-        animate={{ opacity: 0.65, x: 0, scale: 1 }}
+        initial={{ opacity: 0, x: 40, scale: 0.92 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
         transition={{ delay: 0.3, duration: 0.9 }}
         src={welcomeHost}
         alt="Goodfill Care wellness host"
-        className="lg:hidden fixed -right-[20%] bottom-0 h-[65vh] max-h-[550px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] z-[5]"
+        decoding="async"
+        className="lg:hidden fixed right-0 bottom-0 h-[58vh] max-h-[520px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
       />
-
-      {/* Soft vignette — อยู่ใต้ host แต่เหนือพื้นหลัง */}
-      <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-2/5 bg-gradient-to-l from-emerald-deep/50 via-emerald-deep/20 to-transparent z-[4]" />
 
       {/* MODAL POPUPS — same as before */}
       <AnimatePresence>
