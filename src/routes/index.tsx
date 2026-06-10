@@ -187,7 +187,7 @@ function Landing() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 min-w-0 max-w-[64%] sm:max-w-[60%] md:max-w-[55%] lg:max-w-none"
+            className="relative z-10 min-w-0 max-w-[58%] sm:max-w-[54%] md:max-w-[52%] lg:max-w-none"
           >
             {/* Kicker only — โลโก้หลักอยู่ที่ Nav แล้ว */}
             <div className="flex items-center gap-3">
@@ -361,7 +361,7 @@ function Landing() {
         src={welcomeHost}
         alt="Goodfill Care wellness host"
         decoding="async"
-        className="lg:hidden fixed -right-4 bottom-16 h-[44vh] max-h-[380px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
+        className="lg:hidden fixed -right-6 bottom-14 h-[46vh] max-h-[400px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[80]"
       />
 
       {/* MODAL POPUPS — same as before */}
