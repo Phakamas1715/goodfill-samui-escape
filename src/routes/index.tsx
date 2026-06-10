@@ -205,15 +205,21 @@ function Landing() {
               </span>
             </div>
 
-            {/* แก้ไข heading: ใช้ขนาดมาตรฐาน */}
-            <h1 className="font-display font-normal text-[1.3rem] sm:text-[1.8rem] md:text-4xl lg:text-5xl leading-[1.2] mt-4 md:mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] lg:max-w-[540px]">
-              {t("hero.title1")}
+            {/* H1 — English primary, Thai supporting */}
+            <h1 className="font-display font-normal text-[1.6rem] sm:text-[2.1rem] md:text-[2.6rem] lg:text-[3.2rem] leading-[1.05] tracking-tight mt-4 md:mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] lg:max-w-[560px]">
+              Experience
               <br />
-              <em className="italic text-gold font-normal">{t("hero.title2")}</em>{" "}
-              <span className="block">{t("hero.title3")}</span>
+              <em className="italic text-gold font-normal">Koh Samui</em>{" "}
+              <span className="block">designed just for you</span>
             </h1>
-            <p className="mt-3 md:mt-4 max-w-md text-[13px] md:text-[15px] text-white/95 font-medium leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
-              {t("hero.desc")}
+            <p
+              lang="th"
+              className="mt-2 md:mt-3 max-w-md text-[12px] md:text-[14px] text-white/85 font-normal leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]"
+            >
+              สัมผัสบรรยากาศเกาะสมุย ที่ออกแบบเพื่อคุณคนเดียว
+            </p>
+            <p className="mt-3 max-w-md text-[12px] md:text-[13px] uppercase tracking-[0.18em] text-gold-soft/90 font-semibold drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
+              Luxury Personalized Wellness Companion
             </p>
 
             {/* Editorial proof points */}
