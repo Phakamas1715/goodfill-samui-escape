@@ -10,12 +10,17 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { getMyRoles } from "@/lib/admin.functions";
 
 export const Route = createFileRoute("/partner")({
   ssr: false,
   beforeLoad: async () => {
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) throw redirect({ to: "/auth" });
+    const roles = await getMyRoles();
+    if (!roles.includes("partner") && !roles.includes("admin")) {
+      throw redirect({ to: "/" });
+    }
   },
   head: () => ({
     meta: [
