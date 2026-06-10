@@ -132,7 +132,8 @@ export function DashShell({
       <Nav />
 
       <main
-        className={`relative h-full ${compact ? "pt-28 md:pt-24" : "pt-32 md:pt-28"} pb-20 md:pb-6 px-3 md:px-6 flex flex-col overflow-y-auto`}
+        className={`relative h-full ${compact ? "pt-28 md:pt-24" : "pt-32 md:pt-28"} md:pb-6 px-3 md:px-6 flex flex-col overflow-y-auto`}
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 5.5rem)" }}
       >
         <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col min-h-0">
           {/* HEADER */}
