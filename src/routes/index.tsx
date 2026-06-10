@@ -139,25 +139,6 @@ function Landing() {
     { key: "company" as const, label: t("hero.btnCompany"), icon: Building2 },
   ];
 
-  const heroModules = [
-    { title: "Wellness Quest", subtitle: "แบบประเมิน 8 คำถาม", icon: Sparkles },
-    { title: "QR Wellness Pass", subtitle: "เช็กอินและสิทธิพิเศษ", icon: Compass },
-    { title: "Continuous Care", subtitle: "ติดตามหลังทริป", icon: HeartPulse },
-    { title: "Expert Review", subtitle: "แผนที่ผ่านการคัดกรอง", icon: Leaf },
-  ];
-
-  const heroHighlights = [
-    "English-first headlines with Thai support",
-    "Ocean teal surfaces and softened sand-gold accent",
-    "Customer journey from quest to ongoing care",
-  ];
-
-  const heroStats = [
-    { value: "8", label: "Quest prompts" },
-    { value: "6", label: "Wellness personas" },
-    { value: "12+", label: "Trusted partners" },
-  ];
-
   return (
     <div className="fixed inset-0 overflow-hidden bg-navy text-ivory">
       {/* SLIDESHOW BACKGROUND */}
@@ -199,15 +180,16 @@ function Landing() {
       <Nav />
 
       {/* MAIN CONTENT */}
-      <main className="absolute inset-0 pt-32 md:pt-36 pb-24 md:pb-10 px-4 md:px-8 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]">
-        <div className="flex-1 grid lg:grid-cols-[minmax(0,0.88fr)_minmax(320px,0.78fr)_minmax(0,0.84fr)] gap-8 xl:gap-10 items-center max-w-7xl mx-auto w-full lg:px-6 lg:my-10 lg:pb-10">
+      <main className="absolute inset-0 pt-32 md:pt-32 pb-24 md:pb-10 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]">
+        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-start lg:items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] lg:pb-[50px] lg:pr-[50px] lg:mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 min-w-0 max-w-none order-1"
+            className="relative z-10 min-w-0 max-w-[64%] sm:max-w-[60%] md:max-w-[55%] lg:max-w-none"
           >
+            {/* Kicker only — โลโก้หลักอยู่ที่ Nav แล้ว */}
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-gold/70" />
               <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-gold-soft font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
@@ -215,75 +197,86 @@ function Landing() {
               </span>
             </div>
 
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 backdrop-blur-md">
-              <span className="size-2 rounded-full bg-mint shadow-[0_0_10px_rgba(143,179,155,0.7)]" />
-              <span className="text-[10px] md:text-[11px] uppercase tracking-[0.22em] text-white/82 font-semibold">
-                Premium wellness interface system
+            {/* Editorial kicker rule */}
+            <div className="hidden lg:flex items-center gap-3 mt-6">
+              <span className="h-px w-10 bg-gold/70" />
+              <span className="text-gold/90 text-[10px] tracking-[0.4em] uppercase font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
+                Wellness Journey
               </span>
             </div>
 
-            <h1 className="font-display font-normal text-[1.8rem] sm:text-[2.35rem] md:text-[2.9rem] lg:text-[3.45rem] leading-[1.02] tracking-tight mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] max-w-[11ch]">
-              Samui wellness
+            {/* H1 — English primary, Thai supporting */}
+            <h1 className="font-display font-normal text-[1.6rem] sm:text-[2.1rem] md:text-[2.6rem] lg:text-[3.2rem] leading-[1.05] tracking-tight mt-4 md:mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] lg:max-w-[560px]">
+              Experience
               <br />
-              <em className="italic text-gold font-normal">designed as</em>
-              <span className="block">a premium journey</span>
+              <em className="italic text-gold font-normal">Koh Samui</em>{" "}
+              <span className="block">designed just for you</span>
             </h1>
             <p
               lang="th"
-              className="mt-3 max-w-md text-[13px] md:text-[14px] text-white/84 font-normal leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]"
+              className="mt-2 md:mt-3 max-w-md text-[12px] md:text-[14px] text-white/85 font-normal leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]"
             >
-              ประสบการณ์ดูแลสุขภาพที่อ่านง่าย สงบ หรู และพาผู้ใช้ไหลจากการประเมินสู่การดูแลต่อเนื่องอย่างเป็นธรรมชาติ
+              สัมผัสบรรยากาศเกาะสมุย ที่ออกแบบเพื่อคุณคนเดียว
             </p>
-            <p className="mt-3 max-w-md text-[11px] md:text-[12px] uppercase tracking-[0.22em] text-gold-soft/90 font-semibold drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
-              Ocean teal · sand gold · clearer call to action
+            <p className="mt-3 max-w-md text-[12px] md:text-[13px] uppercase tracking-[0.18em] text-gold-soft/90 font-semibold drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
+              Luxury Personalized Wellness Companion
             </p>
 
-            <div className="mt-5 space-y-2.5 max-w-md">
-              {heroHighlights.map((item) => (
-                <div key={item} className="flex items-start gap-3 text-white/82">
-                  <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-gold-soft" />
-                  <span className="text-[12px] md:text-[13px] leading-relaxed">{item}</span>
-                </div>
-              ))}
+            {/* Editorial proof points */}
+            <div className="hidden md:flex flex-wrap gap-x-6 gap-y-2 mt-5">
+              {["8 Wellness Quests", "6 Distinct Personas", "3 / 5 / 7 Day Programs"].map(
+                (label) => (
+                  <div key={label} className="flex items-center gap-2">
+                    <span className="size-1.5 rounded-full bg-mint shadow-[0_0_6px_rgba(120,200,170,0.5)]" />
+                    <span className="text-white/70 text-[9px] tracking-[0.2em] uppercase font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
+                      {label}
+                    </span>
+                  </div>
+                ),
+              )}
             </div>
 
-            <div className="mt-6 flex flex-col sm:flex-row gap-3 max-w-xl">
+            {/* Action cluster */}
+            <div className="mt-5 md:mt-6 flex flex-col gap-3 max-w-[18rem]">
               <Link
                 to="/quest"
-                className="btn-gold group relative overflow-hidden rounded-xl px-5 py-3 inline-flex items-center justify-center gap-2 text-sm md:text-[14px] font-bold tracking-wide whitespace-nowrap shadow-[0_12px_32px_-12px_rgba(201,168,76,0.6)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
+                className="btn-gold group relative overflow-hidden rounded-xl px-4 py-2.5 inline-flex items-center justify-center gap-2 text-sm md:text-[14px] font-bold tracking-wide whitespace-nowrap shadow-[0_12px_32px_-12px_rgba(201,168,76,0.6)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
               >
-                <Sparkles size={15} className="opacity-80" />
+                <Sparkles size={14} className="opacity-80" />
                 <span>{t("hero.ctaStart")}</span>
-                <ArrowRight size={15} className="transition group-hover:translate-x-0.5" />
+                <ArrowRight size={14} className="transition group-hover:translate-x-0.5" />
               </Link>
               <button
                 onClick={() => setMoreOpen(true)}
-                className="rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-lg border border-white/30 text-white/95 px-5 py-3 inline-flex items-center justify-center gap-2 text-[13px] font-semibold transition"
+                className="rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-lg border border-white/30 text-white/95 py-2 px-4 inline-flex items-center justify-center gap-2 text-[13px] font-semibold transition"
               >
-                <Menu size={15} />
-                <span>Preview modules</span>
+                <Menu size={14} />
+                <span>สำรวจเพิ่มเติม</span>
               </button>
+              <div className="flex items-center justify-between gap-3 text-[10px] text-white/85 font-semibold px-1 mt-1">
+                <span className="tracking-wide drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
+                  ~8 นาที · ตอบโดยไม่ต้องพิมพ์
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <ShieldCheck size={11} className="text-mint" /> ปลอดภัย
+                </span>
+              </div>
             </div>
 
-            <div className="mt-4 flex items-center justify-between gap-3 text-[10px] text-white/85 font-semibold max-w-[22rem]">
-              <span className="tracking-wide drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
-                ~8 นาที · tap-first flow · mobile readable
-              </span>
-              <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
-                <ShieldCheck size={11} className="text-mint" /> Trusted
-              </span>
-            </div>
-
-            <div className="mt-5 hidden md:flex items-center gap-5 text-white/85">
-              {heroStats.map((s, i) => (
-                <div key={s.label} className="flex items-center gap-5">
+            <div className="mt-4 hidden md:flex items-center gap-5 text-white/85">
+              {[
+                { v: "8", k: "hero.stat.min" as TKey },
+                { v: "6", k: "hero.stat.personas" as TKey },
+                { v: "12+", k: "hero.stat.partners" as TKey },
+              ].map((s, i) => (
+                <div key={s.k} className="flex items-center gap-5">
                   {i > 0 && <span className="h-6 w-px bg-white/25" />}
                   <div>
                     <div className="font-display text-lg md:text-xl font-semibold text-gold drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
-                      {s.value}
+                      {s.v}
                     </div>
                     <div className="text-[8px] md:text-[9px] tracking-[0.2em] uppercase text-white/75 font-medium mt-0.5">
-                      {s.label}
+                      {t(s.k)}
                     </div>
                   </div>
                 </div>
@@ -291,180 +284,85 @@ function Landing() {
             </div>
           </motion.div>
 
-          {/* CENTER — Phone mockup */}
+          {/* RIGHT — Editorial pull-quote sidebar (desktop) */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.0, delay: 0.25 }}
-            className="relative z-20 order-2 flex justify-center"
+            className="relative z-20 hidden lg:block border-l border-white/15 pl-10 self-center text-white/95"
           >
-            <div className="relative mx-auto w-full max-w-[290px] sm:max-w-[330px]">
-              <div className="absolute inset-x-10 -top-4 h-16 rounded-full bg-gold/30 blur-3xl" />
-              <div className="absolute inset-x-8 bottom-2 h-24 rounded-full bg-mint/25 blur-3xl" />
-              <div className="relative rounded-[2.7rem] border border-white/25 bg-[#0e1417]/85 p-2 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl">
-                <div className="overflow-hidden rounded-[2.15rem] bg-ivory shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]">
-                  <div className="relative h-[640px] sm:h-[680px] bg-ivory">
-                    <div className="absolute left-1/2 top-3 z-30 h-7 w-32 -translate-x-1/2 rounded-full bg-black/90" />
-                    <div className="absolute inset-x-0 top-0 h-[46%] overflow-hidden">
-                      <img
-                        src={images.heroSamui}
-                        alt="Koh Samui premium wellness preview"
-                        className="size-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-emerald-deep/90" />
-                    </div>
+            <div className="space-y-8 max-w-sm">
+              <div>
+                <div className="text-gold/85 text-[10px] tracking-[0.35em] uppercase font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
+                  Refined Care
+                </div>
+                <p className="mt-3 text-white/95 text-[13px] font-medium leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
+                  Curated specifically for global travelers seeking deep restoration in the heart of
+                  Thailand — ภายใต้การดูแลของผู้เชี่ยวชาญ Wellness
+                  และเชฟโภชนาการที่ออกแบบทุกขั้นตอนเฉพาะคุณ
+                </p>
+              </div>
 
-                    <div className="relative z-20 px-5 pt-10">
-                      <div className="flex items-start justify-between gap-3">
-                        <div>
-                          <div className="font-display text-[1.45rem] leading-none text-navy">
-                            Goodfill <span className="text-emerald">Care</span>
-                          </div>
-                          <div className="mt-1 text-[9px] uppercase tracking-[0.32em] text-gold">
-                            Koh Samui · Wellness Journey
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 rounded-full border border-mint/30 bg-white/75 p-1 shadow-sm backdrop-blur-md">
-                          <span className="rounded-full bg-emerald px-2.5 py-1 text-[10px] font-semibold text-ivory">
-                            TH
-                          </span>
-                          <span className="px-2 text-[10px] font-semibold text-navy/60">EN</span>
-                        </div>
-                      </div>
-
-                      <div className="mt-28 max-w-[66%]">
-                        <div className="text-[10px] uppercase tracking-[0.28em] text-gold-soft">
-                          Customer wellness app
-                        </div>
-                        <h2 className="mt-3 font-display text-[2rem] leading-[0.96] text-white drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
-                          Start your
-                          <span className="block text-gold-soft">wellness story</span>
-                        </h2>
-                        <p lang="th" className="mt-3 text-[12px] leading-relaxed text-white/86">
-                          ค้นหาแผนดูแลที่เหมาะกับคุณ พร้อมการเดินทางที่เรียบง่ายและอ่านสบายตา
-                        </p>
-                        <Link
-                          to="/quest"
-                          className="mt-4 inline-flex items-center gap-2 rounded-[1.1rem] bg-white/18 px-4 py-3 text-[12px] font-semibold text-white backdrop-blur-md ring-1 ring-white/30"
-                        >
-                          <Sparkles size={14} className="text-gold-soft" />
-                          Begin Wellness Quest
-                          <ArrowRight size={14} />
-                        </Link>
-                      </div>
-
-                      <img
-                        src={welcomeHost}
-                        alt="Goodfill Care assistant"
-                        className="pointer-events-none absolute right-3 top-36 h-[230px] w-auto object-contain drop-shadow-[0_16px_30px_rgba(0,0,0,0.28)]"
-                      />
-
-                      <div className="absolute inset-x-0 bottom-0 rounded-t-[1.8rem] bg-[linear-gradient(180deg,rgba(250,247,242,0.96),rgba(240,237,233,1))] px-4 pb-5 pt-4 shadow-[0_-18px_40px_-20px_rgba(20,44,37,0.25)]">
-                        <div className="grid grid-cols-2 gap-3">
-                          {heroModules.map((module) => (
-                            <div
-                              key={module.title}
-                              className="rounded-[1.15rem] border border-mint/20 bg-white/88 p-3 shadow-[0_14px_24px_-18px_rgba(20,44,37,0.22)]"
-                            >
-                              <div className="flex size-9 items-center justify-center rounded-full bg-pale-mint text-emerald">
-                                <module.icon size={17} />
-                              </div>
-                              <div className="mt-2 text-[12px] font-semibold leading-tight text-navy">
-                                {module.title}
-                              </div>
-                              <div lang="th" className="mt-1 text-[10px] leading-relaxed text-navy/60">
-                                {module.subtitle}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-
-                        <div className="mt-3 rounded-[1.15rem] border border-mint/20 bg-[linear-gradient(135deg,rgba(31,92,73,0.92),rgba(143,179,155,0.9))] p-3 text-white shadow-[0_18px_32px_-18px_rgba(15,74,56,0.45)]">
-                          <div className="text-[9px] uppercase tracking-[0.24em] text-gold-soft/90">
-                            Curated for you
-                          </div>
-                          <div className="mt-1 text-[14px] font-semibold">QR Wellness Pass · Check-ins · Ongoing Care</div>
-                        </div>
-
-                        <div className="mt-3 flex items-center justify-around border-t border-mint/15 pt-3 text-[10px] text-navy/60">
-                          {['Home', 'Quest', 'Pass', 'Care'].map((item) => (
-                            <div key={item} className="flex flex-col items-center gap-1">
-                              <span className={`size-2 rounded-full ${item === 'Home' ? 'bg-emerald' : 'bg-mint/40'}`} />
-                              <span>{item}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div className="relative">
+                <div
+                  className="absolute -top-8 -left-4 text-6xl text-gold/20 select-none pointer-events-none"
+                  aria-hidden
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  &ldquo;
+                </div>
+                <p className="relative font-display italic text-lg leading-snug text-white/95 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
+                  A sanctuary where every breath is intentional, and every moment is yours.
+                </p>
+                <div className="mt-3 flex items-center gap-3">
+                  <span className="h-px w-6 bg-gold/60" />
+                  <span className="text-[9px] tracking-[0.3em] uppercase text-white/75 font-medium">
+                    Goodfill Promise
+                  </span>
                 </div>
               </div>
-            </div>
-          </motion.div>
 
-          {/* RIGHT — Supporting system summary */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.0, delay: 0.32 }}
-            className="relative z-10 order-3"
-          >
-            <div className="rounded-[2rem] border border-white/15 bg-white/10 p-5 md:p-6 backdrop-blur-xl shadow-[0_24px_60px_-24px_rgba(0,0,0,0.55)]">
-              <div className="text-gold-soft text-[10px] tracking-[0.32em] uppercase font-semibold">
-                Design system direction
-              </div>
-              <h3 className="mt-3 font-display text-[1.8rem] leading-[1.05] text-white">
-                Clearer brand expression across the current index page
-              </h3>
-              <p className="mt-3 text-[13px] leading-relaxed text-white/80">
-                The new composition moves the experience away from a text-heavy landing panel and closer to a premium product preview—more balanced, more scannable, and closer to the attached wellness app references.
-              </p>
-
-              <div className="mt-5 space-y-3">
-                {heroModules.map((module, index) => (
-                  <div
-                    key={module.title}
-                    className="flex items-start gap-3 rounded-[1.15rem] border border-white/12 bg-white/8 px-4 py-3"
-                  >
-                    <div className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-full bg-white/14 text-gold-soft">
-                      <module.icon size={16} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="text-[13px] font-semibold text-white">{module.title}</div>
-                        <span className="text-[10px] uppercase tracking-[0.2em] text-white/45">
-                          0{index + 1}
-                        </span>
-                      </div>
-                      <div lang="th" className="mt-1 text-[11px] leading-relaxed text-white/62">
-                        {module.subtitle}
-                      </div>
-                    </div>
+              <div className="grid grid-cols-2 gap-x-5 gap-y-3 pt-5 border-t border-white/20">
+                <div>
+                  <div className="font-display text-lg text-gold/90">6</div>
+                  <div className="text-[9px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                    Personas
                   </div>
-                ))}
-              </div>
-
-              <div className="mt-5 grid grid-cols-3 gap-3">
-                {heroStats.map((stat) => (
-                  <div key={stat.label} className="rounded-[1.1rem] border border-white/12 bg-white/8 px-3 py-4 text-center">
-                    <div className="font-display text-[1.35rem] text-gold">{stat.value}</div>
-                    <div className="mt-1 text-[10px] uppercase tracking-[0.18em] text-white/55">
-                      {stat.label}
-                    </div>
+                </div>
+                <div>
+                  <div className="font-display text-lg text-gold/90">3·5·7</div>
+                  <div className="text-[9px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                    Day Plans
                   </div>
-                ))}
-              </div>
-
-              <div className="mt-5 rounded-[1.25rem] border border-gold/25 bg-[linear-gradient(135deg,rgba(201,184,155,0.18),rgba(255,255,255,0.06))] p-4">
-                <div className="text-[10px] uppercase tracking-[0.24em] text-gold-soft">Why this works better</div>
-                <p lang="th" className="mt-2 text-[12px] leading-relaxed text-white/78">
-                  โลโก้ยังเป็นจุดนำสายตาบนแถบนำทาง แต่ hero มีศูนย์กลางชัดขึ้นด้วย phone mockup ทำให้ภาพรวมสมดุลและสื่อว่าแพลตฟอร์มนี้เป็น “product experience” ไม่ใช่แค่หน้าโปรโมต
-                </p>
+                </div>
+                <div>
+                  <div className="font-display text-lg text-gold/90">+300</div>
+                  <div className="text-[9px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                    Calm Credits
+                  </div>
+                </div>
+                <div>
+                  <div className="font-display text-lg text-gold/90">12+</div>
+                  <div className="text-[9px] tracking-[0.25em] uppercase text-white/80 mt-0.5 font-medium">
+                    Partners
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
       </main>
+
+      {/* MOBILE HOST — มุมขวาล่าง คมชัด แยกจากการ์ดข้อความชัดเจน */}
+      <motion.img
+        initial={{ opacity: 0, x: 40, scale: 0.92 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        transition={{ delay: 0.3, duration: 0.9 }}
+        src={welcomeHost}
+        alt="Goodfill Care wellness host"
+        decoding="async"
+        className="lg:hidden fixed -right-4 bottom-16 h-[44vh] max-h-[380px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
+      />
 
       {/* MODAL POPUPS — same as before */}
       <AnimatePresence>
