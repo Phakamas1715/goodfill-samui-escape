@@ -22,7 +22,6 @@ import {
 import { Nav } from "@/components/Nav";
 import { images, personas, pick } from "@/lib/data";
 import welcomeHost from "@/assets/welcome-host.png";
-import logo from "@/assets/new-logo.jpg";
 import heroSamuiUrl from "@/assets/hero-samui.jpg";
 import { useI18n, type TKey } from "@/lib/i18n";
 
