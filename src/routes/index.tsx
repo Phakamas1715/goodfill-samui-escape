@@ -181,8 +181,8 @@ function Landing() {
       <Nav />
 
       {/* MAIN CONTENT */}
-      <main className="absolute inset-0 pt-20 md:pt-28 pb-6 md:pb-10 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]">
-        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] lg:pb-[50px] lg:pr-[50px] lg:mt-[50px]">
+      <main className="absolute inset-0 pt-20 md:pt-28 pb-24 md:pb-10 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]">
+        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-start lg:items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] lg:pb-[50px] lg:pr-[50px] lg:mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -359,7 +359,7 @@ function Landing() {
         </div>
       </main>
 
-      {/* MOBILE HOST — ด้านขวา ไม่ทับการ์ดข้อความ คมชัด ไม่ลดคอนทราสต์ */}
+      {/* MOBILE HOST — มุมขวาล่าง คมชัด แยกจากการ์ดข้อความชัดเจน */}
       <motion.img
         initial={{ opacity: 0, x: 40, scale: 0.92 }}
         animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -367,7 +367,7 @@ function Landing() {
         src={welcomeHost}
         alt="Goodfill Care wellness host"
         decoding="async"
-        className="lg:hidden fixed right-0 bottom-0 h-[58vh] max-h-[520px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
+        className="lg:hidden fixed -right-4 bottom-16 h-[44vh] max-h-[380px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
       />
 
       {/* MODAL POPUPS — same as before */}
