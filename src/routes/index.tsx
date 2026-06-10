@@ -359,18 +359,16 @@ function Landing() {
         </div>
       </main>
 
-      {/* MOBILE HOST — อยู่ด้านหลังการ์ดข้อความ (decorative) */}
+      {/* MOBILE HOST — ด้านขวา ไม่ทับการ์ดข้อความ คมชัด ไม่ลดคอนทราสต์ */}
       <motion.img
-        initial={{ opacity: 0, x: 60, scale: 0.85 }}
-        animate={{ opacity: 0.65, x: 0, scale: 1 }}
+        initial={{ opacity: 0, x: 40, scale: 0.92 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
         transition={{ delay: 0.3, duration: 0.9 }}
         src={welcomeHost}
         alt="Goodfill Care wellness host"
-        className="lg:hidden fixed -right-[20%] bottom-0 h-[65vh] max-h-[550px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] z-[5]"
+        decoding="async"
+        className="lg:hidden fixed right-0 bottom-0 h-[58vh] max-h-[520px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
       />
-
-      {/* Soft vignette — อยู่ใต้ host แต่เหนือพื้นหลัง */}
-      <div className="lg:hidden pointer-events-none absolute inset-y-0 right-0 w-2/5 bg-gradient-to-l from-emerald-deep/50 via-emerald-deep/20 to-transparent z-[4]" />
 
       {/* MODAL POPUPS — same as before */}
       <AnimatePresence>
