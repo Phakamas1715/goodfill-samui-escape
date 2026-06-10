@@ -18,6 +18,10 @@ import {
   Menu,
   Map as MapIcon,
   Users,
+  QrCode,
+  Gem,
+  Coins,
+  UserCircle2,
 } from "lucide-react";
 import { Nav } from "@/components/Nav";
 import { images, personas, pick } from "@/lib/data";
