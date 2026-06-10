@@ -192,7 +192,7 @@ function Landing() {
             {/* Kicker only — โลโก้หลักอยู่ที่ Nav แล้ว */}
             <div className="flex items-center gap-3">
               <span className="h-px w-8 bg-gold/70" />
-              <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-gold-soft font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
+              <span className="whitespace-nowrap text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-gold-soft font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
                 {t("hero.kicker")}
               </span>
             </div>
@@ -361,7 +361,7 @@ function Landing() {
         src={welcomeHost}
         alt="Goodfill Care wellness host"
         decoding="async"
-        className="lg:hidden fixed -right-6 bottom-14 h-[46vh] max-h-[400px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[80]"
+        className="lg:hidden fixed -right-12 bottom-14 h-[38vh] max-h-[320px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[40]"
       />
 
       {/* MODAL POPUPS — same as before */}
