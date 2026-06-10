@@ -221,7 +221,7 @@ function Landing() {
               </div>
               <p className="text-[13.5px] text-navy/75 leading-snug mt-0.5">
                 สวัสดีค่ะ — ตอบ 8 ข้อ เราจะจับคู่โปรแกรมที่เหมาะกับคุณ พร้อมรับ{" "}
-                <span className="font-semibold text-gold-deep">+300 Calm Credits</span>
+                <span className="font-semibold text-emerald-deep">+300 Calm Credits</span>
               </p>
             </div>
           </div>
@@ -266,7 +266,7 @@ function Landing() {
                   title: "Energy Reset",
                   desc: "เติมพลังลึก คืนความสดใส",
                   tone: "from-gold/15 to-coral/10",
-                  iconTone: "bg-gold/15 text-gold-deep",
+                  iconTone: "bg-gold/15 text-emerald-deep",
                 },
                 {
                   icon: Leaf,
