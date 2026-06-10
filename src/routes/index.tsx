@@ -190,23 +190,12 @@ function Landing() {
             transition={{ duration: 0.9 }}
             className="relative z-10 min-w-0 max-w-[64%] sm:max-w-[60%] md:max-w-[55%] lg:max-w-none"
           >
-            {/* ปรับโลโก้: เพิ่ม contrast และลดขนาด */}
+            {/* Kicker only — โลโก้หลักอยู่ที่ Nav แล้ว */}
             <div className="flex items-center gap-3">
-              <div className="bg-white/95 backdrop-blur-sm rounded-xl p-2 shadow-lg ring-1 ring-gold/30">
-                <img
-                  src={logo}
-                  alt="Goodfill Care"
-                  className="h-12 md:h-16 w-auto object-contain"
-                />
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-display text-xl md:text-3xl text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] tracking-tight font-bold">
-                  Goodfill <span className="text-gold italic">Care</span>
-                </span>
-                <span className="text-[9px] md:text-[10px] tracking-[0.35em] uppercase text-gold-soft/90 mt-1 font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
-                  {t("hero.kicker")}
-                </span>
-              </div>
+              <span className="h-px w-8 bg-gold/70" />
+              <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-gold-soft font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
+                {t("hero.kicker")}
+              </span>
             </div>
 
             {/* Editorial kicker rule */}
