@@ -19,7 +19,7 @@ export const Route = createFileRoute("/expert")({
   ssr: false,
   beforeLoad: async () => {
     const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) throw redirect({ to: "/auth" });
+    if (error || !data.user) throw redirect({ to: "/login" });
     const roles = await getMyRoles();
     if (!roles.includes("expert") && !roles.includes("admin")) {
       throw redirect({ to: "/" });

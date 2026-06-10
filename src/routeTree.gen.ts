@@ -9,9 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ReportRouteImport } from './routes/report'
 import { Route as QuestRouteImport } from './routes/quest'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PersonaRouteImport } from './routes/persona'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PartnerRouteImport } from './routes/partner'
@@ -44,6 +46,11 @@ import { Route as ApiPublicTelegramWebhookRouteImport } from './routes/api/publi
 import { Route as ApiPublicLinePartnerWebhookRouteImport } from './routes/api/public/line.partner-webhook'
 import { Route as ApiPublicLineCustomerWebhookRouteImport } from './routes/api/public/line.customer-webhook'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -57,6 +64,11 @@ const ReportRoute = ReportRouteImport.update({
 const QuestRoute = QuestRouteImport.update({
   id: '/quest',
   path: '/quest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PersonaRoute = PersonaRouteImport.update({
@@ -235,9 +247,11 @@ export interface FileRoutesByFullPath {
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
+  '/privacy': typeof PrivacyRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/login/customer': typeof LoginCustomerRoute
   '/login/partner': typeof LoginPartnerRoute
@@ -270,9 +284,11 @@ export interface FileRoutesByTo {
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
+  '/privacy': typeof PrivacyRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/login/customer': typeof LoginCustomerRoute
   '/login/partner': typeof LoginPartnerRoute
   '/meals/$id': typeof MealsIdRoute
@@ -306,9 +322,11 @@ export interface FileRoutesById {
   '/partner': typeof PartnerRoute
   '/partners': typeof PartnersRoute
   '/persona': typeof PersonaRoute
+  '/privacy': typeof PrivacyRoute
   '/quest': typeof QuestRoute
   '/report': typeof ReportRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/login/customer': typeof LoginCustomerRoute
   '/login/partner': typeof LoginPartnerRoute
@@ -343,9 +361,11 @@ export interface FileRouteTypes {
     | '/partner'
     | '/partners'
     | '/persona'
+    | '/privacy'
     | '/quest'
     | '/report'
     | '/sitemap.xml'
+    | '/terms'
     | '/admin'
     | '/login/customer'
     | '/login/partner'
@@ -378,9 +398,11 @@ export interface FileRouteTypes {
     | '/partner'
     | '/partners'
     | '/persona'
+    | '/privacy'
     | '/quest'
     | '/report'
     | '/sitemap.xml'
+    | '/terms'
     | '/login/customer'
     | '/login/partner'
     | '/meals/$id'
@@ -413,9 +435,11 @@ export interface FileRouteTypes {
     | '/partner'
     | '/partners'
     | '/persona'
+    | '/privacy'
     | '/quest'
     | '/report'
     | '/sitemap.xml'
+    | '/terms'
     | '/_authenticated/admin'
     | '/login/customer'
     | '/login/partner'
@@ -450,9 +474,11 @@ export interface RootRouteChildren {
   PartnerRoute: typeof PartnerRoute
   PartnersRoute: typeof PartnersRoute
   PersonaRoute: typeof PersonaRoute
+  PrivacyRoute: typeof PrivacyRoute
   QuestRoute: typeof QuestRoute
   ReportRoute: typeof ReportRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
   MealsIdRoute: typeof MealsIdRoute
   ProgramsIdRoute: typeof ProgramsIdRoute
   ProgramsIndexRoute: typeof ProgramsIndexRoute
@@ -465,6 +491,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -484,6 +517,13 @@ declare module '@tanstack/react-router' {
       path: '/quest'
       fullPath: '/quest'
       preLoaderRoute: typeof QuestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/persona': {
@@ -766,9 +806,11 @@ const rootRouteChildren: RootRouteChildren = {
   PartnerRoute: PartnerRoute,
   PartnersRoute: PartnersRoute,
   PersonaRoute: PersonaRoute,
+  PrivacyRoute: PrivacyRoute,
   QuestRoute: QuestRoute,
   ReportRoute: ReportRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
   MealsIdRoute: MealsIdRoute,
   ProgramsIdRoute: ProgramsIdRoute,
   ProgramsIndexRoute: ProgramsIndexRoute,
