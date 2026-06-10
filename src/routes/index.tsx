@@ -179,8 +179,141 @@ function Landing() {
 
       <Nav />
 
-      {/* MAIN CONTENT */}
-      <main className="absolute inset-0 pt-32 md:pt-32 pb-24 md:pb-10 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]">
+      {/* ===== MOBILE — App-style surface (hidden ≥lg) ===== */}
+      <main className="lg:hidden absolute inset-0 pt-[92px] pb-20 flex flex-col z-[60]">
+        {/* Hero copy floats over photo */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="px-5 pb-3"
+        >
+          <div className="flex items-center gap-2">
+            <span className="h-px w-6 bg-gold/80" />
+            <span className="text-[10px] tracking-[0.32em] uppercase text-gold-soft font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.45)]">
+              {t("hero.kicker")}
+            </span>
+          </div>
+          <h1 className="font-display text-[1.5rem] leading-[1.18] mt-2 text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)]">
+            {t("hero.title1")}{" "}
+            <em className="italic text-gold font-normal">{t("hero.title2")}</em>{" "}
+            <span>{t("hero.title3")}</span>
+          </h1>
+        </motion.div>
+
+        {/* App content sheet */}
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="flex-1 min-h-0 bg-ivory text-navy rounded-t-[2rem] px-5 pt-5 pb-6 overflow-y-auto shadow-[0_-18px_50px_rgba(0,0,0,0.35)] ring-1 ring-white/40"
+        >
+          {/* Greeting row with mini host */}
+          <div className="flex items-start gap-3">
+            <img
+              src={welcomeHost}
+              alt=""
+              className="size-12 rounded-full object-cover ring-2 ring-gold/40 shadow-md shrink-0"
+            />
+            <div className="min-w-0">
+              <div className="text-[11px] tracking-[0.22em] uppercase text-emerald/75 font-semibold">
+                Wellness Concierge
+              </div>
+              <p className="text-[13.5px] text-navy/75 leading-snug mt-0.5">
+                สวัสดีค่ะ — ตอบ 8 ข้อ เราจะจับคู่โปรแกรมที่เหมาะกับคุณ พร้อมรับ{" "}
+                <span className="font-semibold text-emerald-deep">+300 Calm Credits</span>
+              </p>
+            </div>
+          </div>
+
+          {/* Primary CTA — big tap target, high contrast */}
+          <Link
+            to="/quest"
+            className="mt-5 w-full btn-gold rounded-2xl py-4 inline-flex items-center justify-center gap-2 text-[15px] font-bold tracking-wide shadow-[0_14px_30px_-10px_rgba(201,168,76,0.7)] ring-1 ring-gold/50 active:scale-[0.98] transition"
+          >
+            <Sparkles size={16} />
+            <span>{t("hero.ctaStart")}</span>
+            <ArrowRight size={16} />
+          </Link>
+
+          {/* Trust row */}
+          <div className="mt-2.5 flex items-center justify-between text-[11px] text-navy/55 font-medium px-1">
+            <span>~8 นาที · ตอบโดยไม่ต้องพิมพ์</span>
+            <span className="inline-flex items-center gap-1.5 text-emerald/80">
+              <ShieldCheck size={12} /> ปลอดภัย
+            </span>
+          </div>
+
+          {/* Value cards */}
+          <div className="mt-6">
+            <div className="flex items-center justify-between">
+              <div className="text-[10px] tracking-[0.3em] uppercase text-emerald/75 font-bold">
+                ค้นพบเส้นทางของคุณ
+              </div>
+              <span className="text-[10px] text-navy/45 tracking-wider">6 Personas</span>
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2.5">
+              {[
+                {
+                  icon: MoonStar,
+                  title: "Sleep Recovery",
+                  desc: "ฟื้นการนอน ลดความเครียด",
+                  tone: "from-sea/15 to-emerald/10",
+                  iconTone: "bg-sea/15 text-sea",
+                },
+                {
+                  icon: Sparkles,
+                  title: "Energy Reset",
+                  desc: "เติมพลังลึก คืนความสดใส",
+                  tone: "from-gold/15 to-coral/10",
+                  iconTone: "bg-gold/15 text-emerald-deep",
+                },
+                {
+                  icon: Leaf,
+                  title: "Detox & Calm",
+                  desc: "ล้างพิษ สงบใจ",
+                  tone: "from-mint/25 to-pale-mint/30",
+                  iconTone: "bg-mint/30 text-emerald",
+                },
+                {
+                  icon: HeartPulse,
+                  title: "Mindful Glow",
+                  desc: "สมดุลกาย-ใจ",
+                  tone: "from-coral/15 to-gold/10",
+                  iconTone: "bg-coral/15 text-coral",
+                },
+              ].map((c) => (
+                <div
+                  key={c.title}
+                  className={`rounded-2xl p-3.5 bg-gradient-to-br ${c.tone} border border-mint/20 shadow-[0_4px_14px_-6px_rgba(12,35,64,0.15)]`}
+                >
+                  <div
+                    className={`size-9 rounded-xl ${c.iconTone} grid place-items-center shadow-sm`}
+                  >
+                    <c.icon size={17} strokeWidth={2} />
+                  </div>
+                  <div className="font-display text-[14px] mt-2.5 leading-tight text-navy">
+                    {c.title}
+                  </div>
+                  <div className="text-[11px] text-navy/65 mt-0.5 leading-snug">{c.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Secondary explore */}
+          <button
+            onClick={() => setMoreOpen(true)}
+            className="mt-5 w-full rounded-2xl bg-pale-mint/50 hover:bg-pale-mint/70 text-emerald-deep py-3 inline-flex items-center justify-center gap-2 text-[13px] font-semibold border border-mint/30 active:scale-[0.99] transition"
+          >
+            <Menu size={14} />
+            <span>สำรวจเพิ่มเติม</span>
+          </button>
+        </motion.div>
+      </main>
+
+      {/* ===== DESKTOP — Editorial poster (≥lg) ===== */}
+      <main className="hidden lg:flex absolute inset-0 pt-32 pb-10 px-10 flex-col overflow-y-auto z-[60]">
         <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-start lg:items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] lg:pb-[50px] lg:pr-[50px] lg:mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
@@ -346,17 +479,6 @@ function Landing() {
           </motion.div>
         </div>
       </main>
-
-      {/* MOBILE HOST — มุมขวาล่าง คมชัด แยกจากการ์ดข้อความชัดเจน */}
-      <motion.img
-        initial={{ opacity: 0, x: 40, scale: 0.92 }}
-        animate={{ opacity: 1, x: 0, scale: 1 }}
-        transition={{ delay: 0.3, duration: 0.9 }}
-        src={welcomeHost}
-        alt="Goodfill Care wellness host"
-        decoding="async"
-        className="lg:hidden fixed -right-4 bottom-16 h-[44vh] max-h-[380px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
-      />
 
       {/* MODAL POPUPS — same as before */}
       <AnimatePresence>
