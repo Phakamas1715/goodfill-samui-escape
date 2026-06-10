@@ -156,7 +156,7 @@ export function DashShell({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className={`font-display ${compact ? "text-xl md:text-3xl lg:text-4xl" : "text-2xl md:text-4xl lg:text-5xl"} text-ivory leading-[1.1] mt-1.5 tracking-tight drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)]`}
+                className={`font-display ${compact ? "text-xl md:text-3xl lg:text-4xl" : "text-2xl md:text-4xl lg:text-5xl"} text-ivory leading-[1.15] mt-1.5 tracking-tight drop-shadow-[0_2px_18px_rgba(0,0,0,0.55)] break-words [overflow-wrap:anywhere]`}
               >
                 {title}
               </motion.h1>
