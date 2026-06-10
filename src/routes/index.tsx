@@ -179,15 +179,18 @@ function Landing() {
 
       <Nav />
 
-      {/* MAIN CONTENT */}
-      <main className="absolute inset-0 pt-32 md:pt-32 pb-24 md:pb-10 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]">
+      {/* MAIN CONTENT — safe-area aware, no clipping behind bottom nav */}
+      <main
+        className="absolute inset-0 pt-28 md:pt-32 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]"
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 6.25rem)" }}
+      >
         <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-start lg:items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] lg:pb-[50px] lg:pr-[50px] lg:mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 min-w-0 max-w-[58%] sm:max-w-[54%] md:max-w-[52%] lg:max-w-none"
+            className="relative z-[50] min-w-0 max-w-[70%] sm:max-w-[64%] md:max-w-[58%] lg:max-w-none"
           >
             {/* Kicker only — โลโก้หลักอยู่ที่ Nav แล้ว */}
             <div className="flex items-center gap-3">
@@ -205,11 +208,12 @@ function Landing() {
               </span>
             </div>
 
-            {/* H1 — English primary, Thai supporting */}
-            <h1 className="font-display font-normal text-[1.6rem] sm:text-[2.1rem] md:text-[2.6rem] lg:text-[3.2rem] leading-[1.05] tracking-tight mt-4 md:mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] lg:max-w-[560px]">
-              Experience
-              <br />
-              <em className="italic text-gold font-normal">Koh Samui</em>{" "}
+            {/* H1 — English primary, Thai supporting. Balanced wrapping, no orphan */}
+            <h1
+              className="font-display font-normal text-[1.55rem] sm:text-[2.1rem] md:text-[2.6rem] lg:text-[3.2rem] leading-[1.08] tracking-tight mt-3 md:mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] lg:max-w-[560px]"
+              style={{ textWrap: "balance" as never }}
+            >
+              Experience <em className="italic text-gold font-normal">Koh Samui</em>
               <span className="block">designed just for you</span>
             </h1>
             <p
@@ -236,8 +240,8 @@ function Landing() {
               )}
             </div>
 
-            {/* Action cluster */}
-            <div className="mt-5 md:mt-6 flex flex-col gap-3 max-w-[18rem]">
+            {/* Action cluster — sits ABOVE the cartoon, full width on mobile */}
+            <div className="relative z-[55] mt-5 md:mt-6 flex flex-col gap-2.5 w-full max-w-[20rem]">
               <Link
                 to="/quest"
                 className="btn-gold group relative overflow-hidden rounded-xl px-4 py-2.5 inline-flex items-center justify-center gap-2 text-sm md:text-[14px] font-bold tracking-wide whitespace-nowrap shadow-[0_12px_32px_-12px_rgba(201,168,76,0.6)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
@@ -253,11 +257,12 @@ function Landing() {
                 <Menu size={14} />
                 <span>สำรวจเพิ่มเติม</span>
               </button>
-              <div className="flex items-center justify-between gap-3 text-[10px] text-white/85 font-semibold px-1 mt-1">
-                <span className="tracking-wide drop-shadow-[0_1px_3px_rgba(0,0,0,0.4)]">
-                  ~8 นาที · ตอบโดยไม่ต้องพิมพ์
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-white/90 font-semibold px-1 mt-0.5">
+                <span className="tracking-wide drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
+                  ~8 นาที · ไม่ต้องพิมพ์
                 </span>
-                <span className="inline-flex items-center gap-1.5">
+                <span className="h-3 w-px bg-white/30" />
+                <span className="inline-flex items-center gap-1.5 drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
                   <ShieldCheck size={11} className="text-mint" /> ปลอดภัย
                 </span>
               </div>
@@ -361,7 +366,8 @@ function Landing() {
         src={welcomeHost}
         alt="Goodfill Care wellness host"
         decoding="async"
-        className="lg:hidden fixed -right-12 bottom-14 h-[38vh] max-h-[320px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[40]"
+        className="lg:hidden fixed -right-16 bottom-20 h-[34vh] max-h-[300px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
+        style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 5rem)" }}
       />
 
       {/* MODAL POPUPS — same as before */}
