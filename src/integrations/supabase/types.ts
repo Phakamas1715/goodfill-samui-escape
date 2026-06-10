@@ -454,6 +454,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_my_line_user: {
+        Args: { _channel: string; _line_user_id: string }
+        Returns: boolean
+      }
       move_to_dlq: {
         Args: {
           dlq_name: string
