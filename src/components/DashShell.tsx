@@ -81,11 +81,9 @@ export function DashShell({
           />
         </AnimatePresence>
 
-        {/* Deep ocean readability wash */}
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-deep/55 via-emerald-deep/45 to-emerald-deep/70" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-sea/35 via-transparent to-emerald-deep/40 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_10%_-5%,rgba(244,166,74,0.22),transparent_65%),radial-gradient(ellipse_50%_40%_at_95%_100%,rgba(30,136,168,0.35),transparent_65%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+        {/* Readability wash — เบาลง ไม่ทำให้ภาพมืดมัว */}
+        <div className="absolute inset-0 bg-gradient-to-b from-emerald-deep/30 via-emerald-deep/20 to-emerald-deep/45" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_10%_-5%,rgba(244,166,74,0.12),transparent_65%),radial-gradient(ellipse_50%_40%_at_95%_100%,rgba(30,136,168,0.18),transparent_65%)] pointer-events-none" />
 
         {/* Tropical leaf silhouettes — subtle corner accents */}
         <svg
