@@ -1,6 +1,16 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { DashShell, DashCard } from "@/components/DashShell";
-import { CheckCircle2, AlertCircle, Clock, FileQuestion, X, Sparkles, User, Calendar, ClipboardList } from "lucide-react";
+import {
+  CheckCircle2,
+  AlertCircle,
+  Clock,
+  FileQuestion,
+  X,
+  Sparkles,
+  User,
+  Calendar,
+  ClipboardList,
+} from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -13,17 +23,48 @@ export const Route = createFileRoute("/expert")({
   head: () => ({
     meta: [
       { title: "Expert Review Board — Goodfill Care" },
-      { name: "description", content: "บอร์ดรีวิวสำหรับผู้เชี่ยวชาญ — ตรวจสอบ meal plan, activity plan และอนุมัติเคส" },
+      {
+        name: "description",
+        content: "บอร์ดรีวิวสำหรับผู้เชี่ยวชาญ — ตรวจสอบ meal plan, activity plan และอนุมัติเคส",
+      },
     ],
   }),
   component: ExpertPage,
 });
 
 const cases = [
-  { id: "GF-2025-0091", name: "คุณนภัทร ส.", persona: "Sleep Seeker", program: "Mindful Balance · 5D4N", status: "pending", time: "วันนี้ 09:12" },
-  { id: "GF-2025-0090", name: "คุณ Anna L.", persona: "Detox Reset", program: "Full Transformation · 7D6N", status: "review", time: "เมื่อ 24 นาที" },
-  { id: "GF-2025-0089", name: "คุณวีระ จ.", persona: "Energy Rebuilder", program: "The Samui Reset · 3D2N", status: "approved", time: "เมื่อ 2 ชม." },
-  { id: "GF-2025-0088", name: "คุณ Mei C.", persona: "Mindful Glow", program: "Mindful Balance · 5D4N", status: "adjust", time: "เมื่อ 4 ชม." },
+  {
+    id: "GF-2025-0091",
+    name: "คุณนภัทร ส.",
+    persona: "Sleep Seeker",
+    program: "Mindful Balance · 5D4N",
+    status: "pending",
+    time: "วันนี้ 09:12",
+  },
+  {
+    id: "GF-2025-0090",
+    name: "คุณ Anna L.",
+    persona: "Detox Reset",
+    program: "Full Transformation · 7D6N",
+    status: "review",
+    time: "เมื่อ 24 นาที",
+  },
+  {
+    id: "GF-2025-0089",
+    name: "คุณวีระ จ.",
+    persona: "Energy Rebuilder",
+    program: "The Samui Reset · 3D2N",
+    status: "approved",
+    time: "เมื่อ 2 ชม.",
+  },
+  {
+    id: "GF-2025-0088",
+    name: "คุณ Mei C.",
+    persona: "Mindful Glow",
+    program: "Mindful Balance · 5D4N",
+    status: "adjust",
+    time: "เมื่อ 4 ชม.",
+  },
 ];
 
 const statusMap: Record<string, { label: string; tone: string; icon: typeof Clock }> = {
@@ -35,12 +76,12 @@ const statusMap: Record<string, { label: string; tone: string; icon: typeof Cloc
 
 function ExpertPage() {
   const [active, setActive] = useState(cases[0]);
-  
+
   return (
-    <DashShell 
-      bg="food" 
-      kicker="Expert Review Board" 
-      title="บอร์ดรีวิวผู้เชี่ยวชาญ" 
+    <DashShell
+      bg="food"
+      kicker="Expert Review Board"
+      title="บอร์ดรีวิวผู้เชี่ยวชาญ"
       subtitle="ตรวจ meal plan · activity plan · อนุมัติเคส"
     >
       <div className="grid lg:grid-cols-[340px,1fr] gap-4 md:gap-5">
@@ -56,7 +97,7 @@ function ExpertPage() {
               </div>
             </div>
           </div>
-          
+
           <ul className="divide-y divide-mint/20 max-h-[60vh] overflow-y-auto">
             {cases.map((c) => {
               const s = statusMap[c.status];
@@ -66,8 +107,8 @@ function ExpertPage() {
                   <button
                     onClick={() => setActive(c)}
                     className={`w-full text-left p-4 transition-all duration-200 ${
-                      isActive 
-                        ? "bg-pale-mint/60 ring-2 ring-emerald/40 shadow-md" 
+                      isActive
+                        ? "bg-pale-mint/60 ring-2 ring-emerald/40 shadow-md"
                         : "hover:bg-cream/40 hover:shadow-sm"
                     }`}
                   >
@@ -75,26 +116,28 @@ function ExpertPage() {
                       <span className="text-[11px] md:text-xs font-mono text-muted-foreground bg-white/50 px-2 py-0.5 rounded">
                         {c.id}
                       </span>
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${s.tone}`}>
+                      <span
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${s.tone}`}
+                      >
                         <s.icon size={10} />
                         {s.label}
                       </span>
                     </div>
-                    
+
                     <div className="font-semibold text-navy text-base md:text-lg mb-1">
                       {c.name}
                     </div>
-                    
+
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-[11px] md:text-xs text-emerald font-medium bg-emerald/10 px-2 py-0.5 rounded-full">
                         {c.persona}
                       </span>
                     </div>
-                    
+
                     <div className="text-[11px] md:text-xs text-muted-foreground truncate">
                       {c.program}
                     </div>
-                    
+
                     <div className="text-[10px] text-muted-foreground mt-2 flex items-center gap-1">
                       <Clock size={10} /> {c.time}
                     </div>
@@ -125,7 +168,9 @@ function ExpertPage() {
                 </span>
               </div>
             </div>
-            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs md:text-sm font-semibold ${statusMap[active.status].tone}`}>
+            <span
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs md:text-sm font-semibold ${statusMap[active.status].tone}`}
+            >
               {(() => {
                 const Icon = statusMap[active.status].icon;
                 return Icon ? <Icon size={14} /> : null;
@@ -142,7 +187,7 @@ function ExpertPage() {
               <Row label="🌙 เย็น (Dinner)" val="Mushroom broth, brown rice" />
               <Row label="🔥 kcal/day" val="~1,650" highlight />
             </Panel>
-            
+
             <Panel title="🧘 Activity Plan · กิจกรรม">
               <Row label="🌅 เช้า" val="Sunrise yoga 60'" />
               <Row label="💆 สาย" val="Lymphatic massage 60'" />
@@ -179,7 +224,7 @@ function ExpertPage() {
               <X size={16} /> ไม่แนะนำ
             </button>
           </div>
-          
+
           {/* Quick Stats */}
           <div className="mt-5 grid grid-cols-3 gap-3 pt-4 border-t border-mint/30">
             <div className="text-center">
@@ -216,7 +261,9 @@ function Row({ label, val, highlight }: { label: string; val: string; highlight?
   return (
     <li className="flex justify-between gap-3 py-1.5 border-b border-mint/20 last:border-0">
       <span className="text-xs md:text-sm text-muted-foreground font-medium">{label}</span>
-      <span className={`text-xs md:text-sm text-right ${highlight ? "text-gold font-semibold" : "text-navy/80"}`}>
+      <span
+        className={`text-xs md:text-sm text-right ${highlight ? "text-gold font-semibold" : "text-navy/80"}`}
+      >
         {val}
       </span>
     </li>

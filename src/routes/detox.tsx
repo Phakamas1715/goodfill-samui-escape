@@ -163,9 +163,9 @@ function DetoxGuide() {
           <em className="text-gold italic font-normal">การล้างพิษแบบองค์รวม</em>
         </h1>
         <p className="mt-6 text-base md:text-lg lg:text-xl leading-relaxed max-w-3xl text-navy/80">
-          คู่มือฉบับครบสำหรับผู้ที่กำลังมองหาโปรแกรม detox cleanse Thailand — ตั้งแต่ juice cleanse 3 วัน, digital detox
-          retreat, ไปจนถึง liver & gut reset แบบ functional medicine ที่ Goodfill Care
-          ดูแลร่วมกับวิลล่าและสปาพาร์ทเนอร์บนเกาะสมุย
+          คู่มือฉบับครบสำหรับผู้ที่กำลังมองหาโปรแกรม detox cleanse Thailand — ตั้งแต่ juice cleanse
+          3 วัน, digital detox retreat, ไปจนถึง liver & gut reset แบบ functional medicine ที่
+          Goodfill Care ดูแลร่วมกับวิลล่าและสปาพาร์ทเนอร์บนเกาะสมุย
         </p>
 
         {/* Quick Stats */}
@@ -203,7 +203,9 @@ function DetoxGuide() {
       {/* Modalities Section — larger cards */}
       <section className="px-5 md:px-10 pb-20 max-w-6xl mx-auto">
         <div className="text-center mb-10">
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-navy">6 Detox Modalities</h2>
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-navy">
+            6 Detox Modalities
+          </h2>
           <p className="text-base md:text-lg text-navy/70 mt-3 max-w-2xl mx-auto">
             เลือกโปรแกรมที่เหมาะกับเป้าหมายของคุณ — ตั้งแต่เริ่มต้นเบาๆ ไปจนถึงการฟื้นฟูแบบองค์รวม
           </p>
@@ -238,7 +240,9 @@ function DetoxGuide() {
       {/* Who is this for — larger */}
       <section className="px-5 md:px-10 pb-20 max-w-4xl mx-auto">
         <div className="bg-gradient-to-r from-emerald-deep/5 to-transparent rounded-3xl p-6 md:p-8">
-          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-navy mb-6">ใครเหมาะกับ Detox Retreat?</h2>
+          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-navy mb-6">
+            ใครเหมาะกับ Detox Retreat?
+          </h2>
           <ul className="space-y-3 text-base md:text-lg text-navy/80 leading-relaxed">
             <li className="flex items-start gap-3">
               <CheckCircle2 size={20} className="text-emerald shrink-0 mt-0.5" />
@@ -254,7 +258,9 @@ function DetoxGuide() {
             </li>
             <li className="flex items-start gap-3">
               <CheckCircle2 size={20} className="text-emerald shrink-0 mt-0.5" />
-              <span>ผู้บริหาร / ครีเอเตอร์ที่ใช้หน้าจอ &gt;10 ชั่วโมง/วัน — เหมาะกับ digital detox</span>
+              <span>
+                ผู้บริหาร / ครีเอเตอร์ที่ใช้หน้าจอ &gt;10 ชั่วโมง/วัน — เหมาะกับ digital detox
+              </span>
             </li>
           </ul>
         </div>
@@ -262,7 +268,9 @@ function DetoxGuide() {
 
       {/* FAQ Section — new */}
       <section className="px-5 md:px-10 pb-20 max-w-4xl mx-auto">
-        <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-navy text-center mb-10">คำถามที่พบบ่อย</h2>
+        <h2 className="font-display text-2xl md:text-3xl lg:text-4xl text-navy text-center mb-10">
+          คำถามที่พบบ่อย
+        </h2>
         <div className="space-y-4">
           {faqs.map((faq, idx) => (
             <div
@@ -279,7 +287,9 @@ function DetoxGuide() {
       {/* CTA Section — larger */}
       <section className="px-5 md:px-10 pb-24 max-w-4xl mx-auto text-center">
         <div className="bg-gradient-to-br from-emerald-deep to-emerald rounded-3xl p-8 md:p-12 text-white shadow-xl">
-          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl">เริ่ม Detox Journey ของคุณ</h2>
+          <h2 className="font-display text-2xl md:text-3xl lg:text-4xl">
+            เริ่ม Detox Journey ของคุณ
+          </h2>
           <p className="mt-3 text-base md:text-lg text-white/90 max-w-md mx-auto">
             ทำแบบประเมิน 8 ข้อเพื่อให้เราจัดโปรแกรม detox ที่เหมาะกับร่างกายและจังหวะชีวิตคุณ
           </p>
@@ -301,7 +311,8 @@ function DetoxGuide() {
 
         {/* Footer note */}
         <p className="mt-6 text-xs md:text-sm text-muted-foreground">
-          โปรแกรม Detox ทั้งหมดอยู่ภายใต้การดูแลของผู้เชี่ยวชาญด้านสุขภาพและโภชนาการของ Goodfill Care
+          โปรแกรม Detox ทั้งหมดอยู่ภายใต้การดูแลของผู้เชี่ยวชาญด้านสุขภาพและโภชนาการของ Goodfill
+          Care
         </p>
       </section>
     </div>

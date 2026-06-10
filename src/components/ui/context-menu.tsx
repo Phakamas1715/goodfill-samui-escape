@@ -8,12 +8,16 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface ContextMenuSubTriggerProps extends React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubTrigger> {
+interface ContextMenuSubTriggerProps extends React.ComponentPropsWithoutRef<
+  typeof ContextMenuPrimitive.SubTrigger
+> {
   inset?: boolean;
   variant?: "default" | "gold" | "emerald";
 }
 
-interface ContextMenuItemProps extends React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item> {
+interface ContextMenuItemProps extends React.ComponentPropsWithoutRef<
+  typeof ContextMenuPrimitive.Item
+> {
   inset?: boolean;
   variant?: "default" | "gold" | "emerald";
   icon?: React.ReactNode;
@@ -136,29 +140,30 @@ const ContextMenuContent = React.forwardRef<
 ));
 ContextMenuContent.displayName = ContextMenuPrimitive.Content.displayName;
 
-const ContextMenuItem = React.forwardRef<React.ElementRef<typeof ContextMenuPrimitive.Item>, ContextMenuItemProps>(
-  ({ className, inset, variant = "default", icon, children, ...props }, ref) => {
-    const variantStyle = VARIANT_STYLES[variant];
+const ContextMenuItem = React.forwardRef<
+  React.ElementRef<typeof ContextMenuPrimitive.Item>,
+  ContextMenuItemProps
+>(({ className, inset, variant = "default", icon, children, ...props }, ref) => {
+  const variantStyle = VARIANT_STYLES[variant];
 
-    return (
-      <ContextMenuPrimitive.Item
-        ref={ref}
-        className={cn(
-          "relative flex cursor-default select-none items-center rounded-md px-3 py-2 text-sm outline-none transition-colors",
-          "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-          variantStyle.item,
-          variantStyle.text,
-          inset && "pl-8",
-          className,
-        )}
-        {...props}
-      >
-        {icon && <span className={cn("mr-2 shrink-0", variantStyle.accent)}>{icon}</span>}
-        {children}
-      </ContextMenuPrimitive.Item>
-    );
-  },
-);
+  return (
+    <ContextMenuPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-md px-3 py-2 text-sm outline-none transition-colors",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        variantStyle.item,
+        variantStyle.text,
+        inset && "pl-8",
+        className,
+      )}
+      {...props}
+    >
+      {icon && <span className={cn("mr-2 shrink-0", variantStyle.accent)}>{icon}</span>}
+      {children}
+    </ContextMenuPrimitive.Item>
+  );
+});
 ContextMenuItem.displayName = ContextMenuPrimitive.Item.displayName;
 
 const ContextMenuCheckboxItem = React.forwardRef<
@@ -234,13 +239,20 @@ const ContextMenuSeparator = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Separator>
 >(({ className, ...props }, ref) => (
-  <ContextMenuPrimitive.Separator ref={ref} className={cn("-mx-1 my-1 h-px bg-mint/30", className)} {...props} />
+  <ContextMenuPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-mint/30", className)}
+    {...props}
+  />
 ));
 ContextMenuSeparator.displayName = ContextMenuPrimitive.Separator.displayName;
 
 const ContextMenuShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
-    <span className={cn("ml-auto text-xs tracking-widest text-muted-foreground font-mono", className)} {...props} />
+    <span
+      className={cn("ml-auto text-xs tracking-widest text-muted-foreground font-mono", className)}
+      {...props}
+    />
   );
 };
 ContextMenuShortcut.displayName = "ContextMenuShortcut";
@@ -252,7 +264,9 @@ ContextMenuShortcut.displayName = "ContextMenuShortcut";
 /**
  * Context menu with gold variant for premium sections
  */
-const GoldContextMenu = (props: React.ComponentProps<typeof ContextMenuPrimitive.Root>) => <ContextMenu {...props} />;
+const GoldContextMenu = (props: React.ComponentProps<typeof ContextMenuPrimitive.Root>) => (
+  <ContextMenu {...props} />
+);
 
 /**
  * Context menu item with destructive style
@@ -261,7 +275,11 @@ const ContextMenuDestructiveItem = React.forwardRef<
   React.ElementRef<typeof ContextMenuPrimitive.Item>,
   ContextMenuItemProps
 >(({ className, ...props }, ref) => (
-  <ContextMenuItem ref={ref} className={cn("focus:bg-coral/10 focus:text-coral text-coral", className)} {...props} />
+  <ContextMenuItem
+    ref={ref}
+    className={cn("focus:bg-coral/10 focus:text-coral text-coral", className)}
+    {...props}
+  />
 ));
 ContextMenuDestructiveItem.displayName = "ContextMenuDestructiveItem";
 

@@ -10,7 +10,9 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface CollapsibleProps extends React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Root> {
+interface CollapsibleProps extends React.ComponentPropsWithoutRef<
+  typeof CollapsiblePrimitive.Root
+> {
   variant?: "default" | "gold" | "emerald";
   size?: "sm" | "default" | "lg";
 }
@@ -63,22 +65,27 @@ const SIZE_STYLES = {
 // Components
 // ============================================================================
 
-const Collapsible = React.forwardRef<React.ElementRef<typeof CollapsiblePrimitive.Root>, CollapsibleProps>(
-  ({ className, variant = "default", size = "default", children, ...props }, ref) => {
-    const variantStyle = VARIANT_STYLES[variant];
-    const sizeStyle = SIZE_STYLES[size];
+const Collapsible = React.forwardRef<
+  React.ElementRef<typeof CollapsiblePrimitive.Root>,
+  CollapsibleProps
+>(({ className, variant = "default", size = "default", children, ...props }, ref) => {
+  const variantStyle = VARIANT_STYLES[variant];
+  const sizeStyle = SIZE_STYLES[size];
 
-    return (
-      <CollapsiblePrimitive.Root
-        ref={ref}
-        className={cn("w-full rounded-xl border transition-all duration-200", variantStyle.content, className)}
-        {...props}
-      >
-        {children}
-      </CollapsiblePrimitive.Root>
-    );
-  },
-);
+  return (
+    <CollapsiblePrimitive.Root
+      ref={ref}
+      className={cn(
+        "w-full rounded-xl border transition-all duration-200",
+        variantStyle.content,
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </CollapsiblePrimitive.Root>
+  );
+});
 Collapsible.displayName = CollapsiblePrimitive.Root.displayName;
 
 const CollapsibleTrigger = React.forwardRef<
@@ -176,7 +183,9 @@ function CollapsibleSection({
           {icon && <div className="shrink-0 text-gold">{icon}</div>}
           <div className="flex-1 text-left">
             <div className="font-semibold">{title}</div>
-            {description && <div className="text-xs text-muted-foreground mt-0.5">{description}</div>}
+            {description && (
+              <div className="text-xs text-muted-foreground mt-0.5">{description}</div>
+            )}
           </div>
         </div>
       </CollapsibleTrigger>
@@ -262,4 +271,10 @@ function CollapsibleGroup({
 // Default Export
 // ============================================================================
 
-export { Collapsible, CollapsibleTrigger, CollapsibleContent, CollapsibleSection, CollapsibleGroup };
+export {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+  CollapsibleSection,
+  CollapsibleGroup,
+};

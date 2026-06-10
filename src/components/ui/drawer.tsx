@@ -82,8 +82,22 @@ const DrawerOverlay = React.forwardRef<
 ));
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
-const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Content>, DrawerContentProps>(
-  ({ className, children, variant = "default", size = "default", showClose = true, onClose, ...props }, ref) => {
+const DrawerContent = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Content>,
+  DrawerContentProps
+>(
+  (
+    {
+      className,
+      children,
+      variant = "default",
+      size = "default",
+      showClose = true,
+      onClose,
+      ...props
+    },
+    ref,
+  ) => {
     const variantStyle = VARIANT_STYLES[variant];
     const sizeStyle = SIZE_STYLES[size as keyof typeof SIZE_STYLES];
 
@@ -143,7 +157,10 @@ const DrawerTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Title
     ref={ref}
-    className={cn("font-display text-xl font-semibold leading-tight tracking-tight text-navy", className)}
+    className={cn(
+      "font-display text-xl font-semibold leading-tight tracking-tight text-navy",
+      className,
+    )}
     {...props}
   />
 ));
@@ -184,32 +201,36 @@ interface DrawerWithIconProps extends DrawerContentProps {
   description?: string;
 }
 
-const DrawerWithIcon = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Content>, DrawerWithIconProps>(
-  ({ icon, title, description, children, ...props }, ref) => (
-    <DrawerContent ref={ref} {...props}>
-      <DrawerHeader>
-        <div className="flex items-center gap-3">
-          {icon && (
-            <div className="flex size-10 items-center justify-center rounded-full bg-gold/10 text-gold">{icon}</div>
-          )}
-          <DrawerTitle>{title}</DrawerTitle>
-        </div>
-        {description && <DrawerDescription>{description}</DrawerDescription>}
-      </DrawerHeader>
-      {children}
-    </DrawerContent>
-  ),
-);
+const DrawerWithIcon = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Content>,
+  DrawerWithIconProps
+>(({ icon, title, description, children, ...props }, ref) => (
+  <DrawerContent ref={ref} {...props}>
+    <DrawerHeader>
+      <div className="flex items-center gap-3">
+        {icon && (
+          <div className="flex size-10 items-center justify-center rounded-full bg-gold/10 text-gold">
+            {icon}
+          </div>
+        )}
+        <DrawerTitle>{title}</DrawerTitle>
+      </div>
+      {description && <DrawerDescription>{description}</DrawerDescription>}
+    </DrawerHeader>
+    {children}
+  </DrawerContent>
+));
 DrawerWithIcon.displayName = "DrawerWithIcon";
 
 /**
  * Bottom sheet drawer for mobile
  */
-const BottomSheet = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Content>, DrawerContentProps>(
-  ({ className, ...props }, ref) => (
-    <DrawerContent ref={ref} size="full" className={cn("rounded-t-2xl", className)} {...props} />
-  ),
-);
+const BottomSheet = React.forwardRef<
+  React.ElementRef<typeof DrawerPrimitive.Content>,
+  DrawerContentProps
+>(({ className, ...props }, ref) => (
+  <DrawerContent ref={ref} size="full" className={cn("rounded-t-2xl", className)} {...props} />
+));
 BottomSheet.displayName = "BottomSheet";
 
 // ============================================================================

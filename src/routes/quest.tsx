@@ -19,7 +19,8 @@ export const Route = createFileRoute("/quest")({
       { property: "og:title", content: "Wellness Quest — ค้นพบ Persona ของคุณใน 8 ข้อ" },
       {
         property: "og:description",
-        content: "แบบประเมินสั้น ๆ เพื่อจับคู่คุณกับโปรแกรม Wellness ที่เกาะสมุยที่เหมาะกับร่างกายและจิตใจคุณที่สุด",
+        content:
+          "แบบประเมินสั้น ๆ เพื่อจับคู่คุณกับโปรแกรม Wellness ที่เกาะสมุยที่เหมาะกับร่างกายและจิตใจคุณที่สุด",
       },
       { property: "og:url", content: "https://goodfillcare-samui.com/quest" },
     ],
@@ -187,7 +188,9 @@ function Quest() {
         <div className="mt-4 flex justify-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gold/10 backdrop-blur-sm border border-gold/30">
             <span className="text-gold text-xs">✨</span>
-            <span className="text-gold-soft text-[10px] font-medium tracking-wide">+300 Calm Credits เมื่อทำเสร็จ</span>
+            <span className="text-gold-soft text-[10px] font-medium tracking-wide">
+              +300 Calm Credits เมื่อทำเสร็จ
+            </span>
           </div>
         </div>
       </div>

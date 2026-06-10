@@ -83,7 +83,8 @@ function MealsPage() {
           {pick(program.name, lang)}
         </h1>
         <p className="text-base md:text-lg text-muted-foreground mt-3 leading-relaxed">
-          {t("meals.plannedBy")} {pick(program.expert.name, lang)} — {pick(program.expert.role, lang)}
+          {t("meals.plannedBy")} {pick(program.expert.name, lang)} —{" "}
+          {pick(program.expert.role, lang)}
         </p>
 
         {/* Meal images gallery — larger */}
@@ -159,7 +160,11 @@ function MealsPage() {
             </button>
           </div>
 
-          {aiError && <p className="text-xs md:text-sm text-coral mt-4 p-3 bg-coral/10 rounded-xl">{aiError}</p>}
+          {aiError && (
+            <p className="text-xs md:text-sm text-coral mt-4 p-3 bg-coral/10 rounded-xl">
+              {aiError}
+            </p>
+          )}
 
           {aiPlan?.days?.length > 0 && (
             <div className="mt-6 space-y-4">
@@ -223,7 +228,9 @@ function MealsPage() {
 function MealRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="space-y-1">
-      <div className="text-[11px] md:text-xs tracking-[0.2em] uppercase text-gold/90 font-semibold">{label}</div>
+      <div className="text-[11px] md:text-xs tracking-[0.2em] uppercase text-gold/90 font-semibold">
+        {label}
+      </div>
       <div className="text-sm md:text-base text-ivory/95 leading-relaxed">{value || "—"}</div>
     </div>
   );

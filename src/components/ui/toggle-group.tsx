@@ -57,8 +57,21 @@ const ToggleGroupContext = React.createContext<{
 // Components
 // ============================================================================
 
-const ToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitive.Root>, ToggleGroupProps>(
-  ({ className, variant = "default", size = "default", orientation = "horizontal", children, ...props }, ref) => {
+const ToggleGroup = React.forwardRef<
+  React.ElementRef<typeof ToggleGroupPrimitive.Root>,
+  ToggleGroupProps
+>(
+  (
+    {
+      className,
+      variant = "default",
+      size = "default",
+      orientation = "horizontal",
+      children,
+      ...props
+    },
+    ref,
+  ) => {
     return (
       <ToggleGroupPrimitive.Root
         ref={ref}
@@ -69,40 +82,44 @@ const ToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitiv
         )}
         {...props}
       >
-        <ToggleGroupContext.Provider value={{ variant, size, orientation }}>{children}</ToggleGroupContext.Provider>
+        <ToggleGroupContext.Provider value={{ variant, size, orientation }}>
+          {children}
+        </ToggleGroupContext.Provider>
       </ToggleGroupPrimitive.Root>
     );
   },
 );
 ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName;
 
-const ToggleGroupItem = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitive.Item>, ToggleGroupItemProps>(
-  ({ className, children, variant, size, icon, label, ...props }, ref) => {
-    const context = React.useContext(ToggleGroupContext);
-    const variantStyle = VARIANT_STYLES[context.variant as keyof typeof VARIANT_STYLES] || VARIANT_STYLES.default;
+const ToggleGroupItem = React.forwardRef<
+  React.ElementRef<typeof ToggleGroupPrimitive.Item>,
+  ToggleGroupItemProps
+>(({ className, children, variant, size, icon, label, ...props }, ref) => {
+  const context = React.useContext(ToggleGroupContext);
+  const variantStyle =
+    VARIANT_STYLES[context.variant as keyof typeof VARIANT_STYLES] || VARIANT_STYLES.default;
 
-    return (
-      <ToggleGroupPrimitive.Item
-        ref={ref}
-        className={cn(
-          toggleVariants({
-            variant: "default",
-            size: (context.size || size) as "default" | "sm" | "lg",
-          }),
-          "transition-all duration-200",
-          "data-[state=on]:shadow-md",
-          variantStyle.item,
-          className,
-        )}
-        {...props}
-      >
-        {icon && <span className="shrink-0">{icon}</span>}
-        {label && <span>{label}</span>}
-        {!icon && !label && children}
-      </ToggleGroupPrimitive.Item>
-    );
-  },
-);
+  return (
+    <ToggleGroupPrimitive.Item
+      ref={ref}
+      className={cn(
+        toggleVariants({
+          variant: "default",
+          size: (context.size || size) as "default" | "sm" | "lg",
+        }),
+        "transition-all duration-200",
+        "data-[state=on]:shadow-md",
+        variantStyle.item,
+        className,
+      )}
+      {...props}
+    >
+      {icon && <span className="shrink-0">{icon}</span>}
+      {label && <span>{label}</span>}
+      {!icon && !label && children}
+    </ToggleGroupPrimitive.Item>
+  );
+});
 ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName;
 
 // ============================================================================
@@ -117,7 +134,9 @@ const GoldToggleGroup = (props: ToggleGroupProps) => <ToggleGroup variant="gold"
 /**
  * Emerald toggle group for wellness selections
  */
-const EmeraldToggleGroup = (props: ToggleGroupProps) => <ToggleGroup variant="emerald" {...props} />;
+const EmeraldToggleGroup = (props: ToggleGroupProps) => (
+  <ToggleGroup variant="emerald" {...props} />
+);
 
 /**
  * Toggle group with icons only
@@ -132,24 +151,25 @@ type IconToggleGroupProps = ToggleGroupProps & {
   onValueChange?: (value: string[]) => void;
 };
 
-const IconToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitive.Root>, IconToggleGroupProps>(
-  ({ items, value, onValueChange, variant, size, ...props }, ref) => {
-    return (
-      <ToggleGroup
-        ref={ref}
-        variant={variant}
-        size={size}
-        {...({ ...props, type: "multiple", value, onValueChange } as ToggleGroupProps)}
-      >
-        {items.map((item) => (
-          <ToggleGroupItem key={item.value} value={item.value} icon={item.icon}>
-            {item.label && <span className="sr-only">{item.label}</span>}
-          </ToggleGroupItem>
-        ))}
-      </ToggleGroup>
-    );
-  },
-);
+const IconToggleGroup = React.forwardRef<
+  React.ElementRef<typeof ToggleGroupPrimitive.Root>,
+  IconToggleGroupProps
+>(({ items, value, onValueChange, variant, size, ...props }, ref) => {
+  return (
+    <ToggleGroup
+      ref={ref}
+      variant={variant}
+      size={size}
+      {...({ ...props, type: "multiple", value, onValueChange } as ToggleGroupProps)}
+    >
+      {items.map((item) => (
+        <ToggleGroupItem key={item.value} value={item.value} icon={item.icon}>
+          {item.label && <span className="sr-only">{item.label}</span>}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
+  );
+});
 IconToggleGroup.displayName = "IconToggleGroup";
 
 /**
@@ -165,26 +185,34 @@ type LabelToggleGroupProps = ToggleGroupProps & {
   onValueChange?: (value: string[]) => void;
 };
 
-const LabelToggleGroup = React.forwardRef<React.ElementRef<typeof ToggleGroupPrimitive.Root>, LabelToggleGroupProps>(
-  ({ items, value, onValueChange, variant, size, ...props }, ref) => {
-    return (
-      <ToggleGroup
-        ref={ref}
-        variant={variant}
-        size={size}
-        {...({ ...props, type: "multiple", value, onValueChange } as ToggleGroupProps)}
-      >
-        {items.map((item) => (
-          <ToggleGroupItem key={item.value} value={item.value} icon={item.icon} label={item.label} />
-        ))}
-      </ToggleGroup>
-    );
-  },
-);
+const LabelToggleGroup = React.forwardRef<
+  React.ElementRef<typeof ToggleGroupPrimitive.Root>,
+  LabelToggleGroupProps
+>(({ items, value, onValueChange, variant, size, ...props }, ref) => {
+  return (
+    <ToggleGroup
+      ref={ref}
+      variant={variant}
+      size={size}
+      {...({ ...props, type: "multiple", value, onValueChange } as ToggleGroupProps)}
+    >
+      {items.map((item) => (
+        <ToggleGroupItem key={item.value} value={item.value} icon={item.icon} label={item.label} />
+      ))}
+    </ToggleGroup>
+  );
+});
 LabelToggleGroup.displayName = "LabelToggleGroup";
 
 // ============================================================================
 // Default Export
 // ============================================================================
 
-export { ToggleGroup, ToggleGroupItem, GoldToggleGroup, EmeraldToggleGroup, IconToggleGroup, LabelToggleGroup };
+export {
+  ToggleGroup,
+  ToggleGroupItem,
+  GoldToggleGroup,
+  EmeraldToggleGroup,
+  IconToggleGroup,
+  LabelToggleGroup,
+};

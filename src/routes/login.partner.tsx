@@ -121,7 +121,9 @@ function PartnerLoginPage() {
                       <feat.icon size={20} className="text-gold" />
                     </div>
                     <div className="font-semibold text-navy text-sm md:text-base">{feat.title}</div>
-                    <div className="text-[11px] md:text-xs text-muted-foreground mt-1">{feat.desc}</div>
+                    <div className="text-[11px] md:text-xs text-muted-foreground mt-1">
+                      {feat.desc}
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -146,7 +148,8 @@ function PartnerLoginPage() {
                 <div className="flex items-start gap-2 text-[11px] md:text-xs text-navy/60 text-center justify-center">
                   <ShieldCheck size={14} className="shrink-0 mt-0.5 text-gold" />
                   <span>
-                    ระบบใช้ LINE Official Account ในการยืนยันตัวตน <br className="hidden sm:inline" />
+                    ระบบใช้ LINE Official Account ในการยืนยันตัวตน{" "}
+                    <br className="hidden sm:inline" />
                     กรุณาสแกน QR หรือเปิดผ่าน Rich Menu ของ Partner OA
                   </span>
                 </div>

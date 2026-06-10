@@ -10,7 +10,9 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface TooltipContentProps extends React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content> {
+interface TooltipContentProps extends React.ComponentPropsWithoutRef<
+  typeof TooltipPrimitive.Content
+> {
   variant?: "default" | "gold" | "emerald" | "dark" | "coral";
   size?: "xs" | "sm" | "md" | "lg";
   showArrow?: boolean;
@@ -40,7 +42,8 @@ const VARIANT_STYLES = {
     arrow: "fill-gold",
   },
   emerald: {
-    container: "bg-gradient-to-r from-emerald to-emerald-deep text-ivory border border-emerald-soft/30 shadow-lg",
+    container:
+      "bg-gradient-to-r from-emerald to-emerald-deep text-ivory border border-emerald-soft/30 shadow-lg",
     arrow: "fill-emerald",
   },
   dark: {
@@ -48,7 +51,8 @@ const VARIANT_STYLES = {
     arrow: "fill-black/90",
   },
   coral: {
-    container: "bg-gradient-to-r from-coral to-coral-soft text-white border border-coral-soft/30 shadow-lg",
+    container:
+      "bg-gradient-to-r from-coral to-coral-soft text-white border border-coral-soft/30 shadow-lg",
     arrow: "fill-coral",
   },
 };
@@ -70,8 +74,22 @@ const Tooltip = TooltipPrimitive.Root;
 
 const TooltipTrigger = TooltipPrimitive.Trigger;
 
-const TooltipContent = React.forwardRef<React.ElementRef<typeof TooltipPrimitive.Content>, TooltipContentProps>(
-  ({ className, sideOffset = 4, variant = "default", size = "md", showArrow = true, children, ...props }, ref) => {
+const TooltipContent = React.forwardRef<
+  React.ElementRef<typeof TooltipPrimitive.Content>,
+  TooltipContentProps
+>(
+  (
+    {
+      className,
+      sideOffset = 4,
+      variant = "default",
+      size = "md",
+      showArrow = true,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
     const variantStyle = VARIANT_STYLES[variant];
     const sizeStyle = SIZE_STYLES[size];
 
@@ -270,7 +288,12 @@ export function PremiumTooltip({
   side?: "top" | "right" | "bottom" | "left";
 }) {
   return (
-    <TooltipWithIcon content={content} side={side} variant="gold" icon={<Sparkles className="size-3" />}>
+    <TooltipWithIcon
+      content={content}
+      side={side}
+      variant="gold"
+      icon={<Sparkles className="size-3" />}
+    >
       <Sparkles className="size-4 text-gold" />
     </TooltipWithIcon>
   );
@@ -280,9 +303,4 @@ export function PremiumTooltip({
 // Default Export
 // ============================================================================
 
-export {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TooltipProvider,
-};
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };

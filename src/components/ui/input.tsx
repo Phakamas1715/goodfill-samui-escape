@@ -38,7 +38,8 @@ const VARIANT_STYLES = {
     error: "border-coral/50 bg-coral/5 focus:ring-coral/30",
   },
   glass: {
-    normal: "border-white/30 bg-white/20 backdrop-blur-sm text-white placeholder:text-white/50 focus:ring-white/40",
+    normal:
+      "border-white/30 bg-white/20 backdrop-blur-sm text-white placeholder:text-white/50 focus:ring-white/40",
     error: "border-coral/50 bg-coral/20 backdrop-blur-sm focus:ring-coral/30",
   },
 } as const;
@@ -100,7 +101,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         {error && !rightIcon && (
           <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
-            <svg className="h-4 w-4 text-coral" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              className="h-4 w-4 text-coral"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -154,7 +160,12 @@ const PasswordInput = React.forwardRef<HTMLInputElement, InputProps>(({ ...props
         >
           {showPassword ? (
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

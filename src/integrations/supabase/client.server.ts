@@ -76,7 +76,9 @@ function getAdminClientConfig(): AdminClientConfig {
 
   // Validate service role key format (basic check)
   if (!SUPABASE_SERVICE_ROLE_KEY!.startsWith("eyJ")) {
-    console.warn("[SupabaseAdmin] SUPABASE_SERVICE_ROLE_KEY appears to be invalid (should start with eyJ)");
+    console.warn(
+      "[SupabaseAdmin] SUPABASE_SERVICE_ROLE_KEY appears to be invalid (should start with eyJ)",
+    );
   }
 
   return {
@@ -177,11 +179,19 @@ export const supabaseAdmin = new Proxy({} as SupabaseAdminClient, {
  * Checks if the admin client is properly configured and can connect.
  * Use this for startup validation or health endpoints.
  */
-export async function checkAdminClientHealth(): Promise<{ healthy: boolean; error?: string; latencyMs?: number }> {
+export async function checkAdminClientHealth(): Promise<{
+  healthy: boolean;
+  error?: string;
+  latencyMs?: number;
+}> {
   const startTime = Date.now();
 
   try {
-    const { error } = await (supabaseAdmin as any).from("_health").select("1").limit(1).maybeSingle();
+    const { error } = await (supabaseAdmin as any)
+      .from("_health")
+      .select("1")
+      .limit(1)
+      .maybeSingle();
     const latencyMs = Date.now() - startTime;
 
     if (error) {

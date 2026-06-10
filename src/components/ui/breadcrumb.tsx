@@ -84,7 +84,10 @@ const BreadcrumbList = React.forwardRef<HTMLOListElement, React.ComponentPropsWi
   ({ className, ...props }, ref) => (
     <ol
       ref={ref}
-      className={cn("flex flex-wrap items-center gap-1.5 break-words text-sm md:text-base", className)}
+      className={cn(
+        "flex flex-wrap items-center gap-1.5 break-words text-sm md:text-base",
+        className,
+      )}
       {...props}
     />
   ),
@@ -140,7 +143,12 @@ const BreadcrumbPage = React.forwardRef<HTMLSpanElement, React.ComponentPropsWit
 BreadcrumbPage.displayName = "BreadcrumbPage";
 
 const BreadcrumbSeparator = ({ children, className, ...props }: React.ComponentProps<"li">) => (
-  <li role="presentation" aria-hidden="true" className={cn("text-muted-foreground/50", className)} {...props}>
+  <li
+    role="presentation"
+    aria-hidden="true"
+    className={cn("text-muted-foreground/50", className)}
+    {...props}
+  >
     {children ?? <ChevronRight className="h-3.5 w-3.5" />}
   </li>
 );
@@ -150,7 +158,10 @@ const BreadcrumbEllipsis = ({ className, ...props }: React.ComponentProps<"span"
   <span
     role="presentation"
     aria-hidden="true"
-    className={cn("flex h-7 w-7 items-center justify-center rounded-md hover:bg-muted/50 transition-colors", className)}
+    className={cn(
+      "flex h-7 w-7 items-center justify-center rounded-md hover:bg-muted/50 transition-colors",
+      className,
+    )}
     {...props}
   >
     <MoreHorizontal className="h-3.5 w-3.5" />
@@ -205,7 +216,11 @@ function IconBreadcrumbItem({ icon, href, children, ...props }: IconBreadcrumbIt
   return (
     <BreadcrumbItem {...props}>
       {icon && <span className="text-gold">{icon}</span>}
-      {href ? <BreadcrumbLink href={href}>{children}</BreadcrumbLink> : <BreadcrumbPage>{children}</BreadcrumbPage>}
+      {href ? (
+        <BreadcrumbLink href={href}>{children}</BreadcrumbLink>
+      ) : (
+        <BreadcrumbPage>{children}</BreadcrumbPage>
+      )}
     </BreadcrumbItem>
   );
 }

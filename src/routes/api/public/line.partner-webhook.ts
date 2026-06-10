@@ -174,7 +174,9 @@ async function handleEvent(event: LineEvent) {
     if (!target || target.partner_line_user_id !== partnerUserId) {
       if (event.replyToken) {
         const errorMsg =
-          lang === "th" ? `ไม่ได้รับอนุญาตให้จัดการการจอง ${id}` : `Unauthorized to manage booking ${id}`;
+          lang === "th"
+            ? `ไม่ได้รับอนุญาตให้จัดการการจอง ${id}`
+            : `Unauthorized to manage booking ${id}`;
         await lineReply(partnerToken, event.replyToken, [{ type: "text", text: errorMsg }]);
       }
       return;
@@ -185,7 +187,9 @@ async function handleEvent(event: LineEvent) {
     if (event.replyToken) {
       if (!result.success) {
         const errorMsg =
-          lang === "th" ? `ไม่พบการจอง ${id} หรืออัปเดตไม่สำเร็จ` : `Booking ${id} not found or update failed`;
+          lang === "th"
+            ? `ไม่พบการจอง ${id} หรืออัปเดตไม่สำเร็จ`
+            : `Booking ${id} not found or update failed`;
         await lineReply(partnerToken, event.replyToken, [{ type: "text", text: errorMsg }]);
       } else {
         const statusText = getStatusText(status, lang);
@@ -221,7 +225,8 @@ async function handleEvent(event: LineEvent) {
         if (!result.success) {
           await lineReply(partnerToken, event.replyToken, [{ type: "text", text: result.message }]);
         } else {
-          const replyMsg = lang === "th" ? `${result.message}\n+ ${line}` : `${result.message}\n+ ${line}`;
+          const replyMsg =
+            lang === "th" ? `${result.message}\n+ ${line}` : `${result.message}\n+ ${line}`;
           await lineReply(partnerToken, event.replyToken, [{ type: "text", text: replyMsg }]);
         }
       }
@@ -272,7 +277,9 @@ async function handleEvent(event: LineEvent) {
         await lineReply(partnerToken, event.replyToken, [{ type: "text", text: replyMsg }]);
       } else {
         const errorMsg =
-          lang === "th" ? "ไม่สามารถบันทึกโน้ตได้ กรุณาลองอีกครั้ง" : "Failed to add note. Please try again.";
+          lang === "th"
+            ? "ไม่สามารถบันทึกโน้ตได้ กรุณาลองอีกครั้ง"
+            : "Failed to add note. Please try again.";
         await lineReply(partnerToken, event.replyToken, [{ type: "text", text: errorMsg }]);
       }
     }

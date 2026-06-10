@@ -19,7 +19,8 @@ export const Route = createFileRoute("/care")({
       { property: "og:title", content: "Long-term Care — แผนดูแลตัวเอง 90 วันหลังเกาะสมุย" },
       {
         property: "og:description",
-        content: "Habit tracker, Calm Credits และโปรแกรม Alumni สำหรับคงผลลัพธ์ Wellness ของคุณหลังจบทริปที่เกาะสมุย",
+        content:
+          "Habit tracker, Calm Credits และโปรแกรม Alumni สำหรับคงผลลัพธ์ Wellness ของคุณหลังจบทริปที่เกาะสมุย",
       },
       { property: "og:url", content: "https://goodfillcare-samui.com/care" },
     ],
@@ -47,7 +48,9 @@ function CarePage() {
     setState((s) => ({
       ...s,
       habits: s.habits.map((h) =>
-        h.name === name ? { ...h, days: h.days.includes(k) ? h.days.filter((d) => d !== k) : [...h.days, k] } : h,
+        h.name === name
+          ? { ...h, days: h.days.includes(k) ? h.days.filter((d) => d !== k) : [...h.days, k] }
+          : h,
       ),
       credits: s.credits + (s.habits.find((h) => h.name === name)?.days.includes(k) ? 0 : 5),
     }));
@@ -156,10 +159,14 @@ function CarePage() {
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm md:text-base font-semibold text-navy">{h.name}</span>
                   <motion.span
-                    animate={celebrate === h.name ? { rotate: [0, -10, 10, 0], scale: [1, 1.2, 1] } : {}}
+                    animate={
+                      celebrate === h.name ? { rotate: [0, -10, 10, 0], scale: [1, 1.2, 1] } : {}
+                    }
                     transition={{ duration: 0.5 }}
                     className={`size-7 rounded-full grid place-items-center text-xs font-bold ${
-                      done ? "bg-gold text-emerald-deep shadow-md" : "border-2 border-mint/60 text-muted-foreground"
+                      done
+                        ? "bg-gold text-emerald-deep shadow-md"
+                        : "border-2 border-mint/60 text-muted-foreground"
                     }`}
                   >
                     {done ? "✓" : ""}
@@ -188,7 +195,9 @@ function CarePage() {
                   <div className="text-[9px] md:text-[10px] uppercase tracking-widest text-muted-foreground">
                     {h.days.length}d streak
                   </div>
-                  <div className="text-[9px] md:text-[10px] text-emerald font-medium">+5 credits/day</div>
+                  <div className="text-[9px] md:text-[10px] text-emerald font-medium">
+                    +5 credits/day
+                  </div>
                 </div>
 
                 {/* Celebration effect */}
@@ -271,7 +280,9 @@ function CarePage() {
                       <div className="text-[9px] md:text-[10px] uppercase tracking-widest text-ivory/70">
                         Special Price
                       </div>
-                      <div className="font-display text-lg md:text-xl font-bold">฿{p.price.toLocaleString()}</div>
+                      <div className="font-display text-lg md:text-xl font-bold">
+                        ฿{p.price.toLocaleString()}
+                      </div>
                     </div>
                     <Link
                       to="/programs"

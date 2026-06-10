@@ -7,7 +7,9 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface AspectRatioProps extends React.ComponentPropsWithoutRef<typeof AspectRatioPrimitive.Root> {
+interface AspectRatioProps extends React.ComponentPropsWithoutRef<
+  typeof AspectRatioPrimitive.Root
+> {
   ratio?: number;
   className?: string;
 }
@@ -170,7 +172,10 @@ export function AspectImage({
  *   controls
  * />
  */
-export interface AspectVideoProps extends Omit<React.VideoHTMLAttributes<HTMLVideoElement>, "ratio"> {
+export interface AspectVideoProps extends Omit<
+  React.VideoHTMLAttributes<HTMLVideoElement>,
+  "ratio"
+> {
   ratio?: CommonRatioKey | number;
   poster?: string;
   autoPlay?: boolean;
@@ -217,17 +222,33 @@ export function AspectVideo({
  *   ratio="square"
  * />
  */
-export interface AspectMapProps extends Omit<React.IframeHTMLAttributes<HTMLIFrameElement>, "ratio"> {
+export interface AspectMapProps extends Omit<
+  React.IframeHTMLAttributes<HTMLIFrameElement>,
+  "ratio"
+> {
   ratio?: CommonRatioKey | number;
   title?: string;
 }
 
-export function AspectMap({ src, ratio = "square", className, title = "Map", ...props }: AspectMapProps) {
+export function AspectMap({
+  src,
+  ratio = "square",
+  className,
+  title = "Map",
+  ...props
+}: AspectMapProps) {
   const ratioValue = getRatio(ratio);
 
   return (
     <AspectRatio ratio={ratioValue} className={className}>
-      <iframe src={src} title={title} className="size-full" allowFullScreen loading="lazy" {...props} />
+      <iframe
+        src={src}
+        title={title}
+        className="size-full"
+        allowFullScreen
+        loading="lazy"
+        {...props}
+      />
     </AspectRatio>
   );
 }
@@ -303,7 +324,9 @@ export function AspectCard({
         {(title || description || children) && (
           <div className={cn("absolute bottom-0 left-0 right-0 p-4 text-white", contentClassName)}>
             {title && <h3 className="font-display text-lg font-semibold leading-tight">{title}</h3>}
-            {description && <p className="text-sm text-white/80 mt-1 line-clamp-2">{description}</p>}
+            {description && (
+              <p className="text-sm text-white/80 mt-1 line-clamp-2">{description}</p>
+            )}
             {children}
           </div>
         )}

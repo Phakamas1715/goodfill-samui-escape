@@ -214,7 +214,10 @@ function BookingsPage() {
                 <th className="px-4 py-3 text-left font-semibold">ลูกค้า</th>
                 <th className="px-4 py-3 text-left font-semibold">โปรแกรม</th>
                 <th className="px-4 py-3 text-left font-semibold">
-                  <button onClick={() => toggleSort("created_at")} className="flex items-center gap-1 hover:opacity-80">
+                  <button
+                    onClick={() => toggleSort("created_at")}
+                    className="flex items-center gap-1 hover:opacity-80"
+                  >
                     วันที่จอง
                     {sortField === "created_at" &&
                       (sortOrder === "asc" ? <ChevronUp size={14} /> : <ChevronDown size={14} />)}
@@ -230,10 +233,14 @@ function BookingsPage() {
               {filteredList.map((b: any) => (
                 <>
                   <tr key={b.id} className="hover:bg-cream/30 transition">
-                    <td className="px-4 py-3 font-mono text-xs font-semibold text-emerald">{b.booking_code}</td>
+                    <td className="px-4 py-3 font-mono text-xs font-semibold text-emerald">
+                      {b.booking_code}
+                    </td>
                     <td className="px-4 py-3">
                       <div className="font-medium text-navy">{b.customer_name || "-"}</div>
-                      <div className="text-[11px] text-muted-foreground">{b.customer_email || "-"}</div>
+                      <div className="text-[11px] text-muted-foreground">
+                        {b.customer_email || "-"}
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       <div className="font-medium text-navy">{b.program_name}</div>
@@ -305,16 +312,20 @@ function BookingsPage() {
                             </h4>
                             <div className="space-y-1 text-xs">
                               <p>
-                                <span className="text-muted-foreground">ชื่อ:</span> {b.customer_name || "-"}
+                                <span className="text-muted-foreground">ชื่อ:</span>{" "}
+                                {b.customer_name || "-"}
                               </p>
                               <p>
-                                <span className="text-muted-foreground">อีเมล:</span> {b.customer_email || "-"}
+                                <span className="text-muted-foreground">อีเมล:</span>{" "}
+                                {b.customer_email || "-"}
                               </p>
                               <p>
-                                <span className="text-muted-foreground">เบอร์โทร:</span> {b.customer_phone || "-"}
+                                <span className="text-muted-foreground">เบอร์โทร:</span>{" "}
+                                {b.customer_phone || "-"}
                               </p>
                               <p>
-                                <span className="text-muted-foreground">Persona:</span> {b.persona || "-"}
+                                <span className="text-muted-foreground">Persona:</span>{" "}
+                                {b.persona || "-"}
                               </p>
                             </div>
                           </div>
@@ -324,17 +335,20 @@ function BookingsPage() {
                             </h4>
                             <div className="space-y-1 text-xs">
                               <p>
-                                <span className="text-muted-foreground">วันที่เดินทาง:</span> {b.booking_date || "-"}
+                                <span className="text-muted-foreground">วันที่เดินทาง:</span>{" "}
+                                {b.booking_date || "-"}
                               </p>
                               <p>
-                                <span className="text-muted-foreground">ระยะเวลา:</span> {b.program_duration || "-"} วัน
+                                <span className="text-muted-foreground">ระยะเวลา:</span>{" "}
+                                {b.program_duration || "-"} วัน
                               </p>
                               <p>
                                 <span className="text-muted-foreground">ราคา:</span>{" "}
                                 {b.program_price?.toLocaleString() || "-"} บาท
                               </p>
                               <p>
-                                <span className="text-muted-foreground">หมายเหตุ:</span> {b.partner_notes || "—"}
+                                <span className="text-muted-foreground">หมายเหตุ:</span>{" "}
+                                {b.partner_notes || "—"}
                               </p>
                             </div>
                           </div>
@@ -364,7 +378,9 @@ function BookingsPage() {
                     <div className="flex flex-col items-center gap-2">
                       <AlertCircle size={32} className="text-muted-foreground/50" />
                       <p>ไม่พบรายการจอง</p>
-                      {searchQuery && <p className="text-xs">ลองเปลี่ยนคำค้นหา หรือเคลียร์ตัวกรอง</p>}
+                      {searchQuery && (
+                        <p className="text-xs">ลองเปลี่ยนคำค้นหา หรือเคลียร์ตัวกรอง</p>
+                      )}
                     </div>
                   </td>
                 </tr>

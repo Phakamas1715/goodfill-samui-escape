@@ -146,7 +146,11 @@ export function Nav() {
               activeProps={{ className: "text-emerald" }}
               className="flex-1 flex flex-col items-center gap-1 py-1.5 rounded-xl text-navy/60 text-[11px] transition-colors hover:text-emerald"
             >
-              <l.icon size={22} strokeWidth={1.75} className="text-navy/60 group-hover:text-emerald" />
+              <l.icon
+                size={22}
+                strokeWidth={1.75}
+                className="text-navy/60 group-hover:text-emerald"
+              />
               <span className="font-medium text-[10px]">{t(l.key as never)}</span>
             </Link>
           ))}
@@ -180,10 +184,14 @@ export function Footer() {
                 <span className="font-display text-xl text-navy font-semibold">
                   Goodfill <span className="text-emerald">Care</span>
                 </span>
-                <span className="text-[9px] tracking-[0.25em] uppercase text-emerald/60">Koh Samui</span>
+                <span className="text-[9px] tracking-[0.25em] uppercase text-emerald/60">
+                  Koh Samui
+                </span>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">{t("footer.tagline")}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
+              {t("footer.tagline")}
+            </p>
           </div>
 
           {/* Experience Links */}
@@ -194,27 +202,42 @@ export function Footer() {
             </div>
             <ul className="space-y-2">
               <li>
-                <Link to="/quest" className="text-sm text-muted-foreground hover:text-emerald transition-colors">
+                <Link
+                  to="/quest"
+                  className="text-sm text-muted-foreground hover:text-emerald transition-colors"
+                >
                   Wellness Quest
                 </Link>
               </li>
               <li>
-                <Link to="/programs" className="text-sm text-muted-foreground hover:text-emerald transition-colors">
+                <Link
+                  to="/programs"
+                  className="text-sm text-muted-foreground hover:text-emerald transition-colors"
+                >
                   Programs
                 </Link>
               </li>
               <li>
-                <Link to="/journey" className="text-sm text-muted-foreground hover:text-emerald transition-colors">
+                <Link
+                  to="/journey"
+                  className="text-sm text-muted-foreground hover:text-emerald transition-colors"
+                >
                   QR Wellness Pass
                 </Link>
               </li>
               <li>
-                <Link to="/report" className="text-sm text-muted-foreground hover:text-emerald transition-colors">
+                <Link
+                  to="/report"
+                  className="text-sm text-muted-foreground hover:text-emerald transition-colors"
+                >
                   Wellness Report
                 </Link>
               </li>
               <li>
-                <Link to="/care" className="text-sm text-muted-foreground hover:text-emerald transition-colors">
+                <Link
+                  to="/care"
+                  className="text-sm text-muted-foreground hover:text-emerald transition-colors"
+                >
                   Calm Credits
                 </Link>
               </li>
@@ -229,17 +252,26 @@ export function Footer() {
             </div>
             <ul className="space-y-2">
               <li>
-                <Link to="/partner" className="text-sm text-muted-foreground hover:text-emerald transition-colors">
+                <Link
+                  to="/partner"
+                  className="text-sm text-muted-foreground hover:text-emerald transition-colors"
+                >
                   Partner LIFF
                 </Link>
               </li>
               <li>
-                <Link to="/expert" className="text-sm text-muted-foreground hover:text-emerald transition-colors">
+                <Link
+                  to="/expert"
+                  className="text-sm text-muted-foreground hover:text-emerald transition-colors"
+                >
                   Expert Board
                 </Link>
               </li>
               <li>
-                <Link to="/admin" className="text-sm text-muted-foreground hover:text-emerald transition-colors">
+                <Link
+                  to="/admin"
+                  className="text-sm text-muted-foreground hover:text-emerald transition-colors"
+                >
                   Admin Dashboard
                 </Link>
               </li>
@@ -262,7 +294,10 @@ export function Footer() {
                 </a>
               </li>
               <li className="text-sm">
-                <a href="tel:+66770000000" className="text-muted-foreground hover:text-emerald transition-colors">
+                <a
+                  href="tel:+66770000000"
+                  className="text-muted-foreground hover:text-emerald transition-colors"
+                >
                   +66 77 000 0000
                 </a>
               </li>
@@ -305,11 +340,17 @@ export function Footer() {
             © {currentYear} Goodfill Care · {t("footer.rights")}
           </p>
           <div className="flex items-center justify-center gap-4 mt-2 text-[10px]">
-            <Link to="/privacy" className="text-muted-foreground hover:text-emerald transition-colors">
+            <Link
+              to="/privacy"
+              className="text-muted-foreground hover:text-emerald transition-colors"
+            >
               Privacy Policy
             </Link>
             <span className="text-muted-foreground/30">|</span>
-            <Link to="/terms" className="text-muted-foreground hover:text-emerald transition-colors">
+            <Link
+              to="/terms"
+              className="text-muted-foreground hover:text-emerald transition-colors"
+            >
               Terms of Service
             </Link>
           </div>

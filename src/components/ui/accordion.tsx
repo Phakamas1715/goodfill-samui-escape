@@ -8,12 +8,16 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface AccordionTriggerProps extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> {
+interface AccordionTriggerProps extends React.ComponentPropsWithoutRef<
+  typeof AccordionPrimitive.Trigger
+> {
   variant?: "default" | "gold" | "emerald";
   showIcon?: boolean;
 }
 
-interface AccordionItemProps extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> {
+interface AccordionItemProps extends React.ComponentPropsWithoutRef<
+  typeof AccordionPrimitive.Item
+> {
   variant?: "default" | "card";
 }
 
@@ -47,44 +51,50 @@ const ITEM_VARIANT_STYLES = {
 
 const Accordion = AccordionPrimitive.Root;
 
-const AccordionItem = React.forwardRef<React.ElementRef<typeof AccordionPrimitive.Item>, AccordionItemProps>(
-  ({ className, variant = "default", ...props }, ref) => (
-    <AccordionPrimitive.Item ref={ref} className={cn(ITEM_VARIANT_STYLES[variant], className)} {...props} />
-  ),
-);
+const AccordionItem = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Item>,
+  AccordionItemProps
+>(({ className, variant = "default", ...props }, ref) => (
+  <AccordionPrimitive.Item
+    ref={ref}
+    className={cn(ITEM_VARIANT_STYLES[variant], className)}
+    {...props}
+  />
+));
 AccordionItem.displayName = "AccordionItem";
 
-const AccordionTrigger = React.forwardRef<React.ElementRef<typeof AccordionPrimitive.Trigger>, AccordionTriggerProps>(
-  ({ className, children, variant = "default", showIcon = true, ...props }, ref) => {
-    const variantStyle = VARIANT_STYLES[variant];
+const AccordionTrigger = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Trigger>,
+  AccordionTriggerProps
+>(({ className, children, variant = "default", showIcon = true, ...props }, ref) => {
+  const variantStyle = VARIANT_STYLES[variant];
 
-    return (
-      <AccordionPrimitive.Header className="flex">
-        <AccordionPrimitive.Trigger
-          ref={ref}
-          className={cn(
-            "group flex flex-1 items-center justify-between py-4 text-sm md:text-base font-medium cursor-pointer transition-all",
-            "hover:underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-lg",
-            variantStyle.trigger,
-            className,
-          )}
-          {...props}
-        >
-          <span className="flex items-center gap-2">{children}</span>
-          {showIcon && (
-            <ChevronDown
-              className={cn(
-                "h-4 w-4 shrink-0 transition-transform duration-300",
-                "group-data-[state=open]:rotate-180",
-                variantStyle.icon,
-              )}
-            />
-          )}
-        </AccordionPrimitive.Trigger>
-      </AccordionPrimitive.Header>
-    );
-  },
-);
+  return (
+    <AccordionPrimitive.Header className="flex">
+      <AccordionPrimitive.Trigger
+        ref={ref}
+        className={cn(
+          "group flex flex-1 items-center justify-between py-4 text-sm md:text-base font-medium cursor-pointer transition-all",
+          "hover:underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-lg",
+          variantStyle.trigger,
+          className,
+        )}
+        {...props}
+      >
+        <span className="flex items-center gap-2">{children}</span>
+        {showIcon && (
+          <ChevronDown
+            className={cn(
+              "h-4 w-4 shrink-0 transition-transform duration-300",
+              "group-data-[state=open]:rotate-180",
+              variantStyle.icon,
+            )}
+          />
+        )}
+      </AccordionPrimitive.Trigger>
+    </AccordionPrimitive.Header>
+  );
+});
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
 
 const AccordionContent = React.forwardRef<
@@ -139,7 +149,12 @@ export function FaqAccordion({
   const defaultValues = defaultValue || (type === "single" ? items[0]?.question : undefined);
 
   return (
-    <Accordion type={type} defaultValue={defaultValues as any} collapsible={collapsible} className="space-y-3">
+    <Accordion
+      type={type}
+      defaultValue={defaultValues as any}
+      collapsible={collapsible}
+      className="space-y-3"
+    >
       {items.map((item, index) => (
         <AccordionItem key={item.question} value={item.question} variant={itemVariant}>
           <AccordionTrigger variant={variant} className="px-4">
@@ -175,7 +190,12 @@ export function SimpleAccordion({
   const value = isOpen ? "open" : "closed";
 
   return (
-    <Accordion type="single" value={value} onValueChange={(val) => setIsOpen(val === "open")} collapsible>
+    <Accordion
+      type="single"
+      value={value}
+      onValueChange={(val) => setIsOpen(val === "open")}
+      collapsible
+    >
       <AccordionItem value="open" variant="card">
         <AccordionTrigger variant={variant} className="px-4">
           {title}

@@ -8,7 +8,9 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface HoverCardContentProps extends React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> {
+interface HoverCardContentProps extends React.ComponentPropsWithoutRef<
+  typeof HoverCardPrimitive.Content
+> {
   variant?: "default" | "gold" | "emerald";
   size?: "sm" | "default" | "lg";
   showArrow?: boolean;
@@ -34,7 +36,8 @@ const VARIANT_STYLES = {
     arrow: "fill-gold/20",
   },
   emerald: {
-    content: "bg-gradient-to-br from-emerald/10 to-emerald-deep/20 border border-emerald/40 shadow-xl",
+    content:
+      "bg-gradient-to-br from-emerald/10 to-emerald-deep/20 border border-emerald/40 shadow-xl",
     arrow: "fill-emerald/20",
   },
 } as const;
@@ -47,7 +50,10 @@ const HoverCard = HoverCardPrimitive.Root;
 
 const HoverCardTrigger = HoverCardPrimitive.Trigger;
 
-const HoverCardContent = React.forwardRef<React.ElementRef<typeof HoverCardPrimitive.Content>, HoverCardContentProps>(
+const HoverCardContent = React.forwardRef<
+  React.ElementRef<typeof HoverCardPrimitive.Content>,
+  HoverCardContentProps
+>(
   (
     {
       className,
@@ -100,12 +106,16 @@ HoverCardContent.displayName = HoverCardPrimitive.Content.displayName;
 /**
  * Hover card with gold theme for premium content
  */
-const GoldHoverCard = (props: HoverCardContentProps) => <HoverCardContent variant="gold" {...props} />;
+const GoldHoverCard = (props: HoverCardContentProps) => (
+  <HoverCardContent variant="gold" {...props} />
+);
 
 /**
  * Hover card with emerald theme for wellness content
  */
-const EmeraldHoverCard = (props: HoverCardContentProps) => <HoverCardContent variant="emerald" {...props} />;
+const EmeraldHoverCard = (props: HoverCardContentProps) => (
+  <HoverCardContent variant="emerald" {...props} />
+);
 
 /**
  * Hover card with image preview
@@ -117,26 +127,27 @@ interface HoverCardImageProps extends HoverCardContentProps {
   description?: string;
 }
 
-const HoverCardImage = React.forwardRef<React.ElementRef<typeof HoverCardPrimitive.Content>, HoverCardImageProps>(
-  ({ imageSrc, imageAlt, title, description, children, ...props }, ref) => (
-    <HoverCardContent ref={ref} {...props}>
-      <div className="space-y-3">
-        <div className="aspect-video overflow-hidden rounded-lg">
-          <img
-            src={imageSrc}
-            alt={imageAlt || title}
-            className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-          />
-        </div>
-        <div>
-          <h4 className="font-semibold text-navy">{title}</h4>
-          {description && <p className="mt-1 text-xs text-muted-foreground">{description}</p>}
-        </div>
-        {children}
+const HoverCardImage = React.forwardRef<
+  React.ElementRef<typeof HoverCardPrimitive.Content>,
+  HoverCardImageProps
+>(({ imageSrc, imageAlt, title, description, children, ...props }, ref) => (
+  <HoverCardContent ref={ref} {...props}>
+    <div className="space-y-3">
+      <div className="aspect-video overflow-hidden rounded-lg">
+        <img
+          src={imageSrc}
+          alt={imageAlt || title}
+          className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+        />
       </div>
-    </HoverCardContent>
-  ),
-);
+      <div>
+        <h4 className="font-semibold text-navy">{title}</h4>
+        {description && <p className="mt-1 text-xs text-muted-foreground">{description}</p>}
+      </div>
+      {children}
+    </div>
+  </HoverCardContent>
+));
 HoverCardImage.displayName = "HoverCardImage";
 
 /**
@@ -149,24 +160,25 @@ interface HoverCardStatsProps extends HoverCardContentProps {
   icon?: React.ReactNode;
 }
 
-const HoverCardStats = React.forwardRef<React.ElementRef<typeof HoverCardPrimitive.Content>, HoverCardStatsProps>(
-  ({ title, value, change, icon, ...props }, ref) => (
-    <HoverCardContent ref={ref} {...props}>
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">{title}</span>
-          {icon && <span className="text-gold">{icon}</span>}
-        </div>
-        <div className="text-2xl font-bold text-navy">{value}</div>
-        {change !== undefined && (
-          <div className={cn("text-xs font-medium", change >= 0 ? "text-emerald" : "text-coral")}>
-            {change >= 0 ? "↑" : "↓"} {Math.abs(change)}% from last week
-          </div>
-        )}
+const HoverCardStats = React.forwardRef<
+  React.ElementRef<typeof HoverCardPrimitive.Content>,
+  HoverCardStatsProps
+>(({ title, value, change, icon, ...props }, ref) => (
+  <HoverCardContent ref={ref} {...props}>
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <span className="text-xs text-muted-foreground">{title}</span>
+        {icon && <span className="text-gold">{icon}</span>}
       </div>
-    </HoverCardContent>
-  ),
-);
+      <div className="text-2xl font-bold text-navy">{value}</div>
+      {change !== undefined && (
+        <div className={cn("text-xs font-medium", change >= 0 ? "text-emerald" : "text-coral")}>
+          {change >= 0 ? "↑" : "↓"} {Math.abs(change)}% from last week
+        </div>
+      )}
+    </div>
+  </HoverCardContent>
+));
 HoverCardStats.displayName = "HoverCardStats";
 
 /**
@@ -179,24 +191,25 @@ interface HoverCardProfileProps extends HoverCardContentProps {
   bio?: string;
 }
 
-const HoverCardProfile = React.forwardRef<React.ElementRef<typeof HoverCardPrimitive.Content>, HoverCardProfileProps>(
-  ({ name, role, avatar, bio, ...props }, ref) => (
-    <HoverCardContent ref={ref} {...props}>
-      <div className="flex items-start gap-3">
-        {avatar && (
-          <div className="size-12 overflow-hidden rounded-full">
-            <img src={avatar} alt={name} className="h-full w-full object-cover" />
-          </div>
-        )}
-        <div className="flex-1">
-          <h4 className="font-semibold text-navy">{name}</h4>
-          {role && <p className="text-xs text-muted-foreground">{role}</p>}
-          {bio && <p className="mt-2 text-xs text-navy/70">{bio}</p>}
+const HoverCardProfile = React.forwardRef<
+  React.ElementRef<typeof HoverCardPrimitive.Content>,
+  HoverCardProfileProps
+>(({ name, role, avatar, bio, ...props }, ref) => (
+  <HoverCardContent ref={ref} {...props}>
+    <div className="flex items-start gap-3">
+      {avatar && (
+        <div className="size-12 overflow-hidden rounded-full">
+          <img src={avatar} alt={name} className="h-full w-full object-cover" />
         </div>
+      )}
+      <div className="flex-1">
+        <h4 className="font-semibold text-navy">{name}</h4>
+        {role && <p className="text-xs text-muted-foreground">{role}</p>}
+        {bio && <p className="mt-2 text-xs text-navy/70">{bio}</p>}
       </div>
-    </HoverCardContent>
-  ),
-);
+    </div>
+  </HoverCardContent>
+));
 HoverCardProfile.displayName = "HoverCardProfile";
 
 // ============================================================================

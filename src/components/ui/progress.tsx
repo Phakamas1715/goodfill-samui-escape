@@ -77,13 +77,20 @@ const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root
           <div className="flex justify-between text-sm">
             {label && <span className="text-muted-foreground">{label}</span>}
             {(showValue || showPercentage) && (
-              <span className="font-medium text-navy">{showValue ? normalizedValue : `${Math.round(percentage)}%`}</span>
+              <span className="font-medium text-navy">
+                {showValue ? normalizedValue : `${Math.round(percentage)}%`}
+              </span>
             )}
           </div>
         )}
         <ProgressPrimitive.Root
           ref={ref}
-          className={cn("relative w-full overflow-hidden rounded-full", sizeStyle, variantStyle.track, className)}
+          className={cn(
+            "relative w-full overflow-hidden rounded-full",
+            sizeStyle,
+            variantStyle.track,
+            className,
+          )}
           {...props}
         >
           <ProgressPrimitive.Indicator
@@ -114,7 +121,18 @@ interface CircularProgressProps extends Omit<ProgressProps, "size"> {
 }
 
 const CircularProgress = React.forwardRef<HTMLDivElement, CircularProgressProps>(
-  ({ value = 0, variant = "default", size = 48, strokeWidth = 4, animated = true, className, ...props }, ref) => {
+  (
+    {
+      value = 0,
+      variant = "default",
+      size = 48,
+      strokeWidth = 4,
+      animated = true,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
     const normalizedValue = value ?? 0;
     const percentage = Math.min(100, Math.max(0, normalizedValue));
     const radius = (size - strokeWidth) / 2;
@@ -123,7 +141,11 @@ const CircularProgress = React.forwardRef<HTMLDivElement, CircularProgressProps>
     const variantStyle = VARIANT_STYLES[variant];
 
     return (
-      <div ref={ref} className={cn("relative inline-flex items-center justify-center", className)} {...props}>
+      <div
+        ref={ref}
+        className={cn("relative inline-flex items-center justify-center", className)}
+        {...props}
+      >
         <svg
           className="h-full w-full -rotate-90 transform"
           style={{ width: size, height: size }}
@@ -140,7 +162,11 @@ const CircularProgress = React.forwardRef<HTMLDivElement, CircularProgressProps>
           />
           {/* Progress circle */}
           <circle
-            className={cn("transition-all", variantStyle.indicator, animated && "duration-500 ease-out")}
+            className={cn(
+              "transition-all",
+              variantStyle.indicator,
+              animated && "duration-500 ease-out",
+            )}
             strokeWidth={strokeWidth}
             fill="none"
             r={radius}
@@ -199,21 +225,23 @@ interface MultiProgressProps {
   className?: string;
 }
 
-const MultiProgress = React.forwardRef<HTMLDivElement, MultiProgressProps>(({ items, className }, ref) => {
-  return (
-    <div ref={ref} className={cn("space-y-3", className)}>
-      {items.map((item, index) => (
-        <Progress
-          key={index}
-          label={item.label}
-          value={item.value}
-          variant={item.variant || "default"}
-          showPercentage
-        />
-      ))}
-    </div>
-  );
-});
+const MultiProgress = React.forwardRef<HTMLDivElement, MultiProgressProps>(
+  ({ items, className }, ref) => {
+    return (
+      <div ref={ref} className={cn("space-y-3", className)}>
+        {items.map((item, index) => (
+          <Progress
+            key={index}
+            label={item.label}
+            value={item.value}
+            variant={item.variant || "default"}
+            showPercentage
+          />
+        ))}
+      </div>
+    );
+  },
+);
 MultiProgress.displayName = "MultiProgress";
 
 // ============================================================================

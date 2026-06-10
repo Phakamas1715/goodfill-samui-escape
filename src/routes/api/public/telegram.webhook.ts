@@ -123,7 +123,11 @@ function formatBookingStatus(booking: any, lang: string): string {
     completed: { emoji: "🎉", th: "เสร็จสิ้น", en: "Completed" },
   };
 
-  const statusInfo = statusMap[booking.status] || { emoji: "📋", th: booking.status, en: booking.status };
+  const statusInfo = statusMap[booking.status] || {
+    emoji: "📋",
+    th: booking.status,
+    en: booking.status,
+  };
   const emoji = statusInfo.emoji;
   const statusText = isThai ? statusInfo.th : statusInfo.en;
 
@@ -202,32 +206,47 @@ export const Route = createFileRoute("/api/public/telegram/webhook")({
           // Handle language selection
           if (action === "lang_th") {
             await updateUserLanguage(chatId, "th");
-            await tgSendMessage(chatId, "🌿 เปลี่ยนภาษาเป็นไทยเรียบร้อยแล้ว\n\nเลือกเมนูด้านล่าง:", {
-              reply_markup: getMainMenu("th"),
-            }).catch(() => {});
+            await tgSendMessage(
+              chatId,
+              "🌿 เปลี่ยนภาษาเป็นไทยเรียบร้อยแล้ว\n\nเลือกเมนูด้านล่าง:",
+              {
+                reply_markup: getMainMenu("th"),
+              },
+            ).catch(() => {});
             return Response.json({ ok: true });
           }
 
           if (action === "lang_en") {
             await updateUserLanguage(chatId, "en");
-            await tgSendMessage(chatId, "🌿 Language changed to English\n\nChoose from menu below:", {
-              reply_markup: getMainMenu("en"),
-            }).catch(() => {});
+            await tgSendMessage(
+              chatId,
+              "🌿 Language changed to English\n\nChoose from menu below:",
+              {
+                reply_markup: getMainMenu("en"),
+              },
+            ).catch(() => {});
             return Response.json({ ok: true });
           }
 
           // Handle change language menu
           if (action === "change_lang") {
-            await tgSendMessage(chatId, userLang === "th" ? "🌐 เลือกภาษา:" : "🌐 Select language:", {
-              reply_markup: getLanguageMenu(userLang),
-            }).catch(() => {});
+            await tgSendMessage(
+              chatId,
+              userLang === "th" ? "🌐 เลือกภาษา:" : "🌐 Select language:",
+              {
+                reply_markup: getLanguageMenu(userLang),
+              },
+            ).catch(() => {});
             return Response.json({ ok: true });
           }
 
           // Handle main menu
           if (action === "main_menu") {
-            const menuText = userLang === "th" ? "🌿 เมนูหลัก Goodfill Care" : "🌿 Goodfill Care Main Menu";
-            await tgSendMessage(chatId, menuText, { reply_markup: getMainMenu(userLang) }).catch(() => {});
+            const menuText =
+              userLang === "th" ? "🌿 เมนูหลัก Goodfill Care" : "🌿 Goodfill Care Main Menu";
+            await tgSendMessage(chatId, menuText, { reply_markup: getMainMenu(userLang) }).catch(
+              () => {},
+            );
             return Response.json({ ok: true });
           }
 
@@ -322,7 +341,9 @@ export const Route = createFileRoute("/api/public/telegram/webhook")({
               console.error("Failed to upsert identity:", err);
             }
 
-            const name = tgEscape(msg?.from?.first_name ?? (detectedLang === "th" ? "คุณลูกค้า" : "Customer"));
+            const name = tgEscape(
+              msg?.from?.first_name ?? (detectedLang === "th" ? "คุณลูกค้า" : "Customer"),
+            );
 
             let welcomeMessage: string;
             if (detectedLang === "en") {
@@ -415,7 +436,9 @@ export const Route = createFileRoute("/api/public/telegram/webhook")({
               ? "🙏 ขอบคุณที่ติดต่อ Goodfill Care 🌿\n\nทีมงานจะตอบกลับเร็วๆ นี้ หรือเลือกเมนูด้านล่างได้เลยครับ"
               : "🙏 Thank you for contacting Goodfill Care 🌿\n\nOur team will get back to you soon, or select an option from the menu below:";
 
-            await tgSendMessage(chatId, replyText, { reply_markup: getMainMenu(userLang) }).catch(() => {});
+            await tgSendMessage(chatId, replyText, { reply_markup: getMainMenu(userLang) }).catch(
+              () => {},
+            );
           }
         }
 

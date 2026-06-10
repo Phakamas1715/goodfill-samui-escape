@@ -12,7 +12,8 @@ export const Route = createFileRoute("/login/customer")({
       { title: "ลูกค้าเข้าสู่ระบบ — Goodfill Care" },
       {
         name: "description",
-        content: "สำหรับลูกค้า Goodfill Care เข้าสู่ระบบเพื่อทำแบบประเมิน wellness และเลือกโปรแกรมพักผ่อนที่เกาะสมุย",
+        content:
+          "สำหรับลูกค้า Goodfill Care เข้าสู่ระบบเพื่อทำแบบประเมิน wellness และเลือกโปรแกรมพักผ่อนที่เกาะสมุย",
       },
     ],
   }),
@@ -104,7 +105,8 @@ function CustomerLoginPage() {
               </h1>
 
               <p className="text-center text-base md:text-lg text-navy/70 max-w-md mx-auto mb-8 leading-relaxed">
-                เข้าสู่ระบบเพื่อทำแบบประเมิน wellness รับ 300 Calm Credits และเลือกโปรแกรมพักผ่อนที่เหมาะกับคุณที่สุด
+                เข้าสู่ระบบเพื่อทำแบบประเมิน wellness รับ 300 Calm Credits
+                และเลือกโปรแกรมพักผ่อนที่เหมาะกับคุณที่สุด
               </p>
 
               {/* Benefits Grid */}
@@ -120,8 +122,12 @@ function CustomerLoginPage() {
                     <div className="size-10 md:size-12 rounded-full bg-emerald/10 flex items-center justify-center mx-auto mb-3">
                       <benefit.icon size={20} className="text-emerald" />
                     </div>
-                    <div className="font-semibold text-navy text-sm md:text-base">{benefit.title}</div>
-                    <div className="text-[11px] md:text-xs text-muted-foreground mt-1">{benefit.desc}</div>
+                    <div className="font-semibold text-navy text-sm md:text-base">
+                      {benefit.title}
+                    </div>
+                    <div className="text-[11px] md:text-xs text-muted-foreground mt-1">
+                      {benefit.desc}
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -130,7 +136,9 @@ function CustomerLoginPage() {
               <div className="flex justify-center gap-6 md:gap-10 mb-8">
                 <div className="text-center">
                   <div className="font-display text-2xl md:text-3xl text-gold font-bold">8</div>
-                  <div className="text-[10px] md:text-[11px] text-navy/60 uppercase tracking-wide">แบบประเมิน</div>
+                  <div className="text-[10px] md:text-[11px] text-navy/60 uppercase tracking-wide">
+                    แบบประเมิน
+                  </div>
                 </div>
                 <div className="w-px h-10 bg-mint/40 self-center" />
                 <div className="text-center">
@@ -142,7 +150,9 @@ function CustomerLoginPage() {
                 <div className="w-px h-10 bg-mint/40 self-center" />
                 <div className="text-center">
                   <div className="font-display text-2xl md:text-3xl text-gold font-bold">300</div>
-                  <div className="text-[10px] md:text-[11px] text-navy/60 uppercase tracking-wide">Calm Credits</div>
+                  <div className="text-[10px] md:text-[11px] text-navy/60 uppercase tracking-wide">
+                    Calm Credits
+                  </div>
                 </div>
               </div>
 
@@ -166,7 +176,8 @@ function CustomerLoginPage() {
                 <div className="flex items-start gap-2 text-[11px] md:text-xs text-navy/60 text-center justify-center">
                   <ShieldCheck size={14} className="shrink-0 mt-0.5 text-emerald" />
                   <span>
-                    ระบบใช้ LINE Official Account ในการยืนยันตัวตน <br className="hidden sm:inline" />
+                    ระบบใช้ LINE Official Account ในการยืนยันตัวตน{" "}
+                    <br className="hidden sm:inline" />
                     เข้าสู่ระบบครั้งเดียว ทำแบบประเมินและเลือกโปรแกรมได้ทันที
                   </span>
                 </div>

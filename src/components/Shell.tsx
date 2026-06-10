@@ -193,7 +193,11 @@ export function Container({
 }) {
   const maxWidthClass = MAX_WIDTH_MAP[maxWidth];
 
-  return <Component className={`${maxWidthClass} mx-auto px-5 md:px-8 ${className}`}>{children}</Component>;
+  return (
+    <Component className={`${maxWidthClass} mx-auto px-5 md:px-8 ${className}`}>
+      {children}
+    </Component>
+  );
 }
 
 /**
@@ -306,8 +310,12 @@ export function Hero({
             }}
           />
         )}
-        {title && <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-navy mb-4">{title}</h1>}
-        {subtitle && <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">{subtitle}</p>}
+        {title && (
+          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-navy mb-4">{title}</h1>
+        )}
+        {subtitle && (
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">{subtitle}</p>
+        )}
         {children && <div className="mt-8">{children}</div>}
       </div>
     </Section>

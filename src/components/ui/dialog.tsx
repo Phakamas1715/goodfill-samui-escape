@@ -10,7 +10,9 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+interface DialogContentProps extends React.ComponentPropsWithoutRef<
+  typeof DialogPrimitive.Content
+> {
   variant?: "default" | "gold" | "emerald";
   size?: "sm" | "default" | "lg" | "xl" | "full";
   showClose?: boolean;
@@ -81,8 +83,14 @@ const DialogOverlay = React.forwardRef<
 });
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
-const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ className, children, variant = "default", size = "default", showClose = true, ...props }, ref) => {
+const DialogContent = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  DialogContentProps
+>(
+  (
+    { className, children, variant = "default", size = "default", showClose = true, ...props },
+    ref,
+  ) => {
     const variantStyle = VARIANT_STYLES[variant];
     const sizeStyle = SIZE_STYLES[size];
 
@@ -130,7 +138,10 @@ const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivEleme
 DialogHeader.displayName = "DialogHeader";
 
 const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3", className)} {...props} />
+  <div
+    className={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end sm:gap-3", className)}
+    {...props}
+  />
 );
 DialogFooter.displayName = "DialogFooter";
 
@@ -140,7 +151,10 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn("font-display text-xl font-semibold leading-tight tracking-tight text-navy", className)}
+    className={cn(
+      "font-display text-xl font-semibold leading-tight tracking-tight text-navy",
+      className,
+    )}
     {...props}
   />
 ));
@@ -165,21 +179,31 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName;
 /**
  * Dialog with gold theme for premium content
  */
-const GoldDialog = (props: React.ComponentProps<typeof DialogPrimitive.Root>) => <Dialog {...props} />;
+const GoldDialog = (props: React.ComponentProps<typeof DialogPrimitive.Root>) => (
+  <Dialog {...props} />
+);
 
 /**
  * Dialog with emerald theme for wellness content
  */
-const EmeraldDialog = (props: React.ComponentProps<typeof DialogPrimitive.Root>) => <Dialog {...props} />;
+const EmeraldDialog = (props: React.ComponentProps<typeof DialogPrimitive.Root>) => (
+  <Dialog {...props} />
+);
 
 /**
  * Full-screen dialog
  */
-const FullScreenDialog = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ className, ...props }, ref) => (
-    <DialogContent ref={ref} size="full" className={cn("h-[90vh] w-[90vw] max-w-none", className)} {...props} />
-  ),
-);
+const FullScreenDialog = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  DialogContentProps
+>(({ className, ...props }, ref) => (
+  <DialogContent
+    ref={ref}
+    size="full"
+    className={cn("h-[90vh] w-[90vw] max-w-none", className)}
+    {...props}
+  />
+));
 FullScreenDialog.displayName = "FullScreenDialog";
 
 /**
@@ -191,22 +215,25 @@ interface DialogWithIconProps extends DialogContentProps {
   description?: string;
 }
 
-const DialogWithIcon = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogWithIconProps>(
-  ({ icon, title, description, children, ...props }, ref) => (
-    <DialogContent ref={ref} {...props}>
-      <DialogHeader>
-        <div className="flex items-center gap-3">
-          {icon && (
-            <div className="flex size-10 items-center justify-center rounded-full bg-gold/10 text-gold">{icon}</div>
-          )}
-          <DialogTitle>{title}</DialogTitle>
-        </div>
-        {description && <DialogDescription>{description}</DialogDescription>}
-      </DialogHeader>
-      {children}
-    </DialogContent>
-  ),
-);
+const DialogWithIcon = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  DialogWithIconProps
+>(({ icon, title, description, children, ...props }, ref) => (
+  <DialogContent ref={ref} {...props}>
+    <DialogHeader>
+      <div className="flex items-center gap-3">
+        {icon && (
+          <div className="flex size-10 items-center justify-center rounded-full bg-gold/10 text-gold">
+            {icon}
+          </div>
+        )}
+        <DialogTitle>{title}</DialogTitle>
+      </div>
+      {description && <DialogDescription>{description}</DialogDescription>}
+    </DialogHeader>
+    {children}
+  </DialogContent>
+));
 DialogWithIcon.displayName = "DialogWithIcon";
 
 // ============================================================================

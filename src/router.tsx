@@ -26,7 +26,9 @@ function PersonaPage() {
   const [state, setState] = useAppState();
   const persona = state.persona ? personas[state.persona] : null;
   const secondary =
-    state.secondaryPersona && state.secondaryPersona !== state.persona ? personas[state.secondaryPersona] : null;
+    state.secondaryPersona && state.secondaryPersona !== state.persona
+      ? personas[state.secondaryPersona]
+      : null;
 
   const fetchInsight = useServerFn(getPersonaInsight);
   const sendToChat = useServerFn(sendPersonaSummary);
@@ -88,12 +90,17 @@ function PersonaPage() {
         const channels = [result.line.ok ? "LINE" : null, result.telegram.ok ? "Telegram" : null]
           .filter(Boolean)
           .join(" + ");
-        toast.success(lang === "th" ? `ส่งผลวิเคราะห์เข้า ${channels} ของคุณแล้ว ✓` : `Sent to your ${channels} ✓`, {
-          description:
-            lang === "th"
-              ? "เปิดแอปเพื่อคุยต่อกับผู้ช่วย Goodfill ได้ทันที"
-              : "Open the app to continue with the Goodfill assistant.",
-        });
+        toast.success(
+          lang === "th"
+            ? `ส่งผลวิเคราะห์เข้า ${channels} ของคุณแล้ว ✓`
+            : `Sent to your ${channels} ✓`,
+          {
+            description:
+              lang === "th"
+                ? "เปิดแอปเพื่อคุยต่อกับผู้ช่วย Goodfill ได้ทันที"
+                : "Open the app to continue with the Goodfill assistant.",
+          },
+        );
       } else {
         toast.message(lang === "th" ? "ยังไม่ได้เชื่อมบัญชีแชต" : "No chat account linked yet", {
           description:
@@ -134,7 +141,10 @@ function PersonaPage() {
       const result = await fetchInsight({
         data: {
           personaId: persona.id,
-          personaName: typeof persona.name === "string" ? persona.name : ((persona.name as any).en ?? persona.id),
+          personaName:
+            typeof persona.name === "string"
+              ? persona.name
+              : ((persona.name as any).en ?? persona.id),
           answers: answersAsNumberMap,
           lang,
         },
@@ -158,7 +168,10 @@ function PersonaPage() {
         subtitle={t("persona.empty.subtitle")}
       >
         <DashCard className="text-center">
-          <Link to="/quest" className="btn-gold rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm">
+          <Link
+            to="/quest"
+            className="btn-gold rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm"
+          >
             {t("common.startQuest")} <ArrowRight size={16} />
           </Link>
         </DashCard>
@@ -177,7 +190,11 @@ function PersonaPage() {
       title={pick(persona.name, lang)}
       subtitle={pick(persona.thaiName, lang)}
     >
-      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <DashCard
           className="p-4 md:p-5 bg-gradient-to-br from-emerald-deep/95 via-navy/95 to-emerald-deep/90 ring-1 ring-white/15 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]"
           variant="deep"
@@ -185,7 +202,9 @@ function PersonaPage() {
           <p className="text-sm md:text-base font-semibold text-ivory leading-snug drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)] break-words">
             {pick(persona.tagline, lang)}
           </p>
-          <p className="text-xs text-ivory/85 mt-1.5 leading-relaxed line-clamp-3">{pick(persona.description, lang)}</p>
+          <p className="text-xs text-ivory/85 mt-1.5 leading-relaxed line-clamp-3">
+            {pick(persona.description, lang)}
+          </p>
           <div className="flex items-center gap-1.5 text-gold text-[10px] tracking-[0.25em] uppercase mt-3 font-semibold">
             <Sparkles size={12} /> {t("persona.pillars")}
           </div>
@@ -214,7 +233,10 @@ function PersonaPage() {
         </DashCard>
 
         {/* AI Insight — powered by AI */}
-        <DashCard className="mt-3 bg-gradient-to-br from-emerald-deep/95 to-navy/95 text-ivory" variant="deep">
+        <DashCard
+          className="mt-3 bg-gradient-to-br from-emerald-deep/95 to-navy/95 text-ivory"
+          variant="deep"
+        >
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Wand2 size={14} className="text-gold" />
@@ -288,7 +310,9 @@ function PersonaPage() {
           )}
           {insight && (
             <div className="mt-3 space-y-2 text-sm">
-              {insight.summary && <p className="text-ivory/95 leading-relaxed">{insight.summary}</p>}
+              {insight.summary && (
+                <p className="text-ivory/95 leading-relaxed">{insight.summary}</p>
+              )}
               <div className="grid sm:grid-cols-2 gap-2 mt-2">
                 {insight.strengths?.length > 0 && (
                   <div className="rounded-xl bg-white/10 border border-white/15 p-2.5">
@@ -388,8 +412,12 @@ function PersonaPage() {
 
         {secondary && (
           <DashCard className="mt-3">
-            <div className="text-[10px] tracking-[0.25em] uppercase text-gold">{t("persona.secondary")}</div>
-            <div className="font-display text-lg text-navy mt-0.5">{pick(secondary.name, lang)}</div>
+            <div className="text-[10px] tracking-[0.25em] uppercase text-gold">
+              {t("persona.secondary")}
+            </div>
+            <div className="font-display text-lg text-navy mt-0.5">
+              {pick(secondary.name, lang)}
+            </div>
             <div className="text-xs text-muted-foreground">
               {pick(secondary.thaiName, lang)} · {pick(secondary.tagline, lang)}
             </div>
@@ -397,7 +425,9 @@ function PersonaPage() {
         )}
 
         <div className="mt-3">
-          <div className="text-[11px] tracking-widest uppercase text-gold mb-2">{t("persona.recommended")}</div>
+          <div className="text-[11px] tracking-widest uppercase text-gold mb-2">
+            {t("persona.recommended")}
+          </div>
           {/* Mobile: swipeable horizontal carousel · Desktop: grid */}
           <div className="sm:hidden -mx-4 px-4">
             <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
@@ -409,11 +439,20 @@ function PersonaPage() {
                   className="snap-center shrink-0 w-[78%] bg-white/85 backdrop-blur-md border border-white/60 rounded-2xl overflow-hidden shadow-[0_12px_30px_-12px_rgba(0,0,0,0.35)] active:scale-[0.98] transition"
                 >
                   <div className="aspect-[16/10] overflow-hidden">
-                    <img src={p.image} alt={pick(p.name, lang)} loading="lazy" className="size-full object-cover" />
+                    <img
+                      src={p.image}
+                      alt={pick(p.name, lang)}
+                      loading="lazy"
+                      className="size-full object-cover"
+                    />
                   </div>
                   <div className="p-3">
-                    <div className="text-[10px] tracking-widest text-gold uppercase">{pick(p.duration, lang)}</div>
-                    <div className="font-display text-base text-navy mt-0.5 line-clamp-1">{pick(p.name, lang)}</div>
+                    <div className="text-[10px] tracking-widest text-gold uppercase">
+                      {pick(p.duration, lang)}
+                    </div>
+                    <div className="font-display text-base text-navy mt-0.5 line-clamp-1">
+                      {pick(p.name, lang)}
+                    </div>
                     <div className="mt-2 flex items-center justify-between">
                       <div className="text-xs text-navy">฿{p.price.toLocaleString()}</div>
                       <ArrowRight size={14} className="text-gold" />
@@ -448,8 +487,12 @@ function PersonaPage() {
                   />
                 </div>
                 <div className="p-3">
-                  <div className="text-[10px] tracking-widest text-gold uppercase">{pick(p.duration, lang)}</div>
-                  <div className="font-display text-base text-navy mt-0.5 line-clamp-1">{pick(p.name, lang)}</div>
+                  <div className="text-[10px] tracking-widest text-gold uppercase">
+                    {pick(p.duration, lang)}
+                  </div>
+                  <div className="font-display text-base text-navy mt-0.5 line-clamp-1">
+                    {pick(p.name, lang)}
+                  </div>
                   <div className="mt-2 flex items-center justify-between">
                     <div className="text-xs text-navy">฿{p.price.toLocaleString()}</div>
                     <ArrowRight size={14} className="text-gold" />

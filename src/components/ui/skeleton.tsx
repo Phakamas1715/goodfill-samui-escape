@@ -91,7 +91,11 @@ function TextSkeleton({
   return (
     <div className={cn("space-y-2", className)} {...props}>
       {Array.from({ length: lines }).map((_, i) => (
-        <Skeleton key={i} variant={variant} className={cn(lineHeight, i === lines - 1 && lastLineWidth, "w-full")} />
+        <Skeleton
+          key={i}
+          variant={variant}
+          className={cn(lineHeight, i === lines - 1 && lastLineWidth, "w-full")}
+        />
       ))}
     </div>
   );
@@ -129,7 +133,12 @@ function CardSkeleton({ variant = "default", className, ...props }: SkeletonProp
 /**
  * List skeleton (for sidebar, menu items)
  */
-function ListSkeleton({ count = 5, variant = "default", className, ...props }: SkeletonProps & { count?: number }) {
+function ListSkeleton({
+  count = 5,
+  variant = "default",
+  className,
+  ...props
+}: SkeletonProps & { count?: number }) {
   return (
     <div className={cn("space-y-2", className)} {...props}>
       {Array.from({ length: count }).map((_, i) => (
@@ -192,4 +201,12 @@ function ProductSkeleton({ variant = "default", className, ...props }: SkeletonP
 // Export
 // ============================================================================
 
-export { Skeleton, TextSkeleton, AvatarSkeleton, CardSkeleton, ListSkeleton, TableSkeleton, ProductSkeleton };
+export {
+  Skeleton,
+  TextSkeleton,
+  AvatarSkeleton,
+  CardSkeleton,
+  ListSkeleton,
+  TableSkeleton,
+  ProductSkeleton,
+};

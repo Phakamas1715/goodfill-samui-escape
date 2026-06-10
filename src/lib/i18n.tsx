@@ -1,4 +1,12 @@
-import { createContext, useContext, useEffect, useState, useCallback, useMemo, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  type ReactNode,
+} from "react";
 
 export type Lang = "th" | "en";
 
@@ -72,7 +80,10 @@ const nestedDict = {
     empty: {
       kicker: { th: "Wellness Persona", en: "Wellness Persona" },
       title: { th: "ยังไม่มีผลลัพธ์", en: "No result yet" },
-      subtitle: { th: "ตอบ 8 ข้อสั้นๆ เพื่อค้นพบ persona", en: "Answer 8 short questions to find your persona" },
+      subtitle: {
+        th: "ตอบ 8 ข้อสั้นๆ เพื่อค้นพบ persona",
+        en: "Answer 8 short questions to find your persona",
+      },
     },
     kicker: { th: "Your Wellness Persona", en: "Your Wellness Persona" },
     secondary: { th: "Persona รอง", en: "Secondary Persona" },
@@ -89,7 +100,10 @@ const nestedDict = {
     backAll: { th: "← กลับไปดูโปรแกรมทั้งหมด", en: "← Back to all programs" },
     allLink: { th: "โปรแกรมทั้งหมด", en: "All programs" },
     pricePerPerson: { th: "ราคาต่อท่าน", en: "Price per person" },
-    priceIncludes: { th: "รวมที่พัก อาหาร และทรีตเมนต์", en: "Includes lodging, meals, and treatments" },
+    priceIncludes: {
+      th: "รวมที่พัก อาหาร และทรีตเมนต์",
+      en: "Includes lodging, meals, and treatments",
+    },
     useCredits: { th: "ใช้ {n} Calm Credits ได้ในการชำระ", en: "Use {n} Calm Credits at checkout" },
     booked: { th: "✓ จองแล้ว — ดู Journey", en: "✓ Booked — View Journey" },
     booking: { th: "กำลังจอง...", en: "Booking..." },
@@ -102,9 +116,18 @@ const nestedDict = {
     mealTitleBy: { th: "แผนอาหารโดย", en: "Meal plan by" },
     fullMeal: { th: "ดูแผนอาหารเต็มรูปแบบ", en: "See the full meal plan" },
     sending: { th: "กำลังส่งใบจองทาง LINE...", en: "Sending LINE receipt..." },
-    bookedToast: { th: "ยืนยันการจอง {id} — ส่งใบจองทาง LINE แล้ว", en: "Booking confirmed {id} — LINE receipt sent" },
-    partialFail: { th: "จองสำเร็จ แต่ส่ง LINE บางส่วนล้มเหลว", en: "Booked, but some LINE deliveries failed" },
-    errorToast: { th: "เกิดข้อผิดพลาด กรุณาลองใหม่", en: "Something went wrong. Please try again." },
+    bookedToast: {
+      th: "ยืนยันการจอง {id} — ส่งใบจองทาง LINE แล้ว",
+      en: "Booking confirmed {id} — LINE receipt sent",
+    },
+    partialFail: {
+      th: "จองสำเร็จ แต่ส่ง LINE บางส่วนล้มเหลว",
+      en: "Booked, but some LINE deliveries failed",
+    },
+    errorToast: {
+      th: "เกิดข้อผิดพลาด กรุณาลองใหม่",
+      en: "Something went wrong. Please try again.",
+    },
   },
   meals: {
     notFound: { th: "ไม่พบแผนอาหาร", en: "Meal plan not found" },
@@ -123,7 +146,10 @@ const nestedDict = {
     empty: {
       kicker: { th: "My Journey", en: "My Journey" },
       title: { th: "ยังไม่มีการจอง", en: "No booking yet" },
-      subtitle: { th: "เลือกโปรแกรมก่อนเริ่ม Journey", en: "Choose a program to start your Journey" },
+      subtitle: {
+        th: "เลือกโปรแกรมก่อนเริ่ม Journey",
+        en: "Choose a program to start your Journey",
+      },
     },
     kicker: { th: "Phase 3 · Partner Experience", en: "Phase 3 · Partner Experience" },
     title: { th: "My Journey · วันนี้", en: "My Journey · Today" },
@@ -143,7 +169,10 @@ const nestedDict = {
     subtitle: { th: "ติดตามนิสัย · สะสม Calm Credits", en: "Track habits · earn Calm Credits" },
     streak: { th: "Streak (days)", en: "Streak (days)" },
     yourPersona: { th: "Your persona", en: "Your persona" },
-    readyToStart: { th: "พร้อมเริ่มสะสมพลังบวกหรือยังคะ?", en: "Ready to start collecting good energy?" },
+    readyToStart: {
+      th: "พร้อมเริ่มสะสมพลังบวกหรือยังคะ?",
+      en: "Ready to start collecting good energy?",
+    },
     firstMission: { th: "เริ่มภารกิจแรก →", en: "Start your first mission →" },
     habitsTitle: { th: "นิสัยวันนี้ · Daily Habits", en: "Today's Habits · Daily" },
     checkinHint: { th: "เริ่มเช็กอินตรงนี้", en: "Tap to check in" },
@@ -162,7 +191,10 @@ const nestedDict = {
     experience: { th: "ประสบการณ์", en: "Experience" },
     forTeams: { th: "สำหรับทีม", en: "For Teams" },
     contact: { th: "ติดต่อ", en: "Contact" },
-    location: { th: "เกาะสมุย · สุราษฎร์ธานี · ประเทศไทย", en: "Koh Samui · Surat Thani · Thailand" },
+    location: {
+      th: "เกาะสมุย · สุราษฎร์ธานี · ประเทศไทย",
+      en: "Koh Samui · Surat Thani · Thailand",
+    },
     rights: { th: "Create your best version", en: "Create your best version" },
   },
   report: {
@@ -188,7 +220,10 @@ const nestedDict = {
     title1: { th: "สัมผัสบรรยากาศ", en: "Experience" },
     title2: { th: "เกาะสมุย", en: "Koh Samui" },
     title3: { th: "ที่ออกแบบเพื่อคุณคนเดียว", en: "designed just for you" },
-    desc: { th: "Luxury Personalized Wellness Companion", en: "Luxury Personalized Wellness Companion" },
+    desc: {
+      th: "Luxury Personalized Wellness Companion",
+      en: "Luxury Personalized Wellness Companion",
+    },
     ctaStart: { th: "เริ่มแบบประเมิน · 8 นาที", en: "Start Quest · 8 min" },
     btnJourney: { th: "การเดินทาง 5 ขั้น", en: "5-Phase Journey" },
     btnPersonas: { th: "6 Personas", en: "6 Personas" },
@@ -277,7 +312,10 @@ const nestedDict = {
     },
     "04": {
       title: { th: "Final Wellness Report", en: "Final Wellness Report" },
-      desc: { th: "สรุปผล Before/After พร้อมแผน 90 วันต่อจากนี้", en: "Before / after summary plus a 90-day plan." },
+      desc: {
+        th: "สรุปผล Before/After พร้อมแผน 90 วันต่อจากนี้",
+        en: "Before / after summary plus a 90-day plan.",
+      },
     },
     "05": {
       title: { th: "Long-term Goodfill Care", en: "Long-term Goodfill Care" },
@@ -421,7 +459,9 @@ export function useI18n() {
 // Higher-Order Component
 // ============================================================================
 
-export function withI18n<P extends object>(Component: React.ComponentType<P & { t: TFunction; lang: Lang }>) {
+export function withI18n<P extends object>(
+  Component: React.ComponentType<P & { t: TFunction; lang: Lang }>,
+) {
   return function WrappedComponent(props: P) {
     const { t, lang } = useI18n();
     return <Component {...props} t={t} lang={lang} />;
@@ -432,7 +472,11 @@ export function withI18n<P extends object>(Component: React.ComponentType<P & { 
 // Server-side helper
 // ============================================================================
 
-export function getTranslation(key: TKey, lang: Lang, params?: Record<string, string | number>): string {
+export function getTranslation(
+  key: TKey,
+  lang: Lang,
+  params?: Record<string, string | number>,
+): string {
   const translation = dict[key];
   if (!translation) {
     return key;

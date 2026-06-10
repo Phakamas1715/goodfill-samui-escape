@@ -3,13 +3,26 @@ import { DashShell, DashCard } from "@/components/DashShell";
 import { partnerGroups, outreachOrder } from "@/lib/partners";
 import { useI18n } from "@/lib/i18n";
 import { useState } from "react";
-import { ChevronRight, Sparkles, Hotel, Utensils, Activity, Stethoscope, Plane, Gift } from "lucide-react";
+import {
+  ChevronRight,
+  Sparkles,
+  Hotel,
+  Utensils,
+  Activity,
+  Stethoscope,
+  Plane,
+  Gift,
+} from "lucide-react";
 
 export const Route = createFileRoute("/partners")({
   head: () => ({
     meta: [
       { title: "Target Partners — Goodfill Care" },
-      { name: "description", content: "รายชื่อพาร์ทเนอร์เป้าหมายของ Goodfill Care บนเกาะสมุย — รีสอร์ท สปา ร้านอาหารสุขภาพ คลินิก และทัวร์ Wellness" },
+      {
+        name: "description",
+        content:
+          "รายชื่อพาร์ทเนอร์เป้าหมายของ Goodfill Care บนเกาะสมุย — รีสอร์ท สปา ร้านอาหารสุขภาพ คลินิก และทัวร์ Wellness",
+      },
     ],
   }),
   component: PartnersPage,
@@ -27,7 +40,7 @@ const groupIcon = {
 
 function PartnersPage() {
   const { lang } = useI18n();
-  const [active, setActive] = useState<typeof partnerGroups[number]["id"]>("A");
+  const [active, setActive] = useState<(typeof partnerGroups)[number]["id"]>("A");
   const group = partnerGroups.find((g) => g.id === active)!;
 
   return (
@@ -36,14 +49,18 @@ function PartnersPage() {
       host="wai"
       kicker={lang === "th" ? "พาร์ทเนอร์เป้าหมาย" : "Target Partners"}
       title={lang === "th" ? "เครือข่ายที่เรากำลังทาบทาม" : "Network we are courting"}
-      subtitle={lang === "th"
-        ? "Prospect list — ยังไม่ใช่พาร์ทเนอร์ที่ตกลงแล้ว"
-        : "Prospect list — not yet signed partners"}
+      subtitle={
+        lang === "th"
+          ? "Prospect list — ยังไม่ใช่พาร์ทเนอร์ที่ตกลงแล้ว"
+          : "Prospect list — not yet signed partners"
+      }
     >
       <div className="grid lg:grid-cols-[220px,1fr] gap-3 h-full min-h-0">
         {/* GROUP RAIL — buttons */}
         <DashCard className="!p-2 overflow-y-auto">
-          <div className="text-[10px] tracking-[0.25em] uppercase text-gold px-2 py-1.5">Groups</div>
+          <div className="text-[10px] tracking-[0.25em] uppercase text-gold px-2 py-1.5">
+            Groups
+          </div>
           <div className="flex flex-col gap-1">
             {partnerGroups.map((g) => {
               const Icon = groupIcon[g.id];
@@ -53,9 +70,7 @@ function PartnersPage() {
                   key={g.id}
                   onClick={() => setActive(g.id)}
                   className={`flex items-center gap-2.5 px-2.5 py-2 rounded-xl text-left transition ${
-                    on
-                      ? "bg-emerald text-ivory shadow-md"
-                      : "hover:bg-pale-mint text-navy"
+                    on ? "bg-emerald text-ivory shadow-md" : "hover:bg-pale-mint text-navy"
                   }`}
                 >
                   <span
@@ -69,7 +84,9 @@ function PartnersPage() {
                     <span className="block text-xs font-medium leading-tight truncate">
                       {g.title[lang]}
                     </span>
-                    <span className={`block text-[10px] leading-tight truncate ${on ? "text-ivory/75" : "text-muted-foreground"}`}>
+                    <span
+                      className={`block text-[10px] leading-tight truncate ${on ? "text-ivory/75" : "text-muted-foreground"}`}
+                    >
                       {g.partners.length} prospects
                     </span>
                   </span>
@@ -145,7 +162,10 @@ function PartnersPage() {
             <Link to="/admin" className="card-cream rounded-full px-4 py-2 text-xs">
               → Admin
             </Link>
-            <Link to="/" className="rounded-full px-4 py-2 text-xs bg-white/70 border border-mint/40">
+            <Link
+              to="/"
+              className="rounded-full px-4 py-2 text-xs bg-white/70 border border-mint/40"
+            >
               ← {lang === "th" ? "กลับหน้าแรก" : "Back home"}
             </Link>
           </div>

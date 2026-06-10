@@ -32,7 +32,8 @@ export const Route = createFileRoute("/")({
       { title: "Goodfill Care — Koh Samui Wellness Journey" },
       {
         name: "description",
-        content: "เริ่มจากแบบประเมิน 8 ข้อ ค้นพบโปรแกรมพักผ่อนแบบลักชัวรี่ที่เกาะสมุย เหมาะกับร่างกายและจิตใจของคุณ",
+        content:
+          "เริ่มจากแบบประเมิน 8 ข้อ ค้นพบโปรแกรมพักผ่อนแบบลักชัวรี่ที่เกาะสมุย เหมาะกับร่างกายและจิตใจของคุณ",
       },
       { property: "og:title", content: "Goodfill Care — Koh Samui Wellness" },
       {
@@ -65,11 +66,31 @@ const slides = [
 ];
 
 const phases = [
-  { num: "01", titleKey: "phase.01.title" as TKey, descKey: "phase.01.desc" as TKey, icon: Sparkles },
-  { num: "02", titleKey: "phase.02.title" as TKey, descKey: "phase.02.desc" as TKey, icon: Compass },
+  {
+    num: "01",
+    titleKey: "phase.01.title" as TKey,
+    descKey: "phase.01.desc" as TKey,
+    icon: Sparkles,
+  },
+  {
+    num: "02",
+    titleKey: "phase.02.title" as TKey,
+    descKey: "phase.02.desc" as TKey,
+    icon: Compass,
+  },
   { num: "03", titleKey: "phase.03.title" as TKey, descKey: "phase.03.desc" as TKey, icon: Leaf },
-  { num: "04", titleKey: "phase.04.title" as TKey, descKey: "phase.04.desc" as TKey, icon: HeartPulse },
-  { num: "05", titleKey: "phase.05.title" as TKey, descKey: "phase.05.desc" as TKey, icon: MoonStar },
+  {
+    num: "04",
+    titleKey: "phase.04.title" as TKey,
+    descKey: "phase.04.desc" as TKey,
+    icon: HeartPulse,
+  },
+  {
+    num: "05",
+    titleKey: "phase.05.title" as TKey,
+    descKey: "phase.05.desc" as TKey,
+    icon: MoonStar,
+  },
 ];
 
 function Landing() {
@@ -175,7 +196,11 @@ function Landing() {
             {/* ปรับโลโก้: เพิ่ม contrast และลดขนาด */}
             <div className="flex items-center gap-3">
               <div className="bg-white/95 backdrop-blur-sm rounded-xl p-2 shadow-lg ring-1 ring-gold/30">
-                <img src={logo} alt="Goodfill Care" className="h-12 md:h-16 w-auto object-contain" />
+                <img
+                  src={logo}
+                  alt="Goodfill Care"
+                  className="h-12 md:h-16 w-auto object-contain"
+                />
               </div>
               <div className="flex flex-col leading-none">
                 <span className="font-display text-xl md:text-3xl text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] tracking-tight font-bold">
@@ -207,14 +232,16 @@ function Landing() {
 
             {/* Editorial proof points */}
             <div className="hidden md:flex flex-wrap gap-x-6 gap-y-2 mt-5">
-              {["8 Wellness Quests", "6 Distinct Personas", "3 / 5 / 7 Day Programs"].map((label) => (
-                <div key={label} className="flex items-center gap-2">
-                  <span className="size-1.5 rounded-full bg-mint shadow-[0_0_6px_rgba(120,200,170,0.5)]" />
-                  <span className="text-white/70 text-[9px] tracking-[0.2em] uppercase font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
-                    {label}
-                  </span>
-                </div>
-              ))}
+              {["8 Wellness Quests", "6 Distinct Personas", "3 / 5 / 7 Day Programs"].map(
+                (label) => (
+                  <div key={label} className="flex items-center gap-2">
+                    <span className="size-1.5 rounded-full bg-mint shadow-[0_0_6px_rgba(120,200,170,0.5)]" />
+                    <span className="text-white/70 text-[9px] tracking-[0.2em] uppercase font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
+                      {label}
+                    </span>
+                  </div>
+                ),
+              )}
             </div>
 
             {/* Action cluster */}
@@ -278,8 +305,9 @@ function Landing() {
                   Refined Care
                 </div>
                 <p className="mt-3 text-white/95 text-[13px] font-medium leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
-                  Curated specifically for global travelers seeking deep restoration in the heart of Thailand —
-                  ภายใต้การดูแลของผู้เชี่ยวชาญ Wellness และเชฟโภชนาการที่ออกแบบทุกขั้นตอนเฉพาะคุณ
+                  Curated specifically for global travelers seeking deep restoration in the heart of
+                  Thailand — ภายใต้การดูแลของผู้เชี่ยวชาญ Wellness
+                  และเชฟโภชนาการที่ออกแบบทุกขั้นตอนเฉพาะคุณ
                 </p>
               </div>
 
@@ -381,8 +409,12 @@ function Landing() {
 
               {modal === "journey" && (
                 <>
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">{t("modal.journey.kicker")}</div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.journey.title")}</h2>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">
+                    {t("modal.journey.kicker")}
+                  </div>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">
+                    {t("modal.journey.title")}
+                  </h2>
                   <div className="mt-6 grid sm:grid-cols-2 gap-3">
                     {phases.map((p) => (
                       <div key={p.num} className="card-soft p-5 rounded-2xl bg-white/80">
@@ -393,7 +425,9 @@ function Landing() {
                           <span className="font-display text-2xl text-mint/70">{p.num}</span>
                         </div>
                         <div className="font-display text-lg mt-3">{t(p.titleKey)}</div>
-                        <p className="text-xs text-muted-foreground/80 mt-1.5 leading-relaxed">{t(p.descKey)}</p>
+                        <p className="text-xs text-muted-foreground/80 mt-1.5 leading-relaxed">
+                          {t(p.descKey)}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -405,7 +439,9 @@ function Landing() {
                   <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">
                     {t("modal.personas.kicker")}
                   </div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.personas.title")}</h2>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">
+                    {t("modal.personas.title")}
+                  </h2>
                   <p className="text-sm text-muted-foreground/80 mt-2">{t("modal.personas.sub")}</p>
                   <div className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {Object.values(personas).map((p) => (
@@ -415,10 +451,18 @@ function Landing() {
                       >
                         <div className="absolute inset-0 bg-white/70 backdrop-blur-[1px]" />
                         <div className="relative">
-                          <div className="text-[9px] tracking-widest uppercase text-emerald/90 font-bold">{p.id}</div>
-                          <div className="font-display text-lg mt-1 text-navy/90">{pick(p.name, lang)}</div>
-                          <div className="text-xs text-emerald-deep/70 font-medium">{pick(p.thaiName, lang)}</div>
-                          <div className="text-xs mt-2 text-navy/70 line-clamp-2">{pick(p.tagline, lang)}</div>
+                          <div className="text-[9px] tracking-widest uppercase text-emerald/90 font-bold">
+                            {p.id}
+                          </div>
+                          <div className="font-display text-lg mt-1 text-navy/90">
+                            {pick(p.name, lang)}
+                          </div>
+                          <div className="text-xs text-emerald-deep/70 font-medium">
+                            {pick(p.thaiName, lang)}
+                          </div>
+                          <div className="text-xs mt-2 text-navy/70 line-clamp-2">
+                            {pick(p.tagline, lang)}
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -435,8 +479,12 @@ function Landing() {
 
               {modal === "samui" && (
                 <>
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">{t("modal.samui.kicker")}</div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.samui.title")}</h2>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">
+                    {t("modal.samui.kicker")}
+                  </div>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">
+                    {t("modal.samui.title")}
+                  </h2>
                   <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-3">
                     {[
                       { src: images.yoga, k: "samui.yoga" as TKey },
@@ -459,9 +507,15 @@ function Landing() {
 
               {modal === "company" && (
                 <>
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">{t("modal.company.kicker")}</div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.company.title")}</h2>
-                  <p className="text-sm text-muted-foreground/80 mt-3 leading-relaxed">{t("modal.company.intro")}</p>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">
+                    {t("modal.company.kicker")}
+                  </div>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">
+                    {t("modal.company.title")}
+                  </h2>
+                  <p className="text-sm text-muted-foreground/80 mt-3 leading-relaxed">
+                    {t("modal.company.intro")}
+                  </p>
                   <div className="mt-5 grid sm:grid-cols-2 gap-2.5">
                     {(
                       [
@@ -473,7 +527,10 @@ function Landing() {
                         "modal.company.s6",
                       ] as TKey[]
                     ).map((k, i) => (
-                      <div key={k} className="card-soft p-3.5 rounded-xl flex items-center gap-3 bg-white/70">
+                      <div
+                        key={k}
+                        className="card-soft p-3.5 rounded-xl flex items-center gap-3 bg-white/70"
+                      >
                         <span className="size-8 rounded-lg bg-pale-mint/60 border border-mint/40 grid place-items-center text-emerald/80 font-display text-sm">
                           0{i + 1}
                         </span>
@@ -486,7 +543,10 @@ function Landing() {
                       <div className="text-[9px] tracking-[0.25em] uppercase text-emerald/80">
                         {t("modal.company.contact")}
                       </div>
-                      <a href="tel:+66945958741" className="mt-2 flex items-center gap-2 text-sm hover:text-emerald/80">
+                      <a
+                        href="tel:+66945958741"
+                        className="mt-2 flex items-center gap-2 text-sm hover:text-emerald/80"
+                      >
                         <Phone size={13} /> 094-595-8741
                       </a>
                       <a
@@ -500,7 +560,9 @@ function Landing() {
                       </div>
                     </div>
                     <div className="card-soft p-4 rounded-2xl bg-white/80">
-                      <div className="text-[9px] tracking-[0.25em] uppercase text-emerald/80">HQ</div>
+                      <div className="text-[9px] tracking-[0.25em] uppercase text-emerald/80">
+                        HQ
+                      </div>
                       <div className="mt-2 flex items-start gap-2 text-sm text-navy/70">
                         <MapPin size={13} className="mt-0.5 shrink-0" />
                         <span>{t("modal.company.addr")}</span>
@@ -547,7 +609,9 @@ function Landing() {
               >
                 <X size={20} />
               </button>
-              <div className="text-[9px] tracking-[0.3em] uppercase text-gold/80">Goodfill Care</div>
+              <div className="text-[9px] tracking-[0.3em] uppercase text-gold/80">
+                Goodfill Care
+              </div>
               <h3 className="font-display text-2xl mt-1">เมนูเพิ่มเติม</h3>
               <div className="mt-4 grid grid-cols-1 gap-2">
                 {moreItems.map((m) => (

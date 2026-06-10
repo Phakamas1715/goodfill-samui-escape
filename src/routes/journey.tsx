@@ -86,7 +86,9 @@ function JourneyPage() {
               <div className="text-[11px] md:text-xs tracking-widest text-gold uppercase font-semibold">
                 {pick(program.name, lang)}
               </div>
-              <div className="font-display text-2xl md:text-3xl mt-2 text-navy">{pick(today.day, lang)}</div>
+              <div className="font-display text-2xl md:text-3xl mt-2 text-navy">
+                {pick(today.day, lang)}
+              </div>
             </div>
             <div className="size-12 md:size-14 rounded-full bg-pale-mint grid place-items-center text-2xl md:text-3xl text-gold shadow-md">
               ☀️
@@ -102,7 +104,9 @@ function JourneyPage() {
                 <div className="size-7 md:size-8 rounded-full bg-pale-mint border border-mint grid place-items-center text-[11px] md:text-xs text-emerald font-semibold mt-0.5 shrink-0">
                   {idx + 1}
                 </div>
-                <div className="text-sm md:text-base text-navy/90 leading-relaxed">{pick(i, lang)}</div>
+                <div className="text-sm md:text-base text-navy/90 leading-relaxed">
+                  {pick(i, lang)}
+                </div>
               </li>
             ))}
           </ul>
@@ -115,7 +119,9 @@ function JourneyPage() {
             <div className="text-[11px] md:text-xs tracking-widest text-gold uppercase flex items-center gap-2 font-semibold">
               <QrCode size={16} /> {t("journey.qrTitle")}
             </div>
-            <p className="text-xs md:text-sm text-muted-foreground mt-2 leading-relaxed">{t("journey.qrHint")}</p>
+            <p className="text-xs md:text-sm text-muted-foreground mt-2 leading-relaxed">
+              {t("journey.qrHint")}
+            </p>
             {!showQr ? (
               <button
                 onClick={() => setShowQr(true)}
@@ -131,7 +137,11 @@ function JourneyPage() {
               >
                 <div className="size-full grid grid-cols-8 grid-rows-8 gap-0.5">
                   {Array.from({ length: 64 }).map((_, i) => (
-                    <div key={i} className="bg-emerald-deep" style={{ opacity: (i * 37) % 7 < 4 ? 1 : 0 }} />
+                    <div
+                      key={i}
+                      className="bg-emerald-deep"
+                      style={{ opacity: (i * 37) % 7 < 4 ? 1 : 0 }}
+                    />
                   ))}
                 </div>
               </motion.div>
@@ -143,7 +153,9 @@ function JourneyPage() {
             <div className="text-[11px] md:text-xs tracking-widest text-gold uppercase flex items-center gap-2 font-semibold">
               <Smile size={16} /> {t("journey.moodTitle")}
             </div>
-            <p className="text-xs md:text-sm text-muted-foreground mt-2 leading-relaxed">{t("journey.moodHint")}</p>
+            <p className="text-xs md:text-sm text-muted-foreground mt-2 leading-relaxed">
+              {t("journey.moodHint")}
+            </p>
             <div className="flex justify-between mt-4 gap-2">
               {[
                 { emoji: "😴", label: "Very tired" },
@@ -205,7 +217,9 @@ function JourneyPage() {
             <Send size={20} />
           </div>
           <div>
-            <div className="text-sm md:text-base font-semibold text-navy">รับการแจ้งเตือนผ่าน Telegram</div>
+            <div className="text-sm md:text-base font-semibold text-navy">
+              รับการแจ้งเตือนผ่าน Telegram
+            </div>
             <div className="text-[11px] md:text-xs text-muted-foreground mt-0.5">
               QR แผนอาหาร · ยืนยันบริการ · อัปเดตจาก expert
             </div>

@@ -22,7 +22,9 @@ function LoginPage() {
   const search = useSearch({ from: "/login" });
   const channel = search.channel ?? "customer";
   const liffId =
-    channel === "partner" ? (import.meta.env.VITE_PARTNER_LIFF_ID as string) : (import.meta.env.VITE_LIFF_ID as string);
+    channel === "partner"
+      ? (import.meta.env.VITE_PARTNER_LIFF_ID as string)
+      : (import.meta.env.VITE_LIFF_ID as string);
   const channelId = liffId?.split("-")[0];
 
   const [state, setState] = useState<"init" | "login" | "signing" | "done" | "error">("init");
@@ -58,7 +60,8 @@ function LoginPage() {
         if (cancelled) return;
         setState("done");
         const fallback = channel === "partner" ? "/admin" : "/";
-        const target = search.redirect && search.redirect.startsWith("/") ? search.redirect : fallback;
+        const target =
+          search.redirect && search.redirect.startsWith("/") ? search.redirect : fallback;
         nav({ to: target });
       } catch (e) {
         if (cancelled) return;
@@ -103,7 +106,9 @@ function LoginPage() {
             <div className="size-12 md:size-14 rounded-full bg-emerald/20 flex items-center justify-center">
               <Sparkles size={24} className="text-emerald" />
             </div>
-            <span className="text-base md:text-lg text-emerald font-medium">สำเร็จ! กำลังนำทาง…</span>
+            <span className="text-base md:text-lg text-emerald font-medium">
+              สำเร็จ! กำลังนำทาง…
+            </span>
           </div>
         );
       case "error":
@@ -146,7 +151,9 @@ function LoginPage() {
           </div>
 
           {/* Status Area — larger and clearer */}
-          <div className="min-h-[120px] md:min-h-[140px] flex items-center justify-center">{renderStatus()}</div>
+          <div className="min-h-[120px] md:min-h-[140px] flex items-center justify-center">
+            {renderStatus()}
+          </div>
 
           {/* Error Action */}
           {state === "error" && (

@@ -40,7 +40,11 @@ const VARIANT_STYLES = {
 // Components
 // ============================================================================
 
-const ResizablePanelGroup = ({ className, variant = "default", ...props }: ResizablePanelGroupProps) => (
+const ResizablePanelGroup = ({
+  className,
+  variant = "default",
+  ...props
+}: ResizablePanelGroupProps) => (
   <Group
     className={cn(
       "flex h-full w-full rounded-xl bg-white/50 backdrop-blur-sm",
@@ -54,9 +58,15 @@ const ResizablePanelGroup = ({ className, variant = "default", ...props }: Resiz
 
 const ResizablePanel = Panel;
 
-const ResizableHandle = ({ withHandle, className, variant = "default", ...props }: ResizableHandleProps) => {
+const ResizableHandle = ({
+  withHandle,
+  className,
+  variant = "default",
+  ...props
+}: ResizableHandleProps) => {
   const variantStyle = VARIANT_STYLES[variant];
-  const isVertical = (props as Record<string, unknown>)["data-panel-group-direction"] === "vertical";
+  const isVertical =
+    (props as Record<string, unknown>)["data-panel-group-direction"] === "vertical";
 
   return (
     <Separator
@@ -104,7 +114,9 @@ const ResizableHandle = ({ withHandle, className, variant = "default", ...props 
 /**
  * Resizable panel group with gold theme
  */
-const GoldResizablePanelGroup = (props: ResizablePanelGroupProps) => <ResizablePanelGroup variant="gold" {...props} />;
+const GoldResizablePanelGroup = (props: ResizablePanelGroupProps) => (
+  <ResizablePanelGroup variant="gold" {...props} />
+);
 
 /**
  * Resizable panel group with emerald theme

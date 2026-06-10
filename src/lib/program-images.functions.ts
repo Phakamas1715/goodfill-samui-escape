@@ -247,7 +247,9 @@ export const generateProgramImage = createServerFn({ method: "POST" })
 
     if (!b64) {
       throw new Error(
-        data.lang === "th" ? "AI ไม่ส่งรูปกลับมา กรุณาลองใหม่อีกครั้ง" : "AI did not return an image, please try again",
+        data.lang === "th"
+          ? "AI ไม่ส่งรูปกลับมา กรุณาลองใหม่อีกครั้ง"
+          : "AI did not return an image, please try again",
       );
     }
 
@@ -374,7 +376,9 @@ export const listProgramImages = createServerFn({ method: "POST" })
     const images = await Promise.all(
       (files ?? []).map(async (file) => {
         const path = `${data.slug}/${file.name}`;
-        const { data: signed } = await supabaseAdmin.storage.from(BUCKET).createSignedUrl(path, SIGNED_URL_EXPIRES);
+        const { data: signed } = await supabaseAdmin.storage
+          .from(BUCKET)
+          .createSignedUrl(path, SIGNED_URL_EXPIRES);
 
         return {
           name: file.name,

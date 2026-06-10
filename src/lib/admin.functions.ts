@@ -9,7 +9,14 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 const ROLES = ["admin", "staff", "expert", "partner", "user"] as const;
 type Role = (typeof ROLES)[number];
 
-const BOOKING_STATUSES = ["pending", "accepted", "rejected", "completed", "redeemed", "cancelled"] as const;
+const BOOKING_STATUSES = [
+  "pending",
+  "accepted",
+  "rejected",
+  "completed",
+  "redeemed",
+  "cancelled",
+] as const;
 type BookingStatus = (typeof BOOKING_STATUSES)[number];
 
 const STATUS_LABELS: Record<BookingStatus, { th: string; en: string }> = {
@@ -25,7 +32,11 @@ const STATUS_LABELS: Record<BookingStatus, { th: string; en: string }> = {
 // Helper Functions
 // ============================================================================
 
-async function assertAdminOrStaff(supabase: any, userId: string, options?: { requireAdmin?: boolean }) {
+async function assertAdminOrStaff(
+  supabase: any,
+  userId: string,
+  options?: { requireAdmin?: boolean },
+) {
   const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId);
 
   if (error) {
@@ -58,7 +69,10 @@ export const getMyRoles = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     try {
-      const { data } = await context.supabase.from("user_roles").select("role").eq("user_id", context.userId);
+      const { data } = await context.supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", context.userId);
 
       const roles = (data ?? []).map((r: any) => r.role as string);
       logAction("getMyRoles", context.userId, { roles });
@@ -206,7 +220,10 @@ export const upsertProgram = createServerFn({ method: "POST" })
 
     if (data.id) {
       const { id, ...rest } = data;
-      const { error } = await context.supabase.from("programs").update(rest as never).eq("id", id);
+      const { error } = await context.supabase
+        .from("programs")
+        .update(rest as never)
+        .eq("id", id);
 
       if (error) {
         console.error("[upsertProgram] Update error:", error);
@@ -216,7 +233,11 @@ export const upsertProgram = createServerFn({ method: "POST" })
     }
 
     const { id: _omit, ...rest } = data;
-    const { data: ins, error } = await context.supabase.from("programs").insert(rest as never).select("id").single();
+    const { data: ins, error } = await context.supabase
+      .from("programs")
+      .insert(rest as never)
+      .select("id")
+      .single();
 
     if (error) {
       console.error("[upsertProgram] Insert error:", error);
@@ -388,7 +409,9 @@ export const getDashboardStats = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     await assertAdminOrStaff(context.supabase, context.userId);
 
-    const { data: bookings } = await context.supabase.from("bookings").select("status, program_price, created_at");
+    const { data: bookings } = await context.supabase
+      .from("bookings")
+      .select("status, program_price, created_at");
 
     const today = new Date().toISOString().slice(0, 10);
     const thisWeekStart = new Date();
@@ -400,8 +423,14 @@ export const getDashboardStats = createServerFn({ method: "GET" })
       (b: any) => b.created_at?.slice(0, 10) >= thisWeekStart.toISOString().slice(0, 10),
     );
 
-    const revenue = (bookings ?? []).reduce((sum: number, b: any) => sum + (b.program_price || 0), 0);
-    const thisWeekRevenue = thisWeekBookings.reduce((sum: number, b: any) => sum + (b.program_price || 0), 0);
+    const revenue = (bookings ?? []).reduce(
+      (sum: number, b: any) => sum + (b.program_price || 0),
+      0,
+    );
+    const thisWeekRevenue = thisWeekBookings.reduce(
+      (sum: number, b: any) => sum + (b.program_price || 0),
+      0,
+    );
 
     return {
       totalBookings: bookings?.length || 0,

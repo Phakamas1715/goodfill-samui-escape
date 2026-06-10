@@ -8,7 +8,9 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface PopoverContentProps extends React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> {
+interface PopoverContentProps extends React.ComponentPropsWithoutRef<
+  typeof PopoverPrimitive.Content
+> {
   variant?: "default" | "gold" | "emerald";
   size?: "sm" | "default" | "lg";
   showClose?: boolean;
@@ -33,7 +35,8 @@ const VARIANT_STYLES = {
     content: "bg-gradient-to-br from-gold/10 to-gold-soft/20 border border-gold/40 shadow-xl",
   },
   emerald: {
-    content: "bg-gradient-to-br from-emerald/10 to-emerald-deep/20 border border-emerald/40 shadow-xl",
+    content:
+      "bg-gradient-to-br from-emerald/10 to-emerald-deep/20 border border-emerald/40 shadow-xl",
   },
 } as const;
 
@@ -47,7 +50,10 @@ const PopoverTrigger = PopoverPrimitive.Trigger;
 
 const PopoverAnchor = PopoverPrimitive.Anchor;
 
-const PopoverContent = React.forwardRef<React.ElementRef<typeof PopoverPrimitive.Content>, PopoverContentProps>(
+const PopoverContent = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Content>,
+  PopoverContentProps
+>(
   (
     {
       className,
@@ -116,7 +122,9 @@ const GoldPopover = (props: PopoverContentProps) => <PopoverContent variant="gol
 /**
  * Popover with emerald theme
  */
-const EmeraldPopover = (props: PopoverContentProps) => <PopoverContent variant="emerald" {...props} />;
+const EmeraldPopover = (props: PopoverContentProps) => (
+  <PopoverContent variant="emerald" {...props} />
+);
 
 /**
  * Popover with custom trigger that shows on hover
@@ -127,7 +135,13 @@ interface HoverPopoverProps extends PopoverContentProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-const HoverPopover = ({ trigger, children, open: controlledOpen, onOpenChange, ...props }: HoverPopoverProps) => {
+const HoverPopover = ({
+  trigger,
+  children,
+  open: controlledOpen,
+  onOpenChange,
+  ...props
+}: HoverPopoverProps) => {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(false);
   const open = controlledOpen !== undefined ? controlledOpen : uncontrolledOpen;
   const setOpen = onOpenChange || setUncontrolledOpen;
@@ -152,20 +166,21 @@ interface PopoverWithHeaderProps extends PopoverContentProps {
   icon?: React.ReactNode;
 }
 
-const PopoverWithHeader = React.forwardRef<React.ElementRef<typeof PopoverPrimitive.Content>, PopoverWithHeaderProps>(
-  ({ title, description, icon, children, ...props }, ref) => (
-    <PopoverContent ref={ref} {...props}>
-      <div className="mb-3 space-y-1">
-        <div className="flex items-center gap-2">
-          {icon && <div className="text-gold">{icon}</div>}
-          <h3 className="font-semibold text-navy">{title}</h3>
-        </div>
-        {description && <p className="text-xs text-muted-foreground">{description}</p>}
+const PopoverWithHeader = React.forwardRef<
+  React.ElementRef<typeof PopoverPrimitive.Content>,
+  PopoverWithHeaderProps
+>(({ title, description, icon, children, ...props }, ref) => (
+  <PopoverContent ref={ref} {...props}>
+    <div className="mb-3 space-y-1">
+      <div className="flex items-center gap-2">
+        {icon && <div className="text-gold">{icon}</div>}
+        <h3 className="font-semibold text-navy">{title}</h3>
       </div>
-      {children}
-    </PopoverContent>
-  ),
-);
+      {description && <p className="text-xs text-muted-foreground">{description}</p>}
+    </div>
+    {children}
+  </PopoverContent>
+));
 PopoverWithHeader.displayName = "PopoverWithHeader";
 
 // ============================================================================

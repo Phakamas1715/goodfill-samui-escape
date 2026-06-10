@@ -35,7 +35,8 @@ function ConsentPage() {
             checked={ok.data}
             onChange={(v) => setOk({ ...ok, data: v })}
           >
-            อนุญาตให้ Goodfill Care เก็บข้อมูลพื้นฐาน เช่น ชื่อ อีเมล เบอร์โทร เพื่อใช้ในการให้บริการตาม PDPA
+            อนุญาตให้ Goodfill Care เก็บข้อมูลพื้นฐาน เช่น ชื่อ อีเมล เบอร์โทร
+            เพื่อใช้ในการให้บริการตาม PDPA
           </Item>
 
           <Item

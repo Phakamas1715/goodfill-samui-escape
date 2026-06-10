@@ -1,9 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { setupLineRichMenu, listLineRichMenus, deleteLineRichMenu } from "@/lib/line-richmenu.functions";
+import {
+  setupLineRichMenu,
+  listLineRichMenus,
+  deleteLineRichMenu,
+} from "@/lib/line-richmenu.functions";
 import { toast } from "sonner";
-import { Sparkles, Trash2, RefreshCw, Image, Smartphone, CheckCircle, AlertCircle, Eye } from "lucide-react";
+import {
+  Sparkles,
+  Trash2,
+  RefreshCw,
+  Image,
+  Smartphone,
+  CheckCircle,
+  AlertCircle,
+  Eye,
+} from "lucide-react";
 import { useState } from "react";
 
 export const Route = createFileRoute("/_authenticated/admin/line")({
@@ -95,7 +108,11 @@ function ChannelPanel({ channel, title }: { channel: "customer" | "partner"; tit
               </span>
             </div>
             <button
-              onClick={() => setPreviewMenu(previewMenu?.richMenuId === defaultMenu.richMenuId ? null : defaultMenu)}
+              onClick={() =>
+                setPreviewMenu(
+                  previewMenu?.richMenuId === defaultMenu.richMenuId ? null : defaultMenu,
+                )
+              }
               className="text-gold text-[11px] inline-flex items-center gap-1 hover:underline"
             >
               <Eye size={12} />{" "}
@@ -111,7 +128,9 @@ function ChannelPanel({ channel, title }: { channel: "customer" | "partner"; tit
           <div className="flex items-center justify-between">
             <div>
               <div className="font-medium text-navy text-sm">{defaultMenu.name}</div>
-              <div className="font-mono text-[10px] text-muted-foreground mt-0.5">{defaultMenu.richMenuId}</div>
+              <div className="font-mono text-[10px] text-muted-foreground mt-0.5">
+                {defaultMenu.richMenuId}
+              </div>
             </div>
             <button
               onClick={() => del.mutate(defaultMenu.richMenuId)}
@@ -139,11 +158,15 @@ function ChannelPanel({ channel, title }: { channel: "customer" | "partner"; tit
               >
                 <div className="flex-1 min-w-0">
                   <div className="font-medium text-navy truncate">{m.name}</div>
-                  <div className="font-mono text-[10px] text-muted-foreground truncate">{m.richMenuId}</div>
+                  <div className="font-mono text-[10px] text-muted-foreground truncate">
+                    {m.richMenuId}
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => setPreviewMenu(previewMenu?.richMenuId === m.richMenuId ? null : m)}
+                    onClick={() =>
+                      setPreviewMenu(previewMenu?.richMenuId === m.richMenuId ? null : m)
+                    }
                     className="text-gold text-[11px] hover:underline"
                   >
                     {previewMenu?.richMenuId === m.richMenuId
@@ -192,7 +215,9 @@ function ChannelPanel({ channel, title }: { channel: "customer" | "partner"; tit
             {channel === "customer" ? "ยังไม่มี Rich Menu" : "No Rich Menu yet"}
           </div>
           <p className="text-[10px] text-muted-foreground mt-1">
-            {channel === "customer" ? "คลิกปุ่มด้านบนเพื่อสร้างด้วย AI" : "Click the button above to create with AI"}
+            {channel === "customer"
+              ? "คลิกปุ่มด้านบนเพื่อสร้างด้วย AI"
+              : "Click the button above to create with AI"}
           </p>
         </div>
       )}
@@ -221,10 +246,16 @@ function ChannelPanel({ channel, title }: { channel: "customer" | "partner"; tit
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
           onClick={() => setPreviewMenu(null)}
         >
-          <div className="bg-white rounded-2xl max-w-sm w-full p-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="bg-white rounded-2xl max-w-sm w-full p-4 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between mb-3">
               <h3 className="font-display text-lg text-navy">Preview: {previewMenu.name}</h3>
-              <button onClick={() => setPreviewMenu(null)} className="text-muted-foreground hover:text-navy">
+              <button
+                onClick={() => setPreviewMenu(null)}
+                className="text-muted-foreground hover:text-navy"
+              >
                 ✕
               </button>
             </div>

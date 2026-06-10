@@ -249,7 +249,10 @@ export async function tgSendPhoto(
   return json.result;
 }
 
-export async function tgSendChatAction(chatId: number | string, action: ChatAction): Promise<boolean> {
+export async function tgSendChatAction(
+  chatId: number | string,
+  action: ChatAction,
+): Promise<boolean> {
   try {
     await tgCall("sendChatAction", {
       chat_id: chatId,

@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 // Types
 // ============================================================================
 
-interface BadgeProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
+interface BadgeProps
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
   asChild?: boolean;
 }
 
@@ -26,7 +27,8 @@ const badgeVariants = cva(
         outline: "border border-border bg-transparent text-foreground hover:bg-accent/10",
 
         // Status variants
-        success: "border-transparent bg-emerald-100 text-emerald-800 shadow-sm hover:bg-emerald-200",
+        success:
+          "border-transparent bg-emerald-100 text-emerald-800 shadow-sm hover:bg-emerald-200",
         warning: "border-transparent bg-amber-100 text-amber-800 shadow-sm hover:bg-amber-200",
         error: "border-transparent bg-coral-100 text-coral-800 shadow-sm hover:bg-coral-200",
         info: "border-transparent bg-sky-100 text-sky-800 shadow-sm hover:bg-sky-200",
@@ -202,7 +204,12 @@ function RemovableBadge({ children, onRemove, ...props }: RemovableBadgeProps) {
         aria-label="Remove"
       >
         <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
         </svg>
       </button>
     </Badge>

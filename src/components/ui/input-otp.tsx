@@ -82,9 +82,12 @@ const InputOTP = React.forwardRef<React.ElementRef<typeof OTPInput>, InputOTPPro
 );
 InputOTP.displayName = "InputOTP";
 
-const InputOTPGroup = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div">>(
-  ({ className, ...props }, ref) => <div ref={ref} className={cn("flex items-center gap-2", className)} {...props} />,
-);
+const InputOTPGroup = React.forwardRef<
+  React.ElementRef<"div">,
+  React.ComponentPropsWithoutRef<"div">
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("flex items-center gap-2", className)} {...props} />
+));
 InputOTPGroup.displayName = "InputOTPGroup";
 
 const InputOTPSlot = React.forwardRef<React.ElementRef<"div">, InputOTPSlotProps>(
@@ -120,24 +123,30 @@ const InputOTPSlot = React.forwardRef<React.ElementRef<"div">, InputOTPSlotProps
 );
 InputOTPSlot.displayName = "InputOTPSlot";
 
-const InputOTPSeparator = React.forwardRef<React.ElementRef<"div">, React.ComponentPropsWithoutRef<"div">>(
-  ({ className, ...props }, ref) => {
-    const variant = "default";
-    const variantStyle = VARIANT_STYLES[variant];
-    const sizeStyle = SIZE_STYLES.default;
+const InputOTPSeparator = React.forwardRef<
+  React.ElementRef<"div">,
+  React.ComponentPropsWithoutRef<"div">
+>(({ className, ...props }, ref) => {
+  const variant = "default";
+  const variantStyle = VARIANT_STYLES[variant];
+  const sizeStyle = SIZE_STYLES.default;
 
-    return (
-      <div
-        ref={ref}
-        role="separator"
-        className={cn("flex items-center justify-center", sizeStyle.separator, variantStyle.separator, className)}
-        {...props}
-      >
-        <Minus className="h-4 w-4" />
-      </div>
-    );
-  },
-);
+  return (
+    <div
+      ref={ref}
+      role="separator"
+      className={cn(
+        "flex items-center justify-center",
+        sizeStyle.separator,
+        variantStyle.separator,
+        className,
+      )}
+      {...props}
+    >
+      <Minus className="h-4 w-4" />
+    </div>
+  );
+});
 InputOTPSeparator.displayName = "InputOTPSeparator";
 
 // ============================================================================
@@ -181,7 +190,11 @@ type PatternOTPProps = Omit<InputOTPProps, "pattern"> & {
 
 const PatternOTP = React.forwardRef<React.ElementRef<typeof OTPInput>, PatternOTPProps>(
   ({ pattern = "numeric", ...props }, ref) => (
-    <InputOTP ref={ref} pattern={pattern === "numeric" ? "^[0-9]*$" : "^[A-Za-z0-9]*$"} {...(props as InputOTPProps)} />
+    <InputOTP
+      ref={ref}
+      pattern={pattern === "numeric" ? "^[0-9]*$" : "^[A-Za-z0-9]*$"}
+      {...(props as InputOTPProps)}
+    />
   ),
 );
 PatternOTP.displayName = "PatternOTP";

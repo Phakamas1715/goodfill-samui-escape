@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 
 type AlertVariant = "default" | "success" | "warning" | "error" | "info" | "gold";
 
-interface AlertProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof alertVariants> {
+interface AlertProps
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof alertVariants> {
   icon?: React.ReactNode;
   onClose?: () => void;
   closable?: boolean;
@@ -19,21 +20,27 @@ interface AlertProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<
 // Constants
 // ============================================================================
 
-const alertVariants = cva("relative w-full rounded-xl border p-4 text-sm transition-all duration-200", {
-  variants: {
-    variant: {
-      default: ["bg-white/80 backdrop-blur-sm border-mint/40 text-navy", "shadow-sm"].join(" "),
-      success: ["bg-emerald-50/90 border-emerald-200 text-emerald-800", "shadow-sm"].join(" "),
-      warning: ["bg-amber-50/90 border-amber-200 text-amber-800", "shadow-sm"].join(" "),
-      error: ["bg-coral-50/90 border-coral-200 text-coral-800", "shadow-sm"].join(" "),
-      info: ["bg-sky-50/90 border-sky-200 text-sky-800", "shadow-sm"].join(" "),
-      gold: ["bg-gradient-to-r from-gold/10 to-gold-soft/5 border-gold/30 text-emerald-deep", "shadow-md"].join(" "),
+const alertVariants = cva(
+  "relative w-full rounded-xl border p-4 text-sm transition-all duration-200",
+  {
+    variants: {
+      variant: {
+        default: ["bg-white/80 backdrop-blur-sm border-mint/40 text-navy", "shadow-sm"].join(" "),
+        success: ["bg-emerald-50/90 border-emerald-200 text-emerald-800", "shadow-sm"].join(" "),
+        warning: ["bg-amber-50/90 border-amber-200 text-amber-800", "shadow-sm"].join(" "),
+        error: ["bg-coral-50/90 border-coral-200 text-coral-800", "shadow-sm"].join(" "),
+        info: ["bg-sky-50/90 border-sky-200 text-sky-800", "shadow-sm"].join(" "),
+        gold: [
+          "bg-gradient-to-r from-gold/10 to-gold-soft/5 border-gold/30 text-emerald-deep",
+          "shadow-md",
+        ].join(" "),
+      },
+    },
+    defaultVariants: {
+      variant: "default",
     },
   },
-  defaultVariants: {
-    variant: "default",
-  },
-});
+);
 
 // ============================================================================
 // Icons
@@ -93,11 +100,20 @@ const AlertIcons = {
 // ============================================================================
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  ({ className, variant = "default", icon, children, onClose, closable = false, ...props }, ref) => {
-    const defaultIcon = icon || AlertIcons[variant as keyof typeof AlertIcons] || AlertIcons.default;
+  (
+    { className, variant = "default", icon, children, onClose, closable = false, ...props },
+    ref,
+  ) => {
+    const defaultIcon =
+      icon || AlertIcons[variant as keyof typeof AlertIcons] || AlertIcons.default;
 
     return (
-      <div ref={ref} role="alert" className={cn(alertVariants({ variant }), "relative", className)} {...props}>
+      <div
+        ref={ref}
+        role="alert"
+        className={cn(alertVariants({ variant }), "relative", className)}
+        {...props}
+      >
         <div className="absolute left-4 top-4">{defaultIcon}</div>
         <div className="pl-7 pr-7">{children}</div>
         {closable && (
@@ -106,7 +122,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             className="absolute right-3 top-3 rounded-md p-1 text-muted-foreground hover:text-foreground transition-colors"
             aria-label="Close alert"
           >
-            <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg
+              className="size-3.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -119,16 +141,25 @@ Alert.displayName = "Alert";
 
 const AlertTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
-    <h5 ref={ref} className={cn("mb-1 font-semibold leading-none tracking-tight text-current", className)} {...props} />
+    <h5
+      ref={ref}
+      className={cn("mb-1 font-semibold leading-none tracking-tight text-current", className)}
+      {...props}
+    />
   ),
 );
 AlertTitle.displayName = "AlertTitle";
 
-const AlertDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("text-sm [&_p]:leading-relaxed text-current/80", className)} {...props} />
-  ),
-);
+const AlertDescription = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm [&_p]:leading-relaxed text-current/80", className)}
+    {...props}
+  />
+));
 AlertDescription.displayName = "AlertDescription";
 
 // ============================================================================

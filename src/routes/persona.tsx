@@ -87,10 +87,9 @@ function PersonaPage() {
         },
       });
       if (result.anyOk) {
-        const channels = [
-          result.line.ok ? "LINE" : null,
-          result.telegram.ok ? "Telegram" : null,
-        ].filter(Boolean).join(" + ");
+        const channels = [result.line.ok ? "LINE" : null, result.telegram.ok ? "Telegram" : null]
+          .filter(Boolean)
+          .join(" + ");
         toast.success(
           lang === "th"
             ? `ส่งผลวิเคราะห์เข้า ${channels} ของคุณแล้ว ✓`
@@ -103,28 +102,22 @@ function PersonaPage() {
           },
         );
       } else {
-        toast.message(
-          lang === "th" ? "ยังไม่ได้เชื่อมบัญชีแชต" : "No chat account linked yet",
-          {
-            description:
-              lang === "th"
-                ? "เชื่อม LINE หรือ Telegram กับโปรไฟล์ของคุณก่อน เพื่อรับผลวิเคราะห์เข้าแชต"
-                : "Link your LINE or Telegram to receive the insight in chat.",
-          },
-        );
+        toast.message(lang === "th" ? "ยังไม่ได้เชื่อมบัญชีแชต" : "No chat account linked yet", {
+          description:
+            lang === "th"
+              ? "เชื่อม LINE หรือ Telegram กับโปรไฟล์ของคุณก่อน เพื่อรับผลวิเคราะห์เข้าแชต"
+              : "Link your LINE or Telegram to receive the insight in chat.",
+        });
       }
     } catch (e: any) {
       const msg = String(e?.message ?? e ?? "");
       if (msg.includes("Unauthorized") || msg.includes("401")) {
-        toast.message(
-          lang === "th" ? "กรุณาเข้าสู่ระบบก่อน" : "Please sign in first",
-          {
-            description:
-              lang === "th"
-                ? "เข้าสู่ระบบด้วย LINE เพื่อส่งผลวิเคราะห์เข้าแชตของคุณ"
-                : "Sign in with LINE to send the insight to your chat.",
-          },
-        );
+        toast.message(lang === "th" ? "กรุณาเข้าสู่ระบบก่อน" : "Please sign in first", {
+          description:
+            lang === "th"
+              ? "เข้าสู่ระบบด้วย LINE เพื่อส่งผลวิเคราะห์เข้าแชตของคุณ"
+              : "Sign in with LINE to send the insight to your chat.",
+        });
         navigate({ to: "/login", search: { redirect: "/persona" } as any });
       } else {
         toast.error(lang === "th" ? "ส่งไม่สำเร็จ" : "Send failed", {
@@ -148,7 +141,10 @@ function PersonaPage() {
       const result = await fetchInsight({
         data: {
           personaId: persona.id,
-          personaName: typeof persona.name === "string" ? persona.name : (persona.name as any).en ?? persona.id,
+          personaName:
+            typeof persona.name === "string"
+              ? persona.name
+              : ((persona.name as any).en ?? persona.id),
           answers: answersAsNumberMap,
           lang,
         },
@@ -165,9 +161,18 @@ function PersonaPage() {
 
   if (!persona) {
     return (
-      <DashShell bg="yoga" host="welcome" kicker={t("persona.empty.kicker")} title={t("persona.empty.title")} subtitle={t("persona.empty.subtitle")}>
+      <DashShell
+        bg="yoga"
+        host="welcome"
+        kicker={t("persona.empty.kicker")}
+        title={t("persona.empty.title")}
+        subtitle={t("persona.empty.subtitle")}
+      >
         <DashCard className="text-center">
-          <Link to="/quest" className="btn-gold rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm">
+          <Link
+            to="/quest"
+            className="btn-gold rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm"
+          >
             {t("common.startQuest")} <ArrowRight size={16} />
           </Link>
         </DashCard>
@@ -178,11 +183,30 @@ function PersonaPage() {
   const recommended = programsForPersona(persona.id);
 
   return (
-    <DashShell compact bg="meditation" host="wai" highlight={pick(persona.tagline, lang)} kicker={t("persona.kicker")} title={pick(persona.name, lang)} subtitle={pick(persona.thaiName, lang)}>
-      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        <DashCard className="p-4 md:p-5 bg-gradient-to-br from-emerald-deep/95 via-navy/95 to-emerald-deep/90 ring-1 ring-white/15 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]" variant="deep">
-          <p className="text-sm md:text-base font-semibold text-ivory leading-snug drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)] break-words">{pick(persona.tagline, lang)}</p>
-          <p className="text-xs text-ivory/85 mt-1.5 leading-relaxed line-clamp-3">{pick(persona.description, lang)}</p>
+    <DashShell
+      compact
+      bg="meditation"
+      host="wai"
+      highlight={pick(persona.tagline, lang)}
+      kicker={t("persona.kicker")}
+      title={pick(persona.name, lang)}
+      subtitle={pick(persona.thaiName, lang)}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <DashCard
+          className="p-4 md:p-5 bg-gradient-to-br from-emerald-deep/95 via-navy/95 to-emerald-deep/90 ring-1 ring-white/15 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]"
+          variant="deep"
+        >
+          <p className="text-sm md:text-base font-semibold text-ivory leading-snug drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)] break-words">
+            {pick(persona.tagline, lang)}
+          </p>
+          <p className="text-xs text-ivory/85 mt-1.5 leading-relaxed line-clamp-3">
+            {pick(persona.description, lang)}
+          </p>
           <div className="flex items-center gap-1.5 text-gold text-[10px] tracking-[0.25em] uppercase mt-3 font-semibold">
             <Sparkles size={12} /> {t("persona.pillars")}
           </div>
@@ -211,7 +235,10 @@ function PersonaPage() {
         </DashCard>
 
         {/* AI Insight — powered by AI */}
-        <DashCard className="mt-3 bg-gradient-to-br from-emerald-deep/95 to-navy/95 text-ivory" variant="deep">
+        <DashCard
+          className="mt-3 bg-gradient-to-br from-emerald-deep/95 to-navy/95 text-ivory"
+          variant="deep"
+        >
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <Wand2 size={14} className="text-gold" />
@@ -226,9 +253,16 @@ function PersonaPage() {
             >
               {loadingAI ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
               {loadingAI
-                ? lang === "th" ? "กำลังวิเคราะห์…" : "Analyzing…"
-                : insight ? lang === "th" ? "วิเคราะห์ใหม่" : "Re-analyze"
-                : lang === "th" ? "วิเคราะห์ด้วย AI" : "Analyze with AI"}
+                ? lang === "th"
+                  ? "กำลังวิเคราะห์…"
+                  : "Analyzing…"
+                : insight
+                  ? lang === "th"
+                    ? "วิเคราะห์ใหม่"
+                    : "Re-analyze"
+                  : lang === "th"
+                    ? "วิเคราะห์ด้วย AI"
+                    : "Analyze with AI"}
             </button>
           </div>
           {aiError && <p className="text-xs text-coral mt-2">{aiError}</p>}
@@ -247,8 +281,14 @@ function PersonaPage() {
               </div>
               <div className="grid grid-cols-2 gap-2">
                 {[0, 1, 2, 3].map((i) => (
-                  <div key={i} className="relative overflow-hidden rounded-xl bg-white/8 border border-white/12 p-2.5 h-16">
-                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-gold/25 via-50% to-transparent" style={{ animationDelay: `${i * 0.15}s` }} />
+                  <div
+                    key={i}
+                    className="relative overflow-hidden rounded-xl bg-white/8 border border-white/12 p-2.5 h-16"
+                  >
+                    <div
+                      className="absolute inset-0 -translate-x-full animate-[shimmer_2.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-gold/25 via-50% to-transparent"
+                      style={{ animationDelay: `${i * 0.15}s` }}
+                    />
                     <div className="h-2 w-1/2 rounded-full bg-white/15 mb-1.5" />
                     <div className="h-2 w-3/4 rounded-full bg-white/10" />
                   </div>
@@ -272,37 +312,55 @@ function PersonaPage() {
           )}
           {insight && (
             <div className="mt-3 space-y-2 text-sm">
-              {insight.summary && <p className="text-ivory/95 leading-relaxed">{insight.summary}</p>}
+              {insight.summary && (
+                <p className="text-ivory/95 leading-relaxed">{insight.summary}</p>
+              )}
               <div className="grid sm:grid-cols-2 gap-2 mt-2">
                 {insight.strengths?.length > 0 && (
                   <div className="rounded-xl bg-white/10 border border-white/15 p-2.5">
-                    <div className="text-[10px] tracking-widest text-gold uppercase mb-1">{lang === "th" ? "จุดแข็ง" : "Strengths"}</div>
+                    <div className="text-[10px] tracking-widest text-gold uppercase mb-1">
+                      {lang === "th" ? "จุดแข็ง" : "Strengths"}
+                    </div>
                     <ul className="text-[12px] space-y-0.5 text-ivory/90">
-                      {insight.strengths.slice(0,3).map((s: string, i: number) => <li key={i}>· {s}</li>)}
+                      {insight.strengths.slice(0, 3).map((s: string, i: number) => (
+                        <li key={i}>· {s}</li>
+                      ))}
                     </ul>
                   </div>
                 )}
                 {insight.focusAreas?.length > 0 && (
                   <div className="rounded-xl bg-white/10 border border-white/15 p-2.5">
-                    <div className="text-[10px] tracking-widest text-gold uppercase mb-1">{lang === "th" ? "จุดที่ต้องโฟกัส" : "Focus"}</div>
+                    <div className="text-[10px] tracking-widest text-gold uppercase mb-1">
+                      {lang === "th" ? "จุดที่ต้องโฟกัส" : "Focus"}
+                    </div>
                     <ul className="text-[12px] space-y-0.5 text-ivory/90">
-                      {insight.focusAreas.slice(0,3).map((s: string, i: number) => <li key={i}>· {s}</li>)}
+                      {insight.focusAreas.slice(0, 3).map((s: string, i: number) => (
+                        <li key={i}>· {s}</li>
+                      ))}
                     </ul>
                   </div>
                 )}
                 {insight.dailyRitual?.length > 0 && (
                   <div className="rounded-xl bg-white/10 border border-white/15 p-2.5">
-                    <div className="text-[10px] tracking-widest text-gold uppercase mb-1">{lang === "th" ? "Ritual ประจำวัน" : "Daily Ritual"}</div>
+                    <div className="text-[10px] tracking-widest text-gold uppercase mb-1">
+                      {lang === "th" ? "Ritual ประจำวัน" : "Daily Ritual"}
+                    </div>
                     <ul className="text-[12px] space-y-0.5 text-ivory/90">
-                      {insight.dailyRitual.slice(0,3).map((s: string, i: number) => <li key={i}>· {s}</li>)}
+                      {insight.dailyRitual.slice(0, 3).map((s: string, i: number) => (
+                        <li key={i}>· {s}</li>
+                      ))}
                     </ul>
                   </div>
                 )}
                 {insight.avoid?.length > 0 && (
                   <div className="rounded-xl bg-white/10 border border-white/15 p-2.5">
-                    <div className="text-[10px] tracking-widest text-coral uppercase mb-1">{lang === "th" ? "ควรหลีกเลี่ยง" : "Avoid"}</div>
+                    <div className="text-[10px] tracking-widest text-coral uppercase mb-1">
+                      {lang === "th" ? "ควรหลีกเลี่ยง" : "Avoid"}
+                    </div>
                     <ul className="text-[12px] space-y-0.5 text-ivory/90">
-                      {insight.avoid.slice(0,3).map((s: string, i: number) => <li key={i}>· {s}</li>)}
+                      {insight.avoid.slice(0, 3).map((s: string, i: number) => (
+                        <li key={i}>· {s}</li>
+                      ))}
                     </ul>
                   </div>
                 )}
@@ -325,10 +383,18 @@ function PersonaPage() {
                 disabled={sendingChat}
                 className="mt-2 w-full rounded-full px-4 py-2.5 inline-flex items-center justify-center gap-2 text-xs font-semibold bg-white/10 hover:bg-white/15 ring-1 ring-white/25 text-ivory disabled:opacity-60 transition"
               >
-                {sendingChat ? <Loader2 size={12} className="animate-spin" /> : <Send size={12} className="text-gold" />}
+                {sendingChat ? (
+                  <Loader2 size={12} className="animate-spin" />
+                ) : (
+                  <Send size={12} className="text-gold" />
+                )}
                 {sendingChat
-                  ? lang === "th" ? "กำลังส่ง…" : "Sending…"
-                  : lang === "th" ? "ส่งผลวิเคราะห์นี้เข้า LINE / Telegram ของฉัน" : "Send this insight to my LINE / Telegram"}
+                  ? lang === "th"
+                    ? "กำลังส่ง…"
+                    : "Sending…"
+                  : lang === "th"
+                    ? "ส่งผลวิเคราะห์นี้เข้า LINE / Telegram ของฉัน"
+                    : "Send this insight to my LINE / Telegram"}
               </button>
               <p className="mt-2 text-[10px] text-ivory/70 text-center">
                 {lang === "th"
@@ -348,14 +414,22 @@ function PersonaPage() {
 
         {secondary && (
           <DashCard className="mt-3">
-            <div className="text-[10px] tracking-[0.25em] uppercase text-gold">{t("persona.secondary")}</div>
-            <div className="font-display text-lg text-navy mt-0.5">{pick(secondary.name, lang)}</div>
-            <div className="text-xs text-muted-foreground">{pick(secondary.thaiName, lang)} · {pick(secondary.tagline, lang)}</div>
+            <div className="text-[10px] tracking-[0.25em] uppercase text-gold">
+              {t("persona.secondary")}
+            </div>
+            <div className="font-display text-lg text-navy mt-0.5">
+              {pick(secondary.name, lang)}
+            </div>
+            <div className="text-xs text-muted-foreground">
+              {pick(secondary.thaiName, lang)} · {pick(secondary.tagline, lang)}
+            </div>
           </DashCard>
         )}
 
         <div className="mt-3">
-          <div className="text-[11px] tracking-widest uppercase text-gold mb-2">{t("persona.recommended")}</div>
+          <div className="text-[11px] tracking-widest uppercase text-gold mb-2">
+            {t("persona.recommended")}
+          </div>
           {/* Mobile: swipeable horizontal carousel · Desktop: grid */}
           <div className="sm:hidden -mx-4 px-4">
             <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
@@ -367,11 +441,20 @@ function PersonaPage() {
                   className="snap-center shrink-0 w-[78%] bg-white/85 backdrop-blur-md border border-white/60 rounded-2xl overflow-hidden shadow-[0_12px_30px_-12px_rgba(0,0,0,0.35)] active:scale-[0.98] transition"
                 >
                   <div className="aspect-[16/10] overflow-hidden">
-                    <img src={p.image} alt={pick(p.name, lang)} loading="lazy" className="size-full object-cover" />
+                    <img
+                      src={p.image}
+                      alt={pick(p.name, lang)}
+                      loading="lazy"
+                      className="size-full object-cover"
+                    />
                   </div>
                   <div className="p-3">
-                    <div className="text-[10px] tracking-widest text-gold uppercase">{pick(p.duration, lang)}</div>
-                    <div className="font-display text-base text-navy mt-0.5 line-clamp-1">{pick(p.name, lang)}</div>
+                    <div className="text-[10px] tracking-widest text-gold uppercase">
+                      {pick(p.duration, lang)}
+                    </div>
+                    <div className="font-display text-base text-navy mt-0.5 line-clamp-1">
+                      {pick(p.name, lang)}
+                    </div>
                     <div className="mt-2 flex items-center justify-between">
                       <div className="text-xs text-navy">฿{p.price.toLocaleString()}</div>
                       <ArrowRight size={14} className="text-gold" />
@@ -398,11 +481,20 @@ function PersonaPage() {
                 className="bg-white/85 backdrop-blur-md border border-white/60 rounded-2xl overflow-hidden group hover:shadow-xl hover:-translate-y-0.5 transition shadow-sm"
               >
                 <div className="aspect-[16/9] overflow-hidden">
-                  <img src={p.image} alt={pick(p.name, lang)} loading="lazy" className="size-full object-cover group-hover:scale-105 transition duration-700" />
+                  <img
+                    src={p.image}
+                    alt={pick(p.name, lang)}
+                    loading="lazy"
+                    className="size-full object-cover group-hover:scale-105 transition duration-700"
+                  />
                 </div>
                 <div className="p-3">
-                  <div className="text-[10px] tracking-widest text-gold uppercase">{pick(p.duration, lang)}</div>
-                  <div className="font-display text-base text-navy mt-0.5 line-clamp-1">{pick(p.name, lang)}</div>
+                  <div className="text-[10px] tracking-widest text-gold uppercase">
+                    {pick(p.duration, lang)}
+                  </div>
+                  <div className="font-display text-base text-navy mt-0.5 line-clamp-1">
+                    {pick(p.name, lang)}
+                  </div>
                   <div className="mt-2 flex items-center justify-between">
                     <div className="text-xs text-navy">฿{p.price.toLocaleString()}</div>
                     <ArrowRight size={14} className="text-gold" />

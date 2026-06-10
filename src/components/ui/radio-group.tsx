@@ -14,7 +14,9 @@ interface RadioGroupProps extends React.ComponentPropsWithoutRef<typeof RadioGro
   orientation?: "horizontal" | "vertical";
 }
 
-interface RadioGroupItemProps extends React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> {
+interface RadioGroupItemProps extends React.ComponentPropsWithoutRef<
+  typeof RadioGroupPrimitive.Item
+> {
   variant?: "default" | "gold" | "emerald" | "coral";
   size?: "sm" | "default" | "lg";
   label?: string;
@@ -73,73 +75,81 @@ const VARIANT_STYLES = {
 // Components
 // ============================================================================
 
-const RadioGroup = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Root>, RadioGroupProps>(
-  ({ className, orientation = "vertical", variant = "default", ...props }, ref) => {
-    return (
-      <RadioGroupPrimitive.Root
-        className={cn("flex gap-3", orientation === "vertical" ? "flex-col" : "flex-row flex-wrap", className)}
-        {...props}
-        ref={ref}
-      />
-    );
-  },
-);
+const RadioGroup = React.forwardRef<
+  React.ElementRef<typeof RadioGroupPrimitive.Root>,
+  RadioGroupProps
+>(({ className, orientation = "vertical", variant = "default", ...props }, ref) => {
+  return (
+    <RadioGroupPrimitive.Root
+      className={cn(
+        "flex gap-3",
+        orientation === "vertical" ? "flex-col" : "flex-row flex-wrap",
+        className,
+      )}
+      {...props}
+      ref={ref}
+    />
+  );
+});
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 
-const RadioGroupItem = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>, RadioGroupItemProps>(
-  ({ className, variant = "default", size = "default", label, description, id, ...props }, ref) => {
-    const sizeStyle = SIZE_STYLES[size];
-    const variantStyle = VARIANT_STYLES[variant];
-    const generatedId = React.useId();
-    const radioId = id || generatedId;
+const RadioGroupItem = React.forwardRef<
+  React.ElementRef<typeof RadioGroupPrimitive.Item>,
+  RadioGroupItemProps
+>(({ className, variant = "default", size = "default", label, description, id, ...props }, ref) => {
+  const sizeStyle = SIZE_STYLES[size];
+  const variantStyle = VARIANT_STYLES[variant];
+  const generatedId = React.useId();
+  const radioId = id || generatedId;
 
-    const radioElement = (
-      <RadioGroupPrimitive.Item
-        ref={ref}
-        id={radioId}
-        className={cn(
-          "aspect-square rounded-full border-2 shadow-sm transition-all duration-200",
-          "focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2",
-          "disabled:cursor-not-allowed disabled:opacity-50",
-          "data-[state=checked]:scale-95",
-          sizeStyle.radio,
-          variantStyle.radio,
-          className,
+  const radioElement = (
+    <RadioGroupPrimitive.Item
+      ref={ref}
+      id={radioId}
+      className={cn(
+        "aspect-square rounded-full border-2 shadow-sm transition-all duration-200",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        "data-[state=checked]:scale-95",
+        sizeStyle.radio,
+        variantStyle.radio,
+        className,
+      )}
+      {...props}
+    >
+      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
+        <Circle className={cn("fill-current", sizeStyle.indicator, variantStyle.indicator)} />
+      </RadioGroupPrimitive.Indicator>
+    </RadioGroupPrimitive.Item>
+  );
+
+  if (!label && !description) {
+    return radioElement;
+  }
+
+  return (
+    <div className="flex items-start gap-3">
+      {radioElement}
+      <div className="flex flex-col">
+        {label && (
+          <label
+            htmlFor={radioId}
+            className={cn(
+              "font-medium cursor-pointer transition-colors hover:opacity-80",
+              sizeStyle.label,
+              variantStyle.label,
+            )}
+          >
+            {label}
+          </label>
         )}
-        {...props}
-      >
-        <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
-          <Circle className={cn("fill-current", sizeStyle.indicator, variantStyle.indicator)} />
-        </RadioGroupPrimitive.Indicator>
-      </RadioGroupPrimitive.Item>
-    );
-
-    if (!label && !description) {
-      return radioElement;
-    }
-
-    return (
-      <div className="flex items-start gap-3">
-        {radioElement}
-        <div className="flex flex-col">
-          {label && (
-            <label
-              htmlFor={radioId}
-              className={cn(
-                "font-medium cursor-pointer transition-colors hover:opacity-80",
-                sizeStyle.label,
-                variantStyle.label,
-              )}
-            >
-              {label}
-            </label>
-          )}
-          {description && <p className={cn("text-muted-foreground", sizeStyle.description)}>{description}</p>}
-        </div>
+        {description && (
+          <p className={cn("text-muted-foreground", sizeStyle.description)}>{description}</p>
+        )}
       </div>
-    );
-  },
-);
+    </div>
+  );
+});
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
 
 // ============================================================================
@@ -164,39 +174,40 @@ interface RadioCardProps extends RadioGroupItemProps {
   children?: React.ReactNode;
 }
 
-const RadioCard = React.forwardRef<React.ElementRef<typeof RadioGroupPrimitive.Item>, RadioCardProps>(
-  ({ icon, children, label, description, className, ...props }, ref) => {
-    return (
-      <RadioGroupPrimitive.Item
-        ref={ref}
-        className={cn(
-          "relative cursor-pointer rounded-xl border-2 p-4 transition-all duration-200",
-          "hover:shadow-md",
-          "data-[state=checked]:border-gold data-[state=checked]:bg-gold/5",
-          className,
-        )}
-        {...props}
-      >
-        <div className="flex gap-3">
-          {icon && <div className="shrink-0 text-gold">{icon}</div>}
-          <div className="flex-1">
-            {label && <div className="font-medium text-navy">{label}</div>}
-            {description && <div className="text-sm text-muted-foreground">{description}</div>}
-            {children}
-          </div>
-          <div className="shrink-0">
-            <div
-              className={cn(
-                "h-4 w-4 rounded-full border-2 transition-all",
-                "data-[state=checked]:border-gold data-[state=checked]:bg-gold",
-              )}
-            />
-          </div>
+const RadioCard = React.forwardRef<
+  React.ElementRef<typeof RadioGroupPrimitive.Item>,
+  RadioCardProps
+>(({ icon, children, label, description, className, ...props }, ref) => {
+  return (
+    <RadioGroupPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative cursor-pointer rounded-xl border-2 p-4 transition-all duration-200",
+        "hover:shadow-md",
+        "data-[state=checked]:border-gold data-[state=checked]:bg-gold/5",
+        className,
+      )}
+      {...props}
+    >
+      <div className="flex gap-3">
+        {icon && <div className="shrink-0 text-gold">{icon}</div>}
+        <div className="flex-1">
+          {label && <div className="font-medium text-navy">{label}</div>}
+          {description && <div className="text-sm text-muted-foreground">{description}</div>}
+          {children}
         </div>
-      </RadioGroupPrimitive.Item>
-    );
-  },
-);
+        <div className="shrink-0">
+          <div
+            className={cn(
+              "h-4 w-4 rounded-full border-2 transition-all",
+              "data-[state=checked]:border-gold data-[state=checked]:bg-gold",
+            )}
+          />
+        </div>
+      </div>
+    </RadioGroupPrimitive.Item>
+  );
+});
 RadioCard.displayName = "RadioCard";
 
 // ============================================================================

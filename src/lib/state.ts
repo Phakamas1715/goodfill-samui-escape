@@ -202,7 +202,9 @@ export function getCurrentStreak(state: AppState): number {
   return Math.max(...state.habits.map((h) => h.days.length), 0);
 }
 
-export function getTodayCheckin(state: AppState): { date: string; mood: number; note?: string } | undefined {
+export function getTodayCheckin(
+  state: AppState,
+): { date: string; mood: number; note?: string } | undefined {
   const today = new Date().toISOString().slice(0, 10);
   return state.checkins.find((c) => c.date.slice(0, 10) === today);
 }

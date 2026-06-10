@@ -6,15 +6,29 @@ export const Route = createFileRoute("/api/public/line-login")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        let body: { id_token?: string; channel_id?: string; channel?: "customer" | "partner" };
+        let body: { id_token?: string; channel_id?: string };
         try {
           body = await request.json();
         } catch {
           return new Response("invalid json", { status: 400 });
         }
-        const { id_token, channel_id, channel = "customer" } = body;
-        if (!id_token || !channel_id) return new Response("missing id_token/channel_id", { status: 400 });
-        if (channel !== "customer" && channel !== "partner") return new Response("bad channel", { status: 400 });
+        const { id_token, channel_id } = body;
+        if (!id_token || !channel_id)
+          return new Response("missing id_token/channel_id", { status: 400 });
+
+        // SECURITY: derive channel server-side from channel_id against an
+        // allowlist; never trust a client-supplied channel field.
+        const customerChannelId = process.env.LINE_CUSTOMER_CHANNEL_ID;
+        const partnerChannelId = process.env.LINE_PARTNER_CHANNEL_ID;
+        let channel: "customer" | "partner";
+        if (partnerChannelId && channel_id === partnerChannelId) {
+          channel = "partner";
+        } else if (customerChannelId && channel_id === customerChannelId) {
+          channel = "customer";
+        } else {
+          console.error("line-login: unknown channel_id", { channel_id });
+          return new Response("Authentication failed", { status: 401 });
+        }
 
         const form = new URLSearchParams({ id_token, client_id: channel_id });
         const verifyRes = await fetch("https://api.line.me/oauth2/v2.1/verify", {
@@ -24,19 +38,23 @@ export const Route = createFileRoute("/api/public/line-login")({
         });
         if (!verifyRes.ok) {
           const text = await verifyRes.text().catch(() => "");
-          return new Response(`line verify failed: ${text.slice(0, 200)}`, { status: 401 });
+          console.error("line-login: verify failed", text.slice(0, 500));
+          return new Response("Authentication failed", { status: 401 });
         }
         const claims = (await verifyRes.json()) as { sub: string; name?: string; picture?: string };
         const lineUserId = claims.sub;
-        if (!lineUserId) return new Response("no sub in token", { status: 401 });
+        if (!lineUserId) return new Response("Authentication failed", { status: 401 });
 
         const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
         const supabaseUrl = process.env.SUPABASE_URL;
         const anonKey = process.env.SUPABASE_PUBLISHABLE_KEY;
-        if (!serviceKey || !supabaseUrl || !anonKey) return new Response("server misconfigured", { status: 500 });
+        if (!serviceKey || !supabaseUrl || !anonKey)
+          return new Response("Server error", { status: 500 });
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const password = createHash("sha256").update(`${serviceKey}:line:${channel}:${lineUserId}`).digest("hex");
+        const password = createHash("sha256")
+          .update(`${serviceKey}:line:${channel}:${lineUserId}`)
+          .digest("hex");
         const cleanId = lineUserId.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
         const email = `line-${channel}-${cleanId}@goodfill.local`;
 
@@ -53,10 +71,16 @@ export const Route = createFileRoute("/api/public/line-login")({
             email,
             password,
             email_confirm: true,
-            user_metadata: { line_user_id: lineUserId, channel, name: claims.name, picture: claims.picture },
+            user_metadata: {
+              line_user_id: lineUserId,
+              channel,
+              name: claims.name,
+              picture: claims.picture,
+            },
           });
           if (createErr || !created?.user) {
-            return new Response(`create user failed: ${createErr?.message ?? "unknown"}`, { status: 500 });
+            console.error("line-login: create user failed", createErr);
+            return new Response("Server error", { status: 500 });
           }
           userId = created.user.id;
           await supabaseAdmin.from("line_identities").insert({
@@ -79,9 +103,13 @@ export const Route = createFileRoute("/api/public/line-login")({
         const sb = createClient(supabaseUrl, anonKey, {
           auth: { persistSession: false, autoRefreshToken: false },
         });
-        const { data: signed, error: signErr } = await sb.auth.signInWithPassword({ email, password });
+        const { data: signed, error: signErr } = await sb.auth.signInWithPassword({
+          email,
+          password,
+        });
         if (signErr || !signed.session) {
-          return new Response(`sign in failed: ${signErr?.message ?? "unknown"}`, { status: 500 });
+          console.error("line-login: sign in failed", signErr);
+          return new Response("Server error", { status: 500 });
         }
         return Response.json({
           access_token: signed.session.access_token,
