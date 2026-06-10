@@ -181,7 +181,7 @@ function Landing() {
 
       {/* MAIN CONTENT — safe-area aware, no clipping behind bottom nav */}
       <main
-        className="absolute inset-0 pt-24 md:pt-32 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]"
+        className="absolute inset-0 pt-28 md:pt-32 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]"
         style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 6.25rem)" }}
       >
         <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-start lg:items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] lg:pb-[50px] lg:pr-[50px] lg:mt-[50px]">
