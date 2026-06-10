@@ -107,11 +107,6 @@ function Quest() {
             {/* Emoji */}
             <div className="text-6xl md:text-7xl mb-5 drop-shadow-lg">{q.emoji}</div>
 
-            {/* Question Text - เพิ่มให้เห็นชัดเจน */}
-            <div className="text-white text-xl md:text-2xl font-medium mb-6 drop-shadow-md">
-              {pick(q.question, lang)}
-            </div>
-
             {/* Option Cards */}
             <div className="mt-2 grid gap-4">
               {q.options.map((opt, idx) => (

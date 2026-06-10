@@ -165,8 +165,8 @@ function Landing() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.12),transparent_60%)]" />
       </div>
 
-      {/* Slide indicator */}
-      <div className="absolute top-24 md:top-28 right-5 md:right-8 z-30 flex gap-1.5">
+      {/* Slide indicator — desktop only เพื่อไม่ทับ kicker บนมือถือ */}
+      <div className="hidden md:flex absolute top-28 right-8 z-30 gap-1.5">
         {slides.map((_, i) => (
           <button
             key={i}
