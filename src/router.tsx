@@ -1,15 +1,23 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Sparkles, Wand2, Loader2, Send } from "lucide-react";
-import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { DashShell, DashCard } from "@/components/DashShell";
-import { personas, programsForPersona, pick } from "@/lib/data";
-import { useAppState } from "@/lib/state";
-import { useI18n } from "@/lib/i18n";
-import { getPersonaInsight } from "@/lib/ai-insights.functions";
-import { sendPersonaSummary } from "@/lib/handoff.functions";
+import { createRouter as createTanStackRouter } from "@tanstack/react-router";
+import { QueryClient } from "@tanstack/react-query";
+import { routeTree } from "./routeTree.gen";
+
+export function getRouter() {
+  const queryClient = new QueryClient();
+  return createTanStackRouter({
+    routeTree,
+    context: { queryClient },
+    defaultPreload: "intent",
+    defaultPreloadStaleTime: 0,
+    scrollRestoration: true,
+  });
+}
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: ReturnType<typeof getRouter>;
+  }
+}
 
 export const Route = createFileRoute("/persona")({
   head: () => ({
