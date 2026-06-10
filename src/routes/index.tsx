@@ -159,10 +159,10 @@ function Landing() {
             className="absolute inset-0 size-full object-cover will-change-transform"
           />
         </AnimatePresence>
-        {/* เพิ่มความคมชัดของ Gradient เพื่อให้ข้อความอ่านง่ายขึ้น */}
-        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/85 via-emerald-deep/50 to-emerald-deep/15" />
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/85 via-emerald-deep/30 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.12),transparent_60%)]" />
+        {/* Gradient เบา ๆ ให้ภาพเด่น ไม่มืดทึบ */}
+        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/65 via-emerald-deep/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/55 via-emerald-deep/10 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.08),transparent_60%)]" />
       </div>
 
       {/* Slide indicator — desktop only เพื่อไม่ทับ kicker บนมือถือ */}
