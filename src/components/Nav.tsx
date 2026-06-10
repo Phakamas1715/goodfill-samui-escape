@@ -143,17 +143,15 @@ export function Nav() {
               key={l.to}
               to={l.to}
               activeOptions={{ exact: l.to === "/" }}
-              activeProps={{
-                className:
-                  "text-emerald-deep font-bold [&_svg]:text-emerald-deep [&_.tab-pill]:bg-emerald/12 [&_.tab-pill]:ring-1 [&_.tab-pill]:ring-emerald/30 [&_.tab-dot]:opacity-100",
-              }}
-              className="flex-1 flex flex-col items-center gap-0.5 py-1 rounded-xl text-navy/55 text-[11px] transition-colors hover:text-emerald"
+              activeProps={{ className: "text-emerald" }}
+              className="flex-1 flex flex-col items-center gap-1 py-1.5 rounded-xl text-navy/60 text-[11px] transition-colors hover:text-emerald"
             >
-              <span className="tab-pill px-4 py-1 rounded-full transition-all">
-                <l.icon size={22} strokeWidth={1.9} />
-              </span>
-              <span className="font-medium text-[10px] leading-tight">{t(l.key as never)}</span>
-              <span className="tab-dot mt-0.5 size-1 rounded-full bg-emerald-deep opacity-0 transition-opacity" />
+              <l.icon
+                size={22}
+                strokeWidth={1.75}
+                className="text-navy/60 group-hover:text-emerald"
+              />
+              <span className="font-medium text-[10px]">{t(l.key as never)}</span>
             </Link>
           ))}
         </div>

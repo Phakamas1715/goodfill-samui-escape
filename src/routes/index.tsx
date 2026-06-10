@@ -18,10 +18,6 @@ import {
   Menu,
   Map as MapIcon,
   Users,
-  QrCode,
-  Gem,
-  Coins,
-  UserCircle2,
 } from "lucide-react";
 import { Nav } from "@/components/Nav";
 import { images, personas, pick } from "@/lib/data";
@@ -183,144 +179,8 @@ function Landing() {
 
       <Nav />
 
-      {/* ===== MOBILE — App-style surface (hidden ≥lg) ===== */}
-      <main className="lg:hidden absolute inset-0 pt-[88px] pb-20 flex flex-col z-[60]">
-        {/* Hero glass card — softer dark emerald wash improves readability without losing photo */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="px-5 pb-4"
-        >
-          <div className="relative rounded-2xl px-4 py-4 bg-gradient-to-br from-emerald-deep/55 via-emerald-deep/35 to-navy/40 backdrop-blur-md ring-1 ring-white/15 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.55)]">
-            <div className="flex items-center gap-2">
-              <span className="h-px w-6 bg-gold/80" />
-              <span className="text-[10px] tracking-[0.32em] uppercase text-gold-soft font-semibold">
-                {t("hero.kicker")}
-              </span>
-            </div>
-            <h1 className="font-display text-[1.75rem] leading-[1.15] mt-2 text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]">
-              {t("hero.title1")}{" "}
-              <em className="italic text-gold font-normal">{t("hero.title2")}</em>{" "}
-              <span className="block text-[1.4rem] text-white/95 leading-tight mt-1">
-                {t("hero.title3")}
-              </span>
-            </h1>
-          </div>
-        </motion.div>
-
-        {/* App content sheet */}
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="flex-1 min-h-0 bg-ivory text-navy rounded-t-[2rem] px-5 pt-5 pb-6 overflow-y-auto shadow-[0_-18px_50px_rgba(0,0,0,0.35)] ring-1 ring-white/40"
-        >
-          {/* Greeting row with mini host */}
-          <div className="flex items-center gap-3">
-            <img
-              src={welcomeHost}
-              alt=""
-              className="size-11 rounded-full object-cover ring-2 ring-gold/40 shadow-md shrink-0"
-            />
-            <div className="min-w-0">
-              <div className="text-[11px] tracking-[0.22em] uppercase text-emerald/80 font-semibold">
-                Wellness Concierge
-              </div>
-              <p className="text-[14px] text-navy/80 leading-snug mt-0.5">
-                ตอบ 8 ข้อ รับโปรแกรมเฉพาะคุณ +{" "}
-                <span className="font-semibold text-emerald-deep">300 Calm Credits</span>
-              </p>
-            </div>
-          </div>
-
-          {/* Primary CTA — big tap target, high contrast, with subtext */}
-          <Link
-            to="/quest"
-            className="mt-4 w-full btn-gold rounded-2xl px-5 py-3.5 inline-flex items-center justify-between gap-3 shadow-[0_18px_36px_-12px_rgba(201,168,76,0.8)] ring-1 ring-gold/60 active:scale-[0.98] transition"
-          >
-            <div className="flex flex-col items-start leading-tight text-left">
-              <span className="text-[16px] font-bold tracking-wide">{t("hero.ctaStart")}</span>
-              <span className="text-[11px] font-medium opacity-85">{t("hero.ctaSub")}</span>
-            </div>
-            <div className="size-9 rounded-full bg-white/25 grid place-items-center shrink-0">
-              <ArrowRight size={18} strokeWidth={2.5} />
-            </div>
-          </Link>
-
-          {/* Trust row */}
-          <div className="mt-2.5 flex items-center justify-center gap-2 text-[11px] text-navy/55 font-medium">
-            <ShieldCheck size={12} className="text-emerald" />
-            <span>ปลอดภัย · ตอบโดยไม่ต้องพิมพ์</span>
-          </div>
-
-          {/* Value cards — 4 ผลลัพธ์หลักที่ผู้ใช้จะได้ */}
-          <div className="mt-5">
-            <div className="text-[10px] tracking-[0.3em] uppercase text-emerald/80 font-bold">
-              สิ่งที่คุณจะได้รับ
-            </div>
-            <div className="mt-2.5 grid grid-cols-2 gap-2.5">
-              {[
-                {
-                  icon: UserCircle2,
-                  title: "Wellness Persona",
-                  desc: "บุคลิกสุขภาพเฉพาะคุณ",
-                  tone: "from-sea/15 to-emerald/10",
-                  iconTone: "bg-sea/20 text-sea",
-                },
-                {
-                  icon: Gem,
-                  title: "Recommended Program",
-                  desc: "โปรแกรม 3 / 5 / 7 วัน",
-                  tone: "from-mint/25 to-pale-mint/30",
-                  iconTone: "bg-emerald/15 text-emerald",
-                },
-                {
-                  icon: QrCode,
-                  title: "QR Wellness Pass",
-                  desc: "พาสเข้าพาร์ทเนอร์ทั่วสมุย",
-                  tone: "from-gold/15 to-coral/10",
-                  iconTone: "bg-gold/20 text-emerald-deep",
-                },
-                {
-                  icon: Coins,
-                  title: "Calm Credits",
-                  desc: "+300 เครดิตเริ่มต้น",
-                  tone: "from-coral/15 to-gold/10",
-                  iconTone: "bg-coral/20 text-coral",
-                },
-              ].map((c) => (
-                <div
-                  key={c.title}
-                  className={`rounded-2xl p-3 bg-gradient-to-br ${c.tone} border border-mint/25 shadow-[0_4px_14px_-6px_rgba(12,35,64,0.18)]`}
-                >
-                  <div
-                    className={`size-9 rounded-xl ${c.iconTone} grid place-items-center shadow-sm`}
-                  >
-                    <c.icon size={17} strokeWidth={2} />
-                  </div>
-                  <div className="font-display text-[13.5px] mt-2 leading-tight text-navy font-semibold">
-                    {c.title}
-                  </div>
-                  <div className="text-[11.5px] text-navy/70 mt-0.5 leading-snug">{c.desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Secondary explore */}
-          <button
-            onClick={() => setMoreOpen(true)}
-            className="mt-4 w-full rounded-2xl bg-pale-mint/50 hover:bg-pale-mint/70 text-emerald-deep py-2.5 inline-flex items-center justify-center gap-2 text-[13px] font-semibold border border-mint/30 active:scale-[0.99] transition"
-          >
-            <Menu size={14} />
-            <span>สำรวจเพิ่มเติม</span>
-          </button>
-        </motion.div>
-      </main>
-
-      {/* ===== DESKTOP — Editorial poster (≥lg) ===== */}
-      <main className="hidden lg:flex absolute inset-0 pt-32 pb-10 px-10 flex-col overflow-y-auto z-[60]">
+      {/* MAIN CONTENT */}
+      <main className="absolute inset-0 pt-32 md:pt-32 pb-24 md:pb-10 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]">
         <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-start lg:items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] lg:pb-[50px] lg:pr-[50px] lg:mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
@@ -486,6 +346,17 @@ function Landing() {
           </motion.div>
         </div>
       </main>
+
+      {/* MOBILE HOST — มุมขวาล่าง คมชัด แยกจากการ์ดข้อความชัดเจน */}
+      <motion.img
+        initial={{ opacity: 0, x: 40, scale: 0.92 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        transition={{ delay: 0.3, duration: 0.9 }}
+        src={welcomeHost}
+        alt="Goodfill Care wellness host"
+        decoding="async"
+        className="lg:hidden fixed -right-4 bottom-16 h-[44vh] max-h-[380px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
+      />
 
       {/* MODAL POPUPS — same as before */}
       <AnimatePresence>
