@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 // ============================================================================
 // Types & Schemas
@@ -154,6 +155,7 @@ function formatDietaryNotes(notes?: string, restrictions?: string[], allergies?:
 // ============================================================================
 
 export const getPersonaInsight = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => PersonaInsightInput.parse(d))
   .handler(async ({ data }) => {
     const startTime = Date.now();
@@ -217,6 +219,7 @@ Provide a personalised wellness insight for an expert to fine-tune their care pl
   });
 
 export const getMealPlan = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => MealPlanInput.parse(d))
   .handler(async ({ data }) => {
     const startTime = Date.now();
@@ -295,6 +298,7 @@ Create a ${data.days}-day meal plan that supports this person's wellness journey
   });
 
 export const getWellnessTips = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => WellnessTipInput.parse(d))
   .handler(async ({ data }) => {
     const langLabel = data.lang === "th" ? "ภาษาไทย" : "English";
@@ -332,6 +336,7 @@ Provide ${data.count} daily wellness tips for someone with this persona.`;
   });
 
 export const getActivityPlan = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => ActivityPlanInput.parse(d))
   .handler(async ({ data }) => {
     const langLabel = data.lang === "th" ? "ภาษาไทย" : "English";
