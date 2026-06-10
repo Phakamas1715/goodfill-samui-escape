@@ -157,6 +157,7 @@ function Landing() {
             exit={{ opacity: 0, x: "-8%" }}
             transition={{ duration: 1.6, ease: [0.4, 0, 0.2, 1] }}
             className="absolute inset-0 size-full object-cover will-change-transform"
+            style={{ filter: "saturate(1.25) contrast(1.12) brightness(0.92)" }}
           />
         </AnimatePresence>
         {/* Overlay เข้มขึ้นเพื่อคอนทราสต์ตัวอักษรชัดเจน */}
