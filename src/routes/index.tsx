@@ -359,7 +359,7 @@ function Landing() {
         </div>
       </main>
 
-      {/* MOBILE HOST — ด้านขวา ไม่ทับการ์ดข้อความ คมชัด ไม่ลดคอนทราสต์ */}
+      {/* MOBILE HOST — มุมขวาล่าง คมชัด แยกจากการ์ดข้อความชัดเจน */}
       <motion.img
         initial={{ opacity: 0, x: 40, scale: 0.92 }}
         animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -367,7 +367,7 @@ function Landing() {
         src={welcomeHost}
         alt="Goodfill Care wellness host"
         decoding="async"
-        className="lg:hidden fixed right-0 bottom-0 h-[58vh] max-h-[520px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
+        className="lg:hidden fixed -right-4 bottom-16 h-[44vh] max-h-[380px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
       />
 
       {/* MODAL POPUPS — same as before */}
