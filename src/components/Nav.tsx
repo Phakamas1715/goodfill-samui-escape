@@ -38,15 +38,15 @@ export function Nav() {
       <header className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-mint/20 shadow-[0_2px_18px_-10px_rgba(12,35,64,0.25)]">
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <div className="flex items-center justify-between gap-4 py-3 md:py-3.5">
-            {/* Logo (left) - ขนาดใหญ่ขึ้น */}
+            {/* Logo (left) — ไฮไลต์แบรนด์: ขนาดเด่นชัด */}
             <Link to="/" className="flex items-center gap-3 group shrink-0 min-w-0">
               <div className="relative">
-                {/* กล่องเรืองแสงรอบโลโก้ */}
-                <div className="absolute inset-0 rounded-xl bg-gold/20 blur-xl opacity-60 group-hover:opacity-100 transition-opacity" />
+                {/* เรืองแสงทองรอบโลโก้ */}
+                <div className="absolute inset-0 rounded-2xl bg-gold/25 blur-2xl opacity-70 group-hover:opacity-100 transition-opacity" />
                 <img
                   src={logo}
                   alt="Goodfill Care"
-                  className="h-14 md:h-18 w-auto object-contain shrink-0 drop-shadow-md relative z-10"
+                  className="h-20 md:h-24 w-auto object-contain shrink-0 drop-shadow-md relative z-10"
                 />
               </div>
               <span className="hidden sm:flex flex-col leading-none min-w-0">
