@@ -80,7 +80,7 @@ function JourneyPage() {
     >
       <div className="grid lg:grid-cols-3 gap-4 md:gap-5">
         {/* Today's Schedule — larger card */}
-        <DashCard className="lg:col-span-2 p-5 md:p-6">
+        <DashCard variant="light" className="lg:col-span-2 p-5 md:p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
               <div className="text-[11px] md:text-xs tracking-widest text-gold uppercase font-semibold">
@@ -115,7 +115,7 @@ function JourneyPage() {
         {/* Right Column — QR & Mood */}
         <div className="space-y-4">
           {/* QR Card — larger */}
-          <DashCard className="p-5 md:p-6">
+          <DashCard variant="light" className="p-5 md:p-6">
             <div className="text-[11px] md:text-xs tracking-widest text-gold uppercase flex items-center gap-2 font-semibold">
               <QrCode size={16} /> {t("journey.qrTitle")}
             </div>
@@ -149,7 +149,7 @@ function JourneyPage() {
           </DashCard>
 
           {/* Mood Check-in — larger */}
-          <DashCard className="p-5 md:p-6">
+          <DashCard variant="light" className="p-5 md:p-6">
             <div className="text-[11px] md:text-xs tracking-widest text-gold uppercase flex items-center gap-2 font-semibold">
               <Smile size={16} /> {t("journey.moodTitle")}
             </div>
