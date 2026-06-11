@@ -76,7 +76,7 @@ function ReportPage() {
       subtitle={t("report.subtitle")}
     >
       <h2 className="sr-only">Before and after wellness metrics</h2>
-      <DashCard className="relative overflow-hidden">
+      <DashCard variant="light" className="relative overflow-hidden">
         <div className="absolute -top-16 -right-16 size-48 rounded-full bg-gold/15 blur-3xl pointer-events-none" />
         <div className="relative">
           <div className="flex flex-wrap items-end justify-between gap-3">

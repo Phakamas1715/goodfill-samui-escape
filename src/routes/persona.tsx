@@ -413,7 +413,7 @@ function PersonaPage() {
         </DashCard>
 
         {secondary && (
-          <DashCard className="mt-3">
+          <DashCard variant="light" className="mt-3">
             <div className="text-[10px] tracking-[0.25em] uppercase text-gold">
               {t("persona.secondary")}
             </div>
