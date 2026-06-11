@@ -101,7 +101,7 @@ function PartnerPage() {
               { l: "รอเช็คอิน", v: "2", s: "Waiting" },
               { l: "Credits", v: "240", s: "Issued" },
             ].map((s) => (
-              <DashCard key={s.l} className="!p-3">
+              <DashCard key={s.l} variant="light" className="!p-3">
                 <div className="text-[9px] tracking-widest uppercase text-muted-foreground">
                   {s.s}
                 </div>
@@ -111,7 +111,7 @@ function PartnerPage() {
             ))}
           </div>
 
-          <DashCard className="!p-0 overflow-hidden">
+          <DashCard variant="light" className="!p-0 overflow-hidden">
             <div className="px-4 py-3 bg-emerald text-ivory flex items-center justify-between">
               <div className="font-medium text-sm">Today Queue</div>
               <button className="text-[10px] pill bg-mint/30 text-ivory">+ เพิ่มคิว</button>
@@ -142,7 +142,7 @@ function PartnerPage() {
         </div>
 
         {/* Quick action grid — button-first */}
-        <DashCard className="!p-3">
+        <DashCard variant="light" className="!p-3">
           <div className="text-[10px] tracking-widest uppercase text-gold mb-2">Quick Actions</div>
           <div className="grid grid-cols-3 gap-1.5">
             {menu.map((m) => (

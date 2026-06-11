@@ -91,7 +91,7 @@ function ExpertPage() {
     >
       <div className="grid lg:grid-cols-[340px,1fr] gap-4 md:gap-5">
         {/* Queue Section */}
-        <DashCard className="p-0 overflow-hidden">
+        <DashCard variant="light" className="p-0 overflow-hidden">
           <div className="bg-gradient-to-r from-emerald-deep/10 to-transparent px-4 py-3 border-b border-mint/30">
             <div className="flex items-center justify-between">
               <div className="text-[11px] md:text-xs tracking-widest uppercase text-emerald font-semibold flex items-center gap-2">
@@ -154,7 +154,7 @@ function ExpertPage() {
         </DashCard>
 
         {/* Detail Section */}
-        <DashCard className="p-5 md:p-6">
+        <DashCard variant="light" className="p-5 md:p-6">
           {/* Header */}
           <div className="flex items-start justify-between flex-wrap gap-3 pb-4 border-b border-mint/30">
             <div className="flex-1">

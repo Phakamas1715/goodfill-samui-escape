@@ -57,7 +57,7 @@ function PartnersPage() {
     >
       <div className="grid lg:grid-cols-[220px,1fr] gap-3 h-full min-h-0">
         {/* GROUP RAIL — buttons */}
-        <DashCard className="!p-2 overflow-y-auto">
+        <DashCard variant="light" className="!p-2 overflow-y-auto">
           <div className="text-[10px] tracking-[0.25em] uppercase text-gold px-2 py-1.5">
             Groups
           </div>
@@ -99,7 +99,7 @@ function PartnersPage() {
 
         {/* DETAIL */}
         <div className="flex flex-col gap-3 min-h-0">
-          <DashCard className="!p-4">
+          <DashCard variant="light" className="!p-4">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <div className="text-[10px] tracking-[0.28em] uppercase text-gold">
@@ -137,7 +137,7 @@ function PartnersPage() {
             </div>
 
             {active === "A" && (
-              <DashCard className="!p-4 mt-3">
+              <DashCard variant="light" className="!p-4 mt-3">
                 <div className="text-[10px] tracking-[0.28em] uppercase text-gold mb-2">
                   {lang === "th" ? "ลำดับทาบทาม" : "Outreach order"}
                 </div>
