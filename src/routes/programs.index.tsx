@@ -1,179 +1,113 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { DashShell } from "@/components/DashShell";
-import { questions, scorePersonaTop2, pick } from "@/lib/data";
+import { programs, personas, pick } from "@/lib/data";
 import { useAppState } from "@/lib/state";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/programs/")({
   head: () => ({
     meta: [
-      { title: "Wellness Quest — Goodfill Care" },
+      { title: "Wellness Packages — Goodfill Care Samui" },
       {
         name: "description",
         content:
-          "ตอบ 8 ข้อสั้น ๆ เพื่อค้นพบ Wellness Persona ของคุณ — Sleep Seeker, Energy Rebuilder, Detox Reset หรือ Mindful Glow พร้อมรับ 300 Calm Credits ทันที",
+          "แพ็คเกจ Wellness ที่เกาะสมุย 3–7 วัน — Recharge, Reset, Balance และ Transform ออกแบบโดยผู้เชี่ยวชาญ พร้อมที่พัก อาหารสุขภาพ และโปรแกรมฟื้นฟูครบวงจร",
       },
-      { property: "og:title", content: "Wellness Quest — ค้นพบ Persona ของคุณใน 8 ข้อ" },
+      { property: "og:title", content: "Wellness Packages — Goodfill Care Samui" },
       {
         property: "og:description",
         content:
-          "แบบประเมินสั้น ๆ เพื่อจับคู่คุณกับโปรแกรม Wellness ที่เกาะสมุยที่เหมาะกับร่างกายและจิตใจคุณที่สุด",
+          "เลือกแพ็คเกจฟื้นฟูสุขภาพที่เกาะสมุยที่เหมาะกับคุณ — 3 ถึง 7 วัน ดูแลโดยผู้เชี่ยวชาญตัวจริง",
       },
-      { property: "og:url", content: "https://goodfillcare-samui.com/quest" },
+      { property: "og:url", content: "https://goodfillcare-samui.com/programs" },
     ],
-    links: [{ rel: "canonical", href: "https://goodfillcare-samui.com/quest" }],
+    links: [{ rel: "canonical", href: "https://goodfillcare-samui.com/programs" }],
   }),
-  component: Quest,
+  component: ProgramsIndex,
 });
 
-function Quest() {
-  const navigate = useNavigate();
-  const { t, lang } = useI18n();
-  const [state, setState] = useAppState();
-  const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, number>>(state.questAnswers ?? {});
-
-  const q = questions[step];
-  const progress = ((step + (answers[q.id] != null ? 1 : 0)) / questions.length) * 100;
-  const selected = answers[q.id];
-
-  const [persona, secondaryPersona] = useMemo(() => scorePersonaTop2(answers), [answers]);
-  const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  function finishWith(finalAnswers: Record<number, number>) {
-    const [p, sp] = scorePersonaTop2(finalAnswers);
-    setState((s) => ({
-      ...s,
-      questAnswers: finalAnswers,
-      persona: p,
-      secondaryPersona: sp,
-      credits: s.persona ? s.credits : s.credits + 300,
-    }));
-    navigate({ to: "/persona" });
-  }
-
-  function choose(idx: number) {
-    const nextAnswers = { ...answers, [q.id]: idx };
-    setAnswers(nextAnswers);
-    if (advanceTimer.current) clearTimeout(advanceTimer.current);
-    advanceTimer.current = setTimeout(() => {
-      if (step < questions.length - 1) {
-        setStep((s) => s + 1);
-      } else {
-        finishWith(nextAnswers);
-      }
-    }, 380);
-  }
-
-  function next() {
-    if (advanceTimer.current) clearTimeout(advanceTimer.current);
-    if (step < questions.length - 1) {
-      setStep((s) => s + 1);
-    } else {
-      finishWith(answers);
-    }
-  }
+function ProgramsIndex() {
+  const { lang } = useI18n();
+  const [state] = useAppState();
+  const persona = state.persona ? personas[state.persona] : null;
 
   return (
     <DashShell
-      bg="yoga"
-      kicker={`Wellness Quest · ${step + 1}/${questions.length}`}
-      title={pick(q.question, lang)}
-      subtitle={t("quest.subtitle")}
+      bg="spa"
+      kicker="Wellness Packages"
+      title={lang === "th" ? "แพ็คเกจฟื้นฟูที่เกาะสมุย" : "Retreat packages in Koh Samui"}
+      subtitle={
+        lang === "th"
+          ? "3–7 วัน ออกแบบโดยผู้เชี่ยวชาญ พร้อมที่พัก อาหาร และโปรแกรมครบวงจร"
+          : "3–7 days, expert-designed — stay, meals, and a full restorative program."
+      }
     >
-      <div className="max-w-3xl mx-auto w-full px-4 md:px-0">
-        {/* Progress Bar */}
-        <div className="h-2 bg-white/30 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-emerald to-gold"
-            initial={false}
-            animate={{ width: `${progress}%` }}
-            transition={{ type: "spring", stiffness: 100, damping: 20 }}
-          />
-        </div>
+      <div className="max-w-5xl mx-auto w-full px-4 md:px-0 pb-10">
+        {persona && (
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/85 backdrop-blur border border-gold/40 px-4 py-2 text-xs text-navy shadow-sm">
+            <Sparkles size={14} className="text-gold" />
+            {lang === "th" ? "แนะนำสำหรับ" : "Recommended for"}{" "}
+            <span className="font-semibold">{pick(persona.name, lang)}</span>
+          </div>
+        )}
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={q.id}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.35 }}
-            className="mt-8"
-          >
-            {/* Emoji */}
-            <div className="text-6xl md:text-7xl mb-5 drop-shadow-lg">{q.emoji}</div>
-
-            {/* Question */}
-            <div className="text-white text-xl md:text-2xl font-medium mb-6 drop-shadow-md">
-              {pick(q.question, lang)}
-            </div>
-
-            {/* Option Cards */}
-            <div className="mt-2 grid gap-4">
-              {q.options.map((opt, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => choose(idx)}
-                  className={`group backdrop-blur-md border-2 rounded-2xl px-5 py-4 md:px-6 md:py-5 text-left flex items-center justify-between gap-4 transition-all duration-200 shadow-md ${
-                    selected === idx
-                      ? "border-emerald bg-gradient-to-r from-emerald to-emerald/90 text-white shadow-xl scale-[1.01]"
-                      : "bg-white/90 border-white/30 text-navy hover:bg-white/95 hover:border-emerald/40 hover:shadow-lg"
-                  }`}
+        <div className="grid gap-4 sm:grid-cols-2">
+          {programs.map((p, i) => {
+            const matched = state.persona ? p.matches.includes(state.persona) : false;
+            return (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: i * 0.06 }}
+              >
+                <Link
+                  to="/programs/$id"
+                  params={{ id: p.id }}
+                  className="block bg-white/90 backdrop-blur-md border border-white/60 rounded-2xl overflow-hidden group hover:shadow-xl hover:-translate-y-0.5 transition shadow-[0_12px_30px_-14px_rgba(12,35,64,0.35)]"
                 >
-                  <span
-                    className={`text-base md:text-lg font-medium leading-relaxed break-words flex-1 min-w-0 ${
-                      selected === idx ? "text-white" : "text-navy"
-                    }`}
-                  >
-                    {pick(opt.label, lang)}
-                  </span>
-                  <span
-                    className={`size-7 md:size-8 rounded-full grid place-items-center transition-all duration-200 shrink-0 ${
-                      selected === idx
-                        ? "bg-gold text-emerald-deep scale-110 shadow-md"
-                        : "border-2 border-mint/50 text-transparent group-hover:border-emerald/60 group-hover:scale-105"
-                    }`}
-                  >
-                    <Check size={16} strokeWidth={2.5} />
-                  </span>
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Navigation Buttons */}
-        <div className="mt-10 flex items-center justify-between">
-          <button
-            onClick={() => setStep((s) => Math.max(0, s - 1))}
-            disabled={step === 0}
-            className="text-sm md:text-base text-white/70 hover:text-white transition flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed font-medium"
-          >
-            <ArrowLeft size={18} /> {t("common.back")}
-          </button>
-          <button
-            onClick={next}
-            disabled={selected == null}
-            className={`rounded-full px-6 py-3 md:px-8 md:py-3.5 inline-flex items-center gap-2 text-sm md:text-base font-semibold transition-all duration-200 ${
-              selected == null
-                ? "bg-white/10 text-white/40 cursor-not-allowed backdrop-blur-sm"
-                : "btn-gold shadow-lg hover:scale-[1.02] active:scale-[0.98]"
-            }`}
-          >
-            {step === questions.length - 1 ? t("common.viewResult") : t("common.next")}
-            <ArrowRight size={18} />
-          </button>
-        </div>
-
-        {/* Progress indicator text */}
-        <div className="mt-6 text-center">
-          <span className="text-white/50 text-xs tracking-wider">
-            {step + 1} / {questions.length}
-          </span>
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    <img
+                      src={p.image}
+                      alt={pick(p.name, lang)}
+                      loading="lazy"
+                      className="size-full object-cover group-hover:scale-105 transition duration-700"
+                    />
+                    {matched && (
+                      <span className="absolute top-2.5 left-2.5 rounded-full bg-gradient-to-r from-gold to-coral text-emerald-deep text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 shadow">
+                        {lang === "th" ? "เหมาะกับคุณ" : "Best match"}
+                      </span>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <div className="text-[10px] tracking-widest text-gold uppercase">
+                      {pick(p.duration, lang)} · {pick(p.venue, lang)}
+                    </div>
+                    <div className="font-display text-lg text-navy mt-0.5">
+                      {pick(p.name, lang)}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                      {pick(p.tagline, lang)}
+                    </p>
+                    <div className="mt-3 flex items-center justify-between">
+                      <div className="text-sm font-semibold text-navy">
+                        ฿{p.price.toLocaleString()}
+                        <span className="text-[10px] font-normal text-muted-foreground ml-1">
+                          / {lang === "th" ? "ท่าน" : "person"}
+                        </span>
+                      </div>
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald group-hover:gap-2 transition-all">
+                        {lang === "th" ? "ดูรายละเอียด" : "View details"}
+                        <ArrowRight size={14} className="text-gold" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </DashShell>
