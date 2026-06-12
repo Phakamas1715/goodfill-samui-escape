@@ -17,6 +17,22 @@ interface RequestContext {
   method: string;
   url: string;
   userAgent?: string;
+  ip?: string;
+}
+
+interface HealthInfo {
+  status: "ok" | "degraded" | "error";
+  timestamp: string;
+  uptime: number;
+  memory: {
+    rss: number;
+    heapTotal: number;
+    heapUsed: number;
+    external: number;
+  };
+  serverEntryLoaded: boolean;
+  version?: string;
+  environment?: string;
 }
 
 // ============================================================================
@@ -25,6 +41,7 @@ interface RequestContext {
 
 const ERROR_HTML_CONTENT_TYPE = "text/html; charset=utf-8";
 const JSON_CONTENT_TYPE = "application/json";
+const VERSION = "1.0.0";
 
 // ============================================================================
 // Helper Functions
@@ -32,6 +49,16 @@ const JSON_CONTENT_TYPE = "application/json";
 
 function generateRequestId(): string {
   return `${Date.now()}-${Math.random().toString(36).substring(2, 10)}`;
+}
+
+function getClientIp(request: Request): string | undefined {
+  const cfConnectingIp = request.headers.get("cf-connecting-ip");
+  if (cfConnectingIp) return cfConnectingIp;
+
+  const xForwardedFor = request.headers.get("x-forwarded-for");
+  if (xForwardedFor) return xForwardedFor.split(",")[0].trim();
+
+  return undefined;
 }
 
 function logRequest(context: RequestContext, status: number, durationMs: number): void {
@@ -51,23 +78,24 @@ function logError(context: RequestContext | null, error: unknown, phase: string)
   console.error(`[${new Date().toISOString()}] [ERROR:${phase}] ${context?.id || "no-context"}`, {
     url: context?.url,
     method: context?.method,
+    ip: context?.ip,
     error: errorMessage,
     stack: errorStack?.slice(0, 500),
   });
 }
 
-function isCatastrophicErrorResponse(response: Response): Promise<boolean> {
-  if (response.status < 500) return Promise.resolve(false);
+async function isCatastrophicErrorResponse(response: Response): Promise<boolean> {
+  if (response.status < 500) return false;
 
   const contentType = response.headers.get("content-type") ?? "";
-  if (!contentType.includes(JSON_CONTENT_TYPE)) return Promise.resolve(false);
+  if (!contentType.includes(JSON_CONTENT_TYPE)) return false;
 
-  return response
-    .clone()
-    .text()
-    .then((body) => {
-      return body.includes('"unhandled":true') && body.includes('"message":"HTTPError"');
-    });
+  try {
+    const body = await response.clone().text();
+    return body.includes('"unhandled":true') && body.includes('"message":"HTTPError"');
+  } catch {
+    return false;
+  }
 }
 
 // ============================================================================
@@ -76,21 +104,17 @@ function isCatastrophicErrorResponse(response: Response): Promise<boolean> {
 
 let serverEntryPromise: Promise<ServerEntry> | undefined;
 let serverEntryLoadTime: number | undefined;
+let requestCount = 0;
 
 async function getServerEntry(): Promise<ServerEntry> {
   if (!serverEntryPromise) {
     serverEntryLoadTime = Date.now();
-    serverEntryPromise = import("@tanstack/react-start/server-entry").then(
-      (m) => (m.default ?? m) as ServerEntry,
-    );
+    serverEntryPromise = import("@tanstack/react-start/server-entry").then((m) => (m.default ?? m) as ServerEntry);
   }
   return serverEntryPromise;
 }
 
-async function normalizeCatastrophicSsrResponse(
-  response: Response,
-  context: RequestContext,
-): Promise<Response> {
+async function normalizeCatastrophicSsrResponse(response: Response, context: RequestContext): Promise<Response> {
   const isCatastrophic = await isCatastrophicErrorResponse(response);
 
   if (!isCatastrophic) return response;
@@ -111,12 +135,15 @@ async function normalizeCatastrophicSsrResponse(
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown): Promise<Response> {
+    requestCount++;
+
     const context: RequestContext = {
       id: generateRequestId(),
       startTime: Date.now(),
       method: request.method,
       url: request.url,
       userAgent: request.headers.get("user-agent") || undefined,
+      ip: getClientIp(request),
     };
 
     // Log startup time on first request
@@ -129,9 +156,11 @@ export default {
     }
 
     try {
-      // Handle warmup requests
-      if (request.method === "HEAD" && request.url.includes("/health")) {
-        return new Response("OK", { status: 200 });
+      // Handle health check requests
+      const url = new URL(request.url);
+      if (url.pathname === "/health" || (request.method === "HEAD" && url.pathname === "/health")) {
+        const healthHandler = createHealthHandler();
+        return await healthHandler(request);
       }
 
       const handler = await getServerEntry();
@@ -140,6 +169,10 @@ export default {
 
       const duration = Date.now() - context.startTime;
       logRequest(context, normalizedResponse.status, duration);
+
+      // Add custom headers
+      normalizedResponse.headers.set("x-request-id", context.id);
+      normalizedResponse.headers.set("x-response-time", `${duration}ms`);
 
       return normalizedResponse;
     } catch (error) {
@@ -153,7 +186,10 @@ export default {
 
       return new Response(renderErrorPage(), {
         status: 500,
-        headers: { "content-type": ERROR_HTML_CONTENT_TYPE },
+        headers: {
+          "content-type": ERROR_HTML_CONTENT_TYPE,
+          "x-request-id": context.id,
+        },
       });
     }
   },
@@ -165,17 +201,76 @@ export default {
 
 export function createHealthHandler() {
   return async (request: Request): Promise<Response> => {
-    const healthInfo = {
+    const url = new URL(request.url);
+    const verbose = url.searchParams.get("verbose") === "true";
+
+    const memory = process.memoryUsage();
+
+    const healthInfo: HealthInfo = {
       status: "ok",
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
-      memory: process.memoryUsage(),
+      memory: {
+        rss: Math.round(memory.rss / 1024 / 1024),
+        heapTotal: Math.round(memory.heapTotal / 1024 / 1024),
+        heapUsed: Math.round(memory.heapUsed / 1024 / 1024),
+        external: Math.round(memory.external / 1024 / 1024),
+      },
       serverEntryLoaded: !!serverEntryPromise,
+      version: VERSION,
+      environment: process.env.NODE_ENV || "development",
     };
 
-    return new Response(JSON.stringify(healthInfo, null, 2), {
-      status: 200,
-      headers: { "content-type": JSON_CONTENT_TYPE },
-    });
+    // Check memory threshold
+    if (healthInfo.memory.heapUsed > 500) {
+      healthInfo.status = "degraded";
+      console.warn(`[Health] High memory usage: ${healthInfo.memory.heapUsed}MB`);
+    }
+
+    if (verbose) {
+      return new Response(JSON.stringify(healthInfo, null, 2), {
+        status: 200,
+        headers: {
+          "content-type": JSON_CONTENT_TYPE,
+          "cache-control": "no-cache",
+        },
+      });
+    }
+
+    // Simple response for load balancers
+    if (healthInfo.status === "ok") {
+      return new Response("OK", { status: 200 });
+    }
+
+    return new Response("Degraded", { status: 503 });
   };
+}
+
+// ============================================================================
+// Graceful Shutdown Handler (for production)
+// ============================================================================
+
+let isShuttingDown = false;
+
+export function setupGracefulShutdown() {
+  const shutdown = async (signal: string) => {
+    if (isShuttingDown) return;
+    isShuttingDown = true;
+
+    console.log(`[Server] Received ${signal}, starting graceful shutdown...`);
+
+    // Allow in-flight requests to complete (max 10 seconds)
+    setTimeout(() => {
+      console.log("[Server] Graceful shutdown complete");
+      process.exit(0);
+    }, 10000);
+  };
+
+  process.on("SIGTERM", () => shutdown("SIGTERM"));
+  process.on("SIGINT", () => shutdown("SIGINT"));
+}
+
+// Auto-setup graceful shutdown in production
+if (process.env.NODE_ENV === "production") {
+  setupGracefulShutdown();
 }
