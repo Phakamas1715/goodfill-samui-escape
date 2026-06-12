@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import liff from "@line/liff";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles, AlertCircle } from "lucide-react";
 
 const searchSchema = z.object({
   redirect: z.string().optional(),
@@ -22,9 +22,7 @@ function LoginPage() {
   const search = useSearch({ from: "/login" });
   const channel = search.channel ?? "customer";
   const liffId =
-    channel === "partner"
-      ? (import.meta.env.VITE_PARTNER_LIFF_ID as string)
-      : (import.meta.env.VITE_LIFF_ID as string);
+    channel === "partner" ? (import.meta.env.VITE_PARTNER_LIFF_ID as string) : (import.meta.env.VITE_LIFF_ID as string);
   const channelId = liffId?.split("-")[0];
 
   const [state, setState] = useState<"init" | "login" | "signing" | "done" | "error">("init");
@@ -59,10 +57,13 @@ function LoginPage() {
         if (error) throw error;
         if (cancelled) return;
         setState("done");
-        const fallback = channel === "partner" ? "/admin" : "/";
-        const target =
-          search.redirect && search.redirect.startsWith("/") ? search.redirect : fallback;
-        nav({ to: target });
+
+        // Small delay before redirect to show success state
+        setTimeout(() => {
+          const fallback = channel === "partner" ? "/admin" : "/";
+          const target = search.redirect && search.redirect.startsWith("/") ? search.redirect : fallback;
+          nav({ to: target });
+        }, 800);
       } catch (e) {
         if (cancelled) return;
         setState("error");
@@ -80,44 +81,46 @@ function LoginPage() {
       case "init":
         return (
           <div className="flex flex-col items-center gap-3">
-            <Loader2 size={32} className="animate-spin text-gold" />
-            <span className="text-base md:text-lg text-navy/80">กำลังเริ่มต้น LIFF…</span>
+            <div className="size-14 md:size-16 rounded-full bg-emerald/10 flex items-center justify-center">
+              <Loader2 size={28} className="animate-spin text-gold" />
+            </div>
+            <span className="text-sm md:text-base text-navy/70">กำลังเริ่มต้น LIFF…</span>
           </div>
         );
       case "login":
         return (
           <div className="flex flex-col items-center gap-3">
-            <div className="size-12 md:size-14 rounded-full bg-green-500/20 flex items-center justify-center">
-              <div className="size-3 md:size-4 rounded-full bg-green-500 animate-pulse" />
+            <div className="size-14 md:size-16 rounded-full bg-emerald/10 flex items-center justify-center">
+              <div className="size-4 md:size-5 rounded-full bg-emerald animate-pulse" />
             </div>
-            <span className="text-base md:text-lg text-navy/80">กำลังเปิดหน้า LINE Login…</span>
+            <span className="text-sm md:text-base text-navy/70">กำลังเปิดหน้า LINE Login…</span>
           </div>
         );
       case "signing":
         return (
           <div className="flex flex-col items-center gap-3">
-            <Loader2 size={32} className="animate-spin text-gold" />
-            <span className="text-base md:text-lg text-navy/80">กำลังตรวจสอบตัวตน…</span>
+            <div className="size-14 md:size-16 rounded-full bg-gold/10 flex items-center justify-center">
+              <Loader2 size={28} className="animate-spin text-gold" />
+            </div>
+            <span className="text-sm md:text-base text-navy/70">กำลังตรวจสอบตัวตน…</span>
           </div>
         );
       case "done":
         return (
           <div className="flex flex-col items-center gap-3">
-            <div className="size-12 md:size-14 rounded-full bg-emerald/20 flex items-center justify-center">
-              <Sparkles size={24} className="text-emerald" />
+            <div className="size-14 md:size-16 rounded-full bg-emerald/20 flex items-center justify-center">
+              <Sparkles size={28} className="text-emerald" />
             </div>
-            <span className="text-base md:text-lg text-emerald font-medium">
-              สำเร็จ! กำลังนำทาง…
-            </span>
+            <span className="text-sm md:text-base font-medium text-emerald">สำเร็จ! กำลังนำทาง…</span>
           </div>
         );
       case "error":
         return (
           <div className="flex flex-col items-center gap-3">
-            <div className="size-12 md:size-14 rounded-full bg-coral/20 flex items-center justify-center">
-              <span className="text-2xl text-coral">⚠️</span>
+            <div className="size-14 md:size-16 rounded-full bg-coral/10 flex items-center justify-center">
+              <AlertCircle size={28} className="text-coral" />
             </div>
-            <span className="text-sm md:text-base text-coral text-center">{msg}</span>
+            <span className="text-xs md:text-sm text-coral text-center max-w-[250px]">{msg}</span>
           </div>
         );
       default:
@@ -129,9 +132,9 @@ function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-5 md:p-8 bg-gradient-to-br from-cream via-white to-cream">
       <div className="card-cream rounded-2xl md:rounded-3xl p-6 md:p-10 max-w-md w-full shadow-xl border border-white/50">
         {/* Logo / Brand */}
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-5">
           <div className="size-16 md:size-20 rounded-2xl bg-gradient-to-br from-emerald to-gold flex items-center justify-center shadow-lg">
-            <span className="text-white text-2xl md:text-3xl font-display font-bold">GC</span>
+            <span className="text-white text-2xl md:text-3xl font-display font-bold tracking-tight">GC</span>
           </div>
         </div>
 
@@ -142,18 +145,19 @@ function LoginPage() {
           <h1 className="font-display text-2xl md:text-3xl lg:text-4xl text-navy mb-2 leading-tight">
             เข้าสู่ระบบด้วย LINE
           </h1>
+          <p className="text-xs md:text-sm text-muted-foreground mb-3">
+            {channel === "partner" ? "สำหรับพาร์ทเนอร์" : "สำหรับลูกค้า"}
+          </p>
 
           {/* Channel Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/20 mt-2 mb-5">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/20 mt-1 mb-6">
             <span className="text-[10px] md:text-[11px] uppercase tracking-wider text-gold font-semibold">
               {channel === "partner" ? "Partner OA" : "Customer OA"}
             </span>
           </div>
 
-          {/* Status Area — larger and clearer */}
-          <div className="min-h-[120px] md:min-h-[140px] flex items-center justify-center">
-            {renderStatus()}
-          </div>
+          {/* Status Area */}
+          <div className="min-h-[140px] md:min-h-[160px] flex items-center justify-center">{renderStatus()}</div>
 
           {/* Error Action */}
           {state === "error" && (
@@ -183,6 +187,11 @@ function LoginPage() {
               </p>
             </div>
           )}
+
+          {/* Footer note */}
+          <div className="mt-6 text-[9px] md:text-[10px] text-muted-foreground">
+            ข้อมูลของคุณจะถูกเก็บเป็นความลับตาม PDPA
+          </div>
         </div>
       </div>
     </div>
