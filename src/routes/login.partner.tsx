@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Building2, ArrowRight, Sparkles, ShieldCheck, Clock, Users } from "lucide-react";
+import { Building2, ArrowRight, Sparkles, ShieldCheck, Clock, Users, Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import liff from "@line/liff";
@@ -22,6 +22,7 @@ function PartnerLoginPage() {
   const navigate = useNavigate();
   const [isChecking, setIsChecking] = useState(true);
   const [liffReady, setLiffReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const liffId = import.meta.env.VITE_PARTNER_LIFF_ID as string;
 
   useEffect(() => {
@@ -30,6 +31,7 @@ function PartnerLoginPage() {
       try {
         if (!liffId) {
           console.warn("VITE_PARTNER_LIFF_ID not configured");
+          setError("LIFF ID not configured");
           setIsChecking(false);
           return;
         }
@@ -44,6 +46,7 @@ function PartnerLoginPage() {
         }
       } catch (e) {
         console.error("LIFF init error:", e);
+        setError(e instanceof Error ? e.message : "LIFF initialization failed");
       } finally {
         if (!cancelled) setIsChecking(false);
       }
@@ -73,7 +76,7 @@ function PartnerLoginPage() {
       {/* Hero Section */}
       <div className="relative min-h-screen flex items-center justify-center p-5 md:p-8">
         {/* Decorative blur */}
-        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-black/25" />
         <div className="absolute top-20 left-10 w-64 h-64 bg-gold/20 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-80 h-80 bg-emerald/20 rounded-full blur-3xl" />
 
@@ -115,15 +118,13 @@ function PartnerLoginPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
-                    className="bg-white rounded-xl p-4 text-center shadow-md border border-mint/30"
+                    className="bg-white rounded-xl p-4 text-center shadow-md border border-mint/30 hover:shadow-lg transition-all duration-300"
                   >
                     <div className="size-10 md:size-12 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-3">
                       <feat.icon size={20} className="text-gold" />
                     </div>
                     <div className="font-semibold text-navy text-sm md:text-base">{feat.title}</div>
-                    <div className="text-[11px] md:text-xs text-muted-foreground mt-1">
-                      {feat.desc}
-                    </div>
+                    <div className="text-[11px] md:text-xs text-muted-foreground mt-1">{feat.desc}</div>
                   </motion.div>
                 ))}
               </div>
@@ -135,21 +136,31 @@ function PartnerLoginPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={handleLogin}
                   disabled={isChecking}
-                  className="btn-gold rounded-full px-8 py-4 md:px-10 md:py-5 inline-flex items-center gap-2 text-base md:text-lg font-bold shadow-xl hover:shadow-2xl transition-all disabled:opacity-50"
+                  className="btn-gold rounded-full px-8 py-4 md:px-10 md:py-5 inline-flex items-center gap-2 text-base md:text-lg font-bold shadow-xl hover:shadow-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Sparkles size={20} />
+                  {isChecking ? <Loader2 size={20} className="animate-spin" /> : <Sparkles size={20} />}
                   {isChecking ? "กำลังตรวจสอบ..." : "เข้าสู่ระบบด้วย LINE"}
-                  <ArrowRight size={20} />
+                  {!isChecking && <ArrowRight size={20} />}
                 </motion.button>
               </div>
+
+              {/* Error Message */}
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 p-3 bg-coral/10 rounded-xl border border-coral/20 text-center"
+                >
+                  <p className="text-xs text-coral">⚠️ {error}</p>
+                </motion.div>
+              )}
 
               {/* Info Note */}
               <div className="mt-8 p-4 bg-gold/5 rounded-xl border border-gold/20">
                 <div className="flex items-start gap-2 text-[11px] md:text-xs text-navy/60 text-center justify-center">
                   <ShieldCheck size={14} className="shrink-0 mt-0.5 text-gold" />
                   <span>
-                    ระบบใช้ LINE Official Account ในการยืนยันตัวตน{" "}
-                    <br className="hidden sm:inline" />
+                    ระบบใช้ LINE Official Account ในการยืนยันตัวตน <br className="hidden sm:inline" />
                     กรุณาสแกน QR หรือเปิดผ่าน Rich Menu ของ Partner OA
                   </span>
                 </div>
@@ -159,7 +170,7 @@ function PartnerLoginPage() {
               <div className="mt-6 text-center">
                 <button
                   onClick={() => navigate({ to: "/" })}
-                  className="text-xs md:text-sm text-navy/50 hover:text-navy transition"
+                  className="text-xs md:text-sm text-navy/50 hover:text-navy transition-all duration-200 hover:underline"
                 >
                   ← กลับหน้าหลัก
                 </button>
@@ -169,7 +180,7 @@ function PartnerLoginPage() {
 
           {/* Footer */}
           <div className="text-center mt-8 text-white/60 text-[10px] md:text-xs tracking-wide">
-            © 2024 Goodfill Care — Wellness Journey on Koh Samui
+            © {new Date().getFullYear()} Goodfill Care — Wellness Journey on Koh Samui
           </div>
         </div>
       </div>
