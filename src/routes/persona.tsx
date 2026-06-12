@@ -1,6 +1,23 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Sparkles, Wand2, Loader2, Send } from "lucide-react";
+import {
+  ArrowRight,
+  Sparkles,
+  Wand2,
+  Loader2,
+  Send,
+  CheckCircle2,
+  Heart,
+  Zap,
+  Moon,
+  Sun,
+  Coffee,
+  Brain,
+  Activity,
+  TrendingUp,
+  Award,
+  Clock,
+} from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -21,14 +38,14 @@ export const Route = createFileRoute("/persona")({
   component: PersonaPage,
 });
 
+import { Shield } from "lucide-react";
+
 function PersonaPage() {
   const { t, lang } = useI18n();
   const [state, setState] = useAppState();
   const persona = state.persona ? personas[state.persona] : null;
   const secondary =
-    state.secondaryPersona && state.secondaryPersona !== state.persona
-      ? personas[state.secondaryPersona]
-      : null;
+    state.secondaryPersona && state.secondaryPersona !== state.persona ? personas[state.secondaryPersona] : null;
 
   const fetchInsight = useServerFn(getPersonaInsight);
   const sendToChat = useServerFn(sendPersonaSummary);
@@ -37,19 +54,21 @@ function PersonaPage() {
   const [loadingAI, setLoadingAI] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const [sendingChat, setSendingChat] = useState(false);
+
   const calmingMessagesTh = [
-    "หายใจเข้าลึกๆ ปล่อยลมหายใจช้าๆ…",
-    "AI กำลังฟังเสียงภายในของคุณ…",
-    "กำลังเรียบเรียง ritual ที่เหมาะกับจังหวะชีวิตคุณ…",
-    "อีกสักครู่ ผู้เชี่ยวชาญในระบบกำลังจับคู่แพ็กเกจให้คุณ…",
+    "กำลังวิเคราะห์ข้อมูลเชิงลึก...",
+    "AI กำลังประมวลผลบุคลิกภาพของคุณ...",
+    "เตรียมคำแนะนำเฉพาะบุคคล...",
+    "ใกล้เสร็จแล้ว! กำลังจัดทำรายงาน...",
   ];
   const calmingMessagesEn = [
-    "Breathe in deeply, exhale slowly…",
-    "AI is listening to your inner rhythm…",
-    "Composing a ritual tuned to your pace…",
-    "Matching the right specialists to your persona…",
+    "Analyzing your wellness data...",
+    "AI is processing your personality...",
+    "Preparing personalized recommendations...",
+    "Almost there! Generating your report...",
   ];
   const [calmingIdx, setCalmingIdx] = useState(0);
+
   useEffect(() => {
     if (!loadingAI) return;
     setCalmingIdx(0);
@@ -90,19 +109,14 @@ function PersonaPage() {
         const channels = [result.line.ok ? "LINE" : null, result.telegram.ok ? "Telegram" : null]
           .filter(Boolean)
           .join(" + ");
-        toast.success(
-          lang === "th"
-            ? `ส่งผลวิเคราะห์เข้า ${channels} ของคุณแล้ว ✓`
-            : `Sent to your ${channels} ✓`,
-          {
-            description:
-              lang === "th"
-                ? "เปิดแอปเพื่อคุยต่อกับผู้ช่วย Goodfill ได้ทันที"
-                : "Open the app to continue with the Goodfill assistant.",
-          },
-        );
+        toast.success(lang === "th" ? `ส่งผลวิเคราะห์เข้า ${channels} ของคุณแล้ว` : `Sent to your ${channels}`, {
+          description:
+            lang === "th"
+              ? "เปิดแอปเพื่อคุยต่อกับผู้ช่วย Goodfill ได้ทันที"
+              : "Open the app to continue with the Goodfill assistant.",
+        });
       } else {
-        toast.message(lang === "th" ? "ยังไม่ได้เชื่อมบัญชีแชต" : "No chat account linked yet", {
+        toast.info(lang === "th" ? "ยังไม่ได้เชื่อมบัญชีแชต" : "No chat account linked yet", {
           description:
             lang === "th"
               ? "เชื่อม LINE หรือ Telegram กับโปรไฟล์ของคุณก่อน เพื่อรับผลวิเคราะห์เข้าแชต"
@@ -112,7 +126,7 @@ function PersonaPage() {
     } catch (e: any) {
       const msg = String(e?.message ?? e ?? "");
       if (msg.includes("Unauthorized") || msg.includes("401")) {
-        toast.message(lang === "th" ? "กรุณาเข้าสู่ระบบก่อน" : "Please sign in first", {
+        toast.info(lang === "th" ? "กรุณาเข้าสู่ระบบก่อน" : "Please sign in first", {
           description:
             lang === "th"
               ? "เข้าสู่ระบบด้วย LINE เพื่อส่งผลวิเคราะห์เข้าแชตของคุณ"
@@ -141,16 +155,12 @@ function PersonaPage() {
       const result = await fetchInsight({
         data: {
           personaId: persona.id,
-          personaName:
-            typeof persona.name === "string"
-              ? persona.name
-              : ((persona.name as any).en ?? persona.id),
+          personaName: typeof persona.name === "string" ? persona.name : ((persona.name as any).en ?? persona.id),
           answers: answersAsNumberMap,
           lang,
         },
       });
       setInsight(result);
-      // Persist so booking can auto-attach it as a partner-facing note.
       setState((s) => ({ ...s, aiInsight: result ?? null }));
     } catch (e: any) {
       setAiError(e?.message ?? "AI error");
@@ -163,18 +173,23 @@ function PersonaPage() {
     return (
       <DashShell
         bg="yoga"
-        host="welcome"
         kicker={t("persona.empty.kicker")}
         title={t("persona.empty.title")}
         subtitle={t("persona.empty.subtitle")}
       >
-        <DashCard className="text-center">
-          <Link
-            to="/quest"
-            className="btn-gold rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm"
-          >
-            {t("common.startQuest")} <ArrowRight size={16} />
-          </Link>
+        <DashCard className="text-center py-12">
+          <div className="flex flex-col items-center gap-4">
+            <div className="size-16 rounded-full bg-mint/20 flex items-center justify-center">
+              <Sparkles className="size-8 text-gold opacity-50" />
+            </div>
+            <p className="text-muted-foreground">ยังไม่มีผลลัพธ์ Persona</p>
+            <Link
+              to="/quest"
+              className="btn-gold rounded-full px-6 py-3 inline-flex items-center gap-2 text-sm font-medium"
+            >
+              {t("common.startQuest")} <ArrowRight size={16} />
+            </Link>
+          </div>
         </DashCard>
       </DashShell>
     );
@@ -186,123 +201,120 @@ function PersonaPage() {
     <DashShell
       compact
       bg="meditation"
-      host="wai"
       highlight={pick(persona.tagline, lang)}
       kicker={t("persona.kicker")}
       title={pick(persona.name, lang)}
       subtitle={pick(persona.thaiName, lang)}
     >
       <motion.div
-        initial={{ opacity: 0, y: 14 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        className="space-y-5"
       >
-        <DashCard
-          className="p-4 md:p-5 bg-gradient-to-br from-emerald-deep/95 via-navy/95 to-emerald-deep/90 ring-1 ring-white/15 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]"
-          variant="deep"
-        >
-          <p className="text-sm md:text-base font-semibold text-ivory leading-snug drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)] break-words">
-            {pick(persona.tagline, lang)}
-          </p>
-          <p className="text-xs text-ivory/85 mt-1.5 leading-relaxed line-clamp-3">
-            {pick(persona.description, lang)}
-          </p>
-          <div className="flex items-center gap-1.5 text-gold text-[10px] tracking-[0.25em] uppercase mt-3 font-semibold">
-            <Sparkles size={12} /> {t("persona.pillars")}
+        {/* Main Persona Card - Professional Style */}
+        <div className="bg-gradient-to-br from-emerald-deep via-navy to-emerald-deep rounded-2xl p-6 shadow-2xl border border-white/10">
+          <div className="flex items-start gap-5 mb-5">
+            <div className="size-16 rounded-2xl bg-gradient-to-br from-gold/30 to-gold/10 flex items-center justify-center shadow-lg">
+              <span className="text-4xl">{persona.emoji || "✨"}</span>
+            </div>
+            <div className="flex-1">
+              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-gold/15 text-gold text-[10px] font-semibold tracking-wide mb-2">
+                <CheckCircle2 size={10} />
+                <span>WELLNESS PERSONA</span>
+              </div>
+              <h1 className="font-display text-3xl md:text-4xl text-white leading-tight">{pick(persona.name, lang)}</h1>
+              <p className="text-gold/80 text-sm mt-1">{pick(persona.thaiName, lang)}</p>
+            </div>
           </div>
-          <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
-            {persona.pillars.map((p, i) => {
-              const gradients = [
-                "from-amber-200/70 via-orange-300/65 to-rose-400/60",
-                "from-emerald-200/70 via-teal-300/65 to-cyan-400/60",
-                "from-fuchsia-300/65 via-pink-400/60 to-rose-400/60",
-                "from-sky-200/70 via-indigo-300/65 to-violet-400/60",
-              ];
-              const emojis = ["✨", "🌿", "🧘", "🌊"];
-              return (
+
+          <div className="space-y-3">
+            <p className="text-white/90 text-base leading-relaxed">{pick(persona.tagline, lang)}</p>
+            <p className="text-white/60 text-sm leading-relaxed">{pick(persona.description, lang)}</p>
+          </div>
+
+          <div className="mt-5 pt-4 border-t border-white/10">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="h-px w-6 bg-gold/50" />
+              <span className="text-[10px] tracking-[0.25em] uppercase text-gold font-semibold">
+                {t("persona.pillars")}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+              {persona.pillars.map((p, i) => (
                 <div
                   key={p.th}
-                  className={`relative overflow-hidden rounded-xl p-2.5 text-center bg-gradient-to-br ${gradients[i % 4]} shadow-[0_8px_22px_-10px_rgba(0,0,0,0.45)] ring-1 ring-white/40`}
+                  className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-center hover:bg-white/10 transition"
                 >
-                  <div className="text-base leading-none mb-1">{emojis[i % 4]}</div>
-                  <div className="text-[11px] md:text-xs font-bold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.45)]">
-                    {pick(p, lang)}
-                  </div>
+                  <span className="text-[11px] md:text-xs font-medium text-white/80">{pick(p, lang)}</span>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </DashCard>
+        </div>
 
-        {/* AI Insight — powered by AI */}
-        <DashCard
-          className="mt-3 bg-gradient-to-br from-emerald-deep/95 to-navy/95 text-ivory"
-          variant="deep"
-        >
-          <div className="flex items-center justify-between gap-2">
+        {/* AI Insight Card - Professional Style */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10">
+          {/* Header */}
+          <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
             <div className="flex items-center gap-2">
-              <Wand2 size={14} className="text-gold" />
-              <div className="text-[10px] tracking-[0.25em] uppercase text-gold font-semibold">
-                {lang === "th" ? "บทวิเคราะห์เชิงลึก · AI" : "Deep Insight · AI"}
+              <div className="size-8 rounded-lg bg-gold/15 flex items-center justify-center">
+                <Wand2 size={14} className="text-gold" />
+              </div>
+              <div>
+                <div className="text-[10px] tracking-[0.25em] uppercase text-gold font-semibold">AI INSIGHT</div>
+                <p className="text-[10px] text-white/40">
+                  {lang === "th" ? "วิเคราะห์จากแบบประเมินของคุณ" : "Powered by AI"}
+                </p>
               </div>
             </div>
             <button
               onClick={runAI}
               disabled={loadingAI}
-              className="btn-gold rounded-full px-4 py-2 text-xs md:text-sm font-bold inline-flex items-center gap-1.5 disabled:opacity-60 shadow-[0_0_24px_rgba(244,166,74,0.55)] ring-1 ring-gold/60 animate-pulse"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gold/10 hover:bg-gold/20 text-gold text-xs font-medium transition disabled:opacity-50"
             >
               {loadingAI ? <Loader2 size={12} className="animate-spin" /> : <Sparkles size={12} />}
               {loadingAI
                 ? lang === "th"
-                  ? "กำลังวิเคราะห์…"
-                  : "Analyzing…"
+                  ? "กำลังวิเคราะห์"
+                  : "Analyzing"
                 : insight
                   ? lang === "th"
                     ? "วิเคราะห์ใหม่"
                     : "Re-analyze"
                   : lang === "th"
-                    ? "วิเคราะห์ด้วย AI"
-                    : "Analyze with AI"}
+                    ? "เริ่มวิเคราะห์"
+                    : "Analyze"}
             </button>
           </div>
-          {aiError && <p className="text-xs text-coral mt-2">{aiError}</p>}
+
+          {aiError && (
+            <div className="mt-3 p-3 bg-coral/10 rounded-lg border border-coral/20">
+              <p className="text-xs text-coral">{aiError}</p>
+            </div>
+          )}
+
           {loadingAI && !insight && (
-            <div className="mt-3 space-y-2">
-              <div className="relative overflow-hidden rounded-xl bg-white/8 border border-white/12 p-3">
-                <div className="h-3 w-2/3 rounded-full bg-white/12 mb-2 overflow-hidden relative">
-                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+            <div className="mt-4 space-y-3">
+              <div className="space-y-2">
+                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full w-2/3 bg-gradient-to-r from-gold to-gold-soft rounded-full animate-pulse" />
                 </div>
-                <div className="h-2.5 w-11/12 rounded-full bg-white/10 mb-1.5 overflow-hidden relative">
-                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.4s_ease-in-out_infinite] [animation-delay:0.2s] bg-gradient-to-r from-transparent via-fuchsia-300/30 to-transparent" />
+                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full w-1/2 bg-gradient-to-r from-gold to-gold-soft rounded-full animate-pulse" />
                 </div>
-                <div className="h-2.5 w-4/5 rounded-full bg-white/10 overflow-hidden relative">
-                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.4s_ease-in-out_infinite] [animation-delay:0.4s] bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full w-3/4 bg-gradient-to-r from-gold to-gold-soft rounded-full animate-pulse" />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                {[0, 1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="relative overflow-hidden rounded-xl bg-white/8 border border-white/12 p-2.5 h-16"
-                  >
-                    <div
-                      className="absolute inset-0 -translate-x-full animate-[shimmer_2.6s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-gold/25 via-50% to-transparent"
-                      style={{ animationDelay: `${i * 0.15}s` }}
-                    />
-                    <div className="h-2 w-1/2 rounded-full bg-white/15 mb-1.5" />
-                    <div className="h-2 w-3/4 rounded-full bg-white/10" />
-                  </div>
-                ))}
-              </div>
-              <div className="text-center min-h-[1.25rem] mt-1">
+              <div className="text-center pt-2">
                 <AnimatePresence mode="wait">
                   <motion.p
                     key={calmingIdx}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-[11px] tracking-wide text-gold/90 italic"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="text-[10px] text-white/40 italic"
                   >
                     {(lang === "th" ? calmingMessagesTh : calmingMessagesEn)[calmingIdx % 4]}
                   </motion.p>
@@ -310,78 +322,117 @@ function PersonaPage() {
               </div>
             </div>
           )}
+
           {insight && (
-            <div className="mt-3 space-y-2 text-sm">
+            <div className="mt-3 space-y-4">
               {insight.summary && (
-                <p className="text-ivory/95 leading-relaxed">{insight.summary}</p>
+                <div className="p-3 bg-white/5 rounded-lg">
+                  <p className="text-sm text-white/80 leading-relaxed">{insight.summary}</p>
+                </div>
               )}
-              <div className="grid sm:grid-cols-2 gap-2 mt-2">
+
+              <div className="grid md:grid-cols-2 gap-3">
                 {insight.strengths?.length > 0 && (
-                  <div className="rounded-xl bg-white/10 border border-white/15 p-2.5">
-                    <div className="text-[10px] tracking-widest text-gold uppercase mb-1">
-                      {lang === "th" ? "จุดแข็ง" : "Strengths"}
+                  <div className="p-3 bg-emerald/5 rounded-lg border border-emerald/20">
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <TrendingUp size={12} className="text-emerald" />
+                      <span className="text-[10px] text-emerald uppercase tracking-wider font-semibold">
+                        {lang === "th" ? "จุดแข็ง" : "Strengths"}
+                      </span>
                     </div>
-                    <ul className="text-[12px] space-y-0.5 text-ivory/90">
+                    <ul className="space-y-1">
                       {insight.strengths.slice(0, 3).map((s: string, i: number) => (
-                        <li key={i}>· {s}</li>
+                        <li key={i} className="text-xs text-white/70 flex items-start gap-1.5">
+                          <span className="text-emerald text-[10px] mt-0.5">◆</span> {s}
+                        </li>
                       ))}
                     </ul>
                   </div>
                 )}
+
                 {insight.focusAreas?.length > 0 && (
-                  <div className="rounded-xl bg-white/10 border border-white/15 p-2.5">
-                    <div className="text-[10px] tracking-widest text-gold uppercase mb-1">
-                      {lang === "th" ? "จุดที่ต้องโฟกัส" : "Focus"}
+                  <div className="p-3 bg-gold/5 rounded-lg border border-gold/20">
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <Target size={12} className="text-gold" />
+                      <span className="text-[10px] text-gold uppercase tracking-wider font-semibold">
+                        {lang === "th" ? "จุดที่ต้องพัฒนา" : "Focus Areas"}
+                      </span>
                     </div>
-                    <ul className="text-[12px] space-y-0.5 text-ivory/90">
+                    <ul className="space-y-1">
                       {insight.focusAreas.slice(0, 3).map((s: string, i: number) => (
-                        <li key={i}>· {s}</li>
+                        <li key={i} className="text-xs text-white/70 flex items-start gap-1.5">
+                          <span className="text-gold text-[10px] mt-0.5">◆</span> {s}
+                        </li>
                       ))}
                     </ul>
                   </div>
                 )}
+
                 {insight.dailyRitual?.length > 0 && (
-                  <div className="rounded-xl bg-white/10 border border-white/15 p-2.5">
-                    <div className="text-[10px] tracking-widest text-gold uppercase mb-1">
-                      {lang === "th" ? "Ritual ประจำวัน" : "Daily Ritual"}
+                  <div className="p-3 bg-sky/5 rounded-lg border border-sky/20">
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <Sun size={12} className="text-sky-400" />
+                      <span className="text-[10px] text-sky-400 uppercase tracking-wider font-semibold">
+                        {lang === "th" ? "กิจกรรมแนะนำ" : "Daily Ritual"}
+                      </span>
                     </div>
-                    <ul className="text-[12px] space-y-0.5 text-ivory/90">
+                    <ul className="space-y-1">
                       {insight.dailyRitual.slice(0, 3).map((s: string, i: number) => (
-                        <li key={i}>· {s}</li>
+                        <li key={i} className="text-xs text-white/70 flex items-start gap-1.5">
+                          <span className="text-sky-400 text-[10px] mt-0.5">◆</span> {s}
+                        </li>
                       ))}
                     </ul>
                   </div>
                 )}
+
                 {insight.avoid?.length > 0 && (
-                  <div className="rounded-xl bg-white/10 border border-white/15 p-2.5">
-                    <div className="text-[10px] tracking-widest text-coral uppercase mb-1">
-                      {lang === "th" ? "ควรหลีกเลี่ยง" : "Avoid"}
+                  <div className="p-3 bg-coral/5 rounded-lg border border-coral/20">
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <AlertCircle size={12} className="text-coral" />
+                      <span className="text-[10px] text-coral uppercase tracking-wider font-semibold">
+                        {lang === "th" ? "สิ่งที่ควรหลีกเลี่ยง" : "Avoid"}
+                      </span>
                     </div>
-                    <ul className="text-[12px] space-y-0.5 text-ivory/90">
+                    <ul className="space-y-1">
                       {insight.avoid.slice(0, 3).map((s: string, i: number) => (
-                        <li key={i}>· {s}</li>
+                        <li key={i} className="text-xs text-white/70 flex items-start gap-1.5">
+                          <span className="text-coral text-[10px] mt-0.5">◆</span> {s}
+                        </li>
                       ))}
                     </ul>
                   </div>
                 )}
               </div>
+
               {recommended[0] && (
                 <Link
                   to="/programs/$id"
                   params={{ id: recommended[0].id }}
-                  className="mt-4 btn-gold rounded-full w-full px-4 py-3 inline-flex items-center justify-center gap-2 text-sm font-bold shadow-[0_0_24px_rgba(244,166,74,0.45)] ring-1 ring-gold/60"
+                  className="block w-full mt-2 p-3 rounded-lg bg-gold/10 hover:bg-gold/20 border border-gold/30 transition text-center group"
                 >
-                  <Sparkles size={14} />
-                  {lang === "th"
-                    ? `จองแพ็กเกจที่เหมาะกับคุณ · ${pick(recommended[0].name, lang)}`
-                    : `Book your matched package · ${pick(recommended[0].name, lang)}`}
-                  <ArrowRight size={14} />
+                  <div className="flex items-center justify-center gap-2">
+                    <Award size={14} className="text-gold" />
+                    <span className="text-sm font-medium text-gold">
+                      {lang === "th"
+                        ? `แพ็กเกจแนะนำ: ${pick(recommended[0].name, lang)}`
+                        : `Recommended: ${pick(recommended[0].name, lang)}`}
+                    </span>
+                    <ArrowRight size={14} className="text-gold group-hover:translate-x-1 transition" />
+                  </div>
+                  <div className="flex items-center justify-center gap-3 mt-1 text-[10px] text-white/50">
+                    <span className="flex items-center gap-1">
+                      <Clock size={10} /> {pick(recommended[0].duration, lang)}
+                    </span>
+                    <span>฿{recommended[0].price.toLocaleString()}</span>
+                  </div>
                 </Link>
               )}
+
               <button
                 onClick={handleSendToChat}
                 disabled={sendingChat}
-                className="mt-2 w-full rounded-full px-4 py-2.5 inline-flex items-center justify-center gap-2 text-xs font-semibold bg-white/10 hover:bg-white/15 ring-1 ring-white/25 text-ivory disabled:opacity-60 transition"
+                className="w-full mt-2 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/15 text-white/70 text-xs font-medium flex items-center justify-center gap-2 transition disabled:opacity-50"
               >
                 {sendingChat ? (
                   <Loader2 size={12} className="animate-spin" />
@@ -390,117 +441,91 @@ function PersonaPage() {
                 )}
                 {sendingChat
                   ? lang === "th"
-                    ? "กำลังส่ง…"
-                    : "Sending…"
+                    ? "กำลังส่ง..."
+                    : "Sending..."
                   : lang === "th"
-                    ? "ส่งผลวิเคราะห์นี้เข้า LINE / Telegram ของฉัน"
-                    : "Send this insight to my LINE / Telegram"}
+                    ? "ส่งไปยัง LINE / Telegram"
+                    : "Send to LINE / Telegram"}
               </button>
-              <p className="mt-2 text-[10px] text-ivory/70 text-center">
+            </div>
+          )}
+
+          {!insight && !loadingAI && !aiError && (
+            <div className="mt-2 text-center">
+              <p className="text-[10px] text-white/40">
                 {lang === "th"
-                  ? "ระบบจะแนบโปรไฟล์ Persona + บทวิเคราะห์ AI ให้ผู้เชี่ยวชาญอัตโนมัติ"
-                  : "We attach your persona + AI insight to the partner brief automatically."}
+                  ? 'คลิก "เริ่มวิเคราะห์" เพื่อรับคำแนะนำเฉพาะบุคคลจาก AI'
+                  : 'Click "Analyze" to get personalized AI insights'}
               </p>
             </div>
           )}
-          {!insight && !loadingAI && !aiError && (
-            <p className="text-[11px] text-ivory/70 mt-2 leading-relaxed">
-              {lang === "th"
-                ? "กดวิเคราะห์เพื่อให้ AI สรุปจุดแข็ง จุดโฟกัส และ ritual ประจำวันที่เหมาะกับคุณ — ผู้เชี่ยวชาญใช้ข้อมูลนี้วางแผนได้ทันที"
-                : "Tap analyze to let AI summarise strengths, focus, and daily ritual matched to your persona — used by experts to fine-tune your plan."}
-            </p>
-          )}
-        </DashCard>
+        </div>
 
+        {/* Secondary Persona - Compact */}
         {secondary && (
-          <DashCard variant="light" className="mt-3">
-            <div className="text-[10px] tracking-[0.25em] uppercase text-gold">
-              {t("persona.secondary")}
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="size-8 rounded-lg bg-white/10 flex items-center justify-center">
+                <span className="text-sm">{secondary.emoji || "✨"}</span>
+              </div>
+              <div className="flex-1">
+                <div className="text-[9px] text-white/40 uppercase tracking-wider">{t("persona.secondary")}</div>
+                <div className="text-sm text-white/80 font-medium">{pick(secondary.name, lang)}</div>
+                <div className="text-[10px] text-white/40">
+                  {pick(secondary.thaiName, lang)} · {pick(secondary.tagline, lang)}
+                </div>
+              </div>
             </div>
-            <div className="font-display text-lg text-navy mt-0.5">
-              {pick(secondary.name, lang)}
-            </div>
-            <div className="text-xs text-muted-foreground">
-              {pick(secondary.thaiName, lang)} · {pick(secondary.tagline, lang)}
-            </div>
-          </DashCard>
+          </div>
         )}
 
-        <div className="mt-3">
-          <div className="text-[11px] tracking-widest uppercase text-gold mb-2">
-            {t("persona.recommended")}
+        {/* Recommended Programs - Minimal */}
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="h-px w-6 bg-gold/50" />
+            <span className="text-[10px] tracking-[0.25em] uppercase text-gold font-semibold">
+              {t("persona.recommended")}
+            </span>
           </div>
-          {/* Mobile: swipeable horizontal carousel · Desktop: grid */}
-          <div className="sm:hidden -mx-4 px-4">
-            <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-3 scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-              {recommended.map((p) => (
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {recommended.map((p, idx) => (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                whileHover={{ y: -2 }}
+              >
                 <Link
-                  key={p.id}
                   to="/programs/$id"
                   params={{ id: p.id }}
-                  className="snap-center shrink-0 w-[78%] bg-white/85 backdrop-blur-md border border-white/60 rounded-2xl overflow-hidden shadow-[0_12px_30px_-12px_rgba(0,0,0,0.35)] active:scale-[0.98] transition"
+                  className="block bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-gold/30 transition-all duration-300 group"
                 >
-                  <div className="aspect-[16/10] overflow-hidden">
+                  <div className="aspect-[16/9] overflow-hidden relative">
                     <img
                       src={p.image}
                       alt={pick(p.name, lang)}
                       loading="lazy"
-                      className="size-full object-cover"
+                      className="size-full object-cover group-hover:scale-105 transition duration-500"
                     />
+                    <div className="absolute top-2 right-2 bg-black/50 backdrop-blur-sm text-white text-[9px] font-medium px-1.5 py-0.5 rounded">
+                      #{idx + 1}
+                    </div>
                   </div>
                   <div className="p-3">
-                    <div className="text-[10px] tracking-widest text-gold uppercase">
-                      {pick(p.duration, lang)}
-                    </div>
-                    <div className="font-display text-base text-navy mt-0.5 line-clamp-1">
-                      {pick(p.name, lang)}
-                    </div>
+                    <div className="text-[9px] tracking-wider text-gold uppercase">{pick(p.duration, lang)}</div>
+                    <div className="font-display text-sm text-white/90 mt-0.5 line-clamp-1">{pick(p.name, lang)}</div>
                     <div className="mt-2 flex items-center justify-between">
-                      <div className="text-xs text-navy">฿{p.price.toLocaleString()}</div>
-                      <ArrowRight size={14} className="text-gold" />
+                      <span className="text-xs font-semibold text-gold">฿{p.price.toLocaleString()}</span>
+                      <ArrowRight
+                        size={12}
+                        className="text-white/40 group-hover:text-gold group-hover:translate-x-1 transition"
+                      />
                     </div>
                   </div>
                 </Link>
-              ))}
-            </div>
-            <div className="flex justify-center gap-1.5 mt-1">
-              {recommended.map((_, i) => (
-                <span key={i} className="h-1 w-5 rounded-full bg-gold/30" />
-              ))}
-            </div>
-            <p className="text-center text-[10px] text-ivory/60 mt-1">
-              {lang === "th" ? "← ปัดเพื่อดูเพิ่มเติม →" : "← swipe to explore →"}
-            </p>
-          </div>
-          <div className="hidden sm:grid grid-cols-3 gap-2">
-            {recommended.map((p) => (
-              <Link
-                key={p.id}
-                to="/programs/$id"
-                params={{ id: p.id }}
-                className="bg-white/85 backdrop-blur-md border border-white/60 rounded-2xl overflow-hidden group hover:shadow-xl hover:-translate-y-0.5 transition shadow-sm"
-              >
-                <div className="aspect-[16/9] overflow-hidden">
-                  <img
-                    src={p.image}
-                    alt={pick(p.name, lang)}
-                    loading="lazy"
-                    className="size-full object-cover group-hover:scale-105 transition duration-700"
-                  />
-                </div>
-                <div className="p-3">
-                  <div className="text-[10px] tracking-widest text-gold uppercase">
-                    {pick(p.duration, lang)}
-                  </div>
-                  <div className="font-display text-base text-navy mt-0.5 line-clamp-1">
-                    {pick(p.name, lang)}
-                  </div>
-                  <div className="mt-2 flex items-center justify-between">
-                    <div className="text-xs text-navy">฿{p.price.toLocaleString()}</div>
-                    <ArrowRight size={14} className="text-gold" />
-                  </div>
-                </div>
-              </Link>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -508,3 +533,6 @@ function PersonaPage() {
     </DashShell>
   );
 }
+
+// Missing imports
+import { Target, AlertCircle } from "lucide-react";
