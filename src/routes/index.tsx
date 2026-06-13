@@ -31,17 +31,19 @@ export const Route = createFileRoute("/")({
       { title: "Goodfill Care — Koh Samui Wellness Journey" },
       {
         name: "description",
-        content:
-          "เริ่มจากแบบประเมิน 8 ข้อ ค้นพบโปรแกรมพักผ่อนแบบลักชัวรี่ที่เกาะสมุย เหมาะกับร่างกายและจิตใจของคุณ",
+        content: "เริ่มจากแบบประเมิน 8 ข้อ ค้นพบโปรแกรมพักผ่อนแบบลักชัวรี่ที่เกาะสมุย เหมาะกับร่างกายและจิตใจของคุณ",
       },
       { property: "og:title", content: "Goodfill Care — Koh Samui Wellness" },
       {
         property: "og:description",
         content: "Pre-arrival Quest · Personalized Program · Final Report · Long-term Care",
       },
-      { property: "og:image", content: "https://goodfillcare-samui.com/icon-512.png" },
+      { property: "og:image", content: "https://goodfillcare-samui.com/og-image.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { property: "og:url", content: "https://goodfillcare-samui.com/" },
-      { name: "twitter:image", content: "https://goodfillcare-samui.com/icon-512.png" },
+      { name: "twitter:image", content: "https://goodfillcare-samui.com/og-image.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "canonical", href: "https://goodfillcare-samui.com/" },
@@ -65,31 +67,11 @@ const slides = [
 ];
 
 const phases = [
-  {
-    num: "01",
-    titleKey: "phase.01.title" as TKey,
-    descKey: "phase.01.desc" as TKey,
-    icon: Sparkles,
-  },
-  {
-    num: "02",
-    titleKey: "phase.02.title" as TKey,
-    descKey: "phase.02.desc" as TKey,
-    icon: Compass,
-  },
+  { num: "01", titleKey: "phase.01.title" as TKey, descKey: "phase.01.desc" as TKey, icon: Sparkles },
+  { num: "02", titleKey: "phase.02.title" as TKey, descKey: "phase.02.desc" as TKey, icon: Compass },
   { num: "03", titleKey: "phase.03.title" as TKey, descKey: "phase.03.desc" as TKey, icon: Leaf },
-  {
-    num: "04",
-    titleKey: "phase.04.title" as TKey,
-    descKey: "phase.04.desc" as TKey,
-    icon: HeartPulse,
-  },
-  {
-    num: "05",
-    titleKey: "phase.05.title" as TKey,
-    descKey: "phase.05.desc" as TKey,
-    icon: MoonStar,
-  },
+  { num: "04", titleKey: "phase.04.title" as TKey, descKey: "phase.04.desc" as TKey, icon: HeartPulse },
+  { num: "05", titleKey: "phase.05.title" as TKey, descKey: "phase.05.desc" as TKey, icon: MoonStar },
 ];
 
 function Landing() {
@@ -99,8 +81,8 @@ function Landing() {
   const { t, lang } = useI18n();
 
   useEffect(() => {
-    const t = setInterval(() => setSlide((s) => (s + 1) % slides.length), 4500);
-    return () => clearInterval(t);
+    const interval = setInterval(() => setSlide((s) => (s + 1) % slides.length), 5000);
+    return () => clearInterval(interval);
   }, []);
 
   // Android back button → close popup instead of exiting app
@@ -143,7 +125,7 @@ function Landing() {
     <div className="fixed inset-0 overflow-hidden bg-navy text-ivory">
       {/* SLIDESHOW BACKGROUND */}
       <div className="absolute inset-0">
-        <AnimatePresence mode="sync">
+        <AnimatePresence mode="wait">
           <motion.img
             key={slide}
             src={slides[slide]}
@@ -152,21 +134,21 @@ function Landing() {
             height={1080}
             fetchPriority={slide === 0 ? "high" : "auto"}
             decoding="async"
-            initial={{ opacity: 0, x: "8%" }}
-            animate={{ opacity: 1, x: "0%" }}
-            exit={{ opacity: 0, x: "-8%" }}
-            transition={{ duration: 1.6, ease: [0.4, 0, 0.2, 1] }}
-            className="absolute inset-0 size-full object-cover will-change-transform"
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "-100%" }}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="absolute inset-0 size-full object-cover"
           />
         </AnimatePresence>
-        {/* Gradient เบา ๆ ให้ภาพเด่น ไม่มืดทึบ */}
-        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/65 via-emerald-deep/25 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/55 via-emerald-deep/10 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.08),transparent_60%)]" />
+        {/* Gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-emerald-deep/70 via-emerald-deep/40 to-emerald-deep/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-deep/70 via-emerald-deep/20 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(212,160,23,0.1),transparent_60%)]" />
       </div>
 
-      {/* Slide indicator — desktop only เพื่อไม่ทับ kicker บนมือถือ */}
-      <div className="hidden md:flex absolute top-28 right-8 z-30 gap-1.5">
+      {/* Slide indicator */}
+      <div className="absolute top-24 md:top-28 right-5 md:right-8 z-30 flex gap-1.5">
         {slides.map((_, i) => (
           <button
             key={i}
@@ -179,23 +161,20 @@ function Landing() {
 
       <Nav />
 
-      {/* MAIN CONTENT — safe-area aware, no clipping behind bottom nav */}
-      <main
-        className="absolute inset-0 pt-28 md:pt-32 px-4 md:px-10 flex flex-col overflow-hidden lg:overflow-y-auto z-[60]"
-        style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 6.25rem)" }}
-      >
-        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-start lg:items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] lg:pb-[50px] lg:pr-[50px] lg:mt-[50px]">
+      {/* MAIN CONTENT */}
+      <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col overflow-y-auto">
+        <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] pb-[50px] lg:pr-[50px] mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-[50] min-w-0 max-w-[70%] sm:max-w-[64%] md:max-w-[58%] lg:max-w-none"
+            className="relative z-10 min-w-0 max-w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-none"
           >
-            {/* Kicker only — โลโก้หลักอยู่ที่ Nav แล้ว */}
+            {/* Kicker */}
             <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-navy/55 backdrop-blur-md ring-1 ring-gold/30">
               <span className="h-px w-6 bg-gold" />
-              <span className="whitespace-nowrap text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-gold font-semibold">
+              <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-gold font-semibold">
                 {t("hero.kicker")}
               </span>
             </div>
@@ -203,23 +182,15 @@ function Landing() {
             {/* Editorial kicker rule */}
             <div className="hidden lg:inline-flex items-center gap-3 mt-6 px-3 py-1.5 rounded-full bg-navy/55 backdrop-blur-md ring-1 ring-gold/30">
               <span className="h-px w-8 bg-gold" />
-              <span className="text-gold text-[10px] tracking-[0.4em] uppercase font-semibold">
-                Wellness Journey
-              </span>
+              <span className="text-gold text-[10px] tracking-[0.4em] uppercase font-semibold">Wellness Journey</span>
             </div>
 
-            {/* H1 — English primary, Thai supporting. Balanced wrapping, no orphan */}
-            <h1
-              className="font-display font-normal text-[1.55rem] sm:text-[2.1rem] md:text-[2.6rem] lg:text-[3.2rem] leading-[1.08] tracking-tight mt-3 md:mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] lg:max-w-[560px]"
-              style={{ textWrap: "balance" as never }}
-            >
+            {/* H1 */}
+            <h1 className="font-display font-normal text-[1.55rem] sm:text-[2.1rem] md:text-[2.6rem] lg:text-[3.2rem] leading-[1.08] tracking-tight mt-3 md:mt-5 text-white drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] lg:max-w-[560px]">
               Experience <em className="italic text-gold font-normal">Koh Samui</em>
               <span className="block">designed just for you</span>
             </h1>
-            <p
-              lang="th"
-              className="mt-2 md:mt-3 max-w-md text-[12px] md:text-[14px] text-white/85 font-normal leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]"
-            >
+            <p className="mt-2 md:mt-3 max-w-md text-[12px] md:text-[14px] text-white/85 font-normal leading-relaxed drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
               สัมผัสบรรยากาศเกาะสมุย ที่ออกแบบเพื่อคุณคนเดียว
             </p>
             <p className="mt-3 max-w-md text-[12px] md:text-[13px] uppercase tracking-[0.18em] text-gold-soft/90 font-semibold drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
@@ -228,23 +199,19 @@ function Landing() {
 
             {/* Editorial proof points */}
             <div className="hidden md:flex flex-wrap gap-x-6 gap-y-2 mt-5">
-              {["8 Wellness Quests", "6 Distinct Personas", "3 / 5 / 7 Day Programs"].map(
-                (label) => (
-                  <div key={label} className="flex items-center gap-2">
-                    <span className="size-1.5 rounded-full bg-mint shadow-[0_0_6px_rgba(120,200,170,0.5)]" />
-                    <span className="text-white/70 text-[9px] tracking-[0.2em] uppercase font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
-                      {label}
-                    </span>
-                  </div>
-                ),
-              )}
+              {["8 Wellness Quests", "6 Distinct Personas", "3 / 5 / 7 Day Programs"].map((label) => (
+                <div key={label} className="flex items-center gap-2">
+                  <span className="size-1.5 rounded-full bg-mint shadow-[0_0_6px_rgba(120,200,170,0.5)]" />
+                  <span className="text-white/70 text-[9px] tracking-[0.2em] uppercase font-medium">{label}</span>
+                </div>
+              ))}
             </div>
 
-            {/* Action cluster — sits ABOVE the cartoon, full width on mobile */}
+            {/* Action cluster */}
             <div className="relative z-[55] mt-5 md:mt-6 flex flex-col gap-2.5 w-full max-w-[20rem]">
               <Link
                 to="/quest"
-                className="btn-gold group relative overflow-hidden rounded-xl px-4 py-2.5 inline-flex items-center justify-center gap-2 text-sm md:text-[14px] font-bold tracking-wide whitespace-nowrap shadow-[0_12px_32px_-12px_rgba(201,168,76,0.6)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
+                className="btn-gold group relative overflow-hidden rounded-xl px-4 py-2.5 inline-flex items-center justify-center gap-2 text-sm md:text-[14px] font-bold tracking-wide shadow-[0_12px_32px_-12px_rgba(201,168,76,0.6)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
               >
                 <Sparkles size={14} className="opacity-80" />
                 <span>{t("hero.ctaStart")}</span>
@@ -258,11 +225,9 @@ function Landing() {
                 <span>สำรวจเพิ่มเติม</span>
               </button>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-white/90 font-semibold px-1 mt-0.5">
-                <span className="tracking-wide drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
-                  ~8 นาที · ไม่ต้องพิมพ์
-                </span>
+                <span className="tracking-wide">~8 นาที · ไม่ต้องพิมพ์</span>
                 <span className="h-3 w-px bg-white/30" />
-                <span className="inline-flex items-center gap-1.5 drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]">
+                <span className="inline-flex items-center gap-1.5">
                   <ShieldCheck size={11} className="text-mint" /> ปลอดภัย
                 </span>
               </div>
@@ -277,9 +242,7 @@ function Landing() {
                 <div key={s.k} className="flex items-center gap-5">
                   {i > 0 && <span className="h-6 w-px bg-white/25" />}
                   <div>
-                    <div className="font-display text-lg md:text-xl font-semibold text-gold drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
-                      {s.v}
-                    </div>
+                    <div className="font-display text-lg md:text-xl font-semibold text-gold">{s.v}</div>
                     <div className="text-[8px] md:text-[9px] tracking-[0.2em] uppercase text-white/75 font-medium mt-0.5">
                       {t(s.k)}
                     </div>
@@ -298,13 +261,10 @@ function Landing() {
           >
             <div className="space-y-8 max-w-sm">
               <div>
-                <div className="text-gold/85 text-[10px] tracking-[0.35em] uppercase font-bold drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
-                  Refined Care
-                </div>
-                <p className="mt-3 text-white/95 text-[13px] font-medium leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
-                  Curated specifically for global travelers seeking deep restoration in the heart of
-                  Thailand — ภายใต้การดูแลของผู้เชี่ยวชาญ Wellness
-                  และเชฟโภชนาการที่ออกแบบทุกขั้นตอนเฉพาะคุณ
+                <div className="text-gold/85 text-[10px] tracking-[0.35em] uppercase font-bold">Refined Care</div>
+                <p className="mt-3 text-white/95 text-[13px] font-medium leading-relaxed">
+                  Curated specifically for global travelers seeking deep restoration in the heart of Thailand —
+                  ภายใต้การดูแลของผู้เชี่ยวชาญ Wellness และเชฟโภชนาการที่ออกแบบทุกขั้นตอนเฉพาะคุณ
                 </p>
               </div>
 
@@ -316,7 +276,7 @@ function Landing() {
                 >
                   &ldquo;
                 </div>
-                <p className="relative font-display italic text-lg leading-snug text-white/95 drop-shadow-[0_1px_4px_rgba(0,0,0,0.3)]">
+                <p className="relative font-display italic text-lg leading-snug text-white/95">
                   A sanctuary where every breath is intentional, and every moment is yours.
                 </p>
                 <div className="mt-3 flex items-center gap-3">
@@ -358,7 +318,7 @@ function Landing() {
         </div>
       </main>
 
-      {/* MOBILE HOST — มุมขวาล่าง คมชัด แยกจากการ์ดข้อความชัดเจน */}
+      {/* MOBILE HOST */}
       <motion.img
         initial={{ opacity: 0, x: 40, scale: 0.92 }}
         animate={{ opacity: 1, x: 0, scale: 1 }}
@@ -366,11 +326,10 @@ function Landing() {
         src={welcomeHost}
         alt="Goodfill Care wellness host"
         decoding="async"
-        className="lg:hidden fixed -right-16 bottom-20 h-[34vh] max-h-[300px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-[5]"
-        style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 5rem)" }}
+        className="lg:hidden fixed -right-16 bottom-20 h-[34vh] max-h-[300px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-30"
       />
 
-      {/* MODAL POPUPS — same as before */}
+      {/* MODAL POPUPS */}
       <AnimatePresence>
         {modal && (
           <motion.div
@@ -398,12 +357,8 @@ function Landing() {
 
               {modal === "journey" && (
                 <>
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">
-                    {t("modal.journey.kicker")}
-                  </div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">
-                    {t("modal.journey.title")}
-                  </h2>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">{t("modal.journey.kicker")}</div>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.journey.title")}</h2>
                   <div className="mt-6 grid sm:grid-cols-2 gap-3">
                     {phases.map((p) => (
                       <div key={p.num} className="card-soft p-5 rounded-2xl bg-white/80">
@@ -414,9 +369,7 @@ function Landing() {
                           <span className="font-display text-2xl text-mint/70">{p.num}</span>
                         </div>
                         <div className="font-display text-lg mt-3">{t(p.titleKey)}</div>
-                        <p className="text-xs text-muted-foreground/80 mt-1.5 leading-relaxed">
-                          {t(p.descKey)}
-                        </p>
+                        <p className="text-xs text-muted-foreground/80 mt-1.5 leading-relaxed">{t(p.descKey)}</p>
                       </div>
                     ))}
                   </div>
@@ -428,9 +381,7 @@ function Landing() {
                   <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">
                     {t("modal.personas.kicker")}
                   </div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">
-                    {t("modal.personas.title")}
-                  </h2>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.personas.title")}</h2>
                   <p className="text-sm text-muted-foreground/80 mt-2">{t("modal.personas.sub")}</p>
                   <div className="mt-6 grid sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {Object.values(personas).map((p) => (
@@ -440,18 +391,10 @@ function Landing() {
                       >
                         <div className="absolute inset-0 bg-white/70 backdrop-blur-[1px]" />
                         <div className="relative">
-                          <div className="text-[9px] tracking-widest uppercase text-emerald/90 font-bold">
-                            {p.id}
-                          </div>
-                          <div className="font-display text-lg mt-1 text-navy/90">
-                            {pick(p.name, lang)}
-                          </div>
-                          <div className="text-xs text-emerald-deep/70 font-medium">
-                            {pick(p.thaiName, lang)}
-                          </div>
-                          <div className="text-xs mt-2 text-navy/70 line-clamp-2">
-                            {pick(p.tagline, lang)}
-                          </div>
+                          <div className="text-[9px] tracking-widest uppercase text-emerald/90 font-bold">{p.id}</div>
+                          <div className="font-display text-lg mt-1 text-navy/90">{pick(p.name, lang)}</div>
+                          <div className="text-xs text-emerald-deep/70 font-medium">{pick(p.thaiName, lang)}</div>
+                          <div className="text-xs mt-2 text-navy/70 line-clamp-2">{pick(p.tagline, lang)}</div>
                         </div>
                       </div>
                     ))}
@@ -468,12 +411,8 @@ function Landing() {
 
               {modal === "samui" && (
                 <>
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">
-                    {t("modal.samui.kicker")}
-                  </div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">
-                    {t("modal.samui.title")}
-                  </h2>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">{t("modal.samui.kicker")}</div>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.samui.title")}</h2>
                   <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-3">
                     {[
                       { src: images.yoga, k: "samui.yoga" as TKey },
@@ -496,15 +435,9 @@ function Landing() {
 
               {modal === "company" && (
                 <>
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">
-                    {t("modal.company.kicker")}
-                  </div>
-                  <h2 className="font-display text-3xl md:text-4xl mt-2">
-                    {t("modal.company.title")}
-                  </h2>
-                  <p className="text-sm text-muted-foreground/80 mt-3 leading-relaxed">
-                    {t("modal.company.intro")}
-                  </p>
+                  <div className="text-[10px] tracking-[0.3em] uppercase text-gold/80">{t("modal.company.kicker")}</div>
+                  <h2 className="font-display text-3xl md:text-4xl mt-2">{t("modal.company.title")}</h2>
+                  <p className="text-sm text-muted-foreground/80 mt-3 leading-relaxed">{t("modal.company.intro")}</p>
                   <div className="mt-5 grid sm:grid-cols-2 gap-2.5">
                     {(
                       [
@@ -516,10 +449,7 @@ function Landing() {
                         "modal.company.s6",
                       ] as TKey[]
                     ).map((k, i) => (
-                      <div
-                        key={k}
-                        className="card-soft p-3.5 rounded-xl flex items-center gap-3 bg-white/70"
-                      >
+                      <div key={k} className="card-soft p-3.5 rounded-xl flex items-center gap-3 bg-white/70">
                         <span className="size-8 rounded-lg bg-pale-mint/60 border border-mint/40 grid place-items-center text-emerald/80 font-display text-sm">
                           0{i + 1}
                         </span>
@@ -532,10 +462,7 @@ function Landing() {
                       <div className="text-[9px] tracking-[0.25em] uppercase text-emerald/80">
                         {t("modal.company.contact")}
                       </div>
-                      <a
-                        href="tel:+66945958741"
-                        className="mt-2 flex items-center gap-2 text-sm hover:text-emerald/80"
-                      >
+                      <a href="tel:+66945958741" className="mt-2 flex items-center gap-2 text-sm hover:text-emerald/80">
                         <Phone size={13} /> 094-595-8741
                       </a>
                       <a
@@ -549,9 +476,7 @@ function Landing() {
                       </div>
                     </div>
                     <div className="card-soft p-4 rounded-2xl bg-white/80">
-                      <div className="text-[9px] tracking-[0.25em] uppercase text-emerald/80">
-                        HQ
-                      </div>
+                      <div className="text-[9px] tracking-[0.25em] uppercase text-emerald/80">HQ</div>
                       <div className="mt-2 flex items-start gap-2 text-sm text-navy/70">
                         <MapPin size={13} className="mt-0.5 shrink-0" />
                         <span>{t("modal.company.addr")}</span>
@@ -598,9 +523,7 @@ function Landing() {
               >
                 <X size={20} />
               </button>
-              <div className="text-[9px] tracking-[0.3em] uppercase text-gold/80">
-                Goodfill Care
-              </div>
+              <div className="text-[9px] tracking-[0.3em] uppercase text-gold/80">Goodfill Care</div>
               <h3 className="font-display text-2xl mt-1">เมนูเพิ่มเติม</h3>
               <div className="mt-4 grid grid-cols-1 gap-2">
                 {moreItems.map((m) => (
