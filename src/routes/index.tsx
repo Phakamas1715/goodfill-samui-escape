@@ -44,6 +44,8 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: "https://goodfillcare-samui.com/" },
       { name: "twitter:image", content: "https://goodfillcare-samui.com/og-image.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "theme-color", content: "#142C25" },
     ],
     links: [
       { rel: "canonical", href: "https://goodfillcare-samui.com/" },
@@ -138,7 +140,7 @@ function Landing() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "-100%" }}
             transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="absolute inset-0 size-full object-cover"
+            className="absolute inset-0 size-full object-cover will-change-transform"
           />
         </AnimatePresence>
         {/* Gradient overlays */}
@@ -162,14 +164,14 @@ function Landing() {
       <Nav />
 
       {/* MAIN CONTENT */}
-      <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col overflow-y-auto">
+      <main className="absolute inset-0 pt-24 md:pt-28 pb-24 md:pb-10 px-5 md:px-10 flex flex-col overflow-y-auto z-10">
         <div className="flex-1 grid lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] gap-10 items-center max-w-7xl mx-auto w-full lg:px-[50px] lg:my-[50px] pb-[50px] lg:pr-[50px] mt-[50px]">
           {/* LEFT — Brand + Headline + Actions */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9 }}
-            className="relative z-10 min-w-0 max-w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-none"
+            className="relative z-20 min-w-0 max-w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-none"
           >
             {/* Kicker */}
             <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-navy/55 backdrop-blur-md ring-1 ring-gold/30">
@@ -208,7 +210,7 @@ function Landing() {
             </div>
 
             {/* Action cluster */}
-            <div className="relative z-[55] mt-5 md:mt-6 flex flex-col gap-2.5 w-full max-w-[20rem]">
+            <div className="relative z-30 mt-5 md:mt-6 flex flex-col gap-2.5 w-full max-w-[20rem]">
               <Link
                 to="/quest"
                 className="btn-gold group relative overflow-hidden rounded-xl px-4 py-2.5 inline-flex items-center justify-center gap-2 text-sm md:text-[14px] font-bold tracking-wide shadow-[0_12px_32px_-12px_rgba(201,168,76,0.6)] ring-1 ring-gold/40 hover:scale-[1.02] transition"
@@ -326,7 +328,7 @@ function Landing() {
         src={welcomeHost}
         alt="Goodfill Care wellness host"
         decoding="async"
-        className="lg:hidden fixed -right-16 bottom-20 h-[34vh] max-h-[300px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-30"
+        className="lg:hidden fixed -right-16 bottom-20 h-[34vh] max-h-[300px] w-auto object-contain object-bottom pointer-events-none drop-shadow-[0_24px_50px_rgba(0,0,0,0.55)] z-40"
       />
 
       {/* MODAL POPUPS */}
@@ -336,7 +338,7 @@ function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-navy/50 backdrop-blur-md"
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-navy/60 backdrop-blur-md"
             onClick={() => setModal(null)}
           >
             <motion.div
@@ -505,7 +507,7 @@ function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[110] flex items-end md:items-center justify-center p-4 bg-navy/50 backdrop-blur-md"
+            className="fixed inset-0 z-[300] flex items-end md:items-center justify-center p-4 bg-navy/60 backdrop-blur-md"
             onClick={() => setMoreOpen(false)}
           >
             <motion.div
