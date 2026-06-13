@@ -193,17 +193,17 @@ function Landing() {
             className="relative z-[50] min-w-0 max-w-[70%] sm:max-w-[64%] md:max-w-[58%] lg:max-w-none"
           >
             {/* Kicker only — โลโก้หลักอยู่ที่ Nav แล้ว */}
-            <div className="flex items-center gap-3">
-              <span className="h-px w-8 bg-gold/70" />
-              <span className="whitespace-nowrap text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-gold-soft font-semibold drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
+            <div className="inline-flex items-center gap-3 px-3 py-1.5 rounded-full bg-navy/55 backdrop-blur-md ring-1 ring-gold/30">
+              <span className="h-px w-6 bg-gold" />
+              <span className="whitespace-nowrap text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-gold font-semibold">
                 {t("hero.kicker")}
               </span>
             </div>
 
             {/* Editorial kicker rule */}
-            <div className="hidden lg:flex items-center gap-3 mt-6">
-              <span className="h-px w-10 bg-gold/70" />
-              <span className="text-gold/90 text-[10px] tracking-[0.4em] uppercase font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.3)]">
+            <div className="hidden lg:inline-flex items-center gap-3 mt-6 px-3 py-1.5 rounded-full bg-navy/55 backdrop-blur-md ring-1 ring-gold/30">
+              <span className="h-px w-8 bg-gold" />
+              <span className="text-gold text-[10px] tracking-[0.4em] uppercase font-semibold">
                 Wellness Journey
               </span>
             </div>
