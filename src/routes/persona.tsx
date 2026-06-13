@@ -168,7 +168,7 @@ function PersonaPage() {
             {/* Header */}
             <div className="flex items-center gap-4 mb-4">
               <div className="size-14 rounded-xl bg-white/10 flex items-center justify-center text-3xl">
-                {persona.emoji || "✨"}
+                {(persona as any).emoji || "✨"}
               </div>
               <div>
                 <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gold/15 text-gold text-[9px] font-medium mb-1">
@@ -414,7 +414,7 @@ function PersonaPage() {
           <div className="bg-white rounded-xl shadow-sm border border-mint/20 p-4">
             <div className="flex items-center gap-3">
               <div className="size-10 rounded-lg bg-mint/10 flex items-center justify-center text-lg">
-                {secondary.emoji || "✨"}
+                {(secondary as any).emoji || "✨"}
               </div>
               <div>
                 <div className="text-[9px] text-gold/60 uppercase tracking-wider">{t("persona.secondary")}</div>
