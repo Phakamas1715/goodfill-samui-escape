@@ -145,8 +145,7 @@ export const Route = createFileRoute("/api/public/line-login")({
               channel,
               display_name: claims.name ?? null,
               picture_url: claims.picture ?? null,
-              email: claims.email ?? null,
-              last_login_at: new Date().toISOString(),
+              last_active_at: new Date().toISOString(),
             });
 
             if (insertError) {
@@ -162,7 +161,7 @@ export const Route = createFileRoute("/api/public/line-login")({
               .update({
                 display_name: claims.name ?? null,
                 picture_url: claims.picture ?? null,
-                last_login_at: new Date().toISOString(),
+                last_active_at: new Date().toISOString(),
               })
               .eq("user_id", userId)
               .eq("channel", channel);
